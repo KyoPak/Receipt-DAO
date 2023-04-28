@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */; };
 		3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */; };
-		3C2E18DA29FBCC5F00E8E9C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D929FBCC5F00E8E9C6 /* ViewController.swift */; };
+		3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */; };
 		3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */; };
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
 		3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */; };
+		3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */; };
+		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
 		40778D58168C62146784F787 /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,12 +25,14 @@
 		3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3C2E18D929FBCC5F00E8E9C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3C2E18DF29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReceiptManager.xcdatamodel; sourceTree = "<group>"; };
 		3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
 		8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,15 +70,65 @@
 		3C2E18D429FBCC5F00E8E9C6 /* ReceiptManager */ = {
 			isa = PBXGroup;
 			children = (
-				3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */,
-				3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */,
-				3C2E18D929FBCC5F00E8E9C6 /* ViewController.swift */,
-				3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */,
-				3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */,
-				3C2E18E629FBCC6100E8E9C6 /* Info.plist */,
+				3CDCDC4829FC003800C2BEF6 /* Resource */,
+				3CDCDC4729FC002D00C2BEF6 /* Source */,
 				3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */,
 			);
 			path = ReceiptManager;
+			sourceTree = "<group>";
+		};
+		3CDCDC4729FC002D00C2BEF6 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				3CDCDC4929FC006500C2BEF6 /* Application */,
+				3CDCDC4A29FC007400C2BEF6 /* View */,
+				3CDCDC4C29FC00A300C2BEF6 /* Model */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		3CDCDC4829FC003800C2BEF6 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */,
+				3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */,
+				3C2E18E629FBCC6100E8E9C6 /* Info.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		3CDCDC4929FC006500C2BEF6 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */,
+				3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		3CDCDC4A29FC007400C2BEF6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3CDCDC4B29FC008700C2BEF6 /* MainScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */,
+			);
+			path = MainScene;
+			sourceTree = "<group>";
+		};
+		3CDCDC4C29FC00A300C2BEF6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */,
+				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		509C9D2BD38C0C0C30B6576A /* Pods */ = {
@@ -227,9 +281,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C2E18DA29FBCC5F00E8E9C6 /* ViewController.swift in Sources */,
+				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
+				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
+				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ReceiptManager/Info.plist;
+				INFOPLIST_FILE = ReceiptManager/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -398,7 +454,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ReceiptManager/Info.plist;
+				INFOPLIST_FILE = ReceiptManager/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
