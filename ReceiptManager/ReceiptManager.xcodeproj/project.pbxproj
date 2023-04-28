@@ -17,6 +17,7 @@
 		3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */; };
 		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
 		3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */; };
+		3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */; };
 		40778D58168C62146784F787 /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
 		3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptStorage.swift; sourceTree = "<group>"; };
+		3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */,
+				3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
