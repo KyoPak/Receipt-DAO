@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import CoreData
+import RxDataSources
+import RxSwift
+import RxCoreData
 
-struct Receipt {
+typealias ReceiptSectionModel = AnimatableSectionModel<Int, Receipt>
+
+struct Receipt: Hashable, IdentifiableType {
+    var identity: String = UUID().description   // 구분자
+    
     var store: String           // 상호명
     var price: Double           // 가격
     var product: String         // 구매 상품
@@ -29,5 +37,40 @@ struct Receipt {
         self.receiptDate = receiptDate
         self.paymentType = paymentType
         self.receiptData = receiptData
+    }
+}
+
+extension Receipt: Persistable {
+    static var entityName: String {
+        return "Receipt"
+    }
+    
+    static var primaryAttributeName: String {
+        return "identity"
+    }
+    
+    init(entity: NSManagedObject) {
+        identity = entity.value(forKey: "identity") as? String ?? UUID().description
+        store = entity.value(forKey: "store") as? String ?? ""
+        price = entity.value(forKey: "price") as? Double ?? .zero
+        product = entity.value(forKey: "product") as? String ?? ""
+        receiptDate = entity.value(forKey: "receiptDate") as? Date ?? Date()
+        paymentType = entity.value(forKey: "paymentType") as? PayType ?? .card
+        receiptData = entity.value(forKey: "receiptData") as? Data ?? Data()
+    }
+    
+    func update(_ entity: NSManagedObject) {
+        entity.setValue(store, forKey: "store")
+        entity.setValue(price, forKey: "price")
+        entity.setValue(product, forKey: "product")
+        entity.setValue(receiptDate, forKey: "receiptDate")
+        entity.setValue(paymentType, forKey: "paymentType")
+        entity.setValue(receiptData, forKey: "receiptData")
+        
+        do {
+            try entity.managedObjectContext?.save()
+        } catch {
+            print(error)
+        }
     }
 }

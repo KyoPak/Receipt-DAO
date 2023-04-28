@@ -76,7 +76,6 @@
 			children = (
 				3CDCDC4829FC003800C2BEF6 /* Resource */,
 				3CDCDC4729FC002D00C2BEF6 /* Source */,
-				3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */,
 			);
 			path = ReceiptManager;
 			sourceTree = "<group>";
@@ -130,6 +129,7 @@
 		3CDCDC4C29FC00A300C2BEF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */,
 				3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */,
 				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
 			);
