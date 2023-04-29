@@ -22,6 +22,7 @@ struct Receipt: Hashable, IdentifiableType {
     var receiptDate: Date       // 영수증 구매 날짜
     var paymentType: PayType    // 구매 방법
     var receiptData: Data?      // 영수증 이미지 데이터
+    var isFavorite: Bool
     
     init(
         store: String = "",
@@ -29,7 +30,8 @@ struct Receipt: Hashable, IdentifiableType {
         product: String = "",
         receiptDate: Date = Date(),
         paymentType: PayType = .card,
-        receiptData: Data? = nil
+        receiptData: Data? = nil,
+        isFavorite: Bool = false
     ) {
         self.store = store
         self.price = price
@@ -37,6 +39,7 @@ struct Receipt: Hashable, IdentifiableType {
         self.receiptDate = receiptDate
         self.paymentType = paymentType
         self.receiptData = receiptData
+        self.isFavorite = isFavorite
     }
 }
 
@@ -57,6 +60,7 @@ extension Receipt: Persistable {
         receiptDate = entity.value(forKey: "receiptDate") as? Date ?? Date()
         paymentType = entity.value(forKey: "paymentType") as? PayType ?? .card
         receiptData = entity.value(forKey: "receiptData") as? Data ?? Data()
+        isFavorite = entity.value(forKey: "isFavorite") as? Bool ?? false
     }
     
     func update(_ entity: NSManagedObject) {
@@ -66,6 +70,7 @@ extension Receipt: Persistable {
         entity.setValue(receiptDate, forKey: "receiptDate")
         entity.setValue(paymentType, forKey: "paymentType")
         entity.setValue(receiptData, forKey: "receiptData")
+        entity.setValue(isFavorite, forKey: "isFavorite")
         
         do {
             try entity.managedObjectContext?.save()
