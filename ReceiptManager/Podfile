@@ -10,6 +10,7 @@ pod 'RxSwift', "6.2.0"
 pod 'RxCocoa'
 pod 'NSObject+Rx'
 pod 'RxDataSources'
+pod 'Action'
 pod 'RxCoreData'
 pod 'SwiftLint'
 
