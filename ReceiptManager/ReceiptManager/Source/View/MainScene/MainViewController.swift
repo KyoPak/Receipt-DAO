@@ -83,13 +83,13 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        title = "Receipt Manager"
-        
         appearance.backgroundColor = UIColor(red: 25/255, green: 41/255, blue: 67/255, alpha: 1)
-        appearance.largeTitleTextAttributes = [ .foregroundColor: UIColor.white ]
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationItem.titleView = TitleView()
     }
     
     private func setupView() {
