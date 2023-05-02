@@ -10,52 +10,52 @@ import UIKit
 final class MainViewController: UIViewController {
     private let listButton: UIButton = {
         let button = UIButton()
+        button.tintColor = .black
+        button.layer.cornerRadius = 10
         button.setTitle("목록", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.tintColor = .black
-
-        button.layer.cornerRadius = 10
+        
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: "list.bullet", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
+        button.alignTextBelow()
         button.backgroundColor = UIColor(red: 42/255, green: 201/255, blue: 231/255, alpha: 1)
-        button.imageEdgeInsets = UIEdgeInsets(top: -40, left: 20, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 40, left: -image!.size.width, bottom: 0, right: 0)
+        
         return button
     }()
     
     private let favoriteListButton: UIButton = {
         let button = UIButton()
+        button.tintColor = .black
+        button.layer.cornerRadius = 10
         button.setTitle("즐겨찾기", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.tintColor = .black
         
-        button.layer.cornerRadius = 10
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
+        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
+        button.alignTextBelow()
         button.backgroundColor = UIColor(red: 203/255, green: 190/255, blue: 215/255, alpha: 1)
-        button.imageEdgeInsets = UIEdgeInsets(top: -40, left: 45, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 40, left: -image!.size.width, bottom: 0, right: 0)
+        
         return button
     }()
     
     private let addButton: UIButton = {
         let button = UIButton()
+        button.tintColor = .black
+        button.layer.cornerRadius = 10
         button.setTitle("등록", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.tintColor = .black
         
-        button.layer.cornerRadius = 10
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
-
+        
+        button.alignTextBelow()
         button.backgroundColor = UIColor(red: 197/255, green: 235/255, blue: 167/255, alpha: 1)
-        button.imageEdgeInsets = UIEdgeInsets(top: -40, left: 20, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 40, left: -image!.size.width, bottom: 0, right: 0)
+        
         return button
     }()
     
@@ -83,8 +83,10 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .clear
+        title = "Receipt Manager"
         
+        appearance.backgroundColor = UIColor(red: 25/255, green: 41/255, blue: 67/255, alpha: 1)
+        appearance.largeTitleTextAttributes = [ .foregroundColor: UIColor.white ]
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -101,12 +103,12 @@ extension MainViewController {
     private func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            listButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 100),
+            listButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 50),
             listButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
             listButton.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -10),
             listButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
             
-            favoriteListButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 100),
+            favoriteListButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 50),
             favoriteListButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 10),
             favoriteListButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
             favoriteListButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
