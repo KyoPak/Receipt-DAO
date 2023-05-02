@@ -3,7 +3,7 @@
     <entity name="Receipt" representedClassName="ReceiptEntity" syncable="YES" codeGenerationType="class">
         <attribute name="identity" optional="YES" attributeType="String"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="paymentType" optional="YES" attributeType="Transformable" customClassName="PayType"/>
+        <attribute name="paymentType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" customClassName="PayType"/>
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="product" optional="YES" attributeType="String"/>
         <attribute name="receiptData" optional="YES" attributeType="Binary"/>
