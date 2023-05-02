@@ -16,6 +16,15 @@
 		3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */; };
 		3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3452A0117D60014807B /* UIButton+Extension.swift */; };
 		3C9AA3482A012C880014807B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3472A012C880014807B /* TitleView.swift */; };
+		3C9AA34B2A012EDA0014807B /* TransitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA34A2A012EDA0014807B /* TransitionModel.swift */; };
+		3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA34F2A012FC20014807B /* ListViewController.swift */; };
+		3C9AA3532A012FE60014807B /* FavoriteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3522A012FE60014807B /* FavoriteListViewController.swift */; };
+		3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3562A01301F0014807B /* DetailViewController.swift */; };
+		3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3582A0130310014807B /* ComposeViewController.swift */; };
+		3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA35A2A0130490014807B /* ListViewModel.swift */; };
+		3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA35C2A0130570014807B /* FavoriteListViewModel.swift */; };
+		3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA35E2A0130620014807B /* ComposeViewModel.swift */; };
+		3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3602A01306C0014807B /* DetailViewModel.swift */; };
 		3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */; };
 		3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */; };
 		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
@@ -39,6 +48,15 @@
 		3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3452A0117D60014807B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		3C9AA3472A012C880014807B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
+		3C9AA34A2A012EDA0014807B /* TransitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionModel.swift; sourceTree = "<group>"; };
+		3C9AA34F2A012FC20014807B /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		3C9AA3522A012FE60014807B /* FavoriteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewController.swift; sourceTree = "<group>"; };
+		3C9AA3562A01301F0014807B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3C9AA3582A0130310014807B /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		3C9AA35A2A0130490014807B /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		3C9AA35C2A0130570014807B /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
+		3C9AA35E2A0130620014807B /* ComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewModel.swift; sourceTree = "<group>"; };
+		3C9AA3602A01306C0014807B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
@@ -104,10 +122,51 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		3C9AA3492A012D0F0014807B /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AA34A2A012EDA0014807B /* TransitionModel.swift */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		3C9AA34E2A012FA10014807B /* ListScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AA34F2A012FC20014807B /* ListViewController.swift */,
+			);
+			path = ListScene;
+			sourceTree = "<group>";
+		};
+		3C9AA3512A012FD10014807B /* FavoriteScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AA3522A012FE60014807B /* FavoriteListViewController.swift */,
+			);
+			path = FavoriteScene;
+			sourceTree = "<group>";
+		};
+		3C9AA3542A012FF80014807B /* ComposeScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AA3582A0130310014807B /* ComposeViewController.swift */,
+			);
+			path = ComposeScene;
+			sourceTree = "<group>";
+		};
+		3C9AA3552A01300F0014807B /* DetailScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C9AA3562A01301F0014807B /* DetailViewController.swift */,
+			);
+			path = DetailScene;
+			sourceTree = "<group>";
+		};
 		3CDCDC4729FC002D00C2BEF6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				3C9AA3432A0117B60014807B /* Utility */,
+				3C9AA3492A012D0F0014807B /* Scene */,
 				3CDCDC4929FC006500C2BEF6 /* Application */,
 				3CDCDC4A29FC007400C2BEF6 /* View */,
 				3CFD22FA29FE4C9000AE59C7 /* ViewModel */,
@@ -140,6 +199,10 @@
 			isa = PBXGroup;
 			children = (
 				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
+				3C9AA34E2A012FA10014807B /* ListScene */,
+				3C9AA3512A012FD10014807B /* FavoriteScene */,
+				3C9AA3542A012FF80014807B /* ComposeScene */,
+				3C9AA3552A01300F0014807B /* DetailScene */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,8 +238,12 @@
 		3CFD22FA29FE4C9000AE59C7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3CFD22FB29FE4CA300AE59C7 /* MainViewModel.swift */,
 				3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */,
+				3CFD22FB29FE4CA300AE59C7 /* MainViewModel.swift */,
+				3C9AA35A2A0130490014807B /* ListViewModel.swift */,
+				3C9AA35C2A0130570014807B /* FavoriteListViewModel.swift */,
+				3C9AA35E2A0130620014807B /* ComposeViewModel.swift */,
+				3C9AA3602A01306C0014807B /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -332,14 +399,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
+				3C9AA34B2A012EDA0014807B /* TransitionModel.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
+				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
+				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
+				3C9AA3532A012FE60014807B /* FavoriteListViewController.swift in Sources */,
+				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
+				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
+				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
+				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
+				3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */,
 				3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,
 				3C9AA3482A012C880014807B /* TitleView.swift in Sources */,
