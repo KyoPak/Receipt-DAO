@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, ViewModelBindable {
+    var viewModel: MainViewModel?
+    
     private let listButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
@@ -77,6 +79,10 @@ final class MainViewController: UIViewController {
         setupNavigationBar()
         setupView()
         setupContraints()
+    }
+    
+    func bindViewModel() {
+        
     }
 }
 

@@ -7,9 +7,15 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, ViewModelBindable {
+    
+    var viewModel: DetailViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func bindViewModel() {
+        
     }
 }

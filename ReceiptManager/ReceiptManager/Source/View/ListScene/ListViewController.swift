@@ -7,9 +7,15 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
-
+class ListViewController: UIViewController, ViewModelBindable {
+    var viewModel: ListViewModel?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func bindViewModel() {
+        
     }
 }

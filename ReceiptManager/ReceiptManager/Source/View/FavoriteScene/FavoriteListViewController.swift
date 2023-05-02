@@ -7,9 +7,15 @@
 
 import UIKit
 
-class FavoriteListViewController: UIViewController {
+class FavoriteListViewController: UIViewController, ViewModelBindable {
+    
+    var viewModel: FavoriteListViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func bindViewModel() {
+        
     }
 }

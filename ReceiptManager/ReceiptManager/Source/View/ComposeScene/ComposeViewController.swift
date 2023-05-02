@@ -7,9 +7,14 @@
 
 import UIKit
 
-class ComposeViewController: UIViewController {
+class ComposeViewController: UIViewController, ViewModelBindable {
+    var viewModel: CommonViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func bindViewModel() {
+        
     }
 }
