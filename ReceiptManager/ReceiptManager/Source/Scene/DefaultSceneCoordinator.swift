@@ -21,13 +21,13 @@ final class DefaultSceneCoordinator: SceneCoordinator {
     private let disposeBag = DisposeBag()
     
     private var window: UIWindow
-    private var currentViewController: UIViewController
+    private var currentViewController: UIViewController = UIViewController()
     
     required init(window: UIWindow) {
         self.window = window
-        currentViewController = window.rootViewController!
     }
     
+    @discardableResult
     func transition(to scene: Scene, using style: TransitionStyle, animated: Bool) -> Completable {
         let subject = PublishSubject<Never>()
         let moveTarget = scene.instantiate()
@@ -35,7 +35,9 @@ final class DefaultSceneCoordinator: SceneCoordinator {
         switch style {
         case .root:
             currentViewController = moveTarget.sceneViewController
-            window.rootViewController = moveTarget
+            window.rootViewController = UINavigationController(rootViewController: currentViewController)
+            window.makeKeyAndVisible()
+            
             subject.onCompleted()
         case .push:
             guard let navigation = currentViewController.navigationController else {
@@ -65,6 +67,7 @@ final class DefaultSceneCoordinator: SceneCoordinator {
         return subject.asCompletable()
     }
     
+    @discardableResult
     func close(animated: Bool) -> Completable {
         
         return Completable.create { [weak self] completable in
