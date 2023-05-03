@@ -78,9 +78,13 @@ final class MainViewController: UIViewController, ViewModelBindable {
         return label
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         setupView()
         setupContraints()
     }
@@ -94,33 +98,31 @@ final class MainViewController: UIViewController, ViewModelBindable {
 
 extension MainViewController {
     private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(red: 25/255, green: 41/255, blue: 67/255, alpha: 1)
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationItem.titleView = titleView
+        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupView() {
         view.backgroundColor = UIColor(red: 25/255, green: 41/255, blue: 67/255, alpha: 1)
-        [listButton, favoriteListButton, addButton, monthSpendingLabel].forEach {
+        [titleView, listButton, favoriteListButton, addButton, monthSpendingLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [listButton, favoriteListButton, addButton, monthSpendingLabel].forEach(view.addSubview(_:))
+        [titleView, listButton, favoriteListButton, addButton, monthSpendingLabel]
+            .forEach(view.addSubview(_:))
     }
     
     private func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            listButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 50),
+            titleView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            titleView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            titleView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
+            
+            listButton.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 30),
             listButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
             listButton.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -10),
             listButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
             
-            favoriteListButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 50),
+            favoriteListButton.topAnchor.constraint(equalTo: listButton.topAnchor),
             favoriteListButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 10),
             favoriteListButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
             favoriteListButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),

@@ -36,7 +36,7 @@ final class TitleView: UIView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 30)
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
