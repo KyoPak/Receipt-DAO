@@ -8,12 +8,11 @@
 import UIKit
 
 final class TitleView: UIView {
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .preferredFont(forTextStyle: .largeTitle)
         label.textColor = .white
-        label.text = "Receipt Manager"
         return label
     }()
     

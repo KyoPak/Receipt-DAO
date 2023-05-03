@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
+    private let titleView = TitleView()
     
     private let listButton: UIButton = {
         let button = UIButton()
@@ -82,7 +86,9 @@ final class MainViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
-        
+        viewModel?.title
+            .drive(titleView.titleLabel.rx.text)
+            .disposed(by: rx.disposeBag)
     }
 }
 
@@ -95,7 +101,7 @@ extension MainViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        navigationItem.titleView = TitleView()
+        navigationItem.titleView = titleView
     }
     
     private func setupView() {
