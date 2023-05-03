@@ -13,6 +13,8 @@
 		3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */; };
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
+		3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */; };
+		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
 		3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */; };
 		3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3452A0117D60014807B /* UIButton+Extension.swift */; };
 		3C9AA3482A012C880014807B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3472A012C880014807B /* TitleView.swift */; };
@@ -47,6 +49,8 @@
 		3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
+		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
 		3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3452A0117D60014807B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		3C9AA3472A012C880014807B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			children = (
 				3C9AA34A2A012EDA0014807B /* Transition.swift */,
 				3C9AA3622A0130FA0014807B /* Scene.swift */,
+				3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */,
+				3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3C9AA34B2A012EDA0014807B /* Transition.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
+				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
@@ -414,6 +421,7 @@
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
 				3C9AA3532A012FE60014807B /* FavoriteListViewController.swift in Sources */,
+				3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
 				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
