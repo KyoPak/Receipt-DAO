@@ -93,9 +93,16 @@ final class MainViewController: UIViewController, ViewModelBindable {
         viewModel?.title
             .drive(titleView.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
+        
+        listButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+            self.viewModel?.moveListAction()
+        })
+        .disposed(by: rx.disposeBag)
     }
 }
 
+// MARK: - UIConstraints
 extension MainViewController {
     private func setupNavigationBar() {
         navigationController?.isNavigationBarHidden = true
