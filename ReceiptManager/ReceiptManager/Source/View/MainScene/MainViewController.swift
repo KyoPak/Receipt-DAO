@@ -73,7 +73,6 @@ final class MainViewController: UIViewController, ViewModelBindable {
         label.layer.cornerRadius = 10
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .none)
         label.backgroundColor = UIColor(red: 36/255, green: 52/255, blue: 78/255, alpha: 1)
-        label.text = "5월 지출 내역은 123123원 입니다."
         
         return label
     }()
@@ -99,6 +98,26 @@ final class MainViewController: UIViewController, ViewModelBindable {
             self.viewModel?.moveListAction()
         })
         .disposed(by: rx.disposeBag)
+        
+        viewModel?.receiptList
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { receiptSectionModels in
+                var filterCount = 0
+                
+                var formatter = DateFormatter()
+                formatter.dateFormat = "yyyy년 MM월"
+                
+                for receiptSectionModel in receiptSectionModels {
+                    for receipt in receiptSectionModel.items
+                    where formatter.string(from: receipt.receiptDate) == formatter.string(from: Date()) {
+                        filterCount += 1
+                    }
+                }
+                
+                let dateString = formatter.string(from: Date())
+                self.monthSpendingLabel.text = dateString + " 영수증은 \(filterCount)건 입니다."
+            })
+            .disposed(by: rx.disposeBag)
     }
 }
 
