@@ -46,7 +46,7 @@ final class CoreDataStorage: ReceiptStorage {
     func fetch() -> Observable<[ReceiptSectionModel]> {
         return mainContext.rx.entities(
             Receipt.self,
-            sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)]
+            sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .map { result in [ReceiptSectionModel(model: 0, items: result)] }
     }
