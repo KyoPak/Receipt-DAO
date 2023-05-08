@@ -18,7 +18,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("목록", for: .normal)
+        button.setTitle("내 영수증", for: .normal)
         button.setTitleColor(.black, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -35,7 +35,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("즐겨찾기", for: .normal)
+        button.setTitle("특별한 영수증", for: .normal)
         button.setTitleColor(.black, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -52,7 +52,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("등록", for: .normal)
+        button.setTitle("보관하기", for: .normal)
         button.setTitleColor(.black, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
