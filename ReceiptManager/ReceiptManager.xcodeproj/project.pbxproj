@@ -14,6 +14,8 @@
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
+		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
+		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
 		3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */; };
 		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
 		3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */; };
@@ -51,6 +53,8 @@
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
+		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
 		3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
 		3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -116,9 +120,18 @@
 			path = ReceiptManager;
 			sourceTree = "<group>";
 		};
+		3C56C65D2A0963960058869C /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				3C56C65D2A0963960058869C /* Protocol */,
 				3C9AA3442A0117C10014807B /* Extension */,
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
 			);
@@ -148,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA34F2A012FC20014807B /* ListViewController.swift */,
+				3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */,
 			);
 			path = ListScene;
 			sourceTree = "<group>";
@@ -430,12 +444,14 @@
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
 				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
+				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
 				3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */,
+				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
 				3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,
 				3C9AA3482A012C880014807B /* TitleView.swift in Sources */,
