@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PayType {
+enum PayType: Int {
     case card
     case cash
 }

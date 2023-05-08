@@ -20,7 +20,7 @@ struct Receipt: Hashable, IdentifiableType {
     var price: Double           // 가격
     var product: String         // 구매 상품
     var receiptDate: Date       // 영수증 구매 날짜
-    var paymentType: PayType    // 구매 방법
+    var paymentType: Int    // 구매 방법
     var receiptData: Data?      // 영수증 이미지 데이터
     var isFavorite: Bool
     
@@ -29,7 +29,7 @@ struct Receipt: Hashable, IdentifiableType {
         price: Double = .zero,
         product: String = "",
         receiptDate: Date = Date(),
-        paymentType: PayType = .card,
+        paymentType: Int = .zero,
         receiptData: Data? = nil,
         isFavorite: Bool = false
     ) {
@@ -58,7 +58,7 @@ extension Receipt: Persistable {
         price = entity.value(forKey: "price") as? Double ?? .zero
         product = entity.value(forKey: "product") as? String ?? ""
         receiptDate = entity.value(forKey: "receiptDate") as? Date ?? Date()
-        paymentType = entity.value(forKey: "paymentType") as? PayType ?? .card
+        paymentType = entity.value(forKey: "paymentType") as? Int ?? .zero
         receiptData = entity.value(forKey: "receiptData") as? Data ?? Data()
         isFavorite = entity.value(forKey: "isFavorite") as? Bool ?? false
     }
