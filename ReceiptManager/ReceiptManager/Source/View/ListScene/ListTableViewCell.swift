@@ -8,92 +8,78 @@
 import UIKit
 
 final class ListTableViewCell: UITableViewCell {
-    let receiptImageView: UIImageView = {
+    private let paymentImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = .label
+        imageView.tintColor = .yellow
         imageView.contentMode = .scaleToFill
-        imageView.image = UIImage(named: "DefaultReceipt")
+        imageView.image = UIImage(systemName: "wonsign.square.fill")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
     
-    let productLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         
         return label
     }()
     
-    let priceLabel: UILabel = {
+    private let storeLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         
         return label
     }()
     
-    let paymentTypeLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
         
         return label
     }()
     
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        
-        return label
-    }()
-    
-    lazy var subStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [paymentTypeLabel, dateLabel])
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            paymentImageView,
+            productNameLabel,
+            storeLabel,
+            priceLabel
+        ])
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        
-        return stackView
-    }()
-    
-    lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productLabel, subStackView])
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        
-        return stackView
-    }()
-    
-    lazy var totalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [mainStackView, priceLabel])
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.alignment = .leading
         
         return stackView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        paymentImageView.tintColor = .yellow
+    }
+    
     func setupData(data: Receipt) {
-        if let imageData = data.receiptData {
-            receiptImageView.image = UIImage(data: imageData)
-        }
-        
-        productLabel.text = data.product
+        productNameLabel.text = data.product
+        storeLabel.text = data.store
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         priceLabel.text = numberFormatter.string(from: NSNumber(value: data.price))
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        dateLabel.text = dateFormatter.string(from: data.receiptDate)
-        
-        paymentTypeLabel.text = PayType(rawValue: data.paymentType)?.description
+        if PayType(rawValue: data.paymentType) == .card {
+            paymentImageView.tintColor = .blue
+            paymentImageView.image = UIImage(systemName: "creditcard.fill")
+        }
     }
 }
 
@@ -105,12 +91,19 @@ extension ListTableViewCell {
         layer.borderWidth = 1
         layer.cornerRadius = 5
         
-        [receiptImageView, totalStackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        [receiptImageView, totalStackView].forEach(addSubview(_:))
+        [mainStackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [mainStackView].forEach(addSubview(_:))
     }
     
     private func setupConstraints() {
+        let safeArea = safeAreaLayoutGuide
         
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
 }
 
