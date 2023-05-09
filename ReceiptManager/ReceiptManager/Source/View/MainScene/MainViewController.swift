@@ -99,6 +99,12 @@ final class MainViewController: UIViewController, ViewModelBindable {
         })
         .disposed(by: rx.disposeBag)
         
+        registerButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveRegisterAction()
+            })
+            .disposed(by: rx.disposeBag)
+        
         viewModel?.receiptList
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { receiptSectionModels in
