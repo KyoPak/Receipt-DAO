@@ -51,12 +51,13 @@ final class ListViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
-    var tableView = UITableView()
+    var tableView = UITableView(frame: .zero, style: .grouped)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupView()
+        setupTableView()
         setupConstraints()
     }
     
@@ -89,6 +90,10 @@ extension ListViewController {
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         view.backgroundColor = ConstantColor.backGrouncColor
+    }
+    
+    private func setupTableView() {
+        tableView.backgroundColor = ConstantColor.backGrouncColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     
