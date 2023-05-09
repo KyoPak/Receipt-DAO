@@ -17,11 +17,12 @@ struct Receipt: Hashable, IdentifiableType {
     var identity: String = UUID().description   // 구분자
     
     var store: String           // 상호명
-    var price: Int           // 가격
+    var price: Int              // 가격
     var product: String         // 구매 상품
     var receiptDate: Date       // 영수증 구매 날짜
-    var paymentType: Int    // 구매 방법
-    var receiptData: Data?      // 영수증 이미지 데이터
+    var paymentType: Int        // 구매 방법
+    var receiptData: [Data]      // 영수증 이미지 데이터
+    var memo: String            // 메모
     var isFavorite: Bool
     
     init(
@@ -30,7 +31,8 @@ struct Receipt: Hashable, IdentifiableType {
         product: String = "",
         receiptDate: Date = Date(),
         paymentType: Int = .zero,
-        receiptData: Data? = nil,
+        receiptData: [Data] = [],
+        memo: String = "",
         isFavorite: Bool = false
     ) {
         self.store = store
@@ -39,6 +41,7 @@ struct Receipt: Hashable, IdentifiableType {
         self.receiptDate = receiptDate
         self.paymentType = paymentType
         self.receiptData = receiptData
+        self.memo = memo
         self.isFavorite = isFavorite
     }
 }
@@ -59,7 +62,8 @@ extension Receipt: Persistable {
         product = entity.value(forKey: "product") as? String ?? ""
         receiptDate = entity.value(forKey: "receiptDate") as? Date ?? Date()
         paymentType = entity.value(forKey: "paymentType") as? Int ?? .zero
-        receiptData = entity.value(forKey: "receiptData") as? Data ?? Data()
+        receiptData = entity.value(forKey: "receiptData") as? [Data] ?? []
+        memo = entity.value(forKey: "memo") as? String ?? ""
         isFavorite = entity.value(forKey: "isFavorite") as? Bool ?? false
     }
     
@@ -70,6 +74,7 @@ extension Receipt: Persistable {
         entity.setValue(receiptDate, forKey: "receiptDate")
         entity.setValue(paymentType, forKey: "paymentType")
         entity.setValue(receiptData, forKey: "receiptData")
+        entity.setValue(memo, forKey: "memo")
         entity.setValue(isFavorite, forKey: "isFavorite")
         
         do {
