@@ -94,8 +94,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         listButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-            self.viewModel?.moveListAction()
+            .subscribe(onNext: { [weak self] in
+            self?.viewModel?.moveListAction()
         })
         .disposed(by: rx.disposeBag)
         
