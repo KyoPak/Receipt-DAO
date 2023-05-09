@@ -77,6 +77,24 @@ final class ListTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setupData(data: Receipt) {
+        if let imageData = data.receiptData {
+            receiptImageView.image = UIImage(data: imageData)
+        }
+        
+        productLabel.text = data.product
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        priceLabel.text = numberFormatter.string(from: NSNumber(value: data.price))
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateLabel.text = dateFormatter.string(from: data.receiptDate)
+        
+        paymentTypeLabel.text = PayType(rawValue: data.paymentType)?.description
+    }
 }
 
 // MARK: - UIConstaints

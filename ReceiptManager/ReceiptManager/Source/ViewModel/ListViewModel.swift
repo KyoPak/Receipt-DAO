@@ -24,7 +24,7 @@ final class ListViewModel: CommonViewModel {
     
     private let calendar = Calendar.current
     
-    let currentDateRelay = BehaviorRelay<Date>(value: Date())
+    private let currentDateRelay = BehaviorRelay<Date>(value: Date())
     var currentDate: Driver<Date> {
         return currentDateRelay.asDriver()
     }
@@ -43,7 +43,7 @@ final class ListViewModel: CommonViewModel {
                 return cell
             }
             
-            // Cell 셋팅하는 메서드 구현
+            cell.setupData(data: receipt)
             dataSource.canEditRowAtIndexPath = { _, _ in return true }
             
             return cell
