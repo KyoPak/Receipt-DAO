@@ -13,6 +13,7 @@ import NSObject_Rx
 final class ListViewController: UIViewController, ViewModelBindable {
     var viewModel: ListViewModel?
     
+    // MARK: - UIComponent
     private var headerView = UIView()
     
     private var titleLabel: UILabel = {
@@ -62,12 +63,19 @@ final class ListViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
-        viewModel?.title
+        guard let viewModel = viewModel else { return }
+        
+        viewModel.title
             .drive(navigationItem.rx.title)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptList
+            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
     }
 }
 
+// MARK: - UIConstraint
 extension ListViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()

@@ -10,14 +10,24 @@ import RxSwift
 import RxDataSources
 
 final class ListViewModel: CommonViewModel {
+    typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
+    
     var receiptList: Observable<[ReceiptSectionModel]> {
         return storage.fetch()
     }
     
-    let dataSource: RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel> = {
-        let dataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel> { dataSource, tableView, indexPath, receipt in
-            // 임시 구현
-            let cell = tableView.dequeueReusableCell(withIdentifier: "123", for: indexPath)
+    let dataSource: TableViewDataSource = {
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+            
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListTableViewCell.identifier, for: indexPath
+            ) as? ListTableViewCell else {
+                let cell = UITableViewCell()
+                return cell
+            }
+            
+            // Cell 셋팅하는 메서드 구현
+            dataSource.canEditRowAtIndexPath = { _, _ in return true }
             
             return cell
         }
