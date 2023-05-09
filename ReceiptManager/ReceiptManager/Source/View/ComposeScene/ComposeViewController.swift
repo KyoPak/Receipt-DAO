@@ -12,6 +12,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     let storeTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = ConstantPlaceHolder.store
         textField.backgroundColor = ConstantColor.cellColor
         
         return textField
@@ -19,6 +20,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     let productNameTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = ConstantPlaceHolder.product
         textField.backgroundColor = ConstantColor.cellColor
         
         return textField
@@ -26,6 +28,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     let priceTextField: UITextField = {
         let textField = UITextField()
+        textField.placeholder = ConstantPlaceHolder.price
         textField.backgroundColor = ConstantColor.cellColor
         
         return textField
@@ -56,6 +59,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     let memoTextView: UITextView = {
         let textView = UITextView()
+        textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
         
         return textView
@@ -83,9 +87,11 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         return stackView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        setupDatePicker()
+        setupConstraints()
     }
     
     func bindViewModel() {
@@ -111,5 +117,16 @@ extension ComposeViewController {
         view.backgroundColor = ConstantColor.backGrouncColor
         
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func setupConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
 }
