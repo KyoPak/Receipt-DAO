@@ -16,7 +16,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     // MARK: - UIComponent
     private var headerView = UIView()
     
-    private var titleLabel: UILabel = {
+    private var monthLabel: UILabel = {
         let label = UILabel()
         label.text = "2023년 04월"
         label.textColor = .white
@@ -41,7 +41,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
-    private var todayButton: UIButton = {
+    private var nowButton: UIButton = {
         let button = UIButton()
         button.setTitle("현재 달", for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
@@ -65,12 +65,39 @@ final class ListViewController: UIViewController, ViewModelBindable {
     func bindViewModel() {
         guard let viewModel = viewModel else { return }
         
+        // ViewModel Properties Binding
         viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
         viewModel.receiptList
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.currentDate
+            .map({ date in
+                return DateFormatter.string(from: date, format: "yyyy년 MM월")
+            })
+            .drive(monthLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        // Button Binding
+        previousButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.movePriviousAction()
+            })
+            .disposed(by: rx.disposeBag)
+        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveNextAction()
+            })
+            .disposed(by: rx.disposeBag)
+        
+        nowButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveNowAction()
+            })
             .disposed(by: rx.disposeBag)
     }
 }
@@ -93,8 +120,8 @@ extension ListViewController {
     
     private func setupView() {
         [headerView, tableView].forEach(view.addSubview(_:))
-        [titleLabel, previousButton, nextButton, todayButton, tableView].forEach(headerView.addSubview(_:))
-        [headerView, titleLabel, previousButton, nextButton, todayButton, tableView]
+        [monthLabel, previousButton, nextButton, nowButton, tableView].forEach(headerView.addSubview(_:))
+        [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
         view.backgroundColor = ConstantColor.backGrouncColor
@@ -114,23 +141,23 @@ extension ListViewController {
             headerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             headerView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
             
-            titleLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
-            titleLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            monthLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
+            monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             
             previousButton.widthAnchor.constraint(equalToConstant: 45),
             previousButton.heightAnchor.constraint(equalToConstant: 45),
-            previousButton.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -5),
-            previousButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            previousButton.trailingAnchor.constraint(equalTo: monthLabel.leadingAnchor, constant: -5),
+            previousButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
             nextButton.widthAnchor.constraint(equalToConstant: 44),
             nextButton.heightAnchor.constraint(equalToConstant: 44),
-            nextButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 5),
-            nextButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            nextButton.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 5),
+            nextButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
-            todayButton.widthAnchor.constraint(equalToConstant: 60),
-            todayButton.heightAnchor.constraint(equalToConstant: 30),
-            todayButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
-            todayButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            nowButton.widthAnchor.constraint(equalToConstant: 60),
+            nowButton.heightAnchor.constraint(equalToConstant: 30),
+            nowButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
+            nowButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
