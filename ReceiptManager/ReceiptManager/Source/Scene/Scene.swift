@@ -11,7 +11,7 @@ enum Scene {
     case main(MainViewModel)
     case list(ListViewModel)
     case favoriteList(FavoriteListViewModel)
-    case compose(CommonViewModel)
+    case compose(ComposeViewModel)
     case detail(DetailViewModel)
 }
 
@@ -35,9 +35,11 @@ extension Scene {
             return viewController
         case .compose(let composeViewModel):
             let viewController = ComposeViewController()
-            viewController.bind(viewModel: composeViewModel)
+            let navigation = UINavigationController(rootViewController: viewController)
             
-            return viewController
+            viewController.bind(viewModel: composeViewModel)
+            navigation.modalPresentationStyle = .fullScreen
+            return navigation
         case .detail(let detailViewModel):
             let viewController = DetailViewController()
             viewController.bind(viewModel: detailViewModel)
