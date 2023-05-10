@@ -6,30 +6,59 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
+
+extension UITextField {
+    func setPlaceholder(color: UIColor) {
+        guard let string = self.placeholder else {
+            return
+        }
+        attributedPlaceholder = NSAttributedString(string: string, attributes: [.foregroundColor: color])
+    }
+}
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
-    var viewModel: CommonViewModel?
+    var viewModel: ComposeViewModel?
+    
+    /*
+    UI 수정할 사항
+     상호명
+     품목 날짜
+     가격 타입 
+     */
     
     let storeTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = ConstantPlaceHolder.store
+        textField.textColor = .white
+        textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
+        textField.placeholder = ConstantPlaceHolder.store
+        textField.borderStyle = .roundedRect
         
         return textField
     }()
     
     let productNameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = ConstantPlaceHolder.product
+        textField.textColor = .white
+        textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
+        textField.placeholder = ConstantPlaceHolder.product
+        textField.borderStyle = .roundedRect
         
         return textField
     }()
     
     let priceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = ConstantPlaceHolder.price
+        textField.textColor = .white
+        textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
+        textField.placeholder = ConstantPlaceHolder.price
+        textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
         
         return textField
     }()
@@ -67,22 +96,23 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     lazy var subStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [datePicker, payTypeSegmented])
-        stackView.distribution = .fill
         stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
         
         return stackView
     }()
     
     lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [
-            storeTextField,
-            productNameTextField,
-            priceTextField,
-            subStackView,
-            memoTextView
-        ])
+        [storeTextField, productNameTextField, priceTextField].forEach {
+            $0.setPlaceholder(color: .lightGray)
+        }
+        let stackView = UIStackView(arrangedSubviews: [storeTextField, productNameTextField, priceTextField])
         stackView.distribution = .fill
+        stackView.alignment = .fill
         stackView.axis = .vertical
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -90,43 +120,89 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupNavigationBar()
         setupDatePicker()
         setupConstraints()
     }
     
     func bindViewModel() {
-        
+        viewModel?.title
+            .drive(navigationItem.rx.title)
+            .disposed(by: rx.disposeBag)
     }
 }
 
+// MARK: - Action
+extension ComposeViewController {
+    @objc private func tapCancleButton() {
+        viewModel?.cancelAction()
+    }
+    
+    @objc private func tapSaveButton() {
+        viewModel?.saveAction()
+    }
+}
+
+// MARK: - DatePicker
 extension ComposeViewController {
     @objc private func datePickerWheel(_ sender: UIDatePicker) -> Date? {
         return sender.date
     }
     
     private func setupDatePicker() {
-        datePicker.preferredDatePickerStyle = .compact
+        datePicker.tintColor = .black
         datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.locale = Locale(identifier: "ko-kr")
+        datePicker.clipsToBounds = true
+        datePicker.layer.cornerRadius = 10
+        datePicker.subviews[0].subviews[0].subviews[0].alpha = 0
+        datePicker.backgroundColor = ConstantColor.registerColor
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
 
+// MARK: - UIConstraint
 extension ComposeViewController {
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "취소",
+            style: .plain,
+            target: self,
+            action: #selector(tapCancleButton)
+        )
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "등록",
+            style: .done,
+            target: self,
+            action: #selector(tapSaveButton)
+        )
+        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem?.tintColor = .white
+    }
+    
     private func setupView() {
         view.addSubview(mainStackView)
         view.backgroundColor = ConstantColor.backGrouncColor
+        view.addSubview(subStackView)
         
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        subStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            mainStackView.bottomAnchor.constraint(equalTo: subStackView.topAnchor, constant: -10),
+            
+            subStackView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 10),
+            subStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10)
         ])
     }
 }
