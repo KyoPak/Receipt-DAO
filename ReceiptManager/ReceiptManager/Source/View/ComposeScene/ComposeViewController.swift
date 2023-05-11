@@ -20,16 +20,6 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
     private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
     
-    private lazy var dateStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel, datePicker])
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 10
-        
-        return stackView
-    }()
-    
     private let storeTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
@@ -127,13 +117,12 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }()
     
     private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(
-            arrangedSubviews: [dateStackView, storeStackView, productStackView, priceStackView]
-        )
+        let stackView = UIStackView(arrangedSubviews: [storeStackView, productStackView, priceStackView])
+        stackView.spacing = 10
         stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -179,6 +168,7 @@ extension ComposeViewController {
         datePicker.layer.cornerRadius = 10
         datePicker.subviews[0].subviews[0].subviews[0].alpha = 0
         datePicker.backgroundColor = ConstantColor.registerColor
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
@@ -205,13 +195,12 @@ extension ComposeViewController {
     }
     
     private func setupView() {
-        view.addSubview(mainStackView)
         view.backgroundColor = ConstantColor.backGrouncColor
         
+        [dateLabel, datePicker, mainStackView].forEach(view.addSubview(_:))
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
         }
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupConstraints() {
@@ -222,12 +211,15 @@ extension ComposeViewController {
             priceLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
             storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
             productLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            datePicker.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.25),
             
-            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            dateLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            dateLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            datePicker.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 10),
+            
+            mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-//            mainStackView.bottomAnchor.constraint(equalTo: subStackView.topAnchor, constant: -10)
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
         ])
     }
 }
