@@ -10,69 +10,101 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-extension UITextField {
-    func setPlaceholder(color: UIColor) {
-        guard let string = self.placeholder else {
-            return
-        }
-        attributedPlaceholder = NSAttributedString(string: string, attributes: [.foregroundColor: color])
-    }
-}
-
 final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
     
-    /*
-    UI 수정할 사항
-     상호명
-     품목 날짜
-     가격 타입 
-     */
+    let datePicker = UIDatePicker()
     
-    let storeTextField: UITextField = {
+    private let dateLabel = UILabel(text: "날짜", font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(text: "상호명", font: .preferredFont(forTextStyle: .body))
+    private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
+    
+    private lazy var dateStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dateLabel, datePicker])
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private let storeTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
+        textField.placeholder = ConstantPlaceHolder.input
         textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
-        textField.placeholder = ConstantPlaceHolder.store
         textField.borderStyle = .roundedRect
         
         return textField
     }()
     
-    let productNameTextField: UITextField = {
+    private lazy var storeStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [storeLabel, storeTextField])
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private let productNameTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
+        textField.placeholder = ConstantPlaceHolder.input
         textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
-        textField.placeholder = ConstantPlaceHolder.product
         textField.borderStyle = .roundedRect
         
         return textField
     }()
     
-    let priceTextField: UITextField = {
+    private lazy var productStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [productLabel, productNameTextField])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        
+        return stackView
+    }()
+    
+    private let priceTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
+        textField.placeholder = ConstantPlaceHolder.input
         textField.tintColor = ConstantColor.registerColor
         textField.backgroundColor = ConstantColor.cellColor
-        textField.placeholder = ConstantPlaceHolder.price
         textField.borderStyle = .roundedRect
         textField.keyboardType = .numberPad
         
         return textField
     }()
     
-    let datePicker = UIDatePicker()
-    
-    let payTypeSegmented: UISegmentedControl = {
+    private let payTypeSegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["현금", "카드"])
         segment.selectedSegmentIndex = .zero
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        segment.selectedSegmentTintColor = ConstantColor.registerColor
         
         return segment
     }()
+    
+    private lazy var priceStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [priceLabel, priceTextField, payTypeSegmented])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        
+        return stackView
+    }()
 
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
@@ -86,7 +118,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         return collectionView
     }()
     
-    let memoTextView: UITextView = {
+    private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
@@ -94,21 +126,10 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         return textView
     }()
     
-    lazy var subStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [datePicker, payTypeSegmented])
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        
-        return stackView
-    }()
-    
-    lazy var mainStackView: UIStackView = {
-        [storeTextField, productNameTextField, priceTextField].forEach {
-            $0.setPlaceholder(color: .lightGray)
-        }
-        let stackView = UIStackView(arrangedSubviews: [storeTextField, productNameTextField, priceTextField])
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(
+            arrangedSubviews: [dateStackView, storeStackView, productStackView, priceStackView]
+        )
         stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.axis = .vertical
@@ -186,23 +207,27 @@ extension ComposeViewController {
     private func setupView() {
         view.addSubview(mainStackView)
         view.backgroundColor = ConstantColor.backGrouncColor
-        view.addSubview(subStackView)
         
+        [storeTextField, productNameTextField, priceTextField].forEach {
+            $0.setPlaceholder(color: .lightGray)
+        }
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        subStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
-            mainStackView.bottomAnchor.constraint(equalTo: subStackView.topAnchor, constant: -10),
+            dateLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            priceLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            productLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            datePicker.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.25),
             
-            subStackView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 10),
-            subStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10)
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+//            mainStackView.bottomAnchor.constraint(equalTo: subStackView.topAnchor, constant: -10)
         ])
     }
 }
