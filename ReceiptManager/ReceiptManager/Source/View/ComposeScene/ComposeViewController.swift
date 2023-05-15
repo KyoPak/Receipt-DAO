@@ -149,7 +149,14 @@ extension ComposeViewController {
     }
     
     @objc private func tapSaveButton() {
-        viewModel?.saveAction()
+        viewModel?.saveAction(
+            store: storeTextField.text,
+            product: productNameTextField.text,
+            price: Int(priceTextField.text ?? "0"),
+            date: datePicker.date,
+            payType: PayType(rawValue: payTypeSegmented.selectedSegmentIndex) ?? .cash,
+            memo: memoTextView.text,
+            receiptData: [])
     }
 }
 
@@ -170,6 +177,12 @@ extension ComposeViewController {
         datePicker.backgroundColor = ConstantColor.registerColor
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
+    }
+}
+
+extension ComposeViewController {
+    private func setupCollectionView() {
+        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
     }
 }
 
