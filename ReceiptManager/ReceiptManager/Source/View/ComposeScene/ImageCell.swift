@@ -7,21 +7,13 @@
 
 import UIKit
 
-protocol UploadImageCellDelegate: AnyObject {
-    func uploadImageCell(_ isShowPicker: Bool)
-}
-
 final class ImageCell: UICollectionViewCell {
-    weak var buttonDelegate: UploadImageCellDelegate?
-
-    private let imageStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        return stackView
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -35,45 +27,25 @@ final class ImageCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Create View
 extension ImageCell {
-    func createButton() {
-        let button = UIButton()
-        button.tintColor = ConstantColor.registerColor
-        button.backgroundColor = .lightGray
-        button.setImage(UIImage(systemName: "photo.circle"), for: .normal)
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        
-        imageStackView.addArrangedSubview(button)
-    }
-    
-    func createImageView(data: Data) {
-        let imageView = UIImageView(image: UIImage(data: data))
-        imageView.contentMode = .scaleToFill
-    
-        imageStackView.addArrangedSubview(imageView)
-    }
-}
-
-// MARK: - Action
-extension ImageCell {
-    @objc func addButtonTapped() {
-        buttonDelegate?.uploadImageCell(true)
+    func setupReceiptImage(_ data: Data) {
+        imageView.image = UIImage(data: data)
     }
 }
 
 // MARK: - Constraints
 extension ImageCell {
     private func setupView() {
-        contentView.addSubview(imageStackView)
+        contentView.backgroundColor = ConstantColor.favoriteColor
+        contentView.addSubview(imageView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            imageStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

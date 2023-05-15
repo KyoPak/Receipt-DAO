@@ -95,17 +95,18 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         return stackView
     }()
-
-    private lazy var collectionView: UICollectionView = {
-       let layout = UICollectionViewFlowLayout()
+    
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
+        let collectionCellWidth = UIScreen.main.bounds.width / 5 - 10
         
-        let collectionCellWidth = view.window?.windowScene?.screen.bounds.width ?? .zero / 3 - 10
-        
-        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
     }()
@@ -131,14 +132,43 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupFirstCell()
         setupNavigationBar()
         setupDatePicker()
         setupConstraints()
     }
     
+    func setupFirstCell() {
+        let addImage: UIImage = {
+            guard let image = UIImage(systemName: "photo.circle") else { return UIImage() }
+            
+            return image
+        }()
+        
+        viewModel?.addReceiptData(addImage.pngData())
+    }
+    
     func bindViewModel() {
         viewModel?.title
             .drive(navigationItem.rx.title)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel?.receiptData
+            .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+            ) { indexPath, data, cell in
+                cell.setupReceiptImage(data)
+            }
+            .disposed(by: rx.disposeBag)
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] index in
+                guard let self = self else { return }
+
+                let currentDataCount = (try? self.viewModel?.receiptData.value().count) ?? .zero
+                if index.row == .zero && currentDataCount < 6 {
+                    self.uploadImageCell(true)
+                }
+            })
             .disposed(by: rx.disposeBag)
     }
 }
@@ -200,28 +230,28 @@ extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerCo
     }
 }
 
-extension ComposeViewController: UploadImageCellDelegate {
+extension ComposeViewController {
     func uploadImageCell(_ isShowPicker: Bool) {
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
-        
+
         let alert = UIAlertController(
             title: "영수증 사진선택",
             message: "업로드할 영수증을 선택해주세요.",
             preferredStyle: .actionSheet
         )
-        
+
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
             self.picker.allowsEditing = false
             self.present(self.picker, animated: true, completion: nil)
         }
-        
+
         let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
             self.picker.allowsEditing = true
             self.present(self.picker, animated: true, completion: nil)
         }
-        
+
         [rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
         present(alert, animated: true, completion: nil)
     }

@@ -18,8 +18,9 @@ final class ComposeViewModel: CommonViewModel {
     var product: String?
     var price: Int?
     var payType: PayType
-    var receiptData: [Data]
     var memo: String?
+    
+    var receiptData = BehaviorSubject<[Data]>(value: [])
     
     init(
         title: String,
@@ -38,10 +39,19 @@ final class ComposeViewModel: CommonViewModel {
         self.product = product
         self.price = price
         self.payType = payType
-        self.receiptData = receiptData
         self.memo = memo
         
+        self.receiptData.onNext(receiptData)
+        
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
+    }
+
+    func addReceiptData(_ data: Data?) {
+        guard let data = data else { return }
+        
+        var currentReceiptData = (try? receiptData.value()) ?? []   // 현재의 receiptData를 가져옴
+        currentReceiptData.append(data)                             // 새로운 데이터를 추가
+        receiptData.onNext(currentReceiptData)                      // 변경된 receiptData를 알림
     }
     
     func cancelAction() {
@@ -59,6 +69,8 @@ final class ComposeViewModel: CommonViewModel {
         memo: String?,
         receiptData: [Data]
     ) {
+        let receiptData = (try? self.receiptData.value()) ?? []
+        
         let saveData = Receipt(
             store: store ?? "",
             price: price ?? .zero,
@@ -69,7 +81,7 @@ final class ComposeViewModel: CommonViewModel {
             memo: memo ?? "",
             isFavorite: false
         )
-        print(saveData)
+        
         storage.upsert(receipt: saveData)
         
         cancelAction()
