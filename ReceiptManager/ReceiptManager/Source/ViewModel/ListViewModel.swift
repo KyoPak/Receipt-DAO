@@ -10,6 +10,8 @@ import RxSwift
 import RxDataSources
 import RxCocoa
 
+typealias ReceiptSectionModel = AnimatableSectionModel<String, Receipt>
+
 extension DateFormatter {
     static let standard = DateFormatter()
     
@@ -44,9 +46,16 @@ final class ListViewModel: CommonViewModel {
             }
             
             cell.setupData(data: receipt)
-            
             return cell
         }
+        
+        dataSource.titleForHeaderInSection = { dataSource, sectionIndex in
+            let sectionModel = dataSource[sectionIndex]
+            let sectionData = sectionModel.model
+            
+            return sectionData
+        }
+        
         dataSource.canEditRowAtIndexPath = { _, _ in return true }
         
         return dataSource

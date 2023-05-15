@@ -11,8 +11,6 @@ import RxDataSources
 import RxSwift
 import RxCoreData
 
-typealias ReceiptSectionModel = AnimatableSectionModel<Int, Receipt>
-
 struct Receipt: Hashable, IdentifiableType {
     var identity: String = UUID().description   // 구분자
     

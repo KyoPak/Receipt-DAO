@@ -48,7 +48,21 @@ final class CoreDataStorage: ReceiptStorage {
             Receipt.self,
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
-        .map { result in [ReceiptSectionModel(model: 0, items: result)] }
+        .map { result in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            
+            let dictionary = Dictionary(grouping: result, by: {
+                dateFormatter.string(from: $0.receiptDate)
+            })
+            
+            let section = dictionary.sorted { return $0.key > $1.key }
+            .map { (key, value) in
+                return ReceiptSectionModel(model: key, items: value)
+            }
+                              
+            return section
+        }
     }
     
     func delete(receipt: Receipt) -> Observable<Receipt> {
