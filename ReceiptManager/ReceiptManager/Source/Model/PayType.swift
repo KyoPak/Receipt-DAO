@@ -8,15 +8,15 @@
 import Foundation
 
 enum PayType: Int, CustomStringConvertible {
-    case card
     case cash
+    case card
     
     var description: String {
         switch self {
-        case .card:
-            return "카드"
         case .cash:
             return "현금"
+        case .card:
+            return "카드"
         }
     }
 }
