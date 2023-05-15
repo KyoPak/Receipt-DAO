@@ -11,6 +11,8 @@ import RxCocoa
 import NSObject_Rx
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
+    private let picker = UIImagePickerController()
+    
     var viewModel: ComposeViewModel?
     
     let datePicker = UIDatePicker()
@@ -122,7 +124,6 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -175,14 +176,54 @@ extension ComposeViewController {
         datePicker.layer.cornerRadius = 10
         datePicker.subviews[0].subviews[0].subviews[0].alpha = 0
         datePicker.backgroundColor = ConstantColor.registerColor
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
 
-extension ComposeViewController {
-    private func setupCollectionView() {
-        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
+// MARK: - UIImagePickerController
+extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let image = info[.editedImage] as? UIImage {
+            let data = image.pngData()
+            viewModel?.addReceiptData(data)
+        } else {
+            if let image = info[.originalImage] as? UIImage {
+                let data = image.pngData()
+                viewModel?.addReceiptData(data)
+            }
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ComposeViewController: UploadImageCellDelegate {
+    func uploadImageCell(_ isShowPicker: Bool) {
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        
+        let alert = UIAlertController(
+            title: "영수증 사진선택",
+            message: "업로드할 영수증을 선택해주세요.",
+            preferredStyle: .actionSheet
+        )
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
+            self.picker.allowsEditing = false
+            self.present(self.picker, animated: true, completion: nil)
+        }
+        
+        let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
+            self.picker.allowsEditing = true
+            self.present(self.picker, animated: true, completion: nil)
+        }
+        
+        [rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -208,9 +249,12 @@ extension ComposeViewController {
     }
     
     private func setupView() {
+        picker.delegate = self
         view.backgroundColor = ConstantColor.backGrouncColor
-        
-        [dateLabel, datePicker, mainStackView].forEach(view.addSubview(_:))
+        [datePicker, mainStackView, collectionView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [dateLabel, datePicker, mainStackView, collectionView].forEach(view.addSubview(_:))
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
         }
@@ -232,7 +276,12 @@ extension ComposeViewController {
             
             mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20)
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            
+            collectionView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            collectionView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
 }
