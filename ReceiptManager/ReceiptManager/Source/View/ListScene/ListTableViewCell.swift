@@ -19,7 +19,7 @@ final class ListTableViewCell: UITableViewCell {
     }()
     
     private lazy var mainInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productNameLabel, storeLabel])
+        let stackView = UIStackView(arrangedSubviews: [storeLabel, productNameLabel])
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.spacing = 10

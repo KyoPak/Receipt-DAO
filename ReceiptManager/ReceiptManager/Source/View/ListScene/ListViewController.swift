@@ -52,7 +52,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
-    var tableView = UITableView(frame: .zero, style: .grouped)
+    private var tableView = UITableView(frame: .zero, style: .grouped)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +119,7 @@ extension ListViewController {
     
     private func setupView() {
         [headerView, tableView].forEach(view.addSubview(_:))
-        [monthLabel, previousButton, nextButton, nowButton, tableView].forEach(headerView.addSubview(_:))
+        [monthLabel, previousButton, nextButton, nowButton].forEach(headerView.addSubview(_:))
         [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
