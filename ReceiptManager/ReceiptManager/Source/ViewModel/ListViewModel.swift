@@ -44,10 +44,10 @@ final class ListViewModel: CommonViewModel {
             }
             
             cell.setupData(data: receipt)
-            dataSource.canEditRowAtIndexPath = { _, _ in return true }
             
             return cell
         }
+        dataSource.canEditRowAtIndexPath = { _, _ in return true }
         
         return dataSource
     }()
