@@ -124,7 +124,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         createKeyboardDownButton()
     }
     
-    func setupFirstCell() {
+    private func setupFirstCell() {
         let addImage: UIImage = {
             guard let image = UIImage(systemName: "photo.circle")?.withTintColor(.lightGray) else {
                 return UIImage()
@@ -155,7 +155,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         viewModel?.receiptData
             .map { datas in
-                return "사진 등록 \(datas.count - 1)/5"
+                return "영수증 등록 \(datas.count - 1)/5"
             }
             .asDriver(onErrorJustReturn: "")
             .drive(countLabel.rx.text)
@@ -205,8 +205,8 @@ extension ComposeViewController {
         datePicker.locale = Locale(identifier: "ko-kr")
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 10
-        datePicker.subviews[0].subviews[0].subviews[0].alpha = 0
         datePicker.backgroundColor = ConstantColor.registerColor
+        datePicker.subviews[.zero].subviews[.zero].subviews[.zero].alpha = .zero
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
@@ -307,7 +307,7 @@ extension ComposeViewController {
         )
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         keyboardWillHide()
         if let keyboardFrame: NSValue = notification.userInfo?[
             UIResponder.keyboardFrameEndUserInfoKey
@@ -321,10 +321,10 @@ extension ComposeViewController {
         }
     }
     
-    @objc func keyboardWillHide() {
-        if view.frame.origin.y != 0 {
+    @objc private func keyboardWillHide() {
+        if view.frame.origin.y != .zero {
             UIView.animate(withDuration: 0.5) {
-                self.view.frame.origin.y = 0
+                self.view.frame.origin.y = .zero
             }
         }
     }
