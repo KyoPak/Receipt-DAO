@@ -52,7 +52,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
-    private var tableView = UITableView(frame: .zero, style: .grouped)
+    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +99,40 @@ final class ListViewController: UIViewController, ViewModelBindable {
                 self?.viewModel?.moveNowAction()
             })
             .disposed(by: rx.disposeBag)
+        
+        tableView.rx.setDelegate(self)
+            .disposed(by: rx.disposeBag)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let data = viewModel?.dataSource[section]
+        
+        let string = data?.identity
+        
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .white
+        label.text = string
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+
+        headerView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
 }
 

@@ -49,13 +49,6 @@ final class ListViewModel: CommonViewModel {
             return cell
         }
         
-        dataSource.titleForHeaderInSection = { dataSource, sectionIndex in
-            let sectionModel = dataSource[sectionIndex]
-            let sectionData = sectionModel.model
-            
-            return sectionData
-        }
-        
         dataSource.canEditRowAtIndexPath = { _, _ in return true }
         
         return dataSource
