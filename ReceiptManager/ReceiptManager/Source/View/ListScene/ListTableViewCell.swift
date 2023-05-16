@@ -23,7 +23,6 @@ final class ListTableViewCell: UITableViewCell {
     private let detailButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage.init(systemName: "chevron.right"), for: .normal)
-        button.tintColor = .gray
         
         return button
     }()
@@ -57,11 +56,20 @@ final class ListTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         payImageView.tintColor = nil
+        detailButton.tintColor = nil
     }
     
     func setupData(data: Receipt) {
         productNameLabel.text = data.product
         storeLabel.text = data.store
+        
+        if data.isFavorite {
+            detailButton.tintColor = .systemYellow
+            detailButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        } else {
+            detailButton.tintColor = .lightGray
+            detailButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        }
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

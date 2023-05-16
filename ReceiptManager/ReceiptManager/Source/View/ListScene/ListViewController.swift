@@ -100,15 +100,6 @@ final class ListViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
-        // Swipe Binding
-        tableView.rx.modelDeleted(Receipt.self)
-            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
-            .asObservable()
-            .bind { receipt in
-                viewModel.deleteAction(receipt: receipt)
-            }
-            .disposed(by: rx.disposeBag)
-        
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }
@@ -116,6 +107,48 @@ final class ListViewController: UIViewController, ViewModelBindable {
 
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: "삭제"
+        ) { [weak self] _, _, completion in
+            self?.viewModel?.deleteAction(indexPath: indexPath)
+            completion(true)
+        }
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
+        return swipeActions
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let favoriteAction = UIContextualAction(
+            style: .normal,
+            title: nil,
+            handler: { [weak self] _, _, completion in
+                self?.viewModel?.favoriteAction(indexPath: indexPath)
+                completion(true)
+            }
+        )
+        
+        let label = UILabel(text: "즐겨찾기", font: .preferredFont(forTextStyle: .body))
+        label.textColor = ConstantColor.cellColor
+        label.backgroundColor = .systemYellow
+        label.sizeToFit()
+        
+        favoriteAction.backgroundColor = .systemYellow
+        favoriteAction.image = UIImage(view: label)
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [favoriteAction])
+        
+        return swipeActions
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = viewModel?.dataSource[section]
         

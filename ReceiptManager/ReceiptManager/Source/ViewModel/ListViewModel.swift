@@ -15,6 +15,7 @@ typealias ReceiptSectionModel = AnimatableSectionModel<String, Receipt>
 final class ListViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
+    private let disposeBag = DisposeBag()
     private let calendar = Calendar.current
     
     private let currentDateRelay = BehaviorRelay<Date>(value: Date())
@@ -88,8 +89,27 @@ final class ListViewModel: CommonViewModel {
         let composeScene = Scene.compose(composeViewModel)
         sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
     }
-
-    func deleteAction(receipt: Receipt) {
-        storage.delete(receipt: receipt)
+    
+    func deleteAction(indexPath: IndexPath) {
+        receiptList
+            .take(1)
+            .map { $0[indexPath.section].items }
+            .subscribe(onNext: { [weak self] items in
+                let receipt = items[indexPath.row]
+                self?.storage.delete(receipt: receipt)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func favoriteAction(indexPath: IndexPath) {
+        receiptList
+            .take(1)
+            .map { $0[indexPath.section].items }
+            .subscribe(onNext: { [weak self] items in
+                var receipt = items[indexPath.row]
+                receipt.isFavorite.toggle()
+                self?.storage.upsert(receipt: receipt)
+            })
+            .disposed(by: disposeBag)
     }
 }
