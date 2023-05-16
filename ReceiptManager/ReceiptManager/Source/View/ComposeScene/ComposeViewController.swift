@@ -184,7 +184,7 @@ extension ComposeViewController {
         viewModel?.saveAction(
             store: storeTextField.text,
             product: productNameTextField.text,
-            price: Int(priceTextField.text ?? "0"),
+            price: Int(priceTextField.text?.replacingOccurrences(of: ",", with: "") ?? "0"),
             date: datePicker.date,
             payType: PayType(rawValue: payTypeSegmented.selectedSegmentIndex) ?? .cash,
             memo: memoTextView.text,
