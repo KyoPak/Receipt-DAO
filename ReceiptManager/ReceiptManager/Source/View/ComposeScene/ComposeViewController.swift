@@ -11,70 +11,69 @@ import RxCocoa
 import NSObject_Rx
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
-    private let picker = UIImagePickerController()
-    
     var viewModel: ComposeViewModel?
     
-    let datePicker = UIDatePicker()
+    private let picker = UIImagePickerController()
+    private let datePicker = UIDatePicker()
     
     private let dateLabel = UILabel(text: "날짜", font: .preferredFont(forTextStyle: .body))
     private let storeLabel = UILabel(text: "상호명", font: .preferredFont(forTextStyle: .body))
     private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
     private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
+    private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     
-    private let storeTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.placeholder = ConstantPlaceHolder.input
-        textField.tintColor = ConstantColor.registerColor
-        textField.backgroundColor = ConstantColor.cellColor
-        textField.borderStyle = .roundedRect
-        
-        return textField
-    }()
+    private let storeTextField = UITextField(
+        textColor: .white,
+        placeholder: ConstantPlaceHolder.input,
+        tintColor: ConstantColor.registerColor,
+        backgroundColor: ConstantColor.cellColor
+    )
     
-    private lazy var storeStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [storeLabel, storeTextField])
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        
-        return stackView
-    }()
+    private let productNameTextField = UITextField(
+        textColor: .white,
+        placeholder: ConstantPlaceHolder.input,
+        tintColor: ConstantColor.registerColor,
+        backgroundColor: ConstantColor.cellColor
+    )
     
-    private let productNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.placeholder = ConstantPlaceHolder.input
-        textField.tintColor = ConstantColor.registerColor
-        textField.backgroundColor = ConstantColor.cellColor
-        textField.borderStyle = .roundedRect
-        
-        return textField
-    }()
+    private let priceTextField = UITextField(
+        textColor: .white,
+        placeholder: ConstantPlaceHolder.input,
+        tintColor: ConstantColor.registerColor,
+        backgroundColor: ConstantColor.cellColor
+    )
     
-    private lazy var productStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [productLabel, productNameTextField])
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        
-        return stackView
-    }()
+    private lazy var storeStackView = UIStackView(
+        subViews: [storeLabel, storeTextField],
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
     
-    private let priceTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.placeholder = ConstantPlaceHolder.input
-        textField.tintColor = ConstantColor.registerColor
-        textField.backgroundColor = ConstantColor.cellColor
-        textField.borderStyle = .roundedRect
-        textField.keyboardType = .numberPad
-        
-        return textField
-    }()
+    private lazy var productStackView = UIStackView(
+        subViews: [productLabel, productNameTextField],
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
+    
+    private lazy var priceStackView = UIStackView(
+        subViews: [priceLabel, priceTextField, payTypeSegmented],
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
+    
+    private lazy var mainStackView = UIStackView(
+        subViews: [storeStackView, productStackView, priceStackView],
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
     
     private let payTypeSegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["현금", "카드"])
@@ -86,19 +85,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         return segment
     }()
     
-    private lazy var priceStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [priceLabel, priceTextField, payTypeSegmented])
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        
-        return stackView
-    }()
-    
-    private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
-    
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
@@ -124,16 +111,6 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         textView.backgroundColor = ConstantColor.cellColor
         
         return textView
-    }()
-    
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [storeStackView, productStackView, priceStackView])
-        stackView.spacing = 10
-        stackView.distribution = .fill
-        stackView.alignment = .fill
-        stackView.axis = .vertical
-        
-        return stackView
     }()
     
     override func viewDidLoad() {
@@ -278,7 +255,7 @@ extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
 
 // MARK: - KeyBoard Response Notification, About KeyBoard
 extension ComposeViewController {
-    func createKeyboardDownButton() {
+    private func createKeyboardDownButton() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
@@ -286,7 +263,7 @@ extension ComposeViewController {
         let doneButton = UIBarButtonItem(
             image: UIImage(systemName: "keyboard.chevron.compact.down"),
             style: .done,
-            target: nil,
+            target: self,
             action: #selector(keyboardDone)
         )
         
@@ -300,7 +277,7 @@ extension ComposeViewController {
         view.endEditing(true)
     }
     
-    func setupNotification() {
+    private func setupNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -397,8 +374,11 @@ extension ComposeViewController {
             .forEach(view.addSubview(_:))
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
+            $0.delegate = self
+            $0.borderStyle = .roundedRect
         }
-        [storeTextField, productNameTextField, priceTextField].forEach { $0.delegate = self }
+        
+        priceTextField.keyboardType = .numberPad
         memoTextView.delegate = self
     }
     
@@ -429,7 +409,7 @@ extension ComposeViewController {
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalToConstant: 100),
             
-            memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 20),
+            memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
