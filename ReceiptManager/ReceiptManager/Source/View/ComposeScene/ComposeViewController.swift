@@ -72,7 +72,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         axis: .vertical,
         alignment: .fill,
         distribution: .fill,
-        spacing: 10
+        spacing: 20
     )
     
     private let payTypeSegmented: UISegmentedControl = {
@@ -419,7 +419,7 @@ extension ComposeViewController {
             countLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
-            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalToConstant: 100),
