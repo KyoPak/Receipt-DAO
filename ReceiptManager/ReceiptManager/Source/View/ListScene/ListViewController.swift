@@ -100,6 +100,15 @@ final class ListViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
+        // Swipe Binding
+        tableView.rx.modelDeleted(Receipt.self)
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asObservable()
+            .bind { receipt in
+                viewModel.deleteAction(receipt: receipt)
+            }
+            .disposed(by: rx.disposeBag)
+        
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }

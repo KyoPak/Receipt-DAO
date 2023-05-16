@@ -88,4 +88,8 @@ final class ListViewModel: CommonViewModel {
         let composeScene = Scene.compose(composeViewModel)
         sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
     }
+
+    func deleteAction(receipt: Receipt) {
+        storage.delete(receipt: receipt)
+    }
 }
