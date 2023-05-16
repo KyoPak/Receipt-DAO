@@ -12,15 +12,6 @@ import RxCocoa
 
 typealias ReceiptSectionModel = AnimatableSectionModel<String, Receipt>
 
-extension DateFormatter {
-    static let standard = DateFormatter()
-    
-    static func string(from date: Date, _ format: String = "yyyy년 MM월") -> String {
-        standard.dateFormat = format
-        return standard.string(from: date)
-    }
-}
-
 final class ListViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
