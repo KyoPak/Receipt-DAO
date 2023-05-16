@@ -12,7 +12,7 @@ import RxSwift
 import RxCoreData
 
 struct Receipt: Hashable, IdentifiableType {
-    var identity: String = UUID().description   // 구분자
+    var identity: String    // 구분자
     
     var store: String           // 상호명
     var price: Int              // 가격
@@ -33,6 +33,7 @@ struct Receipt: Hashable, IdentifiableType {
         memo: String = "",
         isFavorite: Bool = false
     ) {
+        self.identity = UUID().description   // 구분자
         self.store = store
         self.price = price
         self.product = product
@@ -66,6 +67,7 @@ extension Receipt: Persistable {
     }
     
     func update(_ entity: NSManagedObject) {
+        entity.setValue(identity, forKey: "identity")
         entity.setValue(store, forKey: "store")
         entity.setValue(price, forKey: "price")
         entity.setValue(product, forKey: "product")
