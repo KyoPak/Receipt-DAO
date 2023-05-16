@@ -96,6 +96,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         return stackView
     }()
     
+    private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -105,15 +107,19 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
+        collectionView.layer.cornerRadius = 10
         collectionView.backgroundColor = ConstantColor.cellColor
+        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
-
+        
         return collectionView
     }()
     
     private let memoTextView: UITextView = {
         let textView = UITextView()
+        textView.layer.cornerRadius = 10
+        textView.textColor = .lightGray
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
         
@@ -134,6 +140,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         super.viewDidLoad()
         setupView()
         setupFirstCell()
+        setupNotification()
         setupNavigationBar()
         setupDatePicker()
         setupConstraints()
@@ -148,7 +155,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             let configuration = UIImage.SymbolConfiguration(weight: .ultraLight)
             let thinImage = image.withConfiguration(configuration)
             let tintedThinImage = thinImage.withTintColor(.lightGray)
-
+            
             return tintedThinImage
         }()
         
@@ -168,10 +175,18 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             }
             .disposed(by: rx.disposeBag)
         
+        viewModel?.receiptData
+            .map { datas in
+                return "사진 등록 \(datas.count - 1)/5"
+            }
+            .asDriver(onErrorJustReturn: "")
+            .drive(countLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
-
+                
                 let currentDataCount = (try? self.viewModel?.receiptData.value().count) ?? .zero
                 if index.row == .zero && currentDataCount < 6 {
                     self.uploadImageCell(true)
@@ -238,28 +253,91 @@ extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerCo
     }
 }
 
+// MARK: - TextField, TextViewDelagate
+extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .white
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = ConstantPlaceHolder.memo
+            textView.textColor = .lightGray
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+}
+
+// MARK: - KeyBoard Response Notification
 extension ComposeViewController {
-    func uploadImageCell(_ isShowPicker: Bool) {
+    func setupNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        keyboardWillHide()
+        if let keyboardFrame: NSValue = notification.userInfo?[
+            UIResponder.keyboardFrameEndUserInfoKey
+        ] as? NSValue, memoTextView.isFirstResponder {
+            
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            UIView.animate(withDuration: 0.5) {
+                self.view.frame.origin.y -= keyboardHeight
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        if view.frame.origin.y != 0 {
+            UIView.animate(withDuration: 0.5) {
+                self.view.frame.origin.y = 0
+            }
+        }
+    }
+}
+
+// MARK: - uploadImageCell
+extension ComposeViewController {
+    private func uploadImageCell(_ isShowPicker: Bool) {
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
-
+        
         let alert = UIAlertController(
             title: "영수증 사진선택",
             message: "업로드할 영수증을 선택해주세요.",
             preferredStyle: .actionSheet
         )
-
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
             self.picker.allowsEditing = false
             self.present(self.picker, animated: true, completion: nil)
         }
-
+        
         let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
             self.picker.allowsEditing = true
             self.present(self.picker, animated: true, completion: nil)
         }
-
+        
         [rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
         present(alert, animated: true, completion: nil)
     }
@@ -289,13 +367,16 @@ extension ComposeViewController {
     private func setupView() {
         picker.delegate = self
         view.backgroundColor = ConstantColor.backGrouncColor
-        [datePicker, mainStackView, collectionView].forEach {
+        [datePicker, mainStackView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [dateLabel, datePicker, mainStackView, collectionView].forEach(view.addSubview(_:))
+        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView]
+            .forEach(view.addSubview(_:))
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
         }
+        [storeTextField, productNameTextField, priceTextField].forEach { $0.delegate = self }
+        memoTextView.delegate = self
     }
     
     private func setupConstraints() {
@@ -316,10 +397,19 @@ extension ComposeViewController {
             mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
-            collectionView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+            countLabel.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+            countLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            
+            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 100)
+            collectionView.heightAnchor.constraint(equalToConstant: 100),
+            
+            memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 20),
+            memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
         ])
     }
 }
