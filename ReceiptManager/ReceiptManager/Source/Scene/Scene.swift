@@ -35,11 +35,9 @@ extension Scene {
             return viewController
         case .compose(let composeViewModel):
             let viewController = ComposeViewController()
-            let navigation = UINavigationController(rootViewController: viewController)
-            
             viewController.bind(viewModel: composeViewModel)
-            navigation.modalPresentationStyle = .fullScreen
-            return navigation
+
+            return viewController
         case .detail(let detailViewModel):
             let viewController = DetailViewController()
             viewController.bind(viewModel: detailViewModel)

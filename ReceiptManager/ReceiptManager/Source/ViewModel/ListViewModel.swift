@@ -77,4 +77,15 @@ final class ListViewModel: CommonViewModel {
         let nowDate = Date()
         currentDateRelay.accept(nowDate)
     }
+    
+    func moveRegisterAction() {
+        let composeViewModel = ComposeViewModel(
+            title: "등록하기",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let composeScene = Scene.compose(composeViewModel)
+        sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
+    }
 }

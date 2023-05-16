@@ -136,6 +136,13 @@ extension ListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Action
+extension ListViewController {
+    @objc private func registerButtonTapped() {
+        viewModel?.moveRegisterAction()
+    }
+}
+
 // MARK: - UIConstraint
 extension ListViewController {
     private func setupNavigationBar() {
@@ -149,6 +156,13 @@ extension ListViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.backItem?.title = "뒤로가기"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "등록",
+            style: .done,
+            target: self,
+            action: #selector(registerButtonTapped)
+        )
     }
     
     private func setupView() {
