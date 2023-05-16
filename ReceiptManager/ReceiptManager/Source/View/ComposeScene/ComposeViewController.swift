@@ -144,6 +144,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         setupNavigationBar()
         setupDatePicker()
         setupConstraints()
+        createKeyboardDownButton()
     }
     
     func setupFirstCell() {
@@ -275,8 +276,30 @@ extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
     }
 }
 
-// MARK: - KeyBoard Response Notification
+// MARK: - KeyBoard Response Notification, About KeyBoard
 extension ComposeViewController {
+    func createKeyboardDownButton() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(
+            image: UIImage(systemName: "keyboard.chevron.compact.down"),
+            style: .done,
+            target: nil,
+            action: #selector(keyboardDone)
+        )
+        
+        doneButton.tintColor = .black
+        
+        toolbar.setItems([flexSpace, doneButton], animated: false)
+        memoTextView.inputAccessoryView = toolbar
+    }
+    
+    @objc func keyboardDone() {
+        view.endEditing(true)
+    }
+    
     func setupNotification() {
         NotificationCenter.default.addObserver(
             self,
