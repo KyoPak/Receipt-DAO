@@ -69,7 +69,8 @@ final class ComposeViewModel: CommonViewModel {
         memo: String?,
         receiptData: [Data]
     ) {
-        let receiptData = (try? self.receiptData.value()) ?? []
+        var receiptData = (try? self.receiptData.value()) ?? []
+        receiptData.removeFirst()
         
         let saveData = Receipt(
             store: store ?? "",
