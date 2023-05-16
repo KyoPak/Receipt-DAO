@@ -10,57 +10,15 @@ import UIKit
 final class ListTableViewCell: UITableViewCell {
     private let payImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = ConstantColor.favoriteColor
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "wonsign.square.fill")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
     
-    private lazy var mainInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [storeLabel, productNameLabel])
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        stackView.alignment = .fill
-        
-        return stackView
-    }()
-    
-    private let productNameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private let storeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private lazy var subInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [priceLabel, detailButton])
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        stackView.alignment = .fill
-        
-        return stackView
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
+    private let productNameLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     
     private let detailButton: UIButton = {
         let button = UIButton()
@@ -69,6 +27,22 @@ final class ListTableViewCell: UITableViewCell {
         
         return button
     }()
+    
+    private lazy var mainInfoStackView = UIStackView(
+        subViews: [storeLabel, productNameLabel],
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
+
+    private lazy var subInfoStackView = UIStackView(
+        subViews: [priceLabel, detailButton],
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 10
+    )
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -82,7 +56,7 @@ final class ListTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        payImageView.tintColor = ConstantColor.favoriteColor
+        payImageView.tintColor = nil
     }
     
     func setupData(data: Receipt) {
@@ -96,6 +70,9 @@ final class ListTableViewCell: UITableViewCell {
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor
             payImageView.image = UIImage(systemName: "creditcard.fill")
+        } else {
+            payImageView.tintColor = ConstantColor.favoriteColor
+            payImageView.image = UIImage(systemName: "wonsign.square.fill")
         }
     }
 }
@@ -108,9 +85,6 @@ extension ListTableViewCell {
         layer.borderWidth = 1
         layer.cornerRadius = 5
         
-        [payImageView, mainInfoStackView, subInfoStackView].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
         [payImageView, mainInfoStackView, subInfoStackView].forEach(contentView.addSubview(_:))
     }
     
