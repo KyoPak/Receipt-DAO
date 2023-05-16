@@ -15,7 +15,7 @@ typealias ReceiptSectionModel = AnimatableSectionModel<String, Receipt>
 extension DateFormatter {
     static let standard = DateFormatter()
     
-    static func string(from date: Date, format: String) -> String {
+    static func string(from date: Date, _ format: String = "yyyy년 MM월") -> String {
         standard.dateFormat = format
         return standard.string(from: date)
     }
@@ -27,12 +27,16 @@ final class ListViewModel: CommonViewModel {
     private let calendar = Calendar.current
     
     private let currentDateRelay = BehaviorRelay<Date>(value: Date())
+    
     var currentDate: Driver<Date> {
         return currentDateRelay.asDriver()
     }
     
     var receiptList: Observable<[ReceiptSectionModel]> {
-        return storage.fetch()
+        return currentDateRelay
+            .flatMapLatest { [weak self] currentDate in
+                self?.updateReceiptList(for: currentDate) ?? .empty()
+            }
     }
     
     let dataSource: TableViewDataSource = {
@@ -53,6 +57,18 @@ final class ListViewModel: CommonViewModel {
         
         return dataSource
     }()
+    
+    private func updateReceiptList(for currentDate: Date) -> Observable<[ReceiptSectionModel]> {
+        return storage.fetch()
+            .map { receiptSectionModels in
+                return receiptSectionModels.filter { sectionModel in
+                    return sectionModel.items.contains { receipt in
+                        let receiptDate = DateFormatter.string(from: receipt.receiptDate)
+                        return receiptDate == DateFormatter.string(from: currentDate)
+                    }
+                }
+            }
+    }
     
     func movePriviousAction() {
         let previousDate = calendar

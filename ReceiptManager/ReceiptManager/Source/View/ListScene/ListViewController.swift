@@ -76,7 +76,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
         
         viewModel.currentDate
             .map({ date in
-                return DateFormatter.string(from: date, format: "yyyy년 MM월")
+                return DateFormatter.string(from: date)
             })
             .drive(monthLabel.rx.text)
             .disposed(by: rx.disposeBag)
