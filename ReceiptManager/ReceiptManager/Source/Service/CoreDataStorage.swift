@@ -57,10 +57,10 @@ final class CoreDataStorage: ReceiptStorage {
             })
             
             let section = dictionary.sorted { return $0.key > $1.key }
-            .map { (key, value) in
-                return ReceiptSectionModel(model: key, items: value)
-            }
-                              
+                .map { (key, value) in
+                    return ReceiptSectionModel(model: key, items: value)
+                }
+            
             return section
         }
     }
