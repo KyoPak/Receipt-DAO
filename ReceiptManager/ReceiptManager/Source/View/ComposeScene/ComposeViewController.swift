@@ -106,8 +106,9 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+        collectionView.backgroundColor = ConstantColor.cellColor
+        collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+
         return collectionView
     }()
     
@@ -140,9 +141,15 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     func setupFirstCell() {
         let addImage: UIImage = {
-            guard let image = UIImage(systemName: "photo.circle") else { return UIImage() }
+            guard let image = UIImage(systemName: "photo.circle")?.withTintColor(.lightGray) else {
+                return UIImage()
+            }
             
-            return image
+            let configuration = UIImage.SymbolConfiguration(weight: .ultraLight)
+            let thinImage = image.withConfiguration(configuration)
+            let tintedThinImage = thinImage.withTintColor(.lightGray)
+
+            return tintedThinImage
         }()
         
         viewModel?.addReceiptData(addImage.pngData())
@@ -156,6 +163,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         viewModel?.receiptData
             .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
+                
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)

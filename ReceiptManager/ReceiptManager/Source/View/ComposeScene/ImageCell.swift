@@ -36,8 +36,10 @@ extension ImageCell {
 // MARK: - Constraints
 extension ImageCell {
     private func setupView() {
-        contentView.backgroundColor = ConstantColor.favoriteColor
+        contentView.backgroundColor = ConstantColor.cellColor
         contentView.addSubview(imageView)
+        contentView.layer.borderWidth = 1
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     private func setupConstraints() {
