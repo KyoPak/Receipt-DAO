@@ -233,6 +233,21 @@ extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerCo
 
 // MARK: - TextField, TextViewDelagate
 extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == priceTextField {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            
+            if let input = textField.text?.replacingOccurrences(of: ",", with: "") {
+                if let number = formatter.number(from: input) {
+                    textField.text = formatter.string(from: number)
+                } else {
+                    textField.text = ""
+                }
+            }
+        }
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .lightGray {
             textView.text = nil
@@ -414,5 +429,9 @@ extension ComposeViewController {
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
         ])
+        
+        priceTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        payTypeSegmented.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        payTypeSegmented.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 }
