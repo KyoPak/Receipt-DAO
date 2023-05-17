@@ -90,6 +90,18 @@ final class ListViewModel: CommonViewModel {
         sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
     }
     
+    func moveDetailAction(receipt: Receipt) {
+        let detailViewModel = DetailViewModel(
+            receipt: receipt,
+            title: "",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let detailScene = Scene.detail(detailViewModel)
+        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
+    }
+    
     func deleteAction(indexPath: IndexPath) {
         receiptList
             .take(1)

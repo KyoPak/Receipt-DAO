@@ -81,6 +81,17 @@ final class ListViewController: UIViewController, ViewModelBindable {
             .drive(monthLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (viewController, data) in
+                viewController.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveDetailAction(receipt: $0)
+            })
+            .disposed(by: rx.disposeBag)
+            
         // Button Binding
         previousButton.rx.tap
             .subscribe(onNext: { [weak self] in
