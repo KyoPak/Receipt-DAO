@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C20CEF22A0AA81E00F9A176 /* ConstantPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */; };
 		3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */; };
 		3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */; };
 		3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */; };
 		3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */; };
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
+		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
+		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
+		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
 		3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */; };
 		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
 		3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */; };
@@ -29,6 +33,12 @@
 		3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3602A01306C0014807B /* DetailViewModel.swift */; };
 		3C9AA3632A0130FA0014807B /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3622A0130FA0014807B /* Scene.swift */; };
 		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
+		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
+		3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */; };
+		3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */; };
+		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
+		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
+		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
 		3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */; };
 		3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */; };
 		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
@@ -41,6 +51,7 @@
 /* Begin PBXFileReference section */
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
+		3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantPlaceHolder.swift; sourceTree = "<group>"; };
 		3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +60,9 @@
 		3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
+		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
 		3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
 		3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -65,6 +79,12 @@
 		3C9AA3602A01306C0014807B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3622A0130FA0014807B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
+		3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
+		3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
@@ -114,10 +134,20 @@
 			path = ReceiptManager;
 			sourceTree = "<group>";
 		};
+		3C56C65D2A0963960058869C /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				3C56C65D2A0963960058869C /* Protocol */,
 				3C9AA3442A0117C10014807B /* Extension */,
+				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -126,6 +156,12 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA3452A0117D60014807B /* UIButton+Extension.swift */,
+				3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */,
+				3CC893B62A0CC06900055872 /* UILabel+Extension.swift */,
+				3CC893B82A0CC07400055872 /* UITextField+Extension.swift */,
+				3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */,
+				3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */,
+				3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -145,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA34F2A012FC20014807B /* ListViewController.swift */,
+				3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */,
 			);
 			path = ListScene;
 			sourceTree = "<group>";
@@ -161,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA3582A0130310014807B /* ComposeViewController.swift */,
+				3CC893BA2A0CCCDB00055872 /* ImageCell.swift */,
 			);
 			path = ComposeScene;
 			sourceTree = "<group>";
@@ -412,29 +450,39 @@
 			files = (
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3C9AA34B2A012EDA0014807B /* Transition.swift in Sources */,
+				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
+				3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */,
 				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
 				3C9AA3532A012FE60014807B /* FavoriteListViewController.swift in Sources */,
+				3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */,
 				3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
 				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
+				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
+				3C20CEF22A0AA81E00F9A176 /* ConstantPlaceHolder.swift in Sources */,
+				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
+				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
+				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
 				3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */,
+				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
 				3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,
 				3C9AA3482A012C880014807B /* TitleView.swift in Sources */,
+				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

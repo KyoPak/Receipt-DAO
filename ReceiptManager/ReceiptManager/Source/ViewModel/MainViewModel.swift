@@ -23,4 +23,15 @@ final class MainViewModel: CommonViewModel {
         let listScene = Scene.list(listViewModel)
         sceneCoordinator.transition(to: listScene, using: .push, animated: true)
     }
+    
+    func moveRegisterAction() {
+        let composeViewModel = ComposeViewModel(
+            title: "등록하기",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let composeScene = Scene.compose(composeViewModel)
+        sceneCoordinator.transition(to: composeScene, using: .modal, animated: true)
+    }
 }

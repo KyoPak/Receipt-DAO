@@ -18,15 +18,15 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("목록", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("내 영수증", for: .normal)
+        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: "list.bullet", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(red: 42/255, green: 201/255, blue: 231/255, alpha: 1)
+        button.backgroundColor = ConstantColor.listColor
         
         return button
     }()
@@ -35,32 +35,32 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("즐겨찾기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("특별한 영수증", for: .normal)
+        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: "star", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(red: 203/255, green: 190/255, blue: 215/255, alpha: 1)
+        button.backgroundColor = ConstantColor.favoriteColor
         
         return button
     }()
     
-    private let addButton: UIButton = {
+    private let registerButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("등록", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("보관하기", for: .normal)
+        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(red: 197/255, green: 235/255, blue: 167/255, alpha: 1)
+        button.backgroundColor = ConstantColor.registerColor
         
         return button
     }()
@@ -72,7 +72,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .none)
-        label.backgroundColor = UIColor(red: 36/255, green: 52/255, blue: 78/255, alpha: 1)
+        label.backgroundColor = ConstantColor.cellColor
         
         return label
     }()
@@ -94,17 +94,23 @@ final class MainViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         listButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-            self.viewModel?.moveListAction()
+            .subscribe(onNext: { [weak self] in
+            self?.viewModel?.moveListAction()
         })
         .disposed(by: rx.disposeBag)
+        
+        registerButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveRegisterAction()
+            })
+            .disposed(by: rx.disposeBag)
         
         viewModel?.receiptList
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { receiptSectionModels in
                 var filterCount = 0
                 
-                var formatter = DateFormatter()
+                let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy년 MM월"
                 
                 for receiptSectionModel in receiptSectionModels {
@@ -128,11 +134,11 @@ extension MainViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = UIColor(red: 25/255, green: 41/255, blue: 67/255, alpha: 1)
-        [titleView, listButton, favoriteListButton, addButton, monthSpendingLabel].forEach {
+        view.backgroundColor = ConstantColor.backGrouncColor
+        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [titleView, listButton, favoriteListButton, addButton, monthSpendingLabel]
+        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel]
             .forEach(view.addSubview(_:))
     }
     
@@ -153,12 +159,12 @@ extension MainViewController {
             favoriteListButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
             favoriteListButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
             
-            addButton.topAnchor.constraint(equalTo: favoriteListButton.bottomAnchor, constant: 30),
-            addButton.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
-            addButton.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
-            addButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            registerButton.topAnchor.constraint(equalTo: favoriteListButton.bottomAnchor, constant: 30),
+            registerButton.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
+            registerButton.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
+            registerButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
             
-            monthSpendingLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 50),
+            monthSpendingLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 50),
             monthSpendingLabel.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
             monthSpendingLabel.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
             monthSpendingLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1)

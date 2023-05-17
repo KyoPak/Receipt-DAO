@@ -57,11 +57,14 @@ final class DefaultSceneCoordinator: SceneCoordinator {
             
             subject.onCompleted()
         case .modal:
-            currentViewController.present(moveTarget, animated: animated) {
+            let navigation = UINavigationController(rootViewController: moveTarget)
+            navigation.modalPresentationStyle = .fullScreen
+            
+            currentViewController.present(navigation, animated: animated) {
                 subject.onCompleted()
             }
             
-            currentViewController = moveTarget.sceneViewController
+            currentViewController = navigation.sceneViewController
         }
         
         return subject.asCompletable()
