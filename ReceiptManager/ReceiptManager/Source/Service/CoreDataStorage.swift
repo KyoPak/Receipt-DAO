@@ -10,6 +10,11 @@ import CoreData
 import RxSwift
 import RxCoreData
 
+enum FetchType {
+    case day
+    case month
+}
+
 final class CoreDataStorage: ReceiptStorage {
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
@@ -43,15 +48,18 @@ final class CoreDataStorage: ReceiptStorage {
         }
     }
     
-    func fetch() -> Observable<[ReceiptSectionModel]> {
+    func fetch(type: FetchType) -> Observable<[ReceiptSectionModel]> {
         return mainContext.rx.entities(
             Receipt.self,
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .map { result in
+            var dayFormat = "yyyy년 MM월 dd일"
+            if type == .month { dayFormat = "yyyy년 MM월" }
+            
             let dictionary = Dictionary(
                 grouping: result,
-                by: { DateFormatter.string(from: $0.receiptDate, "yyyy년 MM월 dd일") }
+                by: { DateFormatter.string(from: $0.receiptDate, dayFormat) }
             )
             
             let section = dictionary.sorted { return $0.key > $1.key }

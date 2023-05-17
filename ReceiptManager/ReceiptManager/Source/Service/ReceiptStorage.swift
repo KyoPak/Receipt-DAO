@@ -13,7 +13,7 @@ protocol ReceiptStorage {
     func upsert(receipt: Receipt) -> Observable<Receipt>
     
     @discardableResult
-    func fetch() -> Observable<[ReceiptSectionModel]>
+    func fetch(type: FetchType) -> Observable<[ReceiptSectionModel]>
     
     @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt>

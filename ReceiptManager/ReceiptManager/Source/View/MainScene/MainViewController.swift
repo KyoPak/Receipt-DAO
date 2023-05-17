@@ -111,23 +111,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptList
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { receiptSectionModels in
-                var filterCount = 0
-                
-                let formatter = DateFormatter()
-                
-                for receiptSectionModel in receiptSectionModels {
-                    for receipt in receiptSectionModel.items
-                    where formatter.string(from: receipt.receiptDate) == formatter.string(from: Date()) {
-                        filterCount += 1
-                    }
-                }
-                
-                let dateString = formatter.string(from: Date())
-                self.monthSpendingLabel.text = dateString + " 영수증은 \(filterCount)건 입니다."
-            })
+        viewModel?.receiptCountText
+            .drive(monthSpendingLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
 }

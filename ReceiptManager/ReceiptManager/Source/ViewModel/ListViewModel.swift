@@ -51,7 +51,7 @@ final class ListViewModel: CommonViewModel {
     }()
     
     private func updateReceiptList(for currentDate: Date) -> Observable<[ReceiptSectionModel]> {
-        return storage.fetch()
+        return storage.fetch(type: .day)
             .map { receiptSectionModels in
                 return receiptSectionModels.filter { sectionModel in
                     return sectionModel.items.contains { receipt in
