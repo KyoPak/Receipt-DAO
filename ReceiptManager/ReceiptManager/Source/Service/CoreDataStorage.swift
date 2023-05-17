@@ -49,12 +49,10 @@ final class CoreDataStorage: ReceiptStorage {
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .map { result in
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-            
-            let dictionary = Dictionary(grouping: result, by: {
-                dateFormatter.string(from: $0.receiptDate)
-            })
+            let dictionary = Dictionary(
+                grouping: result,
+                by: { DateFormatter.string(from: $0.receiptDate, "yyyy년 MM월 dd일") }
+            )
             
             let section = dictionary.sorted { return $0.key > $1.key }
                 .map { (key, value) in
