@@ -105,13 +105,18 @@ final class MainViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
+        favoriteListButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveFavoriteAction()
+            })
+            .disposed(by: rx.disposeBag)
+        
         viewModel?.receiptList
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { receiptSectionModels in
                 var filterCount = 0
                 
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy년 MM월"
                 
                 for receiptSectionModel in receiptSectionModels {
                     for receipt in receiptSectionModel.items

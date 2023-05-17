@@ -34,4 +34,15 @@ final class MainViewModel: CommonViewModel {
         let composeScene = Scene.compose(composeViewModel)
         sceneCoordinator.transition(to: composeScene, using: .modal, animated: true)
     }
+    
+    func moveFavoriteAction() {
+        let favoriteViewModel = FavoriteListViewModel(
+            title: "즐겨찾기",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let favoriteScene = Scene.favorite(favoriteViewModel)
+        sceneCoordinator.transition(to: favoriteScene, using: .push, animated: true)
+    }
 }
