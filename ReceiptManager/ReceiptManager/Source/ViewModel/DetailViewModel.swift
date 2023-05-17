@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 final class DetailViewModel: CommonViewModel {
     var receipt: Receipt
+    var receiptData: BehaviorSubject<[Data]>
     
     init(receipt: Receipt,
          title: String,
@@ -16,6 +19,8 @@ final class DetailViewModel: CommonViewModel {
          storage: ReceiptStorage
     ) {
         self.receipt = receipt
+        receiptData = BehaviorSubject<[Data]>(value: receipt.receiptData)
+        
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
 }

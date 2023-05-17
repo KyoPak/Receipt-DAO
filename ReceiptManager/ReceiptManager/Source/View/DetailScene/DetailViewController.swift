@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
-        let collectionCellWidth = UIScreen.main.bounds.width - 20
+        let collectionCellWidth = UIScreen.main.bounds.width * 0.7
         
         layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         
@@ -31,7 +31,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     private let dateLabel = UILabel(text: "날짜", font: .preferredFont(forTextStyle: .body))
     private let storeLabel = UILabel(text: "상호명", font: .preferredFont(forTextStyle: .body))
     private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(text: "가격", font: .boldSystemFont(ofSize: 17))
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     
     private let payTypeSegmented: UISegmentedControl = {
@@ -51,7 +51,6 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         textView.layer.cornerRadius = 10
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
         
         return textView
@@ -81,7 +80,22 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
+        viewModel?.receiptData
+            .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+            ) { indexPath, data, cell in
+                cell.setupReceiptImage(data)
+            }
+            .disposed(by: rx.disposeBag)
         
+        dateLabel.text = DateFormatter.string(
+            from: viewModel?.receipt.receiptDate ?? Date(),
+            "yyyy년 MM월 dd일"
+        )
+        storeLabel.text = viewModel?.receipt.store
+        productLabel.text = viewModel?.receipt.product
+        priceLabel.text = NumberFormatter.numberDecimal(from: viewModel?.receipt.price ?? .zero) + " 원"
+        payTypeSegmented.selectedSegmentIndex = viewModel?.receipt.paymentType ?? .zero
+        memoTextView.text = viewModel?.receipt.memo
     }
 }
 
@@ -115,6 +129,7 @@ extension DetailViewController {
     
     private func setupView() {
         view.backgroundColor = ConstantColor.backGrouncColor
+        priceLabel.textColor = ConstantColor.registerColor
         [payTypeSegmented, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
