@@ -8,7 +8,6 @@
 import UIKit
 
 final class DetailViewController: UIViewController, ViewModelBindable {
-    
     var viewModel: DetailViewModel?
     
     private let collectionView: UICollectionView = {
@@ -168,20 +167,28 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Activity View
 extension UIViewController {
     func presentActivityView(data: Receipt?) {
-        guard let imageData = data?.receiptData else { return }
+        guard let datas = data?.receiptData else { return }
+        
+        var imageDatas: [UIImage] = []
+        
+        for data in datas {
+            if let image = UIImage(data: data) {
+                imageDatas.append(image)
+            }
+        }
         
         let activiyController = UIActivityViewController(
-            activityItems: [imageData],
+            activityItems: imageDatas,
             applicationActivities: nil
         )
         
         activiyController.excludedActivityTypes = [
             .addToReadingList,
             .assignToContact,
-            .openInIBooks,
-            .saveToCameraRoll
+            .openInIBooks
         ]
         
         present(activiyController, animated: true, completion: nil)
