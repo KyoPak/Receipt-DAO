@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import AVFoundation
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
@@ -154,8 +155,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 self?.storeTextField.text = receipt.store
                 self?.productNameTextField.text = receipt.product
                 
-                var price = NumberFormatter.numberDecimal(from: receipt.price)
-                var priceText = price == "0" ? "" : price
+                let price = NumberFormatter.numberDecimal(from: receipt.price)
+                let priceText = price == "0" ? "" : price
                 self?.priceTextField.text = priceText
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
@@ -177,7 +178,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
-                
+        
         // UI의 Data를 ViewModel에 바인딩
         datePicker.rx.date
             .subscribe(onNext: { [weak self] datePickerDate in
@@ -385,12 +386,29 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - uploadImageCell
+// MARK: - UploadImageCell and Confirm Auth
 extension ComposeViewController {
-    private func uploadImageCell(_ isShowPicker: Bool) {
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = true
+    private func openCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .authorized {
+            picker.sourceType = .camera
+            present(self.picker, animated: true, completion: nil)
+        } else if status == .denied || status == .restricted {
+            requestCameraPermission()
+        } else {
+            picker.sourceType = .camera
+            present(self.picker, animated: true, completion: nil)
+        }
+    }
+    
+    private func openLibraray(isEdit: Bool) {
+        requestCameraPermission()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = isEdit
         
+    }
+    
+    private func uploadImageCell(_ isShowPicker: Bool) {
         let alert = UIAlertController(
             title: "영수증 사진선택",
             message: "업로드할 영수증을 선택해주세요.",
@@ -398,18 +416,51 @@ extension ComposeViewController {
         )
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
+            self.openCamera()
+        }
+        
         let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
-            self.picker.allowsEditing = false
-            self.present(self.picker, animated: true, completion: nil)
+            self.openLibraray(isEdit: false)
         }
         
         let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
-            self.picker.allowsEditing = true
-            self.present(self.picker, animated: true, completion: nil)
+            self.openLibraray(isEdit: true)
         }
         
-        [rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
+        [cameraAction, rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func requestCameraPermission() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch status {
+        case .authorized:
+            break
+        case .denied, .restricted:
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(
+                    title: "카메라 권한 필요",
+                    message: "카메라에 접근하여 사진을 찍을 수 있도록 허용해주세요.",
+                    preferredStyle: .alert
+                )
+                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                
+                alertController.addAction(settingsAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
 }
 
