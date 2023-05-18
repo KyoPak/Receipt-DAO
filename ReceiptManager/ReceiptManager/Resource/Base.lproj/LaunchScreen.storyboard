@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultReceipt" translatesAutoresizingMaskIntoConstraints="NO" id="c8a-d1-M0A">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LauchImage" translatesAutoresizingMaskIntoConstraints="NO" id="c8a-d1-M0A">
                                 <rect key="frame" x="70" y="259" width="253" height="359"/>
                             </imageView>
                         </subviews>
@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DefaultReceipt" width="96" height="96"/>
+        <image name="LauchImage" width="96" height="96"/>
     </resources>
 </document>
