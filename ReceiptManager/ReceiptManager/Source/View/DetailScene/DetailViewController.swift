@@ -84,16 +84,13 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         setupConstraints()
     }
     
-    func bindViewModel() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        scrollToFirstItem()
         changePageLabel(page: 1)
-        
-        viewModel?.receiptData
-            .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-            ) { indexPath, data, cell in
-                cell.setupReceiptImage(data)
-            }
-            .disposed(by: rx.disposeBag)
-                
+    }
+    
+    func bindViewModel() {
         viewModel?.receipt
             .bind(onNext: { receipt in
                 self.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
@@ -105,6 +102,16 @@ final class DetailViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
+        viewModel?.receipt
+            .map { $0.receiptData }
+            .asDriver(onErrorJustReturn: [])
+            .drive(
+                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+            ) { indexPath, data, cell in
+                cell.setupReceiptImage(data)
+            }
+            .disposed(by: rx.disposeBag)
+        
         collectionView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }
@@ -112,8 +119,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
 
 // MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
+    private func scrollToFirstItem() {
+            let firstIndexPath = IndexPath(item: 0, section: 0)
+            collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
+        }
+    
     private func changePageLabel(page: Int) {
-        let totalCount = (try? viewModel?.receiptData.value().count) ?? .zero
+        let receiptData = (try? viewModel?.receipt.value().receiptData) ?? []
+        let totalCount = receiptData.count
         
         countLabel.text = "\(page)/\(totalCount)"
     }

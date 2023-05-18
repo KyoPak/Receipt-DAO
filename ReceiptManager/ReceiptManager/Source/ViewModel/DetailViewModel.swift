@@ -15,7 +15,6 @@ protocol ComposeDataUpdatable: AnyObject {
 
 final class DetailViewModel: CommonViewModel {
     var receipt: BehaviorSubject<Receipt>
-    var receiptData: BehaviorSubject<[Data]>
     private let disposeBag = DisposeBag()
     
     init(receipt: Receipt,
@@ -24,8 +23,6 @@ final class DetailViewModel: CommonViewModel {
          storage: ReceiptStorage
     ) {
         self.receipt = BehaviorSubject<Receipt>(value: receipt)
-        receiptData = BehaviorSubject<[Data]>(value: receipt.receiptData)
-        
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
     
