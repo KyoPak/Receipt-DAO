@@ -36,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="DefaultReceipt" width="640" height="640"/>
+        <image name="DefaultReceipt" width="96" height="96"/>
     </resources>
 </document>
