@@ -35,6 +35,17 @@ final class FavoriteListViewController: UIViewController, ViewModelBindable {
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
         
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (viewController, data) in
+                viewController.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveDetailAction(receipt: $0)
+            })
+            .disposed(by: rx.disposeBag)
+        
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }
