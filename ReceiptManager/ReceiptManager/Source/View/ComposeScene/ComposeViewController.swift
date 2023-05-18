@@ -137,7 +137,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             return tintedThinImage
         }()
         
-        viewModel?.addReceiptData(addImage.pngData())
+        viewModel?.updateReceiptData(addImage.pngData(), isFirstReceipt: true)
     }
     
     func bindViewModel() {
@@ -155,25 +155,20 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 self?.priceTextField.text = String(NumberFormatter.numberDecimal(from: receipt.price))
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
+                self?.countLabel.text = "영수증 등록 \(receipt.receiptData.count - 1)/5"
             }
             .disposed(by: rx.disposeBag)
         
-        viewModel.receiptData
-            .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+        viewModel.receipt
+            .map { $0.receiptData }
+            .asDriver(onErrorJustReturn: [])
+            .drive(
+                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
-                
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
-        
-        viewModel.receiptData
-            .map { datas in
-                return "영수증 등록 \(datas.count - 1)/5"
-            }
-            .asDriver(onErrorJustReturn: "")
-            .drive(countLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
+                
         // UI의 Data를 ViewModel에 바인딩
         datePicker.rx.date
             .subscribe(onNext: { [weak self] datePickerDate in
@@ -227,9 +222,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
-                
-                let currentDataCount = (try? self.viewModel?.receiptData.value().count) ?? .zero
-                if index.row == .zero && currentDataCount < 6 {
+                let currentData = (try? self.viewModel?.receipt.value().receiptData) ?? []
+                if index.row == .zero && currentData.count < 6 {
                     self.uploadImageCell(true)
                 }
             })
@@ -275,11 +269,11 @@ extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerCo
     ) {
         if let image = info[.editedImage] as? UIImage {
             let data = image.pngData()
-            viewModel?.addReceiptData(data)
+            viewModel?.updateReceiptData(data, isFirstReceipt: false)
         } else {
             if let image = info[.originalImage] as? UIImage {
                 let data = image.pngData()
-                viewModel?.addReceiptData(data)
+                viewModel?.updateReceiptData(data, isFirstReceipt: false)
             }
         }
         

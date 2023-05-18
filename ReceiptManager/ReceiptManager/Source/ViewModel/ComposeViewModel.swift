@@ -11,12 +11,9 @@ import RxSwift
 
 final class ComposeViewModel: CommonViewModel {
     private weak var updateDelegate: ComposeDataUpdatable?
-    
     private let disposeBag = DisposeBag()
     
     var receipt: BehaviorSubject<Receipt>
-    
-    var receiptData = BehaviorSubject<[Data]>(value: [])
     
     init(
         title: String,
@@ -26,18 +23,25 @@ final class ComposeViewModel: CommonViewModel {
         delegate: ComposeDataUpdatable? = nil
     ) {
         self.receipt = BehaviorSubject(value: receipt)
-        receiptData = BehaviorSubject(value: receipt.receiptData)
         updateDelegate = delegate
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
 
-    func addReceiptData(_ data: Data?) {
+    func updateReceiptData(_ data: Data?, isFirstReceipt: Bool) {
         guard let data = data else { return }
         
-        var currentReceiptData = (try? receiptData.value()) ?? []   // 현재의 receiptData를 가져옴
-        currentReceiptData.append(data)                // 새로운 데이터를 추가
-        receiptData.onNext(currentReceiptData)
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
+        var currentReceiptData = currentReceipt.receiptData
+        
+        if isFirstReceipt {
+            currentReceiptData.insert(data, at: .zero)
+        } else {
+            currentReceiptData.append(data)
+        }
+        
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
     }
     
     func cancelAction() {
@@ -47,14 +51,16 @@ final class ComposeViewModel: CommonViewModel {
     }
     
     func saveAction() {
-        var receiptData = (try? self.receiptData.value()) ?? []
-        receiptData.removeFirst()
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
         
-        var receipt = (try? receipt.value()) ?? Receipt()
-        receipt.receiptData = receiptData
+        var currentReceiptData = currentReceipt.receiptData
+        currentReceiptData.removeFirst()
         
-        storage.upsert(receipt: receipt)
-        updateDelegate?.update(receipt: receipt)
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
+        
+        storage.upsert(receipt: currentReceipt)
+        updateDelegate?.update(receipt: currentReceipt)
         cancelAction()
     }
 }
