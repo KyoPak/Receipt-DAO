@@ -39,7 +39,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
+        let image = UIImage(systemName: "bookmark", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()

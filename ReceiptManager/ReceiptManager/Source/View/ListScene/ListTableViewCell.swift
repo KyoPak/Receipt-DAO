@@ -65,7 +65,7 @@ final class ListTableViewCell: UITableViewCell {
         
         if data.isFavorite {
             detailButton.tintColor = .systemYellow
-            detailButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            detailButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
             detailButton.tintColor = .lightGray
             detailButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
