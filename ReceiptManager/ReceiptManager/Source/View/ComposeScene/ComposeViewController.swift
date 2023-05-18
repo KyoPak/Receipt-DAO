@@ -402,10 +402,9 @@ extension ComposeViewController {
     }
     
     private func openLibraray(isEdit: Bool) {
-        requestCameraPermission()
-            picker.sourceType = .photoLibrary
-            picker.allowsEditing = isEdit
-        
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = isEdit
+        present(self.picker, animated: true, completion: nil)
     }
     
     private func uploadImageCell(_ isShowPicker: Bool) {
