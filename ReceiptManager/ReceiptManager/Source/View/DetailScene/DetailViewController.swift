@@ -17,10 +17,10 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         
         let collectionCellWidth = UIScreen.main.bounds.width * 0.7
         
-        let spacing = (UIScreen.main.bounds.width - collectionCellWidth - 40) / 2
+        let spacing = ((UIScreen.main.bounds.width - collectionCellWidth) - 40) / 2
         layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         layout.minimumInteritemSpacing = spacing
-        layout.minimumLineSpacing = spacing
+        layout.minimumLineSpacing = spacing * 2
         layout.sectionInset = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -271,7 +271,7 @@ extension DetailViewController {
             collectionView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
+            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
 
             countLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5),
             countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
