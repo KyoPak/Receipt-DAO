@@ -10,15 +10,11 @@ import RxCocoa
 import RxSwift
 
 final class ComposeViewModel: CommonViewModel {
+    private weak var updateDelegate: ComposeDataUpdatable?
+    
     private let disposeBag = DisposeBag()
     
-    // 표기 목록
-    var date: Date?
-    var store: String?
-    var product: String?
-    var price: Int?
-    var payType: PayType
-    var memo: String?
+    var receipt: BehaviorSubject<Receipt>
     
     var receiptData = BehaviorSubject<[Data]>(value: [])
     
@@ -26,22 +22,12 @@ final class ComposeViewModel: CommonViewModel {
         title: String,
         sceneCoordinator: SceneCoordinator,
         storage: ReceiptStorage,
-        date: Date = Date(),
-        store: String? = nil,
-        product: String? = nil,
-        price: Int? = nil,
-        payType: PayType = .cash,
-        receiptData: [Data] = [],
-        memo: String? = nil
+        receipt: Receipt = Receipt(),
+        delegate: ComposeDataUpdatable? = nil
     ) {
-        self.date = date
-        self.store = store
-        self.product = product
-        self.price = price
-        self.payType = payType
-        self.memo = memo
-        
-        self.receiptData.onNext(receiptData)
+        self.receipt = BehaviorSubject(value: receipt)
+        receiptData = BehaviorSubject(value: receipt.receiptData)
+        updateDelegate = delegate
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
@@ -50,8 +36,8 @@ final class ComposeViewModel: CommonViewModel {
         guard let data = data else { return }
         
         var currentReceiptData = (try? receiptData.value()) ?? []   // 현재의 receiptData를 가져옴
-        currentReceiptData.append(data)                             // 새로운 데이터를 추가
-        receiptData.onNext(currentReceiptData)                      // 변경된 receiptData를 알림
+        currentReceiptData.append(data)                // 새로운 데이터를 추가
+        receiptData.onNext(currentReceiptData)
     }
     
     func cancelAction() {
@@ -60,31 +46,15 @@ final class ComposeViewModel: CommonViewModel {
             .disposed(by: disposeBag)
     }
     
-    func saveAction(
-        store: String?,
-        product: String?,
-        price: Int?,
-        date: Date?,
-        payType: PayType,
-        memo: String?,
-        receiptData: [Data]
-    ) {
+    func saveAction() {
         var receiptData = (try? self.receiptData.value()) ?? []
         receiptData.removeFirst()
         
-        let saveData = Receipt(
-            store: store ?? "",
-            price: price ?? .zero,
-            product: product ?? "",
-            receiptDate: date ?? Date(),
-            paymentType: payType.rawValue,
-            receiptData: receiptData,
-            memo: memo ?? "",
-            isFavorite: false
-        )
+        var receipt = (try? receipt.value()) ?? Receipt()
+        receipt.receiptData = receiptData
         
-        storage.upsert(receipt: saveData)
-        
+        storage.upsert(receipt: receipt)
+        updateDelegate?.update(receipt: receipt)
         cancelAction()
     }
 }

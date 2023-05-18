@@ -93,16 +93,17 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
-        
-        dateLabel.text = DateFormatter.string(
-            from: viewModel?.receipt.receiptDate ?? Date(),
-            "yyyy년 MM월 dd일"
-        )
-        storeLabel.text = viewModel?.receipt.store
-        productLabel.text = viewModel?.receipt.product
-        priceLabel.text = NumberFormatter.numberDecimal(from: viewModel?.receipt.price ?? .zero) + " 원"
-        payTypeSegmented.selectedSegmentIndex = viewModel?.receipt.paymentType ?? .zero
-        memoTextView.text = viewModel?.receipt.memo
+                
+        viewModel?.receipt
+            .bind(onNext: { receipt in
+                self.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
+                self.storeLabel.text = receipt.store
+                self.productLabel.text = receipt.product
+                self.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + " 원"
+                self.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
+                self.memoTextView.text = receipt.memo
+            })
+            .disposed(by: rx.disposeBag)
         
         collectionView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
@@ -147,13 +148,47 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
-extension DetailViewController {
-    @objc func optionButtonTapped() {
+extension UIViewController {
+    func presentActivityView(data: Receipt?) {
+        guard let imageData = data?.receiptData else { return }
         
+        let activiyController = UIActivityViewController(
+            activityItems: [imageData],
+            applicationActivities: nil
+        )
+        
+        activiyController.excludedActivityTypes = [
+            .addToReadingList,
+            .assignToContact,
+            .openInIBooks,
+            .saveToCameraRoll
+        ]
+        
+        present(activiyController, animated: true, completion: nil)
+    }
+}
+
+extension DetailViewController {
+    @objc func shareButtonTapped() {
+        let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
+        presentActivityView(data: receipt)
     }
     
     @objc func composeButtonTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let editAction = UIAlertAction(title: "편집", style: .default) { [weak self] _ in
+            self?.viewModel?.makeEditAction()
+        }
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.viewModel?.delete()
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
+        
+        present(alert, animated: true)
     }
 }
 
@@ -175,7 +210,7 @@ extension DetailViewController {
             image: UIImage(systemName: "square.and.arrow.up"),
             style: .plain,
             target: self,
-            action: #selector(optionButtonTapped)
+            action: #selector(shareButtonTapped)
         )
         
         let composeButton = UIBarButtonItem(

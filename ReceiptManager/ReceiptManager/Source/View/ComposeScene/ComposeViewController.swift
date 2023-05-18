@@ -141,11 +141,24 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
-        viewModel?.title
+        guard let viewModel = viewModel else { return }
+        // ViewModel Data를 UI 바인딩
+        viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptData
+        viewModel.receipt
+            .bind { [weak self] receipt in
+                self?.datePicker.date = receipt.receiptDate
+                self?.storeTextField.text = receipt.store
+                self?.productNameTextField.text = receipt.product
+                self?.priceTextField.text = String(NumberFormatter.numberDecimal(from: receipt.price))
+                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
+                self?.memoTextView.text = receipt.memo
+            }
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptData
             .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
                 
@@ -153,12 +166,62 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             }
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptData
+        viewModel.receiptData
             .map { datas in
                 return "영수증 등록 \(datas.count - 1)/5"
             }
             .asDriver(onErrorJustReturn: "")
             .drive(countLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        // UI의 Data를 ViewModel에 바인딩
+        datePicker.rx.date
+            .subscribe(onNext: { [weak self] datePickerDate in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.receiptDate = datePickerDate
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        storeTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.store = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        productNameTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.product = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        priceTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                let input = text?.replacingOccurrences(of: ",", with: "")
+                receipt.price = Int(input ?? "0") ?? .zero
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        payTypeSegmented.rx.selectedSegmentIndex
+            .subscribe(onNext: { [weak self] index in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.paymentType = index
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        memoTextView.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.memo = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
@@ -181,14 +244,7 @@ extension ComposeViewController {
     }
     
     @objc private func tapSaveButton() {
-        viewModel?.saveAction(
-            store: storeTextField.text,
-            product: productNameTextField.text,
-            price: Int(priceTextField.text?.replacingOccurrences(of: ",", with: "") ?? "0"),
-            date: datePicker.date,
-            payType: PayType(rawValue: payTypeSegmented.selectedSegmentIndex) ?? .cash,
-            memo: memoTextView.text,
-            receiptData: [])
+        viewModel?.saveAction()
     }
 }
 
