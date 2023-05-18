@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class DetailViewController: UIViewController, ViewModelBindable {
     var viewModel: DetailViewModel?
@@ -109,6 +111,17 @@ final class DetailViewController: UIViewController, ViewModelBindable {
             ) { indexPath, data, cell in
                 cell.setupReceiptImage(data)
             }
+            .disposed(by: rx.disposeBag)
+        
+        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (viewController, data) in
+                viewController.collectionView.deselectItem(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.largeImageAction(data: $0)
+            })
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.setDelegate(self)

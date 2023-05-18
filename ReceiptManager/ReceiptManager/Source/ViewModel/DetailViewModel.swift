@@ -49,6 +49,18 @@ final class DetailViewModel: CommonViewModel {
         let composeScene = Scene.compose(composeViewModel)
         sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
     }
+    
+    func largeImageAction(data: Data) {
+        let largeImageViewModel = LargeImageViewModel(
+            title: "",
+            data: data,
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let largeImageView = Scene.large(largeImageViewModel)
+        sceneCoordinator.transition(to: largeImageView, using: .modal, animated: true)
+    }
 }
 
 extension DetailViewModel: ComposeDataUpdatable {

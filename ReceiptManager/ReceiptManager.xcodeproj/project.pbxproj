@@ -34,6 +34,8 @@
 		3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3602A01306C0014807B /* DetailViewModel.swift */; };
 		3C9AA3632A0130FA0014807B /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3622A0130FA0014807B /* Scene.swift */; };
 		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
+		3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF12A162444002251DD /* LargeImageViewController.swift */; };
+		3CAF8AF42A1627BA002251DD /* LargeImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */; };
 		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
 		3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */; };
 		3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */; };
@@ -81,6 +83,8 @@
 		3C9AA3602A01306C0014807B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3622A0130FA0014807B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
+		3CAF8AF12A162444002251DD /* LargeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewController.swift; sourceTree = "<group>"; };
+		3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewModel.swift; sourceTree = "<group>"; };
 		3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA3562A01301F0014807B /* DetailViewController.swift */,
+				3CAF8AF12A162444002251DD /* LargeImageViewController.swift */,
 			);
 			path = DetailScene;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 				3C9AA35C2A0130570014807B /* FavoriteListViewModel.swift */,
 				3C9AA35E2A0130620014807B /* ComposeViewModel.swift */,
 				3C9AA3602A01306C0014807B /* DetailViewModel.swift */,
+				3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -456,6 +462,7 @@
 				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
+				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
@@ -482,6 +489,7 @@
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
 				3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */,
 				3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */,
+				3CAF8AF42A1627BA002251DD /* LargeImageViewModel.swift in Sources */,
 				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
 				3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,

@@ -13,6 +13,7 @@ enum Scene {
     case favorite(FavoriteListViewModel)
     case compose(ComposeViewModel)
     case detail(DetailViewModel)
+    case large(LargeImageViewModel)
 }
 
 extension Scene {
@@ -41,6 +42,11 @@ extension Scene {
         case .detail(let detailViewModel):
             let viewController = DetailViewController()
             viewController.bind(viewModel: detailViewModel)
+            
+            return viewController
+        case .large(let largeImageViewModel):
+            let viewController = LargeImageViewController()
+            viewController.bind(viewModel: largeImageViewModel)
             
             return viewController
         }
