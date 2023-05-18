@@ -8,7 +8,7 @@
 import Foundation
 
 enum ConstantText {
-    static let appName = "영수증 창고"
+    static let appName = "영수증 다오"
     static let list = "내 영수증"
     static let bookMark = "즐겨찾기"
     static let clearBookMark = "즐겨찾기 해제"
@@ -16,11 +16,12 @@ enum ConstantText {
     
     static let input = "입력"
     static let shortRegister = "등록"
+    static let save = "저장"
     static let delete = "삭제"
     static let cancle = "취소"
     static let edit = "편집"
     
-    static let back = "뒤로가기"
+    static let back = "뒤로"
     static let date = "날짜"
     static let store = "상호명"
     static let product = "내역"

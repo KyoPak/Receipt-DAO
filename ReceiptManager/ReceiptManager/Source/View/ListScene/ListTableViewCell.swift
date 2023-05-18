@@ -17,7 +17,7 @@ final class ListTableViewCell: UITableViewCell {
     }()
     
     private let productNameLabel = UILabel(font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(font: .systemFont(ofSize: 20, weight: .semibold))
     private let priceLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     
     private let detailButton: UIButton = {
@@ -32,7 +32,7 @@ final class ListTableViewCell: UITableViewCell {
         axis: .vertical,
         alignment: .fill,
         distribution: .fill,
-        spacing: 10
+        spacing: 7
     )
 
     private lazy var subInfoStackView = UIStackView(

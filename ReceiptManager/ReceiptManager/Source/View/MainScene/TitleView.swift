@@ -11,7 +11,7 @@ final class TitleView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .monospacedDigitSystemFont(ofSize: 40, weight: .bold)
+        label.font = .monospacedDigitSystemFont(ofSize: 35, weight: .bold)
         label.textColor = .white
         return label
     }()

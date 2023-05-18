@@ -432,7 +432,7 @@ extension ComposeViewController {
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.shortRegister,
+            title: ConstantText.save,
             style: .done,
             target: self,
             action: #selector(tapSaveButton)
