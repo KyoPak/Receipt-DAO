@@ -10,11 +10,10 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 import AVFoundation
+import PhotosUI
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
-    
-    private let picker = UIImagePickerController()
     private let datePicker = UIDatePicker()
     
     private let placeHoderLabel = UILabel(text: ConstantText.memo, font: .preferredFont(forTextStyle: .body))
@@ -271,8 +270,49 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - UIImagePickerController
-extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+// MARK: - PHPickerViewControllerDelegate, UIImagePickerController
+extension ComposeViewController: UINavigationControllerDelegate,
+                                 UIImagePickerControllerDelegate,
+                                 PHPickerViewControllerDelegate {
+    func openPhotoLibrary() {
+        if #available(iOS 14, *) {
+            var configuration = PHPickerConfiguration()
+            let currentImageCount = (try? viewModel?.receipt.value().receiptData.count) ?? .zero
+            
+            configuration.selectionLimit = 6 - currentImageCount
+            configuration.filter = .any(of: [.images, .livePhotos])
+            
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true, completion: nil)
+        } else {
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = false
+            picker.delegate = self
+            present(picker, animated: true, completion: nil)
+        }
+    }
+    
+    // PHPickerViewController
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        for result in results {
+            let itemProvider = result.itemProvider
+            
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { images, error in
+                    DispatchQueue.main.async {
+                        let data = (images as? UIImage)?.pngData()
+                        self.viewModel?.updateReceiptData(data, isFirstReceipt: false)
+                    }
+                }
+            }
+        }
+    }
+    
+    // UIImagePickerController
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
@@ -288,6 +328,76 @@ extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerCo
         }
         
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - UploadImageCell and Confirm Auth
+extension ComposeViewController {
+    private func openCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        
+        if status == .authorized {
+            picker.sourceType = .camera
+            present(picker, animated: true, completion: nil)
+        } else if status == .denied || status == .restricted {
+            requestCameraPermission()
+        } else {
+            picker.sourceType = .camera
+            present(picker, animated: true, completion: nil)
+        }
+    }
+    
+    private func uploadImageCell(_ isShowPicker: Bool) {
+        let alert = UIAlertController(
+            title: "영수증 사진선택",
+            message: "업로드할 영수증을 선택해주세요.",
+            preferredStyle: .actionSheet
+        )
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
+            self.openCamera()
+        }
+        
+        let albumAction = UIAlertAction(title: "앨범", style: .default) { _ in
+            self.openPhotoLibrary()
+        }
+        
+        [cameraAction, albumAction, cancelAction].forEach(alert.addAction(_:))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func requestCameraPermission() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch status {
+        case .authorized:
+            break
+        case .denied, .restricted:
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(
+                    title: "카메라 권한 필요",
+                    message: "카메라에 접근하여 사진을 찍을 수 있도록 허용해주세요.",
+                    preferredStyle: .alert
+                )
+                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                
+                alertController.addAction(settingsAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
 }
 
@@ -386,83 +496,6 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - UploadImageCell and Confirm Auth
-extension ComposeViewController {
-    private func openCamera() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        if status == .authorized {
-            picker.sourceType = .camera
-            present(self.picker, animated: true, completion: nil)
-        } else if status == .denied || status == .restricted {
-            requestCameraPermission()
-        } else {
-            picker.sourceType = .camera
-            present(self.picker, animated: true, completion: nil)
-        }
-    }
-    
-    private func openLibraray(isEdit: Bool) {
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = isEdit
-        present(self.picker, animated: true, completion: nil)
-    }
-    
-    private func uploadImageCell(_ isShowPicker: Bool) {
-        let alert = UIAlertController(
-            title: "영수증 사진선택",
-            message: "업로드할 영수증을 선택해주세요.",
-            preferredStyle: .actionSheet
-        )
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
-            self.openCamera()
-        }
-        
-        let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
-            self.openLibraray(isEdit: false)
-        }
-        
-        let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
-            self.openLibraray(isEdit: true)
-        }
-        
-        [cameraAction, rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func requestCameraPermission() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        
-        switch status {
-        case .authorized:
-            break
-        case .denied, .restricted:
-            DispatchQueue.main.async {
-                let alertController = UIAlertController(
-                    title: "카메라 권한 필요",
-                    message: "카메라에 접근하여 사진을 찍을 수 있도록 허용해주세요.",
-                    preferredStyle: .alert
-                )
-                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
-                    }
-                }
-                
-                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-                
-                alertController.addAction(settingsAction)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true, completion: nil)
-            }
-        default:
-            break
-        }
-    }
-}
-
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupNavigationBar() {
@@ -510,7 +543,6 @@ extension ComposeViewController {
         priceTextField.keyboardType = .numberPad
         placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self
-        picker.delegate = self
     }
     
     private func setupConstraints() {
