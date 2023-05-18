@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C20CEF22A0AA81E00F9A176 /* ConstantPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */; };
+		3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C1B362A16072900A3D0A0 /* ConstantText.swift */; };
 		3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */; };
 		3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */; };
 		3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */; };
@@ -52,7 +52,7 @@
 /* Begin PBXFileReference section */
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
-		3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantPlaceHolder.swift; sourceTree = "<group>"; };
+		3C1C1B362A16072900A3D0A0 /* ConstantText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantText.swift; sourceTree = "<group>"; };
 		3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +150,7 @@
 				3C56C65D2A0963960058869C /* Protocol */,
 				3C9AA3442A0117C10014807B /* Extension */,
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
+				3C1C1B362A16072900A3D0A0 /* ConstantText.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -158,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA3452A0117D60014807B /* UIButton+Extension.swift */,
-				3C20CEF12A0AA81E00F9A176 /* ConstantPlaceHolder.swift */,
 				3CC893B62A0CC06900055872 /* UILabel+Extension.swift */,
 				3CC893B82A0CC07400055872 /* UITextField+Extension.swift */,
 				3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */,
@@ -459,6 +459,7 @@
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
+				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,
 				3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */,
 				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
@@ -471,7 +472,6 @@
 				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
 				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
-				3C20CEF22A0AA81E00F9A176 /* ConstantPlaceHolder.swift in Sources */,
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,

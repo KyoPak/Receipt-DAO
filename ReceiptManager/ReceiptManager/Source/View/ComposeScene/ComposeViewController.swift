@@ -16,29 +16,31 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     private let picker = UIImagePickerController()
     private let datePicker = UIDatePicker()
     
-    private let dateLabel = UILabel(text: "날짜", font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(text: "상호명", font: .preferredFont(forTextStyle: .body))
-    private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
+    private let placeHoderLabel = UILabel(text: ConstantText.memo, font: .preferredFont(forTextStyle: .body))
+    
+    private let dateLabel = UILabel(text: ConstantText.date, font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(text: ConstantText.store, font: .preferredFont(forTextStyle: .body))
+    private let productLabel = UILabel(text: ConstantText.product, font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(text: ConstantText.price, font: .preferredFont(forTextStyle: .body))
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     
     private let storeTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     private let productNameTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     private let priceTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
@@ -76,7 +78,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     )
     
     private let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["현금", "카드"])
+        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
@@ -105,9 +107,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
-        textView.textColor = .lightGray
+        textView.textColor = .white
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
         
         return textView
@@ -299,16 +300,12 @@ extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
-            textView.text = nil
-            textView.textColor = .white
-        }
+        placeHoderLabel.isHidden = true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = ConstantPlaceHolder.memo
-            textView.textColor = .lightGray
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            placeHoderLabel.isHidden = false
         }
     }
     
@@ -437,13 +434,15 @@ extension ComposeViewController {
     }
     
     private func setupView() {
-        picker.delegate = self
         view.backgroundColor = ConstantColor.backGrouncColor
+        
         [datePicker, mainStackView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView]
+        
+        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView, placeHoderLabel]
             .forEach(view.addSubview(_:))
+        
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
             $0.delegate = self
@@ -451,7 +450,9 @@ extension ComposeViewController {
         }
         
         priceTextField.keyboardType = .numberPad
+        placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self
+        picker.delegate = self
     }
     
     private func setupConstraints() {
@@ -484,7 +485,11 @@ extension ComposeViewController {
             memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
+            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -50),
+            
+            placeHoderLabel.topAnchor.constraint(equalTo: memoTextView.topAnchor, constant: 10),
+            placeHoderLabel.leadingAnchor.constraint(equalTo: memoTextView.leadingAnchor, constant: 5),
+            placeHoderLabel.trailingAnchor.constraint(equalTo: memoTextView.trailingAnchor)
         ])
         
         priceTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
