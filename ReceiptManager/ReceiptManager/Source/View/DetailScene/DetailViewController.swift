@@ -33,14 +33,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         return collectionView
     }()
     
-    private let dateLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .subheadline))
-    private let storeLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 25))
-    private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: "가격", font: .boldSystemFont(ofSize: 20))
-    private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .caption1))
+    private let dateLabel = UILabel(font: .preferredFont(forTextStyle: .subheadline))
+    private let storeLabel = UILabel(font: .boldSystemFont(ofSize: 25))
+    private let productLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(font: .boldSystemFont(ofSize: 20))
+    private let countLabel = UILabel(font: .preferredFont(forTextStyle: .caption1))
     
     private let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["현금", "카드"])
+        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
         segment.isEnabled = false
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
@@ -96,7 +96,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 self.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
                 self.storeLabel.text = receipt.store
                 self.productLabel.text = receipt.product
-                self.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + " 원"
+                self.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.won
                 self.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self.memoTextView.text = receipt.memo
             })
@@ -131,7 +131,7 @@ extension DetailViewController: UICollectionViewDelegate {
         let totalCount = receiptData.count
         
         if totalCount == .zero {
-            countLabel.text = "등록된 사진이 없습니다."
+            countLabel.text = ConstantText.noPicture
             return
         }
         
@@ -197,15 +197,15 @@ extension DetailViewController {
     @objc func composeButtonTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let editAction = UIAlertAction(title: "편집", style: .default) { [weak self] _ in
+        let editAction = UIAlertAction(title: ConstantText.edit, style: .default) { [weak self] _ in
             self?.viewModel?.makeEditAction()
         }
         
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: ConstantText.delete, style: .destructive) { [weak self] _ in
             self?.viewModel?.delete()
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: ConstantText.cancle, style: .cancel)
         [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
         
         present(alert, animated: true)
@@ -224,7 +224,7 @@ extension DetailViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = "뒤로가기"
+        navigationController?.navigationBar.backItem?.title = ConstantText.back
         
         let shareButton = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),

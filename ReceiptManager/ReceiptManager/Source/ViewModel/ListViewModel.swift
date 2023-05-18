@@ -81,7 +81,7 @@ final class ListViewModel: CommonViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: "등록하기",
+            title: ConstantText.register,
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )

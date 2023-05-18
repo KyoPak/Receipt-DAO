@@ -66,7 +66,7 @@ extension FavoriteListViewController: UITableViewDelegate {
             }
         )
         
-        let label = UILabel(text: "즐겨찾기 해제", font: .preferredFont(forTextStyle: .body))
+        let label = UILabel(text: ConstantText.clearBookMark, font: .preferredFont(forTextStyle: .body))
         label.textColor = ConstantColor.cellColor
         label.backgroundColor = .systemYellow
         label.sizeToFit()
@@ -119,7 +119,7 @@ extension FavoriteListViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = "뒤로가기"
+        navigationController?.navigationBar.backItem?.title = ConstantText.back
     }
     
     private func setupView() {

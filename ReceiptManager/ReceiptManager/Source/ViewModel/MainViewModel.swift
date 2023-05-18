@@ -32,7 +32,7 @@ final class MainViewModel: CommonViewModel {
     
     func moveListAction() {
         let listViewModel = ListViewModel(
-            title: "내 영수증",
+            title: ConstantText.list,
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
@@ -43,7 +43,7 @@ final class MainViewModel: CommonViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: "등록하기",
+            title: ConstantText.register,
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
@@ -54,7 +54,7 @@ final class MainViewModel: CommonViewModel {
     
     func moveFavoriteAction() {
         let favoriteViewModel = FavoriteListViewModel(
-            title: "즐겨찾기",
+            title: ConstantText.bookMark,
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )

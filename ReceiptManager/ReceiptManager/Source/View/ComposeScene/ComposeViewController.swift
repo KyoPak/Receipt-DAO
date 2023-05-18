@@ -153,9 +153,17 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 self?.datePicker.date = receipt.receiptDate
                 self?.storeTextField.text = receipt.store
                 self?.productNameTextField.text = receipt.product
-                self?.priceTextField.text = String(NumberFormatter.numberDecimal(from: receipt.price))
+                
+                var price = NumberFormatter.numberDecimal(from: receipt.price)
+                var priceText = price == "0" ? "" : price
+                self?.priceTextField.text = priceText
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
+                
+                if receipt.memo != "" {
+                    self?.placeHoderLabel.isHidden = true
+                }
+                
                 self?.countLabel.text = "영수증 등록 \(receipt.receiptData.count - 1)/5"
             }
             .disposed(by: rx.disposeBag)
@@ -417,14 +425,14 @@ extension ComposeViewController {
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "취소",
+            title: ConstantText.cancle,
             style: .plain,
             target: self,
             action: #selector(tapCancleButton)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "등록",
+            title: ConstantText.shortRegister,
             style: .done,
             target: self,
             action: #selector(tapSaveButton)

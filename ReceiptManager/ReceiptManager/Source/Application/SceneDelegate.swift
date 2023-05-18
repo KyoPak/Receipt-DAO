@@ -23,7 +23,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Root View 이동
         let storage = CoreDataStorage(modelName: "ReceiptManager")
         let coordinator = DefaultSceneCoordinator(window: window)
-        let mainViewModel = MainViewModel(title: "영수증 창고", sceneCoordinator: coordinator, storage: storage)
+        let mainViewModel = MainViewModel(
+            title: ConstantText.appName,
+            sceneCoordinator: coordinator,
+            storage: storage
+        )
         
         let mainScene = Scene.main(mainViewModel)
         
