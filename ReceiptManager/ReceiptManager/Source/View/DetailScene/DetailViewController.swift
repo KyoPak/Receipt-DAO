@@ -120,13 +120,20 @@ final class DetailViewController: UIViewController, ViewModelBindable {
 // MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
     private func scrollToFirstItem() {
-            let firstIndexPath = IndexPath(item: 0, section: 0)
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+        if collectionView.numberOfItems(inSection: .zero) > .zero {
             collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
         }
+    }
     
     private func changePageLabel(page: Int) {
         let receiptData = (try? viewModel?.receipt.value().receiptData) ?? []
         let totalCount = receiptData.count
+        
+        if totalCount == .zero {
+            countLabel.text = "등록된 사진이 없습니다."
+            return
+        }
         
         countLabel.text = "\(page)/\(totalCount)"
     }
