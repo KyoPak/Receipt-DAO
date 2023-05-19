@@ -28,6 +28,11 @@ final class LargeImageViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel?.closeView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()

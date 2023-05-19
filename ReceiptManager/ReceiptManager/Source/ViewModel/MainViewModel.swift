@@ -49,7 +49,7 @@ final class MainViewModel: CommonViewModel {
         )
         
         let composeScene = Scene.compose(composeViewModel)
-        sceneCoordinator.transition(to: composeScene, using: .modal, animated: true)
+        sceneCoordinator.transition(to: composeScene, using: .modalNavi, animated: true)
     }
     
     func moveFavoriteAction() {
