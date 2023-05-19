@@ -15,23 +15,31 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        // Root View 이동
-        let storage = CoreDataStorage(modelName: "ReceiptManager")
-        let coordinator = DefaultSceneCoordinator(window: window)
-        let mainViewModel = MainViewModel(
-            title: ConstantText.appName,
-            sceneCoordinator: coordinator,
-            storage: storage
-        )
+        // Launch Screen
+        window.rootViewController = UIStoryboard(name: ConstantText.launchScreen, bundle: nil)
+            .instantiateInitialViewController()
         
-        let mainScene = Scene.main(mainViewModel)
+        window.makeKeyAndVisible()
         
-        coordinator.transition(to: mainScene, using: .root, animated: false)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+            
+            // Root View 이동
+            let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
+            let coordinator = DefaultSceneCoordinator(window: window)
+            let mainViewModel = MainViewModel(
+                title: ConstantText.appName,
+                sceneCoordinator: coordinator,
+                storage: storage
+            )
+            
+            let mainScene = Scene.main(mainViewModel)
+            
+            coordinator.transition(to: mainScene, using: .root, animated: false)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
