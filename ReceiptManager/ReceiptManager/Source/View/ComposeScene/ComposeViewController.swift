@@ -276,26 +276,6 @@ extension ComposeViewController {
 extension ComposeViewController: UINavigationControllerDelegate,
                                  UIImagePickerControllerDelegate,
                                  PHPickerViewControllerDelegate {
-    func openPhotoLibrary() {
-        if #available(iOS 14, *) {
-            var configuration = PHPickerConfiguration()
-            let currentImageCount = (try? viewModel?.receipt.value().receiptData.count) ?? .zero
-            
-            configuration.selectionLimit = 6 - currentImageCount
-            configuration.filter = .any(of: [.images, .livePhotos])
-            
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            present(picker, animated: true, completion: nil)
-        } else {
-            let picker = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.allowsEditing = false
-            picker.delegate = self
-            present(picker, animated: true, completion: nil)
-        }
-    }
-    
     // PHPickerViewController
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -335,19 +315,48 @@ extension ComposeViewController: UINavigationControllerDelegate,
 
 // MARK: - UploadImageCell and Confirm Auth
 extension ComposeViewController {
+    func openPhotoLibrary() {
+        let status: PHAuthorizationStatus
+        
+        if #available(iOS 14, *) {
+            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        
+        if status == .authorized || status == .notDetermined {
+            if #available(iOS 14, *) {
+                var configuration = PHPickerConfiguration()
+                let currentImageCount = (try? viewModel?.receipt.value().receiptData.count) ?? .zero
+                
+                configuration.selectionLimit = 6 - currentImageCount
+                configuration.filter = .any(of: [.images, .livePhotos])
+                
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                present(picker, animated: true, completion: nil)
+            } else {
+                let picker = UIImagePickerController()
+                picker.sourceType = .photoLibrary
+                picker.allowsEditing = false
+                picker.delegate = self
+                present(picker, animated: true, completion: nil)
+            }
+        } else {
+            requestAlbumPermission()
+        }
+    }
+    
     private func openCamera() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         let picker = UIImagePickerController()
         picker.delegate = self
         
-        if status == .authorized {
+        if status == .authorized || status == .notDetermined {
             picker.sourceType = .camera
             present(picker, animated: true, completion: nil)
-        } else if status == .denied || status == .restricted {
-            requestCameraPermission()
         } else {
-            picker.sourceType = .camera
-            present(picker, animated: true, completion: nil)
+            requestCameraPermission()
         }
     }
     
@@ -371,13 +380,42 @@ extension ComposeViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func requestAlbumPermission() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        
+        switch status {
+        case .authorized:
+            break
+        default:
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(
+                    title: "앨범 접근 권한 필요",
+                    message: "앨범에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
+                    preferredStyle: .alert
+                )
+                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                
+                alertController.addAction(settingsAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func requestCameraPermission() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch status {
         case .authorized:
             break
-        case .denied, .restricted:
+        default:
             DispatchQueue.main.async {
                 let alertController = UIAlertController(
                     title: "카메라 권한 필요",
@@ -397,8 +435,6 @@ extension ComposeViewController {
                 
                 self.present(alertController, animated: true, completion: nil)
             }
-        default:
-            break
         }
     }
 }
