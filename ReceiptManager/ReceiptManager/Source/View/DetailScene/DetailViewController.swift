@@ -109,6 +109,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
             .drive(
                 collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
+                cell.hiddenButton()
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)

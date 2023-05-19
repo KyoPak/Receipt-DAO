@@ -91,7 +91,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
-        let collectionCellWidth = UIScreen.main.bounds.width / 5 - 10
+        let collectionCellWidth = UIScreen.main.bounds.width / 4 - 10
         
         layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         
@@ -127,7 +127,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     private func setupFirstCell() {
         let addImage: UIImage = {
-            guard let image = UIImage(systemName: "photo.circle")?.withTintColor(.lightGray) else {
+            guard let image = UIImage(systemName: "camera.circle")?.withTintColor(.lightGray) else {
                 return UIImage()
             }
             
@@ -174,6 +174,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             .drive(
                 collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
+                if indexPath == .zero { cell.hiddenButton() }
+                cell.delegate = self
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
@@ -496,6 +498,14 @@ extension ComposeViewController {
     }
 }
 
+// MARK: - Cell Delegate
+extension ComposeViewController: CellDeletable {
+    func deleteCell(in cell: ImageCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        viewModel?.deleteReceiptData(indexPath: indexPath)
+    }
+}
+
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupNavigationBar() {
@@ -570,7 +580,7 @@ extension ComposeViewController {
             collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 100),
+            collectionView.heightAnchor.constraint(equalToConstant: 140),
             
             memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),

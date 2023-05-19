@@ -44,6 +44,16 @@ final class ComposeViewModel: CommonViewModel {
         receipt.onNext(currentReceipt)
     }
     
+    func deleteReceiptData(indexPath: IndexPath) {
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
+        var currentReceiptData = currentReceipt.receiptData
+        
+        currentReceiptData.remove(at: indexPath.item)
+        
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
+    }
+    
     func cancelAction() {
         sceneCoordinator.close(animated: true)
             .subscribe()
