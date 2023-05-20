@@ -17,7 +17,7 @@ final class ListTableViewCell: UITableViewCell {
     }()
     
     private let productNameLabel = UILabel(font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(font: .systemFont(ofSize: 20, weight: .semibold))
     private let priceLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     
     private let detailButton: UIButton = {
@@ -32,7 +32,7 @@ final class ListTableViewCell: UITableViewCell {
         axis: .vertical,
         alignment: .fill,
         distribution: .fill,
-        spacing: 10
+        spacing: 7
     )
 
     private lazy var subInfoStackView = UIStackView(
@@ -65,15 +65,13 @@ final class ListTableViewCell: UITableViewCell {
         
         if data.isFavorite {
             detailButton.tintColor = .systemYellow
-            detailButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            detailButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
             detailButton.tintColor = .lightGray
             detailButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         }
         
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        priceLabel.text = String(numberFormatter.string(from: NSNumber(value: data.price)) ?? "0") + " 원"
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + " 원"
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor

@@ -10,9 +10,10 @@ import UIKit
 enum Scene {
     case main(MainViewModel)
     case list(ListViewModel)
-    case favoriteList(FavoriteListViewModel)
+    case favorite(FavoriteListViewModel)
     case compose(ComposeViewModel)
     case detail(DetailViewModel)
+    case large(LargeImageViewModel)
 }
 
 extension Scene {
@@ -28,7 +29,7 @@ extension Scene {
             viewController.bind(viewModel: listViewModel)
             
             return viewController
-        case .favoriteList(let favoriteViewModel):
+        case .favorite(let favoriteViewModel):
             let viewController = FavoriteListViewController()
             viewController.bind(viewModel: favoriteViewModel)
             
@@ -41,6 +42,11 @@ extension Scene {
         case .detail(let detailViewModel):
             let viewController = DetailViewController()
             viewController.bind(viewModel: detailViewModel)
+            
+            return viewController
+        case .large(let largeImageViewModel):
+            let viewController = LargeImageViewController()
+            viewController.bind(viewModel: largeImageViewModel)
             
             return viewController
         }

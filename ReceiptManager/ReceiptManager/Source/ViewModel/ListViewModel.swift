@@ -51,7 +51,7 @@ final class ListViewModel: CommonViewModel {
     }()
     
     private func updateReceiptList(for currentDate: Date) -> Observable<[ReceiptSectionModel]> {
-        return storage.fetch()
+        return storage.fetch(type: .day)
             .map { receiptSectionModels in
                 return receiptSectionModels.filter { sectionModel in
                     return sectionModel.items.contains { receipt in
@@ -81,13 +81,25 @@ final class ListViewModel: CommonViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: "등록하기",
+            title: ConstantText.register,
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
         
         let composeScene = Scene.compose(composeViewModel)
         sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
+    }
+    
+    func moveDetailAction(receipt: Receipt) {
+        let detailViewModel = DetailViewModel(
+            receipt: receipt,
+            title: "",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let detailScene = Scene.detail(detailViewModel)
+        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
     }
     
     func deleteAction(indexPath: IndexPath) {

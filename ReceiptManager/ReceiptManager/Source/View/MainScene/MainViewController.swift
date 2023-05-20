@@ -18,7 +18,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("내 영수증", for: .normal)
+        button.setTitle(ConstantText.list, for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -35,11 +35,11 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("특별한 영수증", for: .normal)
+        button.setTitle(ConstantText.bookMark, for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
+        let image = UIImage(systemName: "bookmark", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
@@ -52,7 +52,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle("보관하기", for: .normal)
+        button.setTitle(ConstantText.register, for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -105,24 +105,14 @@ final class MainViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptList
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { receiptSectionModels in
-                var filterCount = 0
-                
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy년 MM월"
-                
-                for receiptSectionModel in receiptSectionModels {
-                    for receipt in receiptSectionModel.items
-                    where formatter.string(from: receipt.receiptDate) == formatter.string(from: Date()) {
-                        filterCount += 1
-                    }
-                }
-                
-                let dateString = formatter.string(from: Date())
-                self.monthSpendingLabel.text = dateString + " 영수증은 \(filterCount)건 입니다."
+        favoriteListButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveFavoriteAction()
             })
+            .disposed(by: rx.disposeBag)
+        
+        viewModel?.receiptCountText
+            .drive(monthSpendingLabel.rx.text)
             .disposed(by: rx.disposeBag)
     }
 }

@@ -18,7 +18,6 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var monthLabel: UILabel = {
         let label = UILabel()
-        label.text = "2023년 04월"
         label.textColor = .white
         label.font = .preferredFont(forTextStyle: .body)
         
@@ -43,7 +42,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var nowButton: UIButton = {
         let button = UIButton()
-        button.setTitle("현재 달", for: .normal)
+        button.setTitle(ConstantText.today, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         button.backgroundColor = ConstantColor.listColor
@@ -81,6 +80,17 @@ final class ListViewController: UIViewController, ViewModelBindable {
             .drive(monthLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (viewController, data) in
+                viewController.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.viewModel?.moveDetailAction(receipt: $0)
+            })
+            .disposed(by: rx.disposeBag)
+            
         // Button Binding
         previousButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -113,7 +123,7 @@ extension ListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: "삭제"
+            title: ConstantText.delete
         ) { [weak self] _, _, completion in
             self?.viewModel?.deleteAction(indexPath: indexPath)
             completion(true)
@@ -136,7 +146,7 @@ extension ListViewController: UITableViewDelegate {
             }
         )
         
-        let label = UILabel(text: "즐겨찾기", font: .preferredFont(forTextStyle: .body))
+        let label = UILabel(text: ConstantText.bookMark, font: .preferredFont(forTextStyle: .body))
         label.textColor = ConstantColor.cellColor
         label.backgroundColor = .systemYellow
         label.sizeToFit()
@@ -197,10 +207,10 @@ extension ListViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = "뒤로가기"
+        navigationController?.navigationBar.backItem?.title = ConstantText.back
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "등록",
+            title: ConstantText.shortRegister,
             style: .done,
             target: self,
             action: #selector(registerButtonTapped)

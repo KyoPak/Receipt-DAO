@@ -9,36 +9,38 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import AVFoundation
+import PhotosUI
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
-    
-    private let picker = UIImagePickerController()
     private let datePicker = UIDatePicker()
     
-    private let dateLabel = UILabel(text: "날짜", font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(text: "상호명", font: .preferredFont(forTextStyle: .body))
-    private let productLabel = UILabel(text: "내역", font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: "가격", font: .preferredFont(forTextStyle: .body))
+    private let placeHoderLabel = UILabel(text: ConstantText.memo, font: .preferredFont(forTextStyle: .body))
+    
+    private let dateLabel = UILabel(text: ConstantText.date, font: .preferredFont(forTextStyle: .body))
+    private let storeLabel = UILabel(text: ConstantText.store, font: .preferredFont(forTextStyle: .body))
+    private let productLabel = UILabel(text: ConstantText.product, font: .preferredFont(forTextStyle: .body))
+    private let priceLabel = UILabel(text: ConstantText.price, font: .preferredFont(forTextStyle: .body))
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     
     private let storeTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     private let productNameTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     private let priceTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantPlaceHolder.input,
+        placeholder: ConstantText.input,
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
@@ -76,7 +78,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     )
     
     private let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["현금", "카드"])
+        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
@@ -89,7 +91,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
-        let collectionCellWidth = UIScreen.main.bounds.width / 5 - 10
+        let collectionCellWidth = UIScreen.main.bounds.width / 4 - 10
         
         layout.itemSize  = CGSize(width: collectionCellWidth, height: collectionCellWidth)
         
@@ -105,9 +107,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
-        textView.textColor = .lightGray
+        textView.textColor = .white
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = ConstantPlaceHolder.memo
         textView.backgroundColor = ConstantColor.cellColor
         
         return textView
@@ -126,7 +127,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     private func setupFirstCell() {
         let addImage: UIImage = {
-            guard let image = UIImage(systemName: "photo.circle")?.withTintColor(.lightGray) else {
+            guard let image = UIImage(systemName: "camera.circle")?.withTintColor(.lightGray) else {
                 return UIImage()
             }
             
@@ -137,36 +138,103 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             return tintedThinImage
         }()
         
-        viewModel?.addReceiptData(addImage.pngData())
+        viewModel?.updateReceiptData(addImage.pngData(), isFirstReceipt: true)
     }
     
     func bindViewModel() {
-        viewModel?.title
+        guard let viewModel = viewModel else { return }
+        // ViewModel Data를 UI 바인딩
+        viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptData
-            .bind(to: collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-            ) { indexPath, data, cell in
+        viewModel.receipt
+            .bind { [weak self] receipt in
+                self?.datePicker.date = receipt.receiptDate
+                self?.storeTextField.text = receipt.store
+                self?.productNameTextField.text = receipt.product
                 
+                let price = NumberFormatter.numberDecimal(from: receipt.price)
+                let priceText = price == "0" ? "" : price
+                self?.priceTextField.text = priceText
+                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
+                self?.memoTextView.text = receipt.memo
+                
+                if receipt.memo != "" {
+                    self?.placeHoderLabel.isHidden = true
+                }
+                
+                self?.countLabel.text = "영수증 등록 \(receipt.receiptData.count - 1)/5"
+            }
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receipt
+            .map { $0.receiptData }
+            .asDriver(onErrorJustReturn: [])
+            .drive(
+                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+            ) { indexPath, data, cell in
+                if indexPath == .zero { cell.hiddenButton() }
+                cell.delegate = self
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptData
-            .map { datas in
-                return "영수증 등록 \(datas.count - 1)/5"
-            }
-            .asDriver(onErrorJustReturn: "")
-            .drive(countLabel.rx.text)
+        // UI의 Data를 ViewModel에 바인딩
+        datePicker.rx.date
+            .subscribe(onNext: { [weak self] datePickerDate in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.receiptDate = datePickerDate
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        storeTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.store = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        productNameTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.product = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        priceTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                let input = text?.replacingOccurrences(of: ",", with: "")
+                receipt.price = Int(input ?? "0") ?? .zero
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        payTypeSegmented.rx.selectedSegmentIndex
+            .subscribe(onNext: { [weak self] index in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.paymentType = index
+                self?.viewModel?.receipt.onNext(receipt)
+            })
+            .disposed(by: rx.disposeBag)
+        
+        memoTextView.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
+                receipt.memo = text ?? ""
+                self?.viewModel?.receipt.onNext(receipt)
+            })
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
-                
-                let currentDataCount = (try? self.viewModel?.receiptData.value().count) ?? .zero
-                if index.row == .zero && currentDataCount < 6 {
+                let currentData = (try? self.viewModel?.receipt.value().receiptData) ?? []
+                if index.row == .zero && currentData.count < 6 {
                     self.uploadImageCell(true)
                 }
             })
@@ -181,14 +249,7 @@ extension ComposeViewController {
     }
     
     @objc private func tapSaveButton() {
-        viewModel?.saveAction(
-            store: storeTextField.text,
-            product: productNameTextField.text,
-            price: Int(priceTextField.text?.replacingOccurrences(of: ",", with: "") ?? "0"),
-            date: datePicker.date,
-            payType: PayType(rawValue: payTypeSegmented.selectedSegmentIndex) ?? .cash,
-            memo: memoTextView.text,
-            receiptData: [])
+        viewModel?.saveAction()
     }
 }
 
@@ -211,23 +272,170 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - UIImagePickerController
-extension ComposeViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+// MARK: - PHPickerViewControllerDelegate, UIImagePickerController
+extension ComposeViewController: UINavigationControllerDelegate,
+                                 UIImagePickerControllerDelegate,
+                                 PHPickerViewControllerDelegate {
+    // PHPickerViewController
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        for result in results {
+            let itemProvider = result.itemProvider
+            
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { images, error in
+                    DispatchQueue.main.async {
+                        let data = (images as? UIImage)?.pngData()
+                        self.viewModel?.updateReceiptData(data, isFirstReceipt: false)
+                    }
+                }
+            }
+        }
+    }
+    
+    // UIImagePickerController
     func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let image = info[.editedImage] as? UIImage {
             let data = image.pngData()
-            viewModel?.addReceiptData(data)
+            viewModel?.updateReceiptData(data, isFirstReceipt: false)
         } else {
             if let image = info[.originalImage] as? UIImage {
                 let data = image.pngData()
-                viewModel?.addReceiptData(data)
+                viewModel?.updateReceiptData(data, isFirstReceipt: false)
             }
         }
         
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - UploadImageCell and Confirm Auth
+extension ComposeViewController {
+    func openPhotoLibrary() {
+        let status: PHAuthorizationStatus
+        
+        if #available(iOS 14, *) {
+            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        
+        if status == .authorized || status == .notDetermined {
+            if #available(iOS 14, *) {
+                var configuration = PHPickerConfiguration()
+                let currentImageCount = (try? viewModel?.receipt.value().receiptData.count) ?? .zero
+                
+                configuration.selectionLimit = 6 - currentImageCount
+                configuration.filter = .any(of: [.images, .livePhotos])
+                
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                present(picker, animated: true, completion: nil)
+            } else {
+                let picker = UIImagePickerController()
+                picker.sourceType = .photoLibrary
+                picker.allowsEditing = false
+                picker.delegate = self
+                present(picker, animated: true, completion: nil)
+            }
+        } else {
+            requestAlbumPermission()
+        }
+    }
+    
+    private func openCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        
+        if status == .authorized || status == .notDetermined {
+            picker.sourceType = .camera
+            present(picker, animated: true, completion: nil)
+        } else {
+            requestCameraPermission()
+        }
+    }
+    
+    private func uploadImageCell(_ isShowPicker: Bool) {
+        let alert = UIAlertController(
+            title: "영수증 사진선택",
+            message: "업로드할 영수증을 선택해주세요.",
+            preferredStyle: .actionSheet
+        )
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
+            self.openCamera()
+        }
+        
+        let albumAction = UIAlertAction(title: "앨범", style: .default) { _ in
+            self.openPhotoLibrary()
+        }
+        
+        [cameraAction, albumAction, cancelAction].forEach(alert.addAction(_:))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func requestAlbumPermission() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        
+        switch status {
+        case .authorized:
+            break
+        default:
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(
+                    title: "앨범 접근 권한 필요",
+                    message: "앨범에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
+                    preferredStyle: .alert
+                )
+                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                
+                alertController.addAction(settingsAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func requestCameraPermission() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch status {
+        case .authorized:
+            break
+        default:
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(
+                    title: "카메라 권한 필요",
+                    message: "카메라에 접근하여 사진을 찍을 수 있도록 허용해주세요.",
+                    preferredStyle: .alert
+                )
+                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+                
+                alertController.addAction(settingsAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
 }
 
@@ -249,16 +457,12 @@ extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .lightGray {
-            textView.text = nil
-            textView.textColor = .white
-        }
+        placeHoderLabel.isHidden = true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = ConstantPlaceHolder.memo
-            textView.textColor = .lightGray
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            placeHoderLabel.isHidden = false
         }
     }
     
@@ -330,31 +534,11 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - uploadImageCell
-extension ComposeViewController {
-    private func uploadImageCell(_ isShowPicker: Bool) {
-        picker.sourceType = .photoLibrary
-        picker.allowsEditing = true
-        
-        let alert = UIAlertController(
-            title: "영수증 사진선택",
-            message: "업로드할 영수증을 선택해주세요.",
-            preferredStyle: .actionSheet
-        )
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let rawAction = UIAlertAction(title: "원본사진", style: .default) { _ in
-            self.picker.allowsEditing = false
-            self.present(self.picker, animated: true, completion: nil)
-        }
-        
-        let editAction = UIAlertAction(title: "편집사진", style: .default) { _ in
-            self.picker.allowsEditing = true
-            self.present(self.picker, animated: true, completion: nil)
-        }
-        
-        [rawAction, editAction, cancelAction].forEach(alert.addAction(_:))
-        present(alert, animated: true, completion: nil)
+// MARK: - Cell Delegate
+extension ComposeViewController: CellDeletable {
+    func deleteCell(in cell: ImageCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        viewModel?.deleteReceiptData(indexPath: indexPath)
     }
 }
 
@@ -370,14 +554,14 @@ extension ComposeViewController {
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "취소",
+            title: ConstantText.cancle,
             style: .plain,
             target: self,
             action: #selector(tapCancleButton)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "등록",
+            title: ConstantText.save,
             style: .done,
             target: self,
             action: #selector(tapSaveButton)
@@ -387,13 +571,15 @@ extension ComposeViewController {
     }
     
     private func setupView() {
-        picker.delegate = self
         view.backgroundColor = ConstantColor.backGrouncColor
+        
         [datePicker, mainStackView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView]
+        
+        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView, placeHoderLabel]
             .forEach(view.addSubview(_:))
+        
         [storeTextField, productNameTextField, priceTextField].forEach {
             $0.setPlaceholder(color: .lightGray)
             $0.delegate = self
@@ -401,6 +587,7 @@ extension ComposeViewController {
         }
         
         priceTextField.keyboardType = .numberPad
+        placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self
     }
     
@@ -429,12 +616,16 @@ extension ComposeViewController {
             collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalToConstant: 100),
+            collectionView.heightAnchor.constraint(equalToConstant: 140),
             
             memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
+            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -50),
+            
+            placeHoderLabel.topAnchor.constraint(equalTo: memoTextView.topAnchor, constant: 10),
+            placeHoderLabel.leadingAnchor.constraint(equalTo: memoTextView.leadingAnchor, constant: 5),
+            placeHoderLabel.trailingAnchor.constraint(equalTo: memoTextView.trailingAnchor)
         ])
         
         priceTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

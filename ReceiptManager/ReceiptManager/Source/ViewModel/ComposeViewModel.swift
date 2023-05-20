@@ -10,48 +10,48 @@ import RxCocoa
 import RxSwift
 
 final class ComposeViewModel: CommonViewModel {
+    private weak var updateDelegate: ComposeDataUpdatable?
     private let disposeBag = DisposeBag()
     
-    // 표기 목록
-    var date: Date?
-    var store: String?
-    var product: String?
-    var price: Int?
-    var payType: PayType
-    var memo: String?
-    
-    var receiptData = BehaviorSubject<[Data]>(value: [])
+    var receipt: BehaviorSubject<Receipt>
     
     init(
         title: String,
         sceneCoordinator: SceneCoordinator,
         storage: ReceiptStorage,
-        date: Date = Date(),
-        store: String? = nil,
-        product: String? = nil,
-        price: Int? = nil,
-        payType: PayType = .cash,
-        receiptData: [Data] = [],
-        memo: String? = nil
+        receipt: Receipt = Receipt(),
+        delegate: ComposeDataUpdatable? = nil
     ) {
-        self.date = date
-        self.store = store
-        self.product = product
-        self.price = price
-        self.payType = payType
-        self.memo = memo
-        
-        self.receiptData.onNext(receiptData)
+        self.receipt = BehaviorSubject(value: receipt)
+        updateDelegate = delegate
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
 
-    func addReceiptData(_ data: Data?) {
+    func updateReceiptData(_ data: Data?, isFirstReceipt: Bool) {
         guard let data = data else { return }
         
-        var currentReceiptData = (try? receiptData.value()) ?? []   // 현재의 receiptData를 가져옴
-        currentReceiptData.append(data)                             // 새로운 데이터를 추가
-        receiptData.onNext(currentReceiptData)                      // 변경된 receiptData를 알림
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
+        var currentReceiptData = currentReceipt.receiptData
+        
+        if isFirstReceipt {
+            currentReceiptData.insert(data, at: .zero)
+        } else {
+            currentReceiptData.append(data)
+        }
+        
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
+    }
+    
+    func deleteReceiptData(indexPath: IndexPath) {
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
+        var currentReceiptData = currentReceipt.receiptData
+        
+        currentReceiptData.remove(at: indexPath.item)
+        
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
     }
     
     func cancelAction() {
@@ -60,31 +60,17 @@ final class ComposeViewModel: CommonViewModel {
             .disposed(by: disposeBag)
     }
     
-    func saveAction(
-        store: String?,
-        product: String?,
-        price: Int?,
-        date: Date?,
-        payType: PayType,
-        memo: String?,
-        receiptData: [Data]
-    ) {
-        var receiptData = (try? self.receiptData.value()) ?? []
-        receiptData.removeFirst()
+    func saveAction() {
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
         
-        let saveData = Receipt(
-            store: store ?? "",
-            price: price ?? .zero,
-            product: product ?? "",
-            receiptDate: date ?? Date(),
-            paymentType: payType.rawValue,
-            receiptData: receiptData,
-            memo: memo ?? "",
-            isFavorite: false
-        )
+        var currentReceiptData = currentReceipt.receiptData
+        currentReceiptData.removeFirst()
         
-        storage.upsert(receipt: saveData)
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
         
+        storage.upsert(receipt: currentReceipt)
+        updateDelegate?.update(receipt: currentReceipt)
         cancelAction()
     }
 }
