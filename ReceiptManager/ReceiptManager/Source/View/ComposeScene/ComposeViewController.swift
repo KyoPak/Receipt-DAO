@@ -149,7 +149,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         viewModel.receipt
-            .bind { [weak self] receipt in
+            .asDriver(onErrorJustReturn: Receipt())
+            .drive { [weak self] receipt in
                 self?.datePicker.date = receipt.receiptDate
                 self?.storeTextField.text = receipt.store
                 self?.productNameTextField.text = receipt.product

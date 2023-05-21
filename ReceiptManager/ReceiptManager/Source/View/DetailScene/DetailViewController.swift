@@ -93,13 +93,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     
     func bindViewModel() {
         viewModel?.receipt
-            .bind(onNext: { receipt in
-                self.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
-                self.storeLabel.text = receipt.store
-                self.productLabel.text = receipt.product
-                self.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.won
-                self.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
-                self.memoTextView.text = receipt.memo
+            .asDriver(onErrorJustReturn: Receipt())
+            .drive(onNext: { [weak self] receipt in
+                self?.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
+                self?.storeLabel.text = receipt.store
+                self?.productLabel.text = receipt.product
+                self?.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.won
+                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
+                self?.memoTextView.text = receipt.memo
             })
             .disposed(by: rx.disposeBag)
         
