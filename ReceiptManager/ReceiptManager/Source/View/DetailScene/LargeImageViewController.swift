@@ -51,11 +51,6 @@ final class LargeImageViewController: UIViewController, ViewModelBindable {
             })
             .disposed(by: rx.disposeBag)
     }
-    
-    func setupImage(data: Data) {
-        let image = UIImage(data: data)
-        imageView.image = image
-    }
 }
 
 // MARK: - UIConstrinat
