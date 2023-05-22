@@ -73,4 +73,35 @@ final class ComposeViewModel: CommonViewModel {
         updateDelegate?.update(receipt: currentReceipt)
         cancelAction()
     }
+    
+    func selectImageAction(selectDatas: [Data], delegate: SelectPickerDelegate) {
+        // count는 현재 등록된 이미지 갯수.
+        let currentReceipt = (try? receipt.value()) ?? Receipt()
+        let currentReceiptData = currentReceipt.receiptData
+        
+        let selectImageViewModel = SelectImageViewModel(
+            title: ConstantText.selectImage,
+            sceneCoordinator: sceneCoordinator,
+            storage: storage,
+            data: selectDatas,
+            count: 6 - currentReceiptData.count,
+            pickerDelegate: delegate,
+            selectCompleteDelegate: self
+        )
+        
+        let selectImageScene = Scene.selectImage(selectImageViewModel)
+        
+        sceneCoordinator.transition(to: selectImageScene, using: .modalNavi, animated: true)
+    }
+}
+
+extension ComposeViewModel: SelectCompletable {
+    func selectComplete(datas: [Data]) {
+        var currentReceipt = (try? receipt.value()) ?? Receipt()
+        var currentReceiptData = currentReceipt.receiptData
+        
+        currentReceiptData.append(contentsOf: datas)
+        currentReceipt.receiptData = currentReceiptData
+        receipt.onNext(currentReceipt)
+    }
 }

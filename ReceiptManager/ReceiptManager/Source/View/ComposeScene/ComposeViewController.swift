@@ -13,6 +13,13 @@ import AVFoundation
 import PhotosUI
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
+    private var canAccessImagesData: [Data] = []
+    private var fetchResult: PHFetchResult<PHAsset>?
+    private var thumbnailSize: CGSize {
+        let scale = UIScreen.main.scale
+        return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
+    }
+
     var viewModel: ComposeViewModel?
     private let datePicker = UIDatePicker()
     
@@ -314,50 +321,97 @@ extension ComposeViewController: UINavigationControllerDelegate,
     }
 }
 
+extension ComposeViewController: SelectPickerDelegate {
+    func selectPicker() {
+        viewModel?.cancelAction()
+        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+    }
+}
+
+extension ComposeViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        self.getCanAccessImages()
+    }
+    
+    private func getCanAccessImages() {
+        canAccessImagesData = []
+        let fetchOptions = PHFetchOptions()
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        
+        fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        
+        fetchResult?.enumerateObjects({ asset, _, _ in
+            PHImageManager().requestImage(
+                for: asset,
+                targetSize: self.thumbnailSize,
+                contentMode: .aspectFill,
+                options: requestOptions
+            ) { (image, info) in
+                
+                guard let image = image else { return }
+                self.canAccessImagesData.append(image.pngData() ?? Data())
+            }
+        })
+        
+        DispatchQueue.main.async {
+            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
+        }
+    }
+}
+
 // MARK: - UploadImageCell and Confirm Auth
 extension ComposeViewController {
-    func openPhotoLibrary() {
-        let status: PHAuthorizationStatus
-        
-        if #available(iOS 14, *) {
-            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        } else {
-            status = PHPhotoLibrary.authorizationStatus()
-        }
-        
-        if status == .authorized || status == .notDetermined {
-            if #available(iOS 14, *) {
+    private func requestPHPhotoLibraryAuthorization(completion: @escaping (PHAuthorizationStatus) -> Void) {
+        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { authorizationStatus in
+            DispatchQueue.main.async {
+                completion(authorizationStatus)
+            }
+        })
+    }
+    
+    private func openAlbum() {
+        requestPHPhotoLibraryAuthorization { authorizationStatus in
+            switch authorizationStatus {
+            case .authorized:
                 var configuration = PHPickerConfiguration()
-                let currentImageCount = (try? viewModel?.receipt.value().receiptData.count) ?? .zero
+                let currentImageCount = (try? self.viewModel?.receipt.value().receiptData.count) ?? .zero
                 
                 configuration.selectionLimit = 6 - currentImageCount
                 configuration.filter = .any(of: [.images, .livePhotos])
                 
                 let picker = PHPickerViewController(configuration: configuration)
                 picker.delegate = self
-                present(picker, animated: true, completion: nil)
-            } else {
-                let picker = UIImagePickerController()
-                picker.sourceType = .photoLibrary
-                picker.allowsEditing = false
-                picker.delegate = self
-                present(picker, animated: true, completion: nil)
+                self.present(picker, animated: true, completion: nil)
+                
+            case .limited:
+                PHPhotoLibrary.shared().register(self)
+                self.getCanAccessImages()
+            default:
+                self.showPermissionAlert(text: "앨범")
             }
-        } else {
-            requestAlbumPermission()
+        }
+    }
+    
+    private func requestCameraAuthorization(completion: @escaping (Bool) -> Void) {
+        AVCaptureDevice.requestAccess(for: .video) { isAuth in
+            DispatchQueue.main.async {
+                completion(isAuth)
+            }
         }
     }
     
     private func openCamera() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        
-        if status == .authorized || status == .notDetermined {
-            picker.sourceType = .camera
-            present(picker, animated: true, completion: nil)
-        } else {
-            requestCameraPermission()
+        requestCameraAuthorization { isAuth in
+            if !isAuth {
+                self.showPermissionAlert(text: "카메라")
+            } else {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.sourceType = .camera
+                self.present(picker, animated: true, completion: nil)
+            }
         }
     }
     
@@ -374,69 +428,31 @@ extension ComposeViewController {
         }
         
         let albumAction = UIAlertAction(title: "앨범", style: .default) { _ in
-            self.openPhotoLibrary()
+            self.openAlbum()
         }
         
         [cameraAction, albumAction, cancelAction].forEach(alert.addAction(_:))
         present(alert, animated: true, completion: nil)
     }
     
-    func requestAlbumPermission() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        
-        switch status {
-        case .authorized:
-            break
-        default:
-            DispatchQueue.main.async {
-                let alertController = UIAlertController(
-                    title: "앨범 접근 권한 필요",
-                    message: "앨범에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
-                    preferredStyle: .alert
-                )
-                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
-                    }
-                }
-                
-                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-                
-                alertController.addAction(settingsAction)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true, completion: nil)
+    private func showPermissionAlert(text: String) {
+        let alertController = UIAlertController(
+            title: "\(text) 접근 권한 필요",
+            message: "\(text)에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
+            preferredStyle: .alert
+        )
+        let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
             }
         }
-    }
-    
-    func requestCameraPermission() {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
         
-        switch status {
-        case .authorized:
-            break
-        default:
-            DispatchQueue.main.async {
-                let alertController = UIAlertController(
-                    title: "카메라 권한 필요",
-                    message: "카메라에 접근하여 사진을 찍을 수 있도록 허용해주세요.",
-                    preferredStyle: .alert
-                )
-                let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                    if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
-                    }
-                }
-                
-                let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-                
-                alertController.addAction(settingsAction)
-                alertController.addAction(cancelAction)
-                
-                self.present(alertController, animated: true, completion: nil)
-            }
-        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(settingsAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 

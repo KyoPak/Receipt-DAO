@@ -17,21 +17,25 @@ enum ConstantText {
     static let clearBookMark = "즐겨찾기 해제"
     static let register = "등록하기"
     static let input = "입력"
-    static let shortRegister = "등록"
     
+    static let shortRegister = "등록"
+    static let selectImage = "선택한 이미지"
+    static let selectButton = "더 많은 사진 선택"
     static let save = "저장"
     static let delete = "삭제"
+    
     static let cancle = "취소"
+    static let complete = "완료"
     static let edit = "편집"
     static let back = "뒤로"
-    
     static let date = "날짜"
+    
     static let store = "상호명"
     static let product = "내역"
     static let price = "가격"
     static let today = "오늘"
-    
     static let cash = "현금"
+    
     static let card = "카드"
     static let memo = "간단한 메모를 작성해보세요."
     static let noPicture = "등록된 사진이 없습니다."
