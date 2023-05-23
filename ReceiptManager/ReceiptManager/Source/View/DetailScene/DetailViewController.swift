@@ -71,12 +71,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     )
     
     private lazy var mainStackView = UIStackView(
-        subViews: [dateLabel, storeLabel, productLabel, priceStackView],
+        subViews: [storeLabel, productLabel, priceStackView],
         axis: .vertical,
         alignment: .fill,
         distribution: .fill,
-        spacing: 10
+        spacing: 5
     )
+    
+    private var mainView = UIView(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -269,28 +271,37 @@ extension DetailViewController {
         view.backgroundColor = ConstantColor.backGrouncColor
         priceLabel.textColor = ConstantColor.registerColor
         dateLabel.textColor = .systemGray6
+        mainView.backgroundColor = ConstantColor.cellColor
+        mainView.layer.cornerRadius = 10
         
-        mainStackView.backgroundColor = ConstantColor.cellColor
-        mainStackView.layer.cornerRadius = 10
-        mainStackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-        mainStackView.isLayoutMarginsRelativeArrangement = true
-
-        [memoTextView, collectionView, memoTextView].forEach {
+        [dateLabel, mainStackView].forEach(mainView.addSubview(_:))
+        [mainView, memoTextView, collectionView, memoTextView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [mainStackView, collectionView, countLabel, memoTextView].forEach(view.addSubview(_:))
+        [mainView, collectionView, countLabel, memoTextView].forEach(view.addSubview(_:))
     }
     
     private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            mainStackView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            dateLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
+            dateLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
+            dateLabel.heightAnchor.constraint(equalToConstant: dateLabel.intrinsicContentSize.height),
             
-            collectionView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+            mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
+            mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
+            mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20),
+            
+            productLabel.heightAnchor.constraint(equalToConstant: productLabel.intrinsicContentSize.height),
+            
+            mainView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            mainView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            mainView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
+            
+            collectionView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
