@@ -73,10 +73,11 @@ final class ListViewController: UIViewController, ViewModelBindable {
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
         
-        viewModel.currentDate
-            .map({ date in
+        viewModel.currentDateRelay
+            .map { date in
                 return DateFormatter.string(from: date)
-            })
+            }
+            .asDriver(onErrorJustReturn: "")
             .drive(monthLabel.rx.text)
             .disposed(by: rx.disposeBag)
         

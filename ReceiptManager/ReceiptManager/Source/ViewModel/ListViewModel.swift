@@ -18,11 +18,7 @@ final class ListViewModel: CommonViewModel {
     private let disposeBag = DisposeBag()
     private let calendar = Calendar.current
     
-    private let currentDateRelay = BehaviorRelay<Date>(value: Date())
-    
-    var currentDate: Driver<Date> {
-        return currentDateRelay.asDriver()
-    }
+    let currentDateRelay = BehaviorRelay<Date>(value: Date())
     
     var receiptList: Observable<[ReceiptSectionModel]> {
         return currentDateRelay
