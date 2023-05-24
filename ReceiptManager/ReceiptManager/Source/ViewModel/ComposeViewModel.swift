@@ -54,10 +54,12 @@ final class ComposeViewModel: CommonViewModel {
         receipt.onNext(currentReceipt)
     }
     
-    func cancelAction() {
+    func cancelAction(completion: (() -> Void)? = nil) {
         sceneCoordinator.close(animated: true)
             .subscribe()
             .disposed(by: disposeBag)
+        
+        completion?()
     }
     
     func saveAction() {

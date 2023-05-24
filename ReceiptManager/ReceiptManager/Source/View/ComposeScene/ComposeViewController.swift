@@ -323,8 +323,9 @@ extension ComposeViewController: UINavigationControllerDelegate,
 
 extension ComposeViewController: SelectPickerDelegate {
     func selectPicker() {
-        viewModel?.cancelAction()
-        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+        viewModel?.cancelAction(completion: {
+            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+        })
     }
 }
 
