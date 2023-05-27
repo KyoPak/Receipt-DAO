@@ -53,6 +53,11 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -208,7 +213,6 @@ extension ListViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = ConstantText.back
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: ConstantText.shortRegister,

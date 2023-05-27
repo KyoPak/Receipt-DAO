@@ -248,7 +248,6 @@ extension DetailViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = ConstantText.back
         
         let shareButton = UIBarButtonItem(
             image: UIImage(systemName: "square.and.arrow.up"),

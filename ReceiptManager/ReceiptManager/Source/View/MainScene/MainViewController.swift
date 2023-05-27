@@ -121,6 +121,12 @@ final class MainViewController: UIViewController, ViewModelBindable {
 extension MainViewController {
     private func setupNavigationBar() {
         navigationController?.isNavigationBarHidden = true
+        
+        let backBarButtonItem = UIBarButtonItem(
+            title: ConstantText.home, style: .plain, target: self, action: nil
+        )
+        backBarButtonItem.tintColor = .white
+        navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     private func setupView() {

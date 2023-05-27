@@ -27,8 +27,8 @@ enum ConstantText {
     static let cancle = "취소"
     static let complete = "완료"
     static let edit = "편집"
-    static let back = "뒤로"
     static let date = "날짜"
+    static let home = "홈"
     
     static let store = "상호명"
     static let product = "내역"
