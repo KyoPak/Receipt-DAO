@@ -184,34 +184,7 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Activity View
-extension UIViewController {
-    func presentActivityView(data: Receipt?) {
-        guard let datas = data?.receiptData else { return }
-        
-        var imageDatas: [UIImage] = []
-        
-        for data in datas {
-            if let image = UIImage(data: data) {
-                imageDatas.append(image)
-            }
-        }
-        
-        let activiyController = UIActivityViewController(
-            activityItems: imageDatas,
-            applicationActivities: nil
-        )
-        
-        activiyController.excludedActivityTypes = [
-            .addToReadingList,
-            .assignToContact,
-            .openInIBooks
-        ]
-        
-        present(activiyController, animated: true, completion: nil)
-    }
-}
-
+// MARK: - Action
 extension DetailViewController {
     @objc func shareButtonTapped() {
         let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
