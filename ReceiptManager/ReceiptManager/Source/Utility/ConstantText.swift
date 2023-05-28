@@ -40,4 +40,7 @@ enum ConstantText {
     static let memo = "간단한 메모를 작성해보세요."
     static let noPicture = "등록된 사진이 없습니다."
     static let won = " 원"
+    
+    static let album = "앨범"
+    static let camera = "카메라"
 }

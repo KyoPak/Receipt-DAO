@@ -331,7 +331,7 @@ extension ComposeViewController: SelectPickerDelegate {
 
 extension ComposeViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        self.getCanAccessImages()
+        getCanAccessImages()
     }
     
     private func getCanAccessImages() {
@@ -390,7 +390,7 @@ extension ComposeViewController {
                 PHPhotoLibrary.shared().register(self)
                 self.getCanAccessImages()
             default:
-                self.showPermissionAlert(text: "앨범")
+                self.showPermissionAlert(text: ConstantText.album)
             }
         }
     }
@@ -406,7 +406,7 @@ extension ComposeViewController {
     private func openCamera() {
         requestCameraAuthorization { isAuth in
             if !isAuth {
-                self.showPermissionAlert(text: "카메라")
+                self.showPermissionAlert(text: ConstantText.camera)
             } else {
                 let picker = UIImagePickerController()
                 picker.delegate = self
