@@ -80,6 +80,13 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     
     private var mainView = UIView(frame: .zero)
     
+    private lazy var shareButton = UIBarButtonItem(
+        image: UIImage(systemName: "square.and.arrow.up"),
+        style: .plain,
+        target: self,
+        action: #selector(shareButtonTapped)
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -103,6 +110,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 self?.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.won
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
+                self?.shareButton.isEnabled = receipt.receiptData.count != .zero
             })
             .disposed(by: rx.disposeBag)
         
@@ -136,7 +144,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
 // MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
     private func scrollToFirstItem() {
-        let firstIndexPath = IndexPath(item: 0, section: 0)
+        let firstIndexPath = IndexPath(item: .zero, section: .zero)
         if collectionView.numberOfItems(inSection: .zero) > .zero {
             collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
         }
@@ -184,41 +192,14 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Activity View
-extension UIViewController {
-    func presentActivityView(data: Receipt?) {
-        guard let datas = data?.receiptData else { return }
-        
-        var imageDatas: [UIImage] = []
-        
-        for data in datas {
-            if let image = UIImage(data: data) {
-                imageDatas.append(image)
-            }
-        }
-        
-        let activiyController = UIActivityViewController(
-            activityItems: imageDatas,
-            applicationActivities: nil
-        )
-        
-        activiyController.excludedActivityTypes = [
-            .addToReadingList,
-            .assignToContact,
-            .openInIBooks
-        ]
-        
-        present(activiyController, animated: true, completion: nil)
-    }
-}
-
+// MARK: - Action
 extension DetailViewController {
-    @objc func shareButtonTapped() {
+    @objc private func shareButtonTapped() {
         let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
         presentActivityView(data: receipt)
     }
     
-    @objc func composeButtonTapped() {
+    @objc private func composeButtonTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let editAction = UIAlertAction(title: ConstantText.edit, style: .default) { [weak self] _ in
@@ -248,15 +229,7 @@ extension DetailViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.backItem?.title = ConstantText.back
-        
-        let shareButton = UIBarButtonItem(
-            image: UIImage(systemName: "square.and.arrow.up"),
-            style: .plain,
-            target: self,
-            action: #selector(shareButtonTapped)
-        )
-        
+                
         let composeButton = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
