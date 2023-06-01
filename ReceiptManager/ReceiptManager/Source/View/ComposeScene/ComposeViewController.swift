@@ -149,100 +149,113 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
+        bindViewModeltoUI()
+        bindUItoViewModel()
+    }
+    
+    private func bindViewModeltoUI() {
         guard let viewModel = viewModel else { return }
+        
         // ViewModel Data를 UI 바인딩
         viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel.receipt
-            .asDriver(onErrorJustReturn: Receipt())
-            .drive { [weak self] receipt in
-                self?.datePicker.date = receipt.receiptDate
-                self?.storeTextField.text = receipt.store
-                self?.productNameTextField.text = receipt.product
-                
-                let price = NumberFormatter.numberDecimal(from: receipt.price)
-                let priceText = price == "0" ? "" : price
-                self?.priceTextField.text = priceText
-                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
-                self?.memoTextView.text = receipt.memo
-                
-                if receipt.memo != "" {
-                    self?.placeHoderLabel.isHidden = true
-                }
-                
-                self?.countLabel.text = "영수증 등록 \(receipt.receiptData.count - 1)/5"
-            }
+        viewModel.dateRelay
+            .asDriver(onErrorJustReturn: Date())
+            .drive(datePicker.rx.date)
             .disposed(by: rx.disposeBag)
         
-        viewModel.receipt
-            .map { $0.receiptData }
-            .asDriver(onErrorJustReturn: [])
-            .drive(
-                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+        viewModel.storeRelay
+            .asDriver(onErrorJustReturn: "")
+            .drive(storeTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.productRelay
+            .asDriver(onErrorJustReturn: "")
+            .drive(productNameTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.priceRelay
+            .asDriver(onErrorJustReturn: .zero)
+            .map { price in
+                let priceText = NumberFormatter.numberDecimal(from: price)
+                return priceText == "0" ? "" : priceText
+            }
+            .drive(priceTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.payRelay
+            .asDriver(onErrorJustReturn: .zero)
+            .drive(payTypeSegmented.rx.selectedSegmentIndex)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.memoRelay
+            .asDriver(onErrorJustReturn: "")
+            .map { [weak self] text in
+                if text != "" {
+                    self?.placeHoderLabel.isHidden = true
+                }
+                return text
+            }
+            .drive(memoTextView.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptDataRelay
+            .asDriver()
+            .map { datas in
+                return "영수증 등록 \(datas.count - 1)/5"
+            }
+            .drive(countLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptDataRelay
+            .asDriver()
+            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
                 if indexPath == .zero { cell.hiddenButton() }
                 cell.delegate = self
                 cell.setupReceiptImage(data)
             }
-            .disposed(by: rx.disposeBag)
+            .disposed(by: rx.disposeBag)            
+    }
+    
+    private func bindUItoViewModel() {
+        guard let viewModel = viewModel else { return }
         
         // UI의 Data를 ViewModel에 바인딩
         datePicker.rx.date
-            .subscribe(onNext: { [weak self] datePickerDate in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.receiptDate = datePickerDate
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+            .bind(to: viewModel.dateRelay)
             .disposed(by: rx.disposeBag)
         
-        storeTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.store = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        storeTextField.rx.text.orEmpty
+            .bind(to: viewModel.storeRelay)
             .disposed(by: rx.disposeBag)
         
-        productNameTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.product = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        productNameTextField.rx.text.orEmpty
+            .bind(to: viewModel.productRelay)
             .disposed(by: rx.disposeBag)
         
-        priceTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                let input = text?.replacingOccurrences(of: ",", with: "")
-                receipt.price = Int(input ?? "0") ?? .zero
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        priceTextField.rx.text.orEmpty
+            .map { price in
+                let input = price.replacingOccurrences(of: ",", with: "")
+                return Int(input) ?? .zero
+            }
+            .bind(to: viewModel.priceRelay)
             .disposed(by: rx.disposeBag)
-        
+            
         payTypeSegmented.rx.selectedSegmentIndex
-            .subscribe(onNext: { [weak self] index in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.paymentType = index
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+            .bind(to: viewModel.payRelay)
             .disposed(by: rx.disposeBag)
         
-        memoTextView.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.memo = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        memoTextView.rx.text.orEmpty
+            .bind(to: viewModel.memoRelay)
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
-                let currentData = (try? self.viewModel?.receipt.value().receiptData) ?? []
-                if index.row == .zero && currentData.count < 6 {
+                if index.row == .zero && viewModel.receiptDataRelay.value.count < 6 {
                     self.uploadImageCell(true)
                 }
             })
@@ -377,7 +390,7 @@ extension ComposeViewController {
             switch authorizationStatus {
             case .authorized:
                 var configuration = PHPickerConfiguration()
-                let currentImageCount = (try? self.viewModel?.receipt.value().receiptData.count) ?? .zero
+                let currentImageCount = self.viewModel?.receiptDataRelay.value.count ?? .zero
                 
                 configuration.selectionLimit = 6 - currentImageCount
                 configuration.filter = .any(of: [.images, .livePhotos])
