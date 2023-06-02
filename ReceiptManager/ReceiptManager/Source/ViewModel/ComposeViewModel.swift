@@ -48,7 +48,20 @@ final class ComposeViewModel: CommonViewModel {
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
+    
+    private func bindOCRExtractor() {
+        ocrExtractor.ocrResult
+            .bind { [weak self] ocrResult in
+                self?.dateRelay.accept(ocrResult.date)
+                self?.storeRelay.accept(ocrResult.store)
+                self?.priceRelay.accept(ocrResult.price)
+                self?.payRelay.accept(ocrResult.paymentType)
+            }
+            .disposed(by: disposeBag)
+    }
+}
 
+extension ComposeViewModel {
     func updateReceiptData(_ data: Data?, isFirstReceipt: Bool) {
         guard let data = data else { return }
         
@@ -59,13 +72,8 @@ final class ComposeViewModel: CommonViewModel {
         } else {
             // 첫번째 이미지 OCR 로직 동작
             if currentReceiptData.count == 1 {
-                ocrExtractor.extractText(data: data) { [weak self] filterResult in
-                    print(filterResult.date)
-                    self?.dateRelay.accept(filterResult.date)
-                    self?.storeRelay.accept(filterResult.store)
-                    self?.priceRelay.accept(filterResult.price)
-                    self?.payRelay.accept(filterResult.paymentType)
-                }
+                bindOCRExtractor()
+                ocrExtractor.extractText(data: data)
             }
             
             currentReceiptData.append(data)

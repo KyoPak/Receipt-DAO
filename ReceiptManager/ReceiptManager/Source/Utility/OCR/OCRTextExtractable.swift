@@ -6,15 +6,20 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 import Vision
 import VisionKit
 
 protocol OCRTextExtractable {
-    func extractText(data: Data, completion: @escaping (OCRResult) -> Void)
+    var ocrResult: BehaviorRelay<OCRResult> { get set }
+    func extractText(data: Data)
 }
 
 final class OCRTextExtractor: OCRTextExtractable {
-    func extractText(data: Data, completion: @escaping (OCRResult) -> Void) {
+    var ocrResult = BehaviorRelay(value: OCRResult())
+    
+    func extractText(data: Data) {
         guard let image = UIImage(data: data)?.cgImage else { return }
         
         let handler = VNImageRequestHandler(cgImage: image, options: [:])
@@ -30,11 +35,7 @@ final class OCRTextExtractor: OCRTextExtractable {
                 text.topCandidates(1).first?.string.trimmingCharacters(in: .whitespacesAndNewlines)
             }
             
-            let filterResult = self.filterOCR(ocrText)
-            
-            DispatchQueue.main.async {
-                completion(filterResult)
-            }
+            self.ocrResult.accept(self.filterOCR(ocrText))
         }
         
         if #available(iOS 16.0, *) {
@@ -56,34 +57,34 @@ final class OCRTextExtractor: OCRTextExtractable {
     }
     
     private func filterOCR(_ result: [String]) -> OCRResult {
-        var ocrResult = OCRResult()
+        var filterResult = OCRResult()
         
         // 상호명 Default
-        ocrResult.store = result[0]
+        filterResult.store = result[0]
         
         for index in 0..<result.count {
             let text = result[index]
             
             // 상호명 추출
             if text == "상호명" && index + 1 < result.count {
-                ocrResult.store = result[index + 1]
+                filterResult.store = result[index + 1]
                 continue
             }
             
             if let dateExtract = extractDate(from: text) {
-                ocrResult.date = dateExtract
+                filterResult.date = dateExtract
             }
             
             if let priceExtract = extractPrice(from: text) {
-                ocrResult.price = priceExtract
+                filterResult.price = priceExtract
             }
             
             if let payTypeExtract = extractPayType(from: text) {
-                ocrResult.paymentType = payTypeExtract
+                filterResult.paymentType = payTypeExtract
             }
         }
         
-        return ocrResult
+        return filterResult
     }
     
     // 날짜 추출
@@ -124,6 +125,7 @@ final class OCRTextExtractor: OCRTextExtractable {
         return nil
     }
     
+    // 현금/카드 타입 추출
     private func extractPayType(from text: String) -> Int? {
         if text.contains(PayType.cash.description) {
             return PayType.cash.rawValue
