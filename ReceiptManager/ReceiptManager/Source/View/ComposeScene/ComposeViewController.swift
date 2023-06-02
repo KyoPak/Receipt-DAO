@@ -124,12 +124,9 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         viewModel.memoRelay
             .asDriver(onErrorJustReturn: "")
-            .map { [weak self] text in
-                if text != "" {
-                    self?.placeHoderLabel.isHidden = true
-                }
-                return text
-            }
+            .do(onNext: { [weak self] text in
+                self?.placeHoderLabel.isHidden = !text.isEmpty
+            })
             .drive(memoTextView.rx.text)
             .disposed(by: rx.disposeBag)
         
