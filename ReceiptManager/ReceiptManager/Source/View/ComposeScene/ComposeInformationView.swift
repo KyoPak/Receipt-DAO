@@ -121,11 +121,11 @@ extension ComposeInformationView {
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 10
         datePicker.backgroundColor = ConstantColor.registerColor
-        datePicker.subviews[.zero].subviews[.zero].subviews[.zero].alpha = .zero
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
 
+// MARK: - UI Constraint
 extension ComposeInformationView {
     private func setupView() {
         backgroundColor = ConstantColor.backGrouncColor
