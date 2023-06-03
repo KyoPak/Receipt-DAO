@@ -60,7 +60,7 @@ final class OCRTextExtractor: OCRTextExtractable {
         var filterResult = OCRResult()
         
         // 상호명 Default
-        filterResult.store = result[0]
+        filterResult.store = result.first ?? ""
         
         for index in 0..<result.count {
             let text = result[index]
