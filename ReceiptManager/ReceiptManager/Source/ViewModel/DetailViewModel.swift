@@ -43,7 +43,8 @@ final class DetailViewModel: CommonViewModel {
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             receipt: receipt,
-            delegate: self
+            delegate: self,
+            ocrExtractor: OCRTextExtractor()
         )
         
         let composeScene = Scene.compose(composeViewModel)

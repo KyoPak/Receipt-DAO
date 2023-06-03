@@ -21,78 +21,11 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }
 
     var viewModel: ComposeViewModel?
-    private let datePicker = UIDatePicker()
     
+    private let informationView = ComposeInformationView()
     private let placeHoderLabel = UILabel(text: ConstantText.memo, font: .preferredFont(forTextStyle: .body))
     
-    private let dateLabel = UILabel(text: ConstantText.date, font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(text: ConstantText.store, font: .preferredFont(forTextStyle: .body))
-    private let productLabel = UILabel(text: ConstantText.product, font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: ConstantText.price, font: .preferredFont(forTextStyle: .body))
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
-    
-    private let storeTextField = UITextField(
-        textColor: .white,
-        placeholder: ConstantText.input,
-        tintColor: ConstantColor.registerColor,
-        backgroundColor: ConstantColor.cellColor
-    )
-    
-    private let productNameTextField = UITextField(
-        textColor: .white,
-        placeholder: ConstantText.input,
-        tintColor: ConstantColor.registerColor,
-        backgroundColor: ConstantColor.cellColor
-    )
-    
-    private let priceTextField = UITextField(
-        textColor: .white,
-        placeholder: ConstantText.input,
-        tintColor: ConstantColor.registerColor,
-        backgroundColor: ConstantColor.cellColor
-    )
-    
-    private lazy var storeStackView = UIStackView(
-        subViews: [storeLabel, storeTextField],
-        axis: .horizontal,
-        alignment: .fill,
-        distribution: .fill,
-        spacing: 10
-    )
-    
-    private lazy var productStackView = UIStackView(
-        subViews: [productLabel, productNameTextField],
-        axis: .horizontal,
-        alignment: .fill,
-        distribution: .fill,
-        spacing: 10
-    )
-    
-    private lazy var priceStackView = UIStackView(
-        subViews: [priceLabel, priceTextField, payTypeSegmented],
-        axis: .horizontal,
-        alignment: .fill,
-        distribution: .fill,
-        spacing: 10
-    )
-    
-    private lazy var mainStackView = UIStackView(
-        subViews: [storeStackView, productStackView, priceStackView],
-        axis: .vertical,
-        alignment: .fill,
-        distribution: .fill,
-        spacing: 20
-    )
-    
-    private let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
-        segment.selectedSegmentIndex = .zero
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        segment.selectedSegmentTintColor = ConstantColor.registerColor
-        
-        return segment
-    }()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -127,7 +60,6 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         setupFirstCell()
         setupNotification()
         setupNavigationBar()
-        setupDatePicker()
         setupConstraints()
         createKeyboardDownButton()
     }
@@ -149,100 +81,110 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
+        bindViewModeltoUI()
+        bindUItoViewModel()
+    }
+    
+    private func bindViewModeltoUI() {
         guard let viewModel = viewModel else { return }
+        
         // ViewModel Data를 UI 바인딩
         viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel.receipt
-            .asDriver(onErrorJustReturn: Receipt())
-            .drive { [weak self] receipt in
-                self?.datePicker.date = receipt.receiptDate
-                self?.storeTextField.text = receipt.store
-                self?.productNameTextField.text = receipt.product
-                
-                let price = NumberFormatter.numberDecimal(from: receipt.price)
-                let priceText = price == "0" ? "" : price
-                self?.priceTextField.text = priceText
-                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
-                self?.memoTextView.text = receipt.memo
-                
-                if receipt.memo != "" {
-                    self?.placeHoderLabel.isHidden = true
-                }
-                
-                self?.countLabel.text = "영수증 등록 \(receipt.receiptData.count - 1)/5"
-            }
+        viewModel.dateRelay
+            .asDriver(onErrorJustReturn: Date())
+            .drive(informationView.datePicker.rx.date)
             .disposed(by: rx.disposeBag)
         
-        viewModel.receipt
-            .map { $0.receiptData }
-            .asDriver(onErrorJustReturn: [])
-            .drive(
-                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+        viewModel.storeRelay
+            .asDriver(onErrorJustReturn: "")
+            .drive(informationView.storeTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.productRelay
+            .asDriver(onErrorJustReturn: "")
+            .drive(informationView.productNameTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.priceRelay
+            .asDriver(onErrorJustReturn: .zero)
+            .map { price in
+                let priceText = NumberFormatter.numberDecimal(from: price)
+                return priceText == "0" ? "" : priceText
+            }
+            .drive(informationView.priceTextField.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.payRelay
+            .asDriver(onErrorJustReturn: .zero)
+            .drive(informationView.payTypeSegmented.rx.selectedSegmentIndex)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.memoRelay
+            .asDriver(onErrorJustReturn: "")
+            .do(onNext: { [weak self] text in
+                self?.placeHoderLabel.isHidden = !text.isEmpty
+            })
+            .drive(memoTextView.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptDataRelay
+            .asDriver()
+            .map { datas in
+                return "영수증 등록 \(datas.count - 1)/5"
+            }
+            .drive(countLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptDataRelay
+            .asDriver()
+            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
                 if indexPath == .zero { cell.hiddenButton() }
                 cell.delegate = self
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
+    }
+    
+    private func bindUItoViewModel() {
+        guard let viewModel = viewModel else { return }
         
         // UI의 Data를 ViewModel에 바인딩
-        datePicker.rx.date
-            .subscribe(onNext: { [weak self] datePickerDate in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.receiptDate = datePickerDate
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        informationView.datePicker.rx.date
+            .bind(to: viewModel.dateRelay)
             .disposed(by: rx.disposeBag)
         
-        storeTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.store = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        informationView.storeTextField.rx.text.orEmpty
+            .bind(to: viewModel.storeRelay)
             .disposed(by: rx.disposeBag)
         
-        productNameTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.product = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        informationView.productNameTextField.rx.text.orEmpty
+            .bind(to: viewModel.productRelay)
             .disposed(by: rx.disposeBag)
         
-        priceTextField.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                let input = text?.replacingOccurrences(of: ",", with: "")
-                receipt.price = Int(input ?? "0") ?? .zero
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        informationView.priceTextField.rx.text.orEmpty
+            .map { price in
+                let input = price.replacingOccurrences(of: ",", with: "")
+                return Int(input) ?? .zero
+            }
+            .bind(to: viewModel.priceRelay)
+            .disposed(by: rx.disposeBag)
+            
+        informationView.payTypeSegmented.rx.selectedSegmentIndex
+            .bind(to: viewModel.payRelay)
             .disposed(by: rx.disposeBag)
         
-        payTypeSegmented.rx.selectedSegmentIndex
-            .subscribe(onNext: { [weak self] index in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.paymentType = index
-                self?.viewModel?.receipt.onNext(receipt)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        memoTextView.rx.text
-            .subscribe(onNext: { [weak self] text in
-                guard var receipt = try? self?.viewModel?.receipt.value() else { return }
-                receipt.memo = text ?? ""
-                self?.viewModel?.receipt.onNext(receipt)
-            })
+        memoTextView.rx.text.orEmpty
+            .bind(to: viewModel.memoRelay)
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] index in
                 guard let self = self else { return }
-                let currentData = (try? self.viewModel?.receipt.value().receiptData) ?? []
-                if index.row == .zero && currentData.count < 6 {
+                if index.row == .zero && viewModel.receiptDataRelay.value.count < 6 {
                     self.uploadImageCell(true)
                 }
             })
@@ -258,25 +200,6 @@ extension ComposeViewController {
     
     @objc private func tapSaveButton() {
         viewModel?.saveAction()
-    }
-}
-
-// MARK: - DatePicker
-extension ComposeViewController {
-    @objc private func datePickerWheel(_ sender: UIDatePicker) -> Date? {
-        return sender.date
-    }
-    
-    private func setupDatePicker() {
-        datePicker.tintColor = .black
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.locale = Locale(identifier: "ko-kr")
-        datePicker.clipsToBounds = true
-        datePicker.layer.cornerRadius = 10
-        datePicker.backgroundColor = ConstantColor.registerColor
-        datePicker.subviews[.zero].subviews[.zero].subviews[.zero].alpha = .zero
-        datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
 
@@ -377,7 +300,7 @@ extension ComposeViewController {
             switch authorizationStatus {
             case .authorized:
                 var configuration = PHPickerConfiguration()
-                let currentImageCount = (try? self.viewModel?.receipt.value().receiptData.count) ?? .zero
+                let currentImageCount = self.viewModel?.receiptDataRelay.value.count ?? .zero
                 
                 configuration.selectionLimit = 6 - currentImageCount
                 configuration.filter = .any(of: [.images, .livePhotos])
@@ -457,23 +380,8 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - TextField, TextViewDelagate
-extension ComposeViewController: UITextFieldDelegate, UITextViewDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField == priceTextField {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            
-            if let input = textField.text?.replacingOccurrences(of: ",", with: "") {
-                if let number = formatter.number(from: input) {
-                    textField.text = formatter.string(from: number)
-                } else {
-                    textField.text = ""
-                }
-            }
-        }
-    }
-    
+// MARK: - TextViewDelagate
+extension ComposeViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeHoderLabel.isHidden = true
     }
@@ -591,20 +499,13 @@ extension ComposeViewController {
     private func setupView() {
         view.backgroundColor = ConstantColor.backGrouncColor
         
-        [datePicker, mainStackView, memoTextView, collectionView].forEach {
+        [informationView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        [dateLabel, datePicker, mainStackView, countLabel, collectionView, memoTextView, placeHoderLabel]
+        [informationView, countLabel, collectionView, memoTextView, placeHoderLabel]
             .forEach(view.addSubview(_:))
-        
-        [storeTextField, productNameTextField, priceTextField].forEach {
-            $0.setPlaceholder(color: .lightGray)
-            $0.delegate = self
-            $0.borderStyle = .roundedRect
-        }
-        
-        priceTextField.keyboardType = .numberPad
+
         placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self
     }
@@ -613,21 +514,12 @@ extension ComposeViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            dateLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            priceLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            productLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            informationView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            informationView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            informationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            informationView.heightAnchor.constraint(equalToConstant: 200),
             
-            dateLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            dateLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            datePicker.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
-            datePicker.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 10),
-            
-            mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
-            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            
-            countLabel.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+            countLabel.topAnchor.constraint(equalTo: informationView.bottomAnchor, constant: 20),
             countLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
@@ -645,9 +537,5 @@ extension ComposeViewController {
             placeHoderLabel.leadingAnchor.constraint(equalTo: memoTextView.leadingAnchor, constant: 5),
             placeHoderLabel.trailingAnchor.constraint(equalTo: memoTextView.trailingAnchor)
         ])
-        
-        priceTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        payTypeSegmented.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        payTypeSegmented.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 }

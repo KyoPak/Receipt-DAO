@@ -45,7 +45,8 @@ final class MainViewModel: CommonViewModel {
         let composeViewModel = ComposeViewModel(
             title: ConstantText.register,
             sceneCoordinator: sceneCoordinator,
-            storage: storage
+            storage: storage,
+            ocrExtractor: OCRTextExtractor()
         )
         
         let composeScene = Scene.compose(composeViewModel)

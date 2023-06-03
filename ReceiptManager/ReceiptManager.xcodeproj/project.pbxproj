@@ -15,6 +15,7 @@
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
+		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
@@ -43,6 +44,8 @@
 		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
 		3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */; };
 		3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */; };
+		3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */; };
+		3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563FA2A287C39008A6CD0 /* OCRResult.swift */; };
 		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
 		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
@@ -68,6 +71,7 @@
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
+		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 		3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3CB4CF3F2A13768900E9CBAB /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRTextExtractable.swift; sourceTree = "<group>"; };
+		3CB563FA2A287C39008A6CD0 /* OCRResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRResult.swift; sourceTree = "<group>"; };
 		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				3CB563F72A286CFD008A6CD0 /* OCR */,
 				3C56C65D2A0963960058869C /* Protocol */,
 				3C9AA3442A0117C10014807B /* Extension */,
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
@@ -217,6 +224,7 @@
 				3CC893BA2A0CCCDB00055872 /* ImageCell.swift */,
 				3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */,
 				3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */,
+				3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */,
 			);
 			path = ComposeScene;
 			sourceTree = "<group>";
@@ -228,6 +236,15 @@
 				3CAF8AF12A162444002251DD /* LargeImageViewController.swift */,
 			);
 			path = DetailScene;
+			sourceTree = "<group>";
+		};
+		3CB563F72A286CFD008A6CD0 /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */,
+				3CB563FA2A287C39008A6CD0 /* OCRResult.swift */,
+			);
+			path = OCR;
 			sourceTree = "<group>";
 		};
 		3CDCDC4729FC002D00C2BEF6 /* Source */ = {
@@ -470,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
+				3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */,
 				3C9AA34B2A012EDA0014807B /* Transition.swift in Sources */,
 				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
@@ -497,6 +515,7 @@
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
+				3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
@@ -504,6 +523,7 @@
 				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
 				3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */,
+				3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */,
 				3C9AA35B2A0130490014807B /* ListViewModel.swift in Sources */,
 				3CAF8AF42A1627BA002251DD /* LargeImageViewModel.swift in Sources */,
 				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
@@ -665,11 +685,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReceiptManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -702,11 +723,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReceiptManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

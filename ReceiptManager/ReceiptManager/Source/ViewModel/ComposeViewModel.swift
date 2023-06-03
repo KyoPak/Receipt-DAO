@@ -13,45 +13,80 @@ final class ComposeViewModel: CommonViewModel {
     private weak var updateDelegate: ComposeDataUpdatable?
     private let disposeBag = DisposeBag()
     
-    var receipt: BehaviorSubject<Receipt>
+    private var originalReceipt: Receipt
+    
+    var dateRelay: BehaviorRelay<Date>
+    var storeRelay: BehaviorRelay<String>
+    var productRelay: BehaviorRelay<String>
+    var priceRelay: BehaviorRelay<Int>
+    var memoRelay: BehaviorRelay<String>
+    var payRelay: BehaviorRelay<Int>
+    var receiptDataRelay: BehaviorRelay<[Data]>
+
+    var ocrExtractor: OCRTextExtractable
     
     init(
         title: String,
         sceneCoordinator: SceneCoordinator,
         storage: ReceiptStorage,
         receipt: Receipt = Receipt(),
-        delegate: ComposeDataUpdatable? = nil
+        delegate: ComposeDataUpdatable? = nil,
+        ocrExtractor: OCRTextExtractable
     ) {
-        self.receipt = BehaviorSubject(value: receipt)
+        originalReceipt = receipt
+        
+        dateRelay = BehaviorRelay(value: receipt.receiptDate)
+        storeRelay = BehaviorRelay(value: receipt.store)
+        productRelay = BehaviorRelay(value: receipt.product)
+        priceRelay = BehaviorRelay(value: receipt.price)
+        memoRelay = BehaviorRelay(value: receipt.memo)
+        payRelay = BehaviorRelay(value: receipt.paymentType)
+        receiptDataRelay = BehaviorRelay(value: receipt.receiptData)
+        
         updateDelegate = delegate
+        self.ocrExtractor = ocrExtractor
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
+    
+    private func bindOCRExtractor() {
+        ocrExtractor.ocrResult
+            .bind { [weak self] ocrResult in
+                self?.dateRelay.accept(ocrResult.date)
+                self?.storeRelay.accept(ocrResult.store)
+                self?.priceRelay.accept(ocrResult.price)
+                self?.payRelay.accept(ocrResult.paymentType)
+            }
+            .disposed(by: disposeBag)
+    }
+}
 
+extension ComposeViewModel {
     func updateReceiptData(_ data: Data?, isFirstReceipt: Bool) {
         guard let data = data else { return }
         
-        var currentReceipt = (try? receipt.value()) ?? Receipt()
-        var currentReceiptData = currentReceipt.receiptData
+        var currentReceiptData = receiptDataRelay.value
         
         if isFirstReceipt {
             currentReceiptData.insert(data, at: .zero)
         } else {
+            // 첫번째 이미지 OCR 로직 동작
+            if currentReceiptData.count == 1 {
+                bindOCRExtractor()
+                ocrExtractor.extractText(data: data)
+            }
+            
             currentReceiptData.append(data)
         }
         
-        currentReceipt.receiptData = currentReceiptData
-        receipt.onNext(currentReceipt)
+        receiptDataRelay.accept(currentReceiptData)
     }
     
     func deleteReceiptData(indexPath: IndexPath) {
-        var currentReceipt = (try? receipt.value()) ?? Receipt()
-        var currentReceiptData = currentReceipt.receiptData
+        var currentReceiptData = receiptDataRelay.value
         
         currentReceiptData.remove(at: indexPath.item)
-        
-        currentReceipt.receiptData = currentReceiptData
-        receipt.onNext(currentReceipt)
+        receiptDataRelay.accept(currentReceiptData)
     }
     
     func cancelAction(completion: (() -> Void)? = nil) {
@@ -63,23 +98,29 @@ final class ComposeViewModel: CommonViewModel {
     }
     
     func saveAction() {
-        var currentReceipt = (try? receipt.value()) ?? Receipt()
-        
-        var currentReceiptData = currentReceipt.receiptData
+        var currentReceiptData = receiptDataRelay.value
         currentReceiptData.removeFirst()
         
-        currentReceipt.receiptData = currentReceiptData
-        receipt.onNext(currentReceipt)
+        receiptDataRelay.accept(currentReceiptData)
         
-        storage.upsert(receipt: currentReceipt)
-        updateDelegate?.update(receipt: currentReceipt)
+        var newReceipt = originalReceipt
+        
+        newReceipt.product = productRelay.value
+        newReceipt.price = priceRelay.value
+        newReceipt.memo = memoRelay.value
+        newReceipt.paymentType = payRelay.value
+        newReceipt.store = storeRelay.value
+        newReceipt.receiptData = receiptDataRelay.value
+        newReceipt.receiptDate = dateRelay.value
+        
+        storage.upsert(receipt: newReceipt)
+        updateDelegate?.update(receipt: newReceipt)
         cancelAction()
     }
     
     func selectImageAction(selectDatas: [Data], delegate: SelectPickerDelegate) {
-        // count는 현재 등록된 이미지 갯수.
-        let currentReceipt = (try? receipt.value()) ?? Receipt()
-        let currentReceiptData = currentReceipt.receiptData
+        // count는 현재 등록된 이미지 갯수
+        let currentReceiptData = receiptDataRelay.value
         
         let selectImageViewModel = SelectImageViewModel(
             title: ConstantText.selectImage,
@@ -99,11 +140,9 @@ final class ComposeViewModel: CommonViewModel {
 
 extension ComposeViewModel: SelectCompletable {
     func selectComplete(datas: [Data]) {
-        var currentReceipt = (try? receipt.value()) ?? Receipt()
-        var currentReceiptData = currentReceipt.receiptData
+        var currentReceiptData = receiptDataRelay.value
         
         currentReceiptData.append(contentsOf: datas)
-        currentReceipt.receiptData = currentReceiptData
-        receipt.onNext(currentReceipt)
+        receiptDataRelay.accept(currentReceiptData)
     }
 }
