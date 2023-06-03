@@ -71,7 +71,7 @@ extension ComposeViewModel {
             currentReceiptData.insert(data, at: .zero)
         } else {
             // 첫번째 이미지 OCR 로직 동작
-            if currentReceiptData.count == 1 {
+            if #available(iOS 16.0, *), currentReceiptData.count == 1 {
                 bindOCRExtractor()
                 ocrExtractor.extractText(data: data)
             }
