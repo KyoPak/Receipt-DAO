@@ -12,12 +12,12 @@ import Vision
 import VisionKit
 
 protocol OCRTextExtractable {
-    var ocrResult: BehaviorRelay<OCRResult> { get set }
+    var ocrResult: PublishRelay<OCRResult> { get set }
     func extractText(data: Data)
 }
 
 final class OCRTextExtractor: OCRTextExtractable {
-    var ocrResult = BehaviorRelay(value: OCRResult())
+    var ocrResult = PublishRelay<OCRResult>()
     
     func extractText(data: Data) {
         guard let image = UIImage(data: data)?.cgImage else { return }
@@ -35,7 +35,7 @@ final class OCRTextExtractor: OCRTextExtractable {
                 text.topCandidates(1).first?.string.trimmingCharacters(in: .whitespacesAndNewlines)
             }
             
-            self.ocrResult.accept(self.filterOCR(ocrText))
+            self.filterOCR(ocrText)
         }
         
         if #available(iOS 16.0, *) {
@@ -56,7 +56,7 @@ final class OCRTextExtractor: OCRTextExtractable {
         }
     }
     
-    private func filterOCR(_ result: [String]) -> OCRResult {
+    private func filterOCR(_ result: [String]) {
         var filterResult = OCRResult()
         
         // 상호명 Default
@@ -84,7 +84,7 @@ final class OCRTextExtractor: OCRTextExtractable {
             }
         }
         
-        return filterResult
+        ocrResult.accept(filterResult)
     }
     
     // 날짜 추출

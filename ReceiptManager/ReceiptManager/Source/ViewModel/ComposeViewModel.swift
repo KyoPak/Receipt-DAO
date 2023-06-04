@@ -47,15 +47,26 @@ final class ComposeViewModel: CommonViewModel {
         self.ocrExtractor = ocrExtractor
         
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
+        
+        bindOCRExtractor()
     }
     
     private func bindOCRExtractor() {
         ocrExtractor.ocrResult
             .bind { [weak self] ocrResult in
-                self?.dateRelay.accept(ocrResult.date)
-                self?.storeRelay.accept(ocrResult.store)
-                self?.priceRelay.accept(ocrResult.price)
                 self?.payRelay.accept(ocrResult.paymentType)
+                
+                if self?.dateRelay.value == Date() {
+                    self?.dateRelay.accept(ocrResult.date)
+                }
+                
+                if self?.storeRelay.value == "" {
+                    self?.storeRelay.accept(ocrResult.store)
+                }
+                
+                if self?.priceRelay.value == .zero {
+                    self?.priceRelay.accept(ocrResult.price)
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -72,7 +83,6 @@ extension ComposeViewModel {
         } else {
             // 첫번째 이미지 OCR 로직 동작
             if #available(iOS 16.0, *), currentReceiptData.count == 1 {
-                bindOCRExtractor()
                 ocrExtractor.extractText(data: data)
             }
             
