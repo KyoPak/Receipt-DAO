@@ -58,9 +58,12 @@
 |<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/65d3e999-0e23-4653-9c5c-b9838b7f8c5f">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/ca1ae433-4efc-45e1-be33-092c2b0c179d">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b6dc9462-0492-43b5-9ddb-0df856b8c2f4" >|
 
 
-|즐겨찾기|사진선택|
-|:---:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/9dd57c20-2b4d-4f0d-95c0-63d2401bd5f2">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|
+|즐겨찾기|사진선택|OCR|
+|:---:|:--:|:--:|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/9dd57c20-2b4d-4f0d-95c0-63d2401bd5f2">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/bd672349-3fb0-4a67-a97a-c14a97adc457">|
+
+
+
 
 <br></br>
 ## 타임라인
