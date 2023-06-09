@@ -154,15 +154,24 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         // UI의 Data를 ViewModel에 바인딩
         informationView.datePicker.rx.date
-            .bind(to: viewModel.dateRelay)
+            .withUnretained(self)
+            .bind { (owner, date) in
+                viewModel.dateRelay.accept(date)
+            }
             .disposed(by: rx.disposeBag)
         
         informationView.storeTextField.rx.text.orEmpty
-            .bind(to: viewModel.storeRelay)
+            .withUnretained(self)
+            .bind { (owner, store) in
+                viewModel.storeRelay.accept(store)
+            }
             .disposed(by: rx.disposeBag)
         
         informationView.productNameTextField.rx.text.orEmpty
-            .bind(to: viewModel.productRelay)
+            .withUnretained(self)
+            .bind { (owner, product) in
+                viewModel.productRelay.accept(product)
+            }
             .disposed(by: rx.disposeBag)
         
         informationView.priceTextField.rx.text.orEmpty
@@ -170,24 +179,35 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 let input = price.replacingOccurrences(of: ",", with: "")
                 return Int(input) ?? .zero
             }
-            .bind(to: viewModel.priceRelay)
+            .withUnretained(self)
+            .bind { (owner, price) in
+                viewModel.priceRelay.accept(price)
+            }
             .disposed(by: rx.disposeBag)
             
         informationView.payTypeSegmented.rx.selectedSegmentIndex
-            .bind(to: viewModel.payRelay)
+            .withUnretained(self)
+            .bind { (owner, payType) in
+                viewModel.payRelay.accept(payType)
+            }
             .disposed(by: rx.disposeBag)
         
         memoTextView.rx.text.orEmpty
-            .bind(to: viewModel.memoRelay)
+            .withUnretained(self)
+            .bind { (owner, memo) in
+                viewModel.memoRelay.accept(memo)
+            }
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] index in
-                guard let self = self else { return }
-                if index.row == .zero && viewModel.receiptDataRelay.value.count < 6 {
-                    self.uploadImageCell(true)
+            .withUnretained(self)
+            .bind { (owner, indexPath) in
+                let count = owner.viewModel?.receiptDataRelay.value.count ?? .zero
+                
+                if indexPath.row == .zero && count < 6 {
+                    owner.uploadImageCell(true)
                 }
-            })
+            }
             .disposed(by: rx.disposeBag)
     }
 }
