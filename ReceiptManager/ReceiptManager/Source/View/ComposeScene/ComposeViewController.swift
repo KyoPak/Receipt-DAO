@@ -154,24 +154,15 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         
         // UI의 Data를 ViewModel에 바인딩
         informationView.datePicker.rx.date
-            .withUnretained(self)
-            .bind { (owner, date) in
-                viewModel.dateRelay.accept(date)
-            }
+            .bind(to: viewModel.dateRelay)
             .disposed(by: rx.disposeBag)
         
         informationView.storeTextField.rx.text.orEmpty
-            .withUnretained(self)
-            .bind { (owner, store) in
-                viewModel.storeRelay.accept(store)
-            }
+            .bind(to: viewModel.storeRelay)
             .disposed(by: rx.disposeBag)
         
         informationView.productNameTextField.rx.text.orEmpty
-            .withUnretained(self)
-            .bind { (owner, product) in
-                viewModel.productRelay.accept(product)
-            }
+            .bind(to: viewModel.productRelay)
             .disposed(by: rx.disposeBag)
         
         informationView.priceTextField.rx.text.orEmpty
@@ -179,24 +170,15 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
                 let input = price.replacingOccurrences(of: ",", with: "")
                 return Int(input) ?? .zero
             }
-            .withUnretained(self)
-            .bind { (owner, price) in
-                viewModel.priceRelay.accept(price)
-            }
+            .bind(to: viewModel.priceRelay)
             .disposed(by: rx.disposeBag)
             
         informationView.payTypeSegmented.rx.selectedSegmentIndex
-            .withUnretained(self)
-            .bind { (owner, payType) in
-                viewModel.payRelay.accept(payType)
-            }
+            .bind(to: viewModel.payRelay)
             .disposed(by: rx.disposeBag)
         
         memoTextView.rx.text.orEmpty
-            .withUnretained(self)
-            .bind { (owner, memo) in
-                viewModel.memoRelay.accept(memo)
-            }
+            .bind(to: viewModel.memoRelay)
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
