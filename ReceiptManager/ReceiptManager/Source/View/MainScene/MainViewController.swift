@@ -203,6 +203,9 @@ final class MainViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         viewModel.searchResultList
+            .do(onNext: { [weak self] datas in
+                datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
+            })
             .bind(to: searchView.tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
         
@@ -221,8 +224,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
             owner.searchView.tableView.deselectRow(at: data.1, animated: true)
         }
         .map { $1.0 }
-        .subscribe {
-            viewModel.moveDetailAction(receipt: $0)
+        .subscribe { [weak self] in
+            self?.viewModel?.moveDetailAction(receipt: $0)
         }
         .disposed(by: rx.disposeBag)
     }
@@ -264,6 +267,63 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+}
+
+// MARK: - SearchBar Action
+extension MainViewController {
+    private func showEmptyResultMessage() {
+        let label = UILabel()
+        label.text = searchBar.text == "" ? ConstantText.searchText : ConstantText.searchFail
+        label.textColor = .white
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        searchView.tableView.backgroundView = label
+        
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: searchView.tableView.centerXAnchor),
+            label.topAnchor.constraint(equalTo: searchView.tableView.topAnchor, constant: 30)
+        ])
+    }
+    
+    private func hideEmptyResultMessage() {
+        searchView.tableView.backgroundView = nil
+    }
+    
+    private func configureSearchView(hidden: Bool) {
+        searchBar.searchTextField.leftView = hidden ? searchBarOriginalButton : searchBarBackButton
+        searchView.isHidden = hidden
+        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
+            $0.isHidden = !hidden
+        }
+    }
+    
+    private func moveDownSearchBar() {
+        searchBar.text = ""
+        searchBar.endEditing(true)
+        configureSearchView(hidden: true)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.searchBarTopConstraint?.isActive = false
+            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
+                equalTo: self.titleView.bottomAnchor,
+                constant: 30
+            )
+            self.searchBarTopConstraint?.isActive = true
+        }
+    }
+    
+    private func moveUpSearchBar() {
+        configureSearchView(hidden: false)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.searchBarTopConstraint?.isActive = false
+            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
+                equalTo: self.titleView.topAnchor
+            )
+            self.searchBarTopConstraint?.isActive = true
+        }
     }
 }
 
@@ -329,40 +389,5 @@ extension MainViewController {
             searchView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             searchView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
-    }
-    
-    private func configureSearchView(hidden: Bool) {
-        searchBar.searchTextField.leftView = hidden ? searchBarOriginalButton : searchBarBackButton
-        searchView.isHidden = hidden
-        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
-            $0.isHidden = !hidden
-        }
-    }
-    
-    private func moveDownSearchBar() {
-        searchBar.text = ""
-        searchBar.endEditing(true)
-        configureSearchView(hidden: true)
-        
-        UIView.animate(withDuration: 0.2) {
-            self.searchBarTopConstraint?.isActive = false
-            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
-                equalTo: self.titleView.bottomAnchor,
-                constant: 30
-            )
-            self.searchBarTopConstraint?.isActive = true
-        }
-    }
-    
-    private func moveUpSearchBar() {
-        configureSearchView(hidden: false)
-        
-        UIView.animate(withDuration: 0.3) {
-            self.searchBarTopConstraint?.isActive = false
-            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
-                equalTo: self.titleView.topAnchor
-            )
-            self.searchBarTopConstraint?.isActive = true
-        }
     }
 }

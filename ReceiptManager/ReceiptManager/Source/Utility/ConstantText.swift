@@ -44,4 +44,6 @@ enum ConstantText {
     static let album = "앨범"
     static let camera = "카메라"
     static let searchBar = "상호명﹒내역﹒메모 검색"
+    static let searchText = "원하는 검색어를 입력해주세요."
+    static let searchFail = "찾으시는 검색 결과가 없습니다."
 }
