@@ -14,6 +14,10 @@ final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
     private let titleView = TitleView()
     
+    private var searchBarTopConstraint: NSLayoutConstraint?
+    
+    private let searchView = SearchView()
+    
     private let listButton: UIButton = {
         let button = UIButton()
         button.tintColor = .black
@@ -80,6 +84,24 @@ final class MainViewController: UIViewController, ViewModelBindable {
         return searchBar
     }()
     
+    private let searchBarBackButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .white
+        let image = UIImage(systemName: "chevron.backward")
+        button.setImage(image, for: .normal)
+
+        return button
+    }()
+    
+    private let searchBarOriginalButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .white
+        let image = UIImage(systemName: "magnifyingglass")
+        button.setImage(image, for: .normal)
+
+        return button
+    }()
+    
     private let monthSpendingLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -104,31 +126,113 @@ final class MainViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
-        viewModel?.title
+        guard let viewModel = viewModel else { return }
+        
+        bindSearchBar()
+        
+        viewModel.title
             .drive(titleView.titleLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
         listButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-            self?.viewModel?.moveListAction()
-        })
-        .disposed(by: rx.disposeBag)
+            .bind { [weak self] in
+                self?.viewModel?.moveListAction()
+            }
+            .disposed(by: rx.disposeBag)
         
         registerButton.rx.tap
-            .subscribe(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.viewModel?.moveRegisterAction()
-            })
+            }
             .disposed(by: rx.disposeBag)
         
         favoriteListButton.rx.tap
-            .subscribe(onNext: { [weak self] in
+            .bind { [weak self] in
                 self?.viewModel?.moveFavoriteAction()
+            }
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.receiptCountText
+            .drive(monthSpendingLabel.rx.text)
+            .disposed(by: rx.disposeBag)
+    }
+    
+    private func bindSearchBar() {
+        guard let viewModel = viewModel else { return }
+        
+        searchBar.rx.textDidBeginEditing
+            .bind { [weak self] in
+                self?.moveUpSearchBar()
+            }
+            .disposed(by: rx.disposeBag)
+        
+        searchBar.rx.textDidEndEditing
+            .bind { [weak self] in
+                self?.moveDownSearchBar()
+                self?.searchBar.searchTextField.text = ""
+            }
+            .disposed(by: rx.disposeBag)
+        
+        searchBarBackButton.rx.tap
+            .bind { [weak self] in
+                self?.searchBar.endEditing(true)
+            }
+            .disposed(by: rx.disposeBag)
+        
+        searchBar.rx.text.orEmpty
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(onNext: { text in
+                self.viewModel?.search(text)
             })
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receiptCountText
-            .drive(monthSpendingLabel.rx.text)
+        viewModel.searchResultList
+            .bind(to: searchView.tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
+
+        searchBar.rx.setDelegate(self)
+            .disposed(by: rx.disposeBag)
+        
+        searchView.tableView.rx.setDelegate(self)
+            .disposed(by: rx.disposeBag)
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let data = viewModel?.dataSource[section]
+
+        let string = data?.identity
+
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .white
+        label.text = string
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+
+        headerView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+        
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
 }
 
@@ -146,21 +250,26 @@ extension MainViewController {
     
     private func setupView() {
         view.backgroundColor = ConstantColor.backGrouncColor
-        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
+        searchView.isHidden = true
+        
+        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel, searchView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel]
+        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel, searchView]
             .forEach(view.addSubview(_:))
     }
     
     private func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
+        
+        searchBarTopConstraint = searchBar.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 30)
+        searchBarTopConstraint?.isActive = true
+        
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             titleView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             titleView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
             
-            searchBar.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 30),
             searchBar.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
             
@@ -182,7 +291,45 @@ extension MainViewController {
             monthSpendingLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 30),
             monthSpendingLabel.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
             monthSpendingLabel.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
-            monthSpendingLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1)
+            monthSpendingLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
+            
+            searchView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 10),
+            searchView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            searchView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func configureSearchView(hidden: Bool) {
+        searchBar.searchTextField.leftView = hidden ? searchBarOriginalButton : searchBarBackButton
+        searchView.isHidden = hidden
+        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
+            $0.isHidden = !hidden
+        }
+    }
+    
+    private func moveDownSearchBar() {
+        configureSearchView(hidden: true)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.searchBarTopConstraint?.isActive = false
+            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
+                equalTo: self.titleView.bottomAnchor,
+                constant: 30
+            )
+            self.searchBarTopConstraint?.isActive = true
+        }
+    }
+    
+    private func moveUpSearchBar() {
+        configureSearchView(hidden: false)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.searchBarTopConstraint?.isActive = false
+            self.searchBarTopConstraint = self.searchBar.topAnchor.constraint(
+                equalTo: self.titleView.topAnchor
+            )
+            self.searchBarTopConstraint?.isActive = true
+        }
     }
 }
