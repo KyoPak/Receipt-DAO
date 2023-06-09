@@ -65,8 +65,9 @@ class SelectImageViewController: UIViewController, ViewModelBindable, UICollecti
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
-            .subscribe { [weak self] indexPath in
-                if let viewModel = self?.viewModel, viewModel.selectMaxCount > .zero {
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                if let viewModel = owner.viewModel, viewModel.selectMaxCount > .zero {
                     viewModel.selectMaxCount -= 1
                     let data = try? viewModel.selectData.value()[indexPath.item]
                     viewModel.add(data: data)
@@ -75,24 +76,28 @@ class SelectImageViewController: UIViewController, ViewModelBindable, UICollecti
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemDeselected
-            .subscribe { [weak self] indexPath in
-                let cell = self?.collectionView.cellForItem(at: indexPath) as? ImagePickerCell
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                let cell = owner.collectionView.cellForItem(at: indexPath) as? ImagePickerCell
 
                 if cell?.isSelected == true {
                     cell?.isSelected = false
                 }
                 
-                self?.viewModel?.selectMaxCount += 1
-                let data = try? self?.viewModel?.selectData.value()[indexPath.item]
-                self?.viewModel?.remove(data: data)
+                guard let viewModel = owner.viewModel else { return }
+                
+                viewModel.selectMaxCount += 1
+                let data = try? viewModel.selectData.value()[indexPath.item]
+                viewModel.remove(data: data)
             }
             .disposed(by: rx.disposeBag)
         
         addSelectButton.rx.tap
             .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                self?.delegate?.selectPicker()
-            })
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.delegate?.selectPicker()
+            }
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.setDelegate(self)

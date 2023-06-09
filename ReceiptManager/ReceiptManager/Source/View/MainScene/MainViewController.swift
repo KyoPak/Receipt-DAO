@@ -139,20 +139,23 @@ final class MainViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         listButton.rx.tap
-            .bind { [weak self] in
-                self?.viewModel?.moveListAction()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveListAction()
             }
             .disposed(by: rx.disposeBag)
         
         registerButton.rx.tap
-            .bind { [weak self] in
-                self?.viewModel?.moveRegisterAction()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveRegisterAction()
             }
             .disposed(by: rx.disposeBag)
         
         favoriteListButton.rx.tap
-            .bind { [weak self] in
-                self?.viewModel?.moveFavoriteAction()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveFavoriteAction()
             }
             .disposed(by: rx.disposeBag)
         
@@ -165,28 +168,31 @@ final class MainViewController: UIViewController, ViewModelBindable {
         guard let viewModel = viewModel else { return }
         
         searchBar.rx.textDidBeginEditing
-            .bind { [weak self] in
-                self?.moveUpSearchBar()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.moveUpSearchBar()
             }
             .disposed(by: rx.disposeBag)
         
         searchBar.rx.textDidEndEditing
-            .bind { [weak self] in
-                self?.searchBar.resignFirstResponder()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.searchBar.resignFirstResponder()
             }
             .disposed(by: rx.disposeBag)
         
         searchBar.rx.searchButtonClicked
             .withUnretained(self)
-            .bind(onNext: { _ in
-                self.searchBar.endEditing(true)
-            })
+            .bind { (owner, _) in
+                owner.searchBar.endEditing(true)
+            }
             .disposed(by: rx.disposeBag)
         
         searchBarBackButton.rx.tap
-            .bind { [weak self] in
-                self?.viewModel?.searchText.accept("")
-                self?.moveDownSearchBar()
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.searchText.accept("")
+                owner.moveDownSearchBar()
             }
             .disposed(by: rx.disposeBag)
         
@@ -211,8 +217,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
             searchView.tableView.rx.itemSelected
         )
         .withUnretained(self)
-        .do { (viewController, data) in
-            viewController.searchView.tableView.deselectRow(at: data.1, animated: true)
+        .do { (owner, data) in
+            owner.searchView.tableView.deselectRow(at: data.1, animated: true)
         }
         .map { $1.0 }
         .subscribe {
