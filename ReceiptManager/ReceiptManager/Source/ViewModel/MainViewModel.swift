@@ -13,7 +13,7 @@ import RxCocoa
 final class MainViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
-    private let searchText = PublishRelay<String?>()
+    let searchText = PublishRelay<String?>()
     
     var receiptList: Observable<[ReceiptSectionModel]> {
         return storage.fetch(type: .month)
@@ -71,10 +71,6 @@ final class MainViewModel: CommonViewModel {
 }
 
 extension MainViewModel {
-    func search(_ text: String?) {
-        searchText.accept(text)
-    }
-    
     func moveListAction() {
         let listViewModel = ListViewModel(
             title: ConstantText.list,
@@ -107,5 +103,17 @@ extension MainViewModel {
         
         let favoriteScene = Scene.favorite(favoriteViewModel)
         sceneCoordinator.transition(to: favoriteScene, using: .push, animated: true)
+    }
+    
+    func moveDetailAction(receipt: Receipt) {
+        let detailViewModel = DetailViewModel(
+            receipt: receipt,
+            title: "",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let detailScene = Scene.detail(detailViewModel)
+        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
     }
 }

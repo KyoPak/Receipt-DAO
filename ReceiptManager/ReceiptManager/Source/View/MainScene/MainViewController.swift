@@ -75,11 +75,15 @@ final class MainViewController: UIViewController, ViewModelBindable {
         searchBar.layer.cornerRadius = 10
         searchBar.clipsToBounds = true
         searchBar.tintColor = .white
-        searchBar.searchTextField.leftView?.tintColor = .white
         searchBar.searchTextField.textColor = .white
-        searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.searchTextField.clearButtonMode = .whileEditing
+        searchBar.searchTextField.leftView?.tintColor = .white
+        searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.setImage(UIImage(systemName: "x.circle.fill"), for: .clear, state: .normal)
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: ConstantText.searchBar,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
         
         return searchBar
     }()
@@ -89,7 +93,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.tintColor = .white
         let image = UIImage(systemName: "chevron.backward")
         button.setImage(image, for: .normal)
-
+        
         return button
     }()
     
@@ -98,7 +102,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.tintColor = .white
         let image = UIImage(systemName: "magnifyingglass")
         button.setImage(image, for: .normal)
-
+        
         return button
     }()
     
@@ -168,41 +172,62 @@ final class MainViewController: UIViewController, ViewModelBindable {
         
         searchBar.rx.textDidEndEditing
             .bind { [weak self] in
-                self?.moveDownSearchBar()
-                self?.searchBar.searchTextField.text = ""
+                self?.searchBar.resignFirstResponder()
             }
+            .disposed(by: rx.disposeBag)
+        
+        searchBar.rx.searchButtonClicked
+            .withUnretained(self)
+            .bind(onNext: { _ in
+                self.searchBar.endEditing(true)
+            })
             .disposed(by: rx.disposeBag)
         
         searchBarBackButton.rx.tap
             .bind { [weak self] in
-                self?.searchBar.endEditing(true)
+                self?.viewModel?.searchText.accept("")
+                self?.moveDownSearchBar()
             }
             .disposed(by: rx.disposeBag)
         
         searchBar.rx.text.orEmpty
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .subscribe(onNext: { text in
-                self.viewModel?.search(text)
-            })
+            .bind(to: viewModel.searchText)
             .disposed(by: rx.disposeBag)
         
         viewModel.searchResultList
             .bind(to: searchView.tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
-
+        
         searchBar.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
         
         searchView.tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
+        
+        Observable.zip(
+            searchView.tableView.rx.modelSelected(Receipt.self),
+            searchView.tableView.rx.itemSelected
+        )
+        .withUnretained(self)
+        .do { (viewController, data) in
+            viewController.searchView.tableView.deselectRow(at: data.1, animated: true)
+        }
+        .map { $1.0 }
+        .subscribe {
+            viewModel.moveDetailAction(receipt: $0)
+        }
+        .disposed(by: rx.disposeBag)
     }
 }
 
 extension MainViewController: UISearchBarDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        view.endEditing(true)
+        if searchBar.isFirstResponder {
+            searchBar.resignFirstResponder()
+        }
     }
 }
 
@@ -210,19 +235,19 @@ extension MainViewController: UISearchBarDelegate {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = viewModel?.dataSource[section]
-
+        
         let string = data?.identity
-
+        
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .white
         label.text = string
         label.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-
+        
         headerView.addSubview(label)
-
+        
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
             label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
@@ -230,7 +255,7 @@ extension MainViewController: UITableViewDelegate {
         
         return headerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
@@ -309,6 +334,8 @@ extension MainViewController {
     }
     
     private func moveDownSearchBar() {
+        searchBar.text = ""
+        searchBar.endEditing(true)
         configureSearchView(hidden: true)
         
         UIView.animate(withDuration: 0.2) {
