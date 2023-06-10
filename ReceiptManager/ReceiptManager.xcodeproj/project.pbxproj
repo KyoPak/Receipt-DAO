@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1B368F2A3441D300749774 /* ConstantImage.swift */; };
+		3C1B36922A34460000749774 /* CameraAlbumAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1B36912A34460000749774 /* CameraAlbumAccess.swift */; };
 		3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C1B362A16072900A3D0A0 /* ConstantText.swift */; };
 		3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */; };
 		3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */; };
@@ -64,6 +65,7 @@
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
 		3C1B368F2A3441D300749774 /* ConstantImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantImage.swift; sourceTree = "<group>"; };
+		3C1B36912A34460000749774 /* CameraAlbumAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAlbumAccess.swift; sourceTree = "<group>"; };
 		3C1C1B362A16072900A3D0A0 /* ConstantText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantText.swift; sourceTree = "<group>"; };
 		3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C1B36932A34509F00749774 /* AccessCameraAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				3C1B36912A34460000749774 /* CameraAlbumAccess.swift */,
+			);
+			path = AccessCameraAlbum;
+			sourceTree = "<group>";
+		};
 		3C2E18C929FBCC5F00E8E9C6 = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +179,7 @@
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				3C1B36932A34509F00749774 /* AccessCameraAlbum */,
 				3CB563F72A286CFD008A6CD0 /* OCR */,
 				3C56C65D2A0963960058869C /* Protocol */,
 				3C9AA3442A0117C10014807B /* Extension */,
@@ -529,6 +540,7 @@
 				3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */,
 				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
+				3C1B36922A34460000749774 /* CameraAlbumAccess.swift in Sources */,
 				3C333E262A31F35C00E8C28A /* SearchView.swift in Sources */,
 				3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */,
 				3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */,
