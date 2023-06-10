@@ -31,7 +31,7 @@
 ## 버전 업데이트
 ### 1.0.3 (2023.05.30)
 **오류 수정**
-- 목록 화면에서 뒤로가다가 다시 돌아올 경우 NavagationBar 사라지는 현상 수정
+- 목록 화면에서 뒤로가다가 다시 돌아올 경우 NavagationBar가 사라지는 현상 수정
     -  Navagation Bar isHidden이 true로 변경되는 문제
 
 **기능 변경**
@@ -50,18 +50,34 @@
     - Receipt Data가 아닌 각 내부 요소들을 Relay로 가지고 있고 그것들을 View와 바인딩
     - 개선함으로서 하나의 TextFiedl가 변경될 때, 다른 TextField는 변경이 되지 않는다.
 
+
+### 1.2.0 (2023.06.12)
+**기능 추가**
+- 영수증에 관한 내용(상호명, 내역, 메모)을 기반으로 검색 기능 추가
+
+**기능 개선**
+- 선택한 사진 허용 권한에서도 OCR 기능 사용할 수 있도록 기능 개선
+
+**코드 개선**
+- ComposeView에서 Camera, Album에 Access하는 코드를 프로토콜로 분리하여 재사용성 향상
+- RxSwift에서 제공하는 `withUnretained()`를 사용하여 약한 참조처리
+
+
 <br></br>
 ## 실행 화면
 
 |목록|등록|상세|
 |:---:|:--:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/65d3e999-0e23-4653-9c5c-b9838b7f8c5f">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/ca1ae433-4efc-45e1-be33-092c2b0c179d">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b6dc9462-0492-43b5-9ddb-0df856b8c2f4" >|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/738f8b2c-cda8-4636-bf91-05ec38554be8">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/ca1ae433-4efc-45e1-be33-092c2b0c179d">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b6dc9462-0492-43b5-9ddb-0df856b8c2f4" >|
 
 
 |즐겨찾기|사진선택|OCR|
 |:---:|:--:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/9dd57c20-2b4d-4f0d-95c0-63d2401bd5f2">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/bd672349-3fb0-4a67-a97a-c14a97adc457">|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/2063c5e9-6487-42a5-bceb-4549a593ea55">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/bd672349-3fb0-4a67-a97a-c14a97adc457">|
 
+|검색|
+|:---:|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/510461dc-cd8b-4e34-bd5b-f4e3c754206a">|
 
 
 
@@ -91,8 +107,8 @@
 ### ▶️ 이후
 1. App Icon
 2. 앨범 선택적 접근 권한일 경우 선택한 이미지 보여주는 View 별도 구현
- 
-<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">
+3. Vision Kit을 사용한 OCR 기능 추가
+4. SearchBar를 사용한 검색 기능 추가
 
 </details>
 
@@ -271,8 +287,8 @@ let section = dictionary.sorted { return $0.key > $1.key }
     
 <br></br>
 ## 출시를 해보며 느낀 점
-처음으로 앱 출시를 진행하면서, 순수한 구현능력 외에도 다양한 요소들이 중요하다는 것을 깨닫게 되었습니다.
 
+처음으로 앱 출시를 진행하면서, 순수한 구현능력 외에도 다양한 요소들이 중요하다는 것을 깨닫게 되었습니다.
 먼저 앱을 출시할 때는 사용자에게 필요한 가치를 제공하는 것이 핵심이라는 점을 알 수 있었습니다. 
 이를 위해 앱의 목적과 목표를 명확하게 설정하고, 이를 바탕으로 사용자의 요구를 세밀하게 분석하여 그에 맞는 기능을 구현해야 한다는 것을 깨달았습니다.
 또한, 사용자 중심의 UI와 UX의 중요성을 몸소 느끼게 되었습니다. 배포 전에는 생각치 못했던 세부적인 UI와 UX에 대한 디테일한 부분을 고려하고 구현하는 과정을 통해 이를 체감하였습니다.
