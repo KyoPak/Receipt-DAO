@@ -27,7 +27,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     private var previousButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.chevronLeft), for: .normal)
         
         return button
     }()
@@ -35,7 +35,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     private var nextButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         
         return button
     }()
@@ -88,8 +88,8 @@ final class ListViewController: UIViewController, ViewModelBindable {
         
         Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
             .withUnretained(self)
-            .do(onNext: { (viewController, data) in
-                viewController.tableView.deselectRow(at: data.1, animated: true)
+            .do(onNext: { (owner, data) in
+                owner.tableView.deselectRow(at: data.1, animated: true)
             })
             .map { $1.0 }
             .subscribe(onNext: { [weak self] in
@@ -99,23 +99,26 @@ final class ListViewController: UIViewController, ViewModelBindable {
             
         // Button Binding
         previousButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel?.movePriviousAction()
-            })
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.movePriviousAction()
+            }
             .disposed(by: rx.disposeBag)
         
         nextButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel?.moveNextAction()
-            })
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveNextAction()
+            }
             .disposed(by: rx.disposeBag)
         
         nowButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel?.moveNowAction()
-            })
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveNowAction()
+            }
             .disposed(by: rx.disposeBag)
-        
+
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }

@@ -6,13 +6,52 @@
 //
 
 import Foundation
+import RxDataSources
 import RxSwift
 import RxCocoa
 
 final class MainViewModel: CommonViewModel {
+    typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
+    
+    let searchText = PublishRelay<String?>()
+    
     var receiptList: Observable<[ReceiptSectionModel]> {
         return storage.fetch(type: .month)
     }
+    
+    var searchResultList: Observable<[ReceiptSectionModel]> {
+        return Observable.combineLatest(storage.fetch(type: .month), searchText.asObservable())
+            .map { receiptSectionModels, text in
+                return receiptSectionModels.map { model in
+                    let searchItems = model.items.filter { receipt in
+                        guard let text = text, text != "" else { return false }
+                        return receipt.store.contains(text) ||
+                        receipt.product.contains(text) ||
+                        receipt.memo.contains(text)
+                    }
+                    
+                    return ReceiptSectionModel(model: model.model, items: searchItems)
+                }
+                .filter { $0.items.count != .zero }
+            }
+    }
+    
+    let dataSource: TableViewDataSource = {
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+            
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListTableViewCell.identifier, for: indexPath
+            ) as? ListTableViewCell else {
+                let cell = UITableViewCell()
+                return cell
+            }
+            
+            cell.setupData(data: receipt)
+            return cell
+        }
+        
+        return dataSource
+    }()
     
     var receiptCountText: Driver<String> {
         return receiptList
@@ -29,7 +68,9 @@ final class MainViewModel: CommonViewModel {
                 return countText
             }
     }
-    
+}
+
+extension MainViewModel {
     func moveListAction() {
         let listViewModel = ListViewModel(
             title: ConstantText.list,
@@ -62,5 +103,17 @@ final class MainViewModel: CommonViewModel {
         
         let favoriteScene = Scene.favorite(favoriteViewModel)
         sceneCoordinator.transition(to: favoriteScene, using: .push, animated: true)
+    }
+    
+    func moveDetailAction(receipt: Receipt) {
+        let detailViewModel = DetailViewModel(
+            receipt: receipt,
+            title: "",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let detailScene = Scene.detail(detailViewModel)
+        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
     }
 }

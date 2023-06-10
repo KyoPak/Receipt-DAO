@@ -22,7 +22,7 @@ final class ListTableViewCell: UITableViewCell {
     
     private let detailButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.init(systemName: "chevron.right"), for: .normal)
+        button.setImage(UIImage.init(systemName: ConstantImage.chevronRight), for: .normal)
         
         return button
     }()
@@ -65,20 +65,20 @@ final class ListTableViewCell: UITableViewCell {
         
         if data.isFavorite {
             detailButton.tintColor = .systemYellow
-            detailButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            detailButton.setImage(UIImage(systemName: ConstantImage.bookMarkFill), for: .normal)
         } else {
             detailButton.tintColor = .lightGray
-            detailButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         }
         
         priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + " 원"
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor
-            payImageView.image = UIImage(systemName: "creditcard.fill")
+            payImageView.image = UIImage(systemName: ConstantImage.creditCard)
         } else {
             payImageView.tintColor = ConstantColor.favoriteColor
-            payImageView.image = UIImage(systemName: "wonsign.square.fill")
+            payImageView.image = UIImage(systemName: ConstantImage.wonSign)
         }
     }
 }

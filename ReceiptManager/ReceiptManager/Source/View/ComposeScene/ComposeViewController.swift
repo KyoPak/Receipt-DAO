@@ -66,7 +66,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     private func setupFirstCell() {
         let addImage: UIImage = {
-            guard let image = UIImage(systemName: "camera.circle")?.withTintColor(.lightGray) else {
+            guard let image = UIImage(systemName: ConstantImage.camera)?.withTintColor(.lightGray) else {
                 return UIImage()
             }
             
@@ -182,12 +182,14 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         collectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] index in
-                guard let self = self else { return }
-                if index.row == .zero && viewModel.receiptDataRelay.value.count < 6 {
-                    self.uploadImageCell(true)
+            .withUnretained(self)
+            .bind { (owner, indexPath) in
+                let count = owner.viewModel?.receiptDataRelay.value.count ?? .zero
+                
+                if indexPath.row == .zero && count < 6 {
+                    owner.showAccessAlbumAlert(true)
                 }
-            })
+            }
             .disposed(by: rx.disposeBag)
     }
 }
@@ -252,6 +254,7 @@ extension ComposeViewController: SelectPickerDelegate {
     }
 }
 
+// MARK: - PHPhotoLibraryChangeObserver
 extension ComposeViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         getCanAccessImages()
@@ -286,16 +289,8 @@ extension ComposeViewController: PHPhotoLibraryChangeObserver {
 }
 
 // MARK: - UploadImageCell and Confirm Auth
-extension ComposeViewController {
-    private func requestPHPhotoLibraryAuthorization(completion: @escaping (PHAuthorizationStatus) -> Void) {
-        PHPhotoLibrary.requestAuthorization(for: .readWrite, handler: { authorizationStatus in
-            DispatchQueue.main.async {
-                completion(authorizationStatus)
-            }
-        })
-    }
-    
-    private func openAlbum() {
+extension ComposeViewController: CameraAlbumAccessAlertPresentable {
+    func openAlbum() {
         requestPHPhotoLibraryAuthorization { authorizationStatus in
             switch authorizationStatus {
             case .authorized:
@@ -318,15 +313,7 @@ extension ComposeViewController {
         }
     }
     
-    private func requestCameraAuthorization(completion: @escaping (Bool) -> Void) {
-        AVCaptureDevice.requestAccess(for: .video) { isAuth in
-            DispatchQueue.main.async {
-                completion(isAuth)
-            }
-        }
-    }
-    
-    private func openCamera() {
+    func openCamera() {
         requestCameraAuthorization { isAuth in
             if !isAuth {
                 self.showPermissionAlert(text: ConstantText.camera)
@@ -337,46 +324,6 @@ extension ComposeViewController {
                 self.present(picker, animated: true, completion: nil)
             }
         }
-    }
-    
-    private func uploadImageCell(_ isShowPicker: Bool) {
-        let alert = UIAlertController(
-            title: "영수증 사진선택",
-            message: "업로드할 영수증을 선택해주세요.",
-            preferredStyle: .actionSheet
-        )
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
-            self.openCamera()
-        }
-        
-        let albumAction = UIAlertAction(title: "앨범", style: .default) { _ in
-            self.openAlbum()
-        }
-        
-        [cameraAction, albumAction, cancelAction].forEach(alert.addAction(_:))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    private func showPermissionAlert(text: String) {
-        let alertController = UIAlertController(
-            title: "\(text) 접근 권한 필요",
-            message: "\(text)에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
-            preferredStyle: .alert
-        )
-        let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-            if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(settingsAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -406,7 +353,7 @@ extension ComposeViewController {
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(
-            image: UIImage(systemName: "keyboard.chevron.compact.down"),
+            image: UIImage(systemName: ConstantImage.keyboardDown),
             style: .done,
             target: self,
             action: #selector(keyboardDone)

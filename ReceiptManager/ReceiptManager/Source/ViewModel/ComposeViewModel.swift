@@ -150,9 +150,8 @@ extension ComposeViewModel {
 
 extension ComposeViewModel: SelectCompletable {
     func selectComplete(datas: [Data]) {
-        var currentReceiptData = receiptDataRelay.value
-        
-        currentReceiptData.append(contentsOf: datas)
-        receiptDataRelay.accept(currentReceiptData)
+        datas.forEach { data in
+            updateReceiptData(data, isFirstReceipt: false)
+        }
     }
 }

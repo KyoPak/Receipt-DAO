@@ -81,7 +81,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     private var mainView = UIView(frame: .zero)
     
     private lazy var shareButton = UIBarButtonItem(
-        image: UIImage(systemName: "square.and.arrow.up"),
+        image: UIImage(systemName: ConstantImage.share),
         style: .plain,
         target: self,
         action: #selector(shareButtonTapped)
@@ -127,8 +127,8 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         
         Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
             .withUnretained(self)
-            .do(onNext: { (viewController, data) in
-                viewController.collectionView.deselectItem(at: data.1, animated: true)
+            .do(onNext: { (onwer, data) in
+                onwer.collectionView.deselectItem(at: data.1, animated: true)
             })
             .map { $1.0 }
             .subscribe(onNext: { [weak self] in
@@ -231,7 +231,7 @@ extension DetailViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
                 
         let composeButton = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: ConstantImage.compose),
             style: .plain,
             target: self,
             action: #selector(composeButtonTapped)
