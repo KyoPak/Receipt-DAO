@@ -24,7 +24,7 @@ final class ImageCell: UICollectionViewCell {
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.xmark), for: .normal)
         button.tintColor = .white
         button.backgroundColor = .red
         button.contentMode = .center

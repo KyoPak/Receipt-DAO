@@ -81,7 +81,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     private var mainView = UIView(frame: .zero)
     
     private lazy var shareButton = UIBarButtonItem(
-        image: UIImage(systemName: "square.and.arrow.up"),
+        image: UIImage(systemName: ConstantImage.share),
         style: .plain,
         target: self,
         action: #selector(shareButtonTapped)
@@ -231,7 +231,7 @@ extension DetailViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
                 
         let composeButton = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: ConstantImage.compose),
             style: .plain,
             target: self,
             action: #selector(composeButtonTapped)

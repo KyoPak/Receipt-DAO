@@ -66,7 +66,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     private func setupFirstCell() {
         let addImage: UIImage = {
-            guard let image = UIImage(systemName: "camera.circle")?.withTintColor(.lightGray) else {
+            guard let image = UIImage(systemName: ConstantImage.camera)?.withTintColor(.lightGray) else {
                 return UIImage()
             }
             
@@ -408,7 +408,7 @@ extension ComposeViewController {
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(
-            image: UIImage(systemName: "keyboard.chevron.compact.down"),
+            image: UIImage(systemName: ConstantImage.keyboardDown),
             style: .done,
             target: self,
             action: #selector(keyboardDone)

@@ -27,7 +27,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     private var previousButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.chevronLeft), for: .normal)
         
         return button
     }()
@@ -35,7 +35,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     private var nextButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         
         return button
     }()

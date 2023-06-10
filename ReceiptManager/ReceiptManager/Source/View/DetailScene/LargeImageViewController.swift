@@ -21,7 +21,7 @@ final class LargeImageViewController: UIViewController, ViewModelBindable {
     
     private let closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.setImage(UIImage(systemName: ConstantImage.xmark), for: .normal)
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         

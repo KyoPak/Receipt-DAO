@@ -13,10 +13,9 @@ import NSObject_Rx
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
     private let titleView = TitleView()
+    private let searchView = SearchView()
     
     private var searchBarTopConstraint: NSLayoutConstraint?
-    
-    private let searchView = SearchView()
     
     private let listButton: UIButton = {
         let button = UIButton()
@@ -26,7 +25,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "list.bullet", withConfiguration: imageConfig)
+        let image = UIImage(systemName: ConstantImage.list, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
@@ -43,7 +42,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "bookmark", withConfiguration: imageConfig)
+        let image = UIImage(systemName: ConstantImage.bookMark, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
@@ -60,7 +59,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
-        let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
+        let image = UIImage(systemName: ConstantImage.plus, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
@@ -79,7 +78,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         searchBar.searchTextField.clearButtonMode = .whileEditing
         searchBar.searchTextField.leftView?.tintColor = .white
         searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
-        searchBar.setImage(UIImage(systemName: "x.circle.fill"), for: .clear, state: .normal)
+        searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: ConstantText.searchBar,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
@@ -91,7 +90,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
     private let searchBarBackButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        let image = UIImage(systemName: "chevron.backward")
+        let image = UIImage(systemName: ConstantImage.searchBack)
         button.setImage(image, for: .normal)
         
         return button
@@ -100,7 +99,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
     private let searchBarOriginalButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        let image = UIImage(systemName: "magnifyingglass")
+        let image = UIImage(systemName: ConstantImage.searchOrigin)
         button.setImage(image, for: .normal)
         
         return button

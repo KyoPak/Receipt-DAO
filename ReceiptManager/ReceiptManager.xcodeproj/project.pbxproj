@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1B368F2A3441D300749774 /* ConstantImage.swift */; };
 		3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C1B362A16072900A3D0A0 /* ConstantText.swift */; };
 		3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */; };
 		3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18D729FBCC5F00E8E9C6 /* SceneDelegate.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
+		3C1B368F2A3441D300749774 /* ConstantImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantImage.swift; sourceTree = "<group>"; };
 		3C1C1B362A16072900A3D0A0 /* ConstantText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantText.swift; sourceTree = "<group>"; };
 		3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReceiptManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2E18D529FBCC5F00E8E9C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				3C9AA3442A0117C10014807B /* Extension */,
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
 				3C1C1B362A16072900A3D0A0 /* ConstantText.swift */,
+				3C1B368F2A3441D300749774 /* ConstantImage.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
 				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
+				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
 				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,

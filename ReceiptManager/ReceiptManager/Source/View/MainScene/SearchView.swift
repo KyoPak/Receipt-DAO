@@ -8,8 +8,7 @@
 import UIKit
 
 final class SearchView: UIView {
-
-    var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
