@@ -61,7 +61,9 @@ final class MainViewModel: CommonViewModel {
                 var countText = ""
                 for receiptSectionModel in receiptSectionModels
                 where receiptSectionModel.model == dateString {
-                    countText = dateString + " 영수증은 \(receiptSectionModel.items.count)건 입니다."
+                    countText = dateString
+                    + " "
+                    + ConstantText.mainReceiptCount.localized(with: receiptSectionModel.items.count)
                     break
                 }
                 

@@ -54,8 +54,8 @@ final class CoreDataStorage: ReceiptStorage {
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .map { result in
-            var dayFormat = "yyyy년 MM월 dd일"
-            if type == .month { dayFormat = "yyyy년 MM월" }
+            var dayFormat = ConstantText.dateFormatDay.localize()
+            if type == .month { dayFormat = ConstantText.dateFormatMonth.localize() }
             
             let dictionary = Dictionary(
                 grouping: result,

@@ -71,7 +71,7 @@ final class ListTableViewCell: UITableViewCell {
             detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         }
         
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + " 원"
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + ConstantText.wonSpace.localize()
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor

@@ -50,3 +50,7 @@
 "need %@ AccessAuth" = "%@ 접근 권한 필요";
 "need %@ AccessAuthText" = "%@에 접근하여 사진을 사용할 수 있도록 허용해주세요.";
 "receiptImage" = "영수증 사진";
+
+"dateFormatMonth" = "yyyy년 MM월";
+"dateFormatDay" = "yyyy년 MM월 dd일";
+"mainReceiptCount %d" = "영수증은 %d건 입니다.";

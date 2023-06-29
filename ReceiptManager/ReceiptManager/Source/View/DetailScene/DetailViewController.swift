@@ -104,10 +104,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         viewModel?.receipt
             .asDriver(onErrorJustReturn: Receipt())
             .drive(onNext: { [weak self] receipt in
-                self?.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
+                self?.dateLabel.text = DateFormatter.string(
+                    from: receipt.receiptDate,
+                    ConstantText.dateFormatDay.localize()
+                )
                 self?.storeLabel.text = receipt.store
                 self?.productLabel.text = receipt.product
-                self?.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.wonSpace.localize()
+                self?.priceLabel.text = NumberFormatter
+                    .numberDecimal(from: receipt.price) + ConstantText.wonSpace.localize()
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
                 self?.shareButton.isEnabled = receipt.receiptData.count != .zero
@@ -202,11 +206,17 @@ extension DetailViewController {
     @objc private func composeButtonTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let editAction = UIAlertAction(title: ConstantText.edit.localize(), style: .default) { [weak self] _ in
+        let editAction = UIAlertAction(
+            title: ConstantText.edit.localize(),
+            style: .default
+        ) { [weak self] _ in
             self?.viewModel?.makeEditAction()
         }
         
-        let deleteAction = UIAlertAction(title: ConstantText.delete.localize(), style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(
+            title: ConstantText.delete.localize(),
+            style: .destructive
+        ) { [weak self] _ in
             self?.viewModel?.delete()
         }
         

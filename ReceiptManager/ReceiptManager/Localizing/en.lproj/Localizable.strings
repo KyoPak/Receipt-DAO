@@ -41,7 +41,7 @@
 "camera" = "Camera";
 "searchBar" = "Store﹒Product﹒Memo Searching";
 "searchText" = "Please enter your desired search term.";
-"searchFail" = "There are no search results you are looking for.";
+"searchFail" = "There are no search results.";
 
 "selectReceipt" = "Select Receipt Photo";
 "selectReceiptText" = "Please select a receipt to upload.";
@@ -50,3 +50,7 @@
 "need %@ AccessAuth" = "%@ access required";
 "need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 "receiptImage" = "Receipt Image";
+
+"dateFormatMonth" = "MMM.yyyy";
+"dateFormatDay" = "MMMM dd, yyyy";
+"mainReceiptCount %d" = "Registered %d Receipt";

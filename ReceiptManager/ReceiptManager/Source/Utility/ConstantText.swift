@@ -57,4 +57,8 @@ enum ConstantText {
     static let needAccessAuth = "need %@ AccessAuth"
     static let needAccessAuthText = "need %@ AccessAuthText"
     static let receiptImage = "receiptImage"
+    
+    static let dateFormatMonth = "dateFormatMonth"
+    static let dateFormatDay = "dateFormatDay"
+    static let mainReceiptCount = "mainReceiptCount %d"
 }
