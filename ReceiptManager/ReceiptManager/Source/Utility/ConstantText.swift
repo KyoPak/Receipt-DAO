@@ -54,7 +54,7 @@ enum ConstantText {
     static let shooting = "shooting"
     static let deviceSetting = "deviceSetting"
     
-    static let needAccessAuth = "need %s AccessAuth"
-    static let needAccessAuthText = "need %s AccessAuthText"
+    static let needAccessAuth = "need %@ AccessAuth"
+    static let needAccessAuthText = "need %@ AccessAuthText"
     static let receiptImage = "receiptImage"
 }

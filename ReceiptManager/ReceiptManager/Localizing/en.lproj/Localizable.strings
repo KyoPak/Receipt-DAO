@@ -47,6 +47,6 @@
 "selectReceiptText" = "Please select a receipt to upload.";
 "shooting" = "Access Camara";
 "deviceSetting" = "Go to setting";
-"need %s AccessAuth" = "%s access required";
-"need %s AccessAuthText" = "Please allow access to the %s to use the photos.";
+"need %@ AccessAuth" = "%@ access required";
+"need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 "receiptImage" = "Receipt Image";

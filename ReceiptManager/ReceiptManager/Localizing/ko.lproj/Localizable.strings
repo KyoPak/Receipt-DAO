@@ -47,6 +47,6 @@
 "selectReceiptText" = "업로드할 영수증을 선택해주세요.";
 "shooting" = "촬영";
 "deviceSetting" = "설정으로 이동";
-"need %s AccessAuth" = "%s 접근 권한 필요";
-"need %s AccessAuthText" = "%s에 접근하여 사진을 사용할 수 있도록 허용해주세요.";
+"need %@ AccessAuth" = "%@ 접근 권한 필요";
+"need %@ AccessAuthText" = "%@에 접근하여 사진을 사용할 수 있도록 허용해주세요.";
 "receiptImage" = "영수증 사진";
