@@ -73,7 +73,7 @@ final class MainViewModel: CommonViewModel {
 extension MainViewModel {
     func moveListAction() {
         let listViewModel = ListViewModel(
-            title: ConstantText.list,
+            title: ConstantText.list.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
@@ -84,7 +84,7 @@ extension MainViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.register,
+            title: ConstantText.register.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             ocrExtractor: OCRTextExtractor()
@@ -96,7 +96,7 @@ extension MainViewModel {
     
     func moveFavoriteAction() {
         let favoriteViewModel = FavoriteListViewModel(
-            title: ConstantText.bookMark,
+            title: ConstantText.bookMark.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )

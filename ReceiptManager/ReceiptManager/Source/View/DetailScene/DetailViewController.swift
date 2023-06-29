@@ -41,7 +41,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     private let countLabel = UILabel(font: .preferredFont(forTextStyle: .caption1))
     
     private let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
+        let segment = UISegmentedControl(items: [ConstantText.cash.localize(), ConstantText.card.localize()])
         segment.isEnabled = false
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
@@ -107,7 +107,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 self?.dateLabel.text = DateFormatter.string(from: receipt.receiptDate, "yyyy년 MM월 dd일")
                 self?.storeLabel.text = receipt.store
                 self?.productLabel.text = receipt.product
-                self?.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.won
+                self?.priceLabel.text = NumberFormatter.numberDecimal(from: receipt.price) + ConstantText.wonSpace.localize()
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
                 self?.shareButton.isEnabled = receipt.receiptData.count != .zero
@@ -155,7 +155,7 @@ extension DetailViewController: UICollectionViewDelegate {
         let totalCount = receiptData.count
         
         if totalCount == .zero {
-            countLabel.text = ConstantText.noPicture
+            countLabel.text = ConstantText.noPicture.localize()
             return
         }
         
@@ -202,15 +202,15 @@ extension DetailViewController {
     @objc private func composeButtonTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let editAction = UIAlertAction(title: ConstantText.edit, style: .default) { [weak self] _ in
+        let editAction = UIAlertAction(title: ConstantText.edit.localize(), style: .default) { [weak self] _ in
             self?.viewModel?.makeEditAction()
         }
         
-        let deleteAction = UIAlertAction(title: ConstantText.delete, style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: ConstantText.delete.localize(), style: .destructive) { [weak self] _ in
             self?.viewModel?.delete()
         }
         
-        let cancelAction = UIAlertAction(title: ConstantText.cancle, style: .cancel)
+        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
         [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
         
         present(alert, animated: true)

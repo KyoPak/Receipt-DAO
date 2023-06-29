@@ -31,7 +31,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
             let coordinator = DefaultSceneCoordinator(window: window)
             let mainViewModel = MainViewModel(
-                title: ConstantText.appName,
+                title: ConstantText.appName.localize(),
                 sceneCoordinator: coordinator,
                 storage: storage
             )

@@ -42,7 +42,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var nowButton: UIButton = {
         let button = UIButton()
-        button.setTitle(ConstantText.today, for: .normal)
+        button.setTitle(ConstantText.today.localize(), for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         button.backgroundColor = ConstantColor.listColor
@@ -132,7 +132,7 @@ extension ListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: ConstantText.delete
+            title: ConstantText.delete.localize()
         ) { [weak self] _, _, completion in
             self?.viewModel?.deleteAction(indexPath: indexPath)
             completion(true)
@@ -155,7 +155,7 @@ extension ListViewController: UITableViewDelegate {
             }
         )
         
-        let label = UILabel(text: ConstantText.bookMark, font: .preferredFont(forTextStyle: .body))
+        let label = UILabel(text: ConstantText.bookMark.localize(), font: .preferredFont(forTextStyle: .body))
         label.textColor = ConstantColor.cellColor
         label.backgroundColor = .systemYellow
         label.sizeToFit()
@@ -218,7 +218,7 @@ extension ListViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.shortRegister,
+            title: ConstantText.shortRegister.localize(),
             style: .done,
             target: self,
             action: #selector(registerButtonTapped)

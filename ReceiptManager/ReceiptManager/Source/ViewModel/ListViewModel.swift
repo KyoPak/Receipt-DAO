@@ -77,7 +77,7 @@ final class ListViewModel: CommonViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.register,
+            title: ConstantText.register.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             ocrExtractor: OCRTextExtractor()

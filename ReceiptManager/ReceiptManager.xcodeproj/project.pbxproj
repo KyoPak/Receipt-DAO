@@ -57,6 +57,8 @@
 		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
 		3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */; };
 		3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */; };
+		3CE07C592A4C841100C1AE73 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CE07C5B2A4C841100C1AE73 /* Localizable.strings */; };
+		3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */; };
 		3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD22FB29FE4CA300AE59C7 /* MainViewModel.swift */; };
 		40778D58168C62146784F787 /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
@@ -116,6 +118,9 @@
 		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
 		3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptStorage.swift; sourceTree = "<group>"; };
 		3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		3CE07C5A2A4C841100C1AE73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3CE07C5C2A4C846200C1AE73 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		3CFD22FB29FE4CA300AE59C7 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -162,6 +167,7 @@
 		3C2E18D429FBCC5F00E8E9C6 /* ReceiptManager */ = {
 			isa = PBXGroup;
 			children = (
+				3CE07C5D2A4C847B00C1AE73 /* Localizing */,
 				3CDCDC4829FC003800C2BEF6 /* Resource */,
 				3CDCDC4729FC002D00C2BEF6 /* Source */,
 			);
@@ -201,6 +207,7 @@
 				3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */,
 				3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */,
 				3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */,
+				3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -338,6 +345,14 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		3CE07C5D2A4C847B00C1AE73 /* Localizing */ = {
+			isa = PBXGroup;
+			children = (
+				3CE07C5B2A4C841100C1AE73 /* Localizable.strings */,
+			);
+			path = Localizing;
+			sourceTree = "<group>";
+		};
 		3CFD22FA29FE4C9000AE59C7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +430,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 3C2E18C929FBCC5F00E8E9C6;
 			productRefGroup = 3C2E18D329FBCC5F00E8E9C6 /* Products */;
@@ -432,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */,
+				3CE07C592A4C841100C1AE73 /* Localizable.strings in Resources */,
 				3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */,
 				3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */,
 			);
@@ -532,6 +549,7 @@
 				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
+				3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
@@ -565,6 +583,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		3CE07C5B2A4C841100C1AE73 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CE07C5A2A4C841100C1AE73 /* en */,
+				3CE07C5C2A4C846200C1AE73 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -572,6 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -633,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -710,7 +739,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReceiptManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -748,7 +777,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReceiptManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

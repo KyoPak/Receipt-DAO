@@ -9,28 +9,40 @@ import UIKit
 
 final class ComposeInformationView: UIView {
     let datePicker = UIDatePicker()
-    private let dateLabel = UILabel(text: ConstantText.date, font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(text: ConstantText.store, font: .preferredFont(forTextStyle: .body))
-    private let productLabel = UILabel(text: ConstantText.product, font: .preferredFont(forTextStyle: .body))
-    private let priceLabel = UILabel(text: ConstantText.price, font: .preferredFont(forTextStyle: .body))
+    private let dateLabel = UILabel(
+        text: ConstantText.date.localize(),
+        font: .preferredFont(forTextStyle: .body)
+    )
+    private let storeLabel = UILabel(
+        text: ConstantText.store.localize(),
+        font: .preferredFont(forTextStyle: .body)
+    )
+    private let productLabel = UILabel(
+        text: ConstantText.product.localize(),
+        font: .preferredFont(forTextStyle: .body)
+    )
+    private let priceLabel = UILabel(
+        text: ConstantText.price.localize(),
+        font: .preferredFont(forTextStyle: .body)
+    )
     
     let storeTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantText.input,
+        placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let productNameTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantText.input,
+        placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let priceTextField = UITextField(
         textColor: .white,
-        placeholder: ConstantText.input,
+        placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
@@ -68,7 +80,7 @@ final class ComposeInformationView: UIView {
     )
     
     let payTypeSegmented: UISegmentedControl = {
-        let segment = UISegmentedControl(items: [ConstantText.cash, ConstantText.card])
+        let segment = UISegmentedControl(items: [ConstantText.cash.localize(), ConstantText.card.localize()])
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
@@ -148,10 +160,10 @@ extension ComposeInformationView {
         let safeArea = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            dateLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            priceLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
-            productLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.15),
+            dateLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.17),
+            priceLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.17),
+            storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.17),
+            productLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.17),
             
             dateLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             dateLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),

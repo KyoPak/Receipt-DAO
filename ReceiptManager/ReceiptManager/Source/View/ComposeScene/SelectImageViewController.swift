@@ -19,7 +19,7 @@ class SelectImageViewController: UIViewController, ViewModelBindable, UICollecti
     
     private var addSelectButton: UIButton = {
         let button = UIButton()
-        button.setTitle(ConstantText.selectButton, for: .normal)
+        button.setTitle(ConstantText.selectButton.localize(), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -139,14 +139,14 @@ extension SelectImageViewController {
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: ConstantText.cancle,
+            title: ConstantText.cancle.localize(),
             style: .plain,
             target: self,
             action: #selector(tapCancleButton)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.complete,
+            title: ConstantText.complete.localize(),
             style: .done,
             target: self,
             action: #selector(tapSaveButton)

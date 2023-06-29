@@ -21,7 +21,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle(ConstantText.list, for: .normal)
+        button.setTitle(ConstantText.list.localize(), for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -38,7 +38,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle(ConstantText.bookMark, for: .normal)
+        button.setTitle(ConstantText.bookMark.localize(), for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -55,7 +55,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .black
         button.layer.cornerRadius = 10
-        button.setTitle(ConstantText.register, for: .normal)
+        button.setTitle(ConstantText.register.localize(), for: .normal)
         button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
@@ -80,7 +80,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-            string: ConstantText.searchBar,
+            string: ConstantText.searchBar.localize(),
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         )
         
@@ -273,7 +273,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController {
     private func showEmptyResultMessage() {
         let label = UILabel()
-        label.text = searchBar.text == "" ? ConstantText.searchText : ConstantText.searchFail
+        label.text = searchBar.text == "" ? ConstantText.searchText.localize() : ConstantText.searchFail.localize()
         label.textColor = .white
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -332,7 +332,7 @@ extension MainViewController {
         navigationController?.isNavigationBarHidden = true
         
         let backBarButtonItem = UIBarButtonItem(
-            title: ConstantText.home, style: .plain, target: self, action: nil
+            title: ConstantText.home.localize(), style: .plain, target: self, action: nil
         )
         backBarButtonItem.tintColor = .white
         navigationItem.backBarButtonItem = backBarButtonItem

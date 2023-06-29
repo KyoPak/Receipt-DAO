@@ -133,7 +133,7 @@ extension ComposeViewModel {
         let currentReceiptData = receiptDataRelay.value
         
         let selectImageViewModel = SelectImageViewModel(
-            title: ConstantText.selectImage,
+            title: ConstantText.selectImage.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             data: selectDatas,

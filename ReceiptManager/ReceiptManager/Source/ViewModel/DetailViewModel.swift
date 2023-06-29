@@ -39,7 +39,7 @@ final class DetailViewModel: CommonViewModel {
         let receipt = (try? receipt.value()) ?? Receipt()
         
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.edit,
+            title: ConstantText.edit.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             receipt: receipt,

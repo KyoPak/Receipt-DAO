@@ -71,7 +71,10 @@ extension FavoriteListViewController: UITableViewDelegate {
             }
         )
         
-        let label = UILabel(text: ConstantText.clearBookMark, font: .preferredFont(forTextStyle: .body))
+        let label = UILabel(
+            text: ConstantText.clearBookMark.localize(),
+            font: .preferredFont(forTextStyle: .body)
+        )
         label.textColor = ConstantColor.cellColor
         label.backgroundColor = .systemYellow
         label.sizeToFit()
