@@ -29,4 +29,5 @@ enum ConstantImage {
     
     static let camera = "camera.circle"
     static let keyboardDown = "keyboard.chevron.compact.down"
+    static let setting = "gearshape.circle"
 }

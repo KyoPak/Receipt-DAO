@@ -118,4 +118,15 @@ extension MainViewModel {
         let detailScene = Scene.detail(detailViewModel)
         sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
     }
+    
+    func moveSettingAction() {
+        let settingViewModel = SettingViewModel(
+            title: "설정",
+            sceneCoordinator: sceneCoordinator,
+            storage: storage
+        )
+        
+        let settingScene = Scene.setting(settingViewModel)
+        sceneCoordinator.transition(to: settingScene, using: .modalNavi, animated: true)
+    }
 }

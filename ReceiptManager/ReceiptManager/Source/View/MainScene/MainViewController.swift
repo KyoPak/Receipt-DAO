@@ -117,6 +117,16 @@ final class MainViewController: UIViewController, ViewModelBindable {
         return label
     }()
     
+    private let settingButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .systemBackground
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
+        let image = UIImage(systemName: ConstantImage.setting, withConfiguration: imageConfig)
+        button.setImage(image, for: .normal)
+        
+        return button
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
@@ -155,6 +165,13 @@ final class MainViewController: UIViewController, ViewModelBindable {
             .withUnretained(self)
             .bind { (owner, _) in
                 owner.viewModel?.moveFavoriteAction()
+            }
+            .disposed(by: rx.disposeBag)
+        
+        settingButton.rx.tap
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.viewModel?.moveSettingAction()
             }
             .disposed(by: rx.disposeBag)
         
@@ -293,7 +310,10 @@ extension MainViewController {
     private func configureSearchView(hidden: Bool) {
         searchBar.searchTextField.leftView = hidden ? searchBarOriginalButton : searchBarBackButton
         searchView.isHidden = hidden
-        [titleView, listButton, favoriteListButton, registerButton, monthSpendingLabel].forEach {
+        [
+            titleView, settingButton, listButton,
+            favoriteListButton, registerButton, monthSpendingLabel
+        ].forEach {
             $0.isHidden = !hidden
         }
     }
@@ -342,10 +362,17 @@ extension MainViewController {
         view.backgroundColor = ConstantColor.backGrouncColor
         searchView.isHidden = true
         
-        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel, searchView].forEach {
+        [
+            titleView, searchBar, listButton,
+            favoriteListButton, registerButton,
+            monthSpendingLabel, searchView, settingButton
+        ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [titleView, searchBar, listButton, favoriteListButton, registerButton, monthSpendingLabel, searchView]
+        [
+            titleView, searchBar, listButton, favoriteListButton,
+            registerButton, monthSpendingLabel, searchView, settingButton
+        ]
             .forEach(view.addSubview(_:))
     }
     
@@ -386,7 +413,10 @@ extension MainViewController {
             searchView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 10),
             searchView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             searchView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            searchView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            searchView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
+            settingButton.topAnchor.constraint(equalTo: monthSpendingLabel.bottomAnchor, constant: 40),
+            settingButton.trailingAnchor.constraint(equalTo: monthSpendingLabel.trailingAnchor)
         ])
     }
 }

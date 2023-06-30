@@ -15,6 +15,7 @@ enum Scene {
     case detail(DetailViewModel)
     case large(LargeImageViewModel)
     case selectImage(SelectImageViewModel)
+    case setting(SettingViewModel)
 }
 
 extension Scene {
@@ -53,6 +54,11 @@ extension Scene {
         case .selectImage(let selectImageViewModel):
             let viewController = SelectImageViewController()
             viewController.bind(viewModel: selectImageViewModel)
+            
+            return viewController
+        case .setting(let settingViewModel):
+            let viewController = SettingViewController()
+            viewController.bind(viewModel: settingViewModel)
             
             return viewController
         }
