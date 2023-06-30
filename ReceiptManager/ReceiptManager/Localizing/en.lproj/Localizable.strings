@@ -21,36 +21,39 @@
 "delete" = "Delete";
 
 "cancle" = "Cancel";
+"close" = "Close";
 "complete" = "Completed";
 "edit" = "Edit";
 "date" = "Date";
-"home" = "Home";
 
+"home" = "Home";
 "store" = "Store";
 "product" = "Product";
 "price" = "Price";
 "today" = "Today";
-"cash" = "Cash";
 
+"cash" = "Cash";
 "card" = "Card";
 "memo" = "Write a brief memo.";
 "noPicture" = "There is no registered picture.";
 "wonSpace" = " ￦";
-"album" = "Album";
 
+"album" = "Album";
 "camera" = "Camera";
 "searchBar" = "Store﹒Product﹒Memo Searching";
 "searchText" = "Please enter your desired search term.";
 "searchFail" = "There are no search results.";
-"selectReceipt" = "Select Receipt Photo";
 
+"selectReceipt" = "Select Receipt Photo";
 "selectReceiptText" = "Please select a receipt to upload.";
 "shooting" = "Access Camara";
 "deviceSetting" = "Go to setting";
 "need %@ AccessAuth" = "%@ access required";
-"need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 
+"need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 "receiptImage" = "Receipt Image";
 "dateFormatMonth" = "MMM.yyyy";
 "dateFormatDay" = "MMMM dd, yyyy";
 "mainReceiptCount %d" = "Registered %d Receipt";
+
+"setting" = "Settings";

@@ -121,7 +121,7 @@ extension MainViewModel {
     
     func moveSettingAction() {
         let settingViewModel = SettingViewModel(
-            title: "설정",
+            title: ConstantText.setting.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )

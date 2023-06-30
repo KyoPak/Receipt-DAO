@@ -27,17 +27,18 @@ enum ConstantText {
     static let delete = "delete"
     
     static let cancle = "cancle"
+    static let close = "close"
     static let complete = "complete"
     static let edit = "edit"
     static let date = "date"
-    static let home = "home"
     
+    static let home = "home"
     static let store = "store"
     static let product = "product"
     static let price = "price"
     static let today = "today"
-    static let cash = "cash"
     
+    static let cash = "cash"
     static let card = "card"
     static let memo = "memo"
     static let noPicture = "noPicture"
@@ -61,4 +62,5 @@ enum ConstantText {
     static let dateFormatMonth = "dateFormatMonth"
     static let dateFormatDay = "dateFormatDay"
     static let mainReceiptCount = "mainReceiptCount %d"
+    static let setting = "setting"
 }

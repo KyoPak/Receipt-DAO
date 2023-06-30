@@ -21,36 +21,39 @@
 "delete" = "削除";
 
 "cancle" = "キャンセル";
+"close" = "終了";
 "complete" = "完了";
 "edit" = "編集";
 "date" = "日付";
-"home" = "ホーム";
 
+"home" = "ホーム";
 "store" = "相互名";
 "product" = "履歴";
 "price" = "価格";
 "today" = "今日";
-"cash" = "現金";
 
+"cash" = "現金";
 "card" = "カード";
 "memo" = "簡単なメモを書きます。";
 "noPicture" = "登録された写真はありません。";
 "wonSpace" = " ￦";
-"album" = "写真";
 
+"album" = "写真";
 "camera" = "カメラ";
 "searchBar" = "相互名﹒履歴﹒メモ 検索";
 "searchText" = "必要な検索用語を入力してください。";
 "searchFail" = "検索の結果は見つかりませんでした。";
-"selectReceipt" = "領収書の写真を選択してください";
 
+"selectReceipt" = "領収書の写真を選択してください";
 "selectReceiptText" = "アップロードする領収書を選択してください。";
 "shooting" = "撮影";
 "deviceSetting" = "設定に移動";
 "need %@ AccessAuth" = "%@ アクセスする必要があります";
-"need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
 
+"need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
 "receiptImage" = "領収書画像";
 "dateFormatMonth" = "MM.yyyy";
 "dateFormatDay" = "MM dd, yyyy";
 "mainReceiptCount %d" = "%d 件の登録領収書";
+
+"setting" = "設定";

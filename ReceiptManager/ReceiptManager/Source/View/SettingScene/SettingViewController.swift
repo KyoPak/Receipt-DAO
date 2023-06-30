@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import NSObject_Rx
 
 final class SettingViewController: UIViewController, ViewModelBindable {
 
@@ -15,14 +18,43 @@ final class SettingViewController: UIViewController, ViewModelBindable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupNavigationBar()
     }
     
     func bindViewModel() {
-        
+        viewModel?.title
+            .drive(navigationItem.rx.title)
+            .disposed(by: rx.disposeBag)
     }
 }
 
 extension SettingViewController {
+    @objc private func tapCloseButton() {
+        viewModel?.cancelAction()
+    }
+}
+
+extension SettingViewController {
+    private func setupNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = ConstantColor.backGrouncColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: ConstantText.close.localize(),
+            style: .plain,
+            target: self,
+            action: #selector(tapCloseButton)
+        )
+        
+        navigationItem.leftBarButtonItem?.tintColor = .white
+    }
+    
+    
     private func setupView() {
         view.backgroundColor = ConstantColor.backGrouncColor
     }

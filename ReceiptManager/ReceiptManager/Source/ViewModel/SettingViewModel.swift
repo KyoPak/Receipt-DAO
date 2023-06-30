@@ -6,7 +6,14 @@
 //
 
 import Foundation
+import RxSwift
 
 final class SettingViewModel: CommonViewModel {
+    private let disposeBag = DisposeBag()
     
+    func cancelAction() {
+        sceneCoordinator.close(animated: true)
+            .subscribe()
+            .disposed(by: disposeBag)
+    }
 }
