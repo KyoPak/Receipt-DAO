@@ -8,8 +8,12 @@
 import Foundation
 
 enum ConstantText {
+    // MARK: - Constant Text
     static let launchScreen = "LaunchScreen"
     static let receiptManager = "ReceiptManager"
+    static let krw = "KRW ￦"
+    static let usd = "USD ＄"
+    static let jpy = "JPY ¥"
     
     // MARK: - Localize Key
     static let appName = "appName"
