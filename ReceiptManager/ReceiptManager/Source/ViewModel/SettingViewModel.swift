@@ -39,4 +39,42 @@ final class SettingViewModel: CommonViewModel {
             .subscribe()
             .disposed(by: disposeBag)
     }
+    
+    func menuSelectAction(menu: SettingOption) {
+        switch menu.title {
+        case ConstantText.opinion.localize():
+            let emailURL = createEmailUrl(
+                subject: ConstantText.mailSubject.localize(),
+                body: ConstantText.mailBody.localize()
+            )
+            openURL(urlString: emailURL)
+        case ConstantText.rating.localize():
+            let appStoreURL = createAppStoreURL()
+            openURL(urlString: appStoreURL)
+        case ConstantText.dataClear.localize():
+            print("Clear Data")
+        default:
+            return
+        }
+    }
+    
+    private func openURL(urlString: String) {
+        if let url = URL(string: "\(urlString)") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    private func createAppStoreURL() -> String {
+        let url = "itms-apps://itunes.apple.com/app/" + ConstantText.appID
+        return url
+    }
+    
+    private func createEmailUrl(subject: String, body: String) -> String {
+        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            
+        let defaultUrl = "mailto:\(ConstantText.myEmail)?subject=\(subjectEncoded)&body=\(bodyEncoded)"
+            
+        return defaultUrl
+    }
 }

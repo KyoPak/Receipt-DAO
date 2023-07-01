@@ -32,7 +32,18 @@ final class SettingViewController: UIViewController, ViewModelBindable {
         viewModel.menuDatas
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
-            
+        
+        Observable.zip(tableView.rx.modelSelected(SettingOption.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do { (owner, data) in
+                owner.tableView.deselectRow(at: data.1, animated: true)
+            }
+            .map { $1.0 }
+            .subscribe { [weak self] in
+                self?.viewModel?.menuSelectAction(menu: $0)
+            }
+            .disposed(by: rx.disposeBag)
+        
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }

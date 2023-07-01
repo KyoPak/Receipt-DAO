@@ -15,6 +15,12 @@ enum ConstantText {
     static let usd = "USD ＄"
     static let jpy = "JPY ¥"
     
+    static let myEmail = "hyosing92@gmail.com"
+    static let mailSubject = "mailSubject"
+    static let mailBody = "mailBody"
+    
+    static let appID = "6449433216"
+    
     // MARK: - Localize Key
     static let appName = "appName"
     
