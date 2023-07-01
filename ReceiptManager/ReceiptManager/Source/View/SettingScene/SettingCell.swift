@@ -8,7 +8,7 @@
 import UIKit
 
 final class SettingCell: UITableViewCell {
-    private let optionLabel = UILabel(font: UIFont.systemFont(ofSize: 20))
+    private let optionLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     
     let currencySegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: [ConstantText.krw, ConstantText.usd, ConstantText.jpy])

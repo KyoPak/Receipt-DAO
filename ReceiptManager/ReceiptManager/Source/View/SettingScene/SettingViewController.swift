@@ -41,7 +41,7 @@ final class SettingViewController: UIViewController, ViewModelBindable {
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let datas = try? viewModel?.menuDatas.value() else {
-            return 0
+            return .zero
         }
         
         return datas[section].items.count
@@ -62,7 +62,6 @@ extension SettingViewController: UITableViewDelegate {
         label.text = sectionTitle
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
         let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
 
         headerView.addSubview(label)

@@ -67,4 +67,12 @@ enum ConstantText {
     static let dateFormatDay = "dateFormatDay"
     static let mainReceiptCount = "mainReceiptCount %d"
     static let setting = "setting"
+    
+    static let currencySettingSection = "currencySettingSection"
+    static let currencySettingText = "currencySettingText"
+    static let customerServiceSection = "customerServiceSection"
+    static let rating = "rating"
+    static let opinion = "opinion"
+    static let dataManageSection = "dataManageSection"
+    static let dataClear = "dataClear"
 }

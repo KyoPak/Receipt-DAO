@@ -30,22 +30,22 @@ extension SettingSection {
     static func configureSettings() -> [SettingSection] {
         return [
             SettingSection(
-                title: "화폐 단위 설정",
+                title: ConstantText.currencySettingSection.localize(),
                 items: [
-                    SettingOption(title: "화폐 단위 변경")
+                    SettingOption(title: ConstantText.currencySettingText.localize())
                 ]
             ),
             SettingSection(
-                title: "고객 센터",
+                title: ConstantText.customerServiceSection.localize(),
                 items: [
-                    SettingOption(title: "의견 보내기"),
-                    SettingOption(title: "평점 매기기"),
+                    SettingOption(title: ConstantText.opinion.localize()),
+                    SettingOption(title: ConstantText.rating.localize())
                 ]
             ),
             SettingSection(
-                title: "데이터 관리",
+                title: ConstantText.dataManageSection.localize(),
                 items: [
-                    SettingOption(title: "모든 데이터 삭제하기")
+                    SettingOption(title: ConstantText.dataClear.localize())
                 ]
             )
         ]
