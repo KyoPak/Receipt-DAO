@@ -13,47 +13,10 @@ import RxCocoa
 final class MainViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
-    let searchText = PublishRelay<String?>()
-    
     var receiptList: Observable<[ReceiptSectionModel]> {
         return storage.fetch(type: .month)
     }
-    
-    var searchResultList: Observable<[ReceiptSectionModel]> {
-        return Observable.combineLatest(storage.fetch(type: .month), searchText.asObservable())
-            .map { receiptSectionModels, text in
-                return receiptSectionModels.map { model in
-                    let searchItems = model.items.filter { receipt in
-                        guard let text = text, text != "" else { return false }
-                        return receipt.store.contains(text) ||
-                        receipt.product.contains(text) ||
-                        receipt.memo.contains(text)
-                    }
-                    
-                    return ReceiptSectionModel(model: model.model, items: searchItems)
-                }
-                .filter { $0.items.count != .zero }
-            }
-    }
-    
-    let dataSource: TableViewDataSource = {
-        let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
         
-        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ListTableViewCell.identifier, for: indexPath
-            ) as? ListTableViewCell else {
-                let cell = UITableViewCell()
-                return cell
-            }
-            
-            cell.setupData(data: receipt, currencyIndex: currencyIndex)
-            return cell
-        }
-        
-        return dataSource
-    }()
-    
     var receiptCountText: Driver<String> {
         return receiptList
             .asDriver(onErrorJustReturn: [])
@@ -108,18 +71,6 @@ extension MainViewModel {
         sceneCoordinator.transition(to: favoriteScene, using: .push, animated: true)
     }
     
-    func moveDetailAction(receipt: Receipt) {
-        let detailViewModel = DetailViewModel(
-            receipt: receipt,
-            title: "",
-            sceneCoordinator: sceneCoordinator,
-            storage: storage
-        )
-        
-        let detailScene = Scene.detail(detailViewModel)
-        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
-    }
-    
     func moveSettingAction() {
         let settingViewModel = SettingViewModel(
             title: ConstantText.setting.localize(),
@@ -129,5 +80,12 @@ extension MainViewModel {
         
         let settingScene = Scene.setting(settingViewModel)
         sceneCoordinator.transition(to: settingScene, using: .modalNavi, animated: true)
+    }
+    
+    func moveSearchAction() {
+        let searchViewModel = SearchViewModel(title: "", sceneCoordinator: sceneCoordinator, storage: storage)
+        
+        let searchScene = Scene.search(searchViewModel)
+        sceneCoordinator.transition(to: searchScene, using: .modalNavi, animated: false)
     }
 }
