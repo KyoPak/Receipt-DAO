@@ -22,4 +22,15 @@ enum Currency: Int {
             return ConstantText.yen
         }
     }
+    
+    var currencyImageText: String {
+        switch self {
+        case .KRW:
+            return ConstantImage.wonSign
+        case .USD:
+            return ConstantImage.dollarSign
+        case .JPY:
+            return ConstantImage.yenSign
+        }
+    }
 }

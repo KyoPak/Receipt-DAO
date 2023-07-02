@@ -37,8 +37,7 @@ final class MainViewModel: CommonViewModel {
     }
     
     let dataSource: TableViewDataSource = {
-        let currencyValue = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
-        let currency = Currency(rawValue: currencyValue)?.description ?? Currency.KRW.description
+        let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
         
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
             guard let cell = tableView.dequeueReusableCell(
@@ -48,7 +47,7 @@ final class MainViewModel: CommonViewModel {
                 return cell
             }
             
-            cell.setupData(data: receipt, currency: currency)
+            cell.setupData(data: receipt, currencyIndex: currencyIndex)
             return cell
         }
         
