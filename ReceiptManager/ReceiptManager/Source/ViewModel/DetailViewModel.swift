@@ -14,8 +14,10 @@ protocol ComposeDataUpdatable: AnyObject {
 }
 
 final class DetailViewModel: CommonViewModel {
-    var receipt: BehaviorSubject<Receipt>
     private let disposeBag = DisposeBag()
+    private let currencyValue: Int
+    let currency: String
+    var receipt: BehaviorSubject<Receipt>
     
     init(receipt: Receipt,
          title: String,
@@ -23,6 +25,9 @@ final class DetailViewModel: CommonViewModel {
          storage: ReceiptStorage
     ) {
         self.receipt = BehaviorSubject<Receipt>(value: receipt)
+        currencyValue = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        currency = Currency(rawValue: currencyValue)?.description ?? Currency.KRW.description
+        
         super.init(title: title, sceneCoordinator: sceneCoordinator, storage: storage)
     }
     
@@ -39,7 +44,7 @@ final class DetailViewModel: CommonViewModel {
         let receipt = (try? receipt.value()) ?? Receipt()
         
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.edit,
+            title: ConstantText.edit.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             receipt: receipt,

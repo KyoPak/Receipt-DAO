@@ -28,8 +28,9 @@ final class ListViewModel: CommonViewModel {
     }
     
     let dataSource: TableViewDataSource = {
+        let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
-            
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: ListTableViewCell.identifier, for: indexPath
             ) as? ListTableViewCell else {
@@ -37,7 +38,7 @@ final class ListViewModel: CommonViewModel {
                 return cell
             }
             
-            cell.setupData(data: receipt)
+            cell.setupData(data: receipt, currencyIndex: currencyIndex)
             return cell
         }
         
@@ -77,7 +78,7 @@ final class ListViewModel: CommonViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.register,
+            title: ConstantText.register.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             ocrExtractor: OCRTextExtractor()

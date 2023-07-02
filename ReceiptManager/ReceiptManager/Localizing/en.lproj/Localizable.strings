@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  ReceiptManager
+
+  Created by parkhyo on 2023/06/29.
+  
+*/
+
+"appName" = "Give Me A Receipt";
+
+"list" = "My Receipt";
+"bookMark" = "Important";
+"clearBookMark" = "Unimportant";
+"register" = "Register";
+"input" = "Fill";
+
+"shortRegister" = "Register";
+"selectImage" = "Selected image";
+"selectButton" = "Select more photos";
+"save" = "Save";
+"delete" = "Delete";
+
+"cancle" = "Cancel";
+"close" = "Close";
+"complete" = "Completed";
+"edit" = "Edit";
+"date" = "Date";
+
+"home" = "Home";
+"store" = "Store";
+"product" = "Product";
+"price" = "Price";
+"today" = "Today";
+
+"cash" = "Cash";
+"card" = "Card";
+"memo" = "Write a brief memo.";
+"noPicture" = "There is no registered picture.";
+
+"album" = "Album";
+"camera" = "Camera";
+"searchBar" = "Store﹒Product﹒Memo Search";
+"searchText" = "Please enter your desired search term.";
+"searchFail" = "There are no search results.";
+
+"selectReceipt" = "Select Receipt Photo";
+"selectReceiptText" = "Please select a receipt to upload.";
+"shooting" = "Access Camara";
+"deviceSetting" = "Go to setting";
+"need %@ AccessAuth" = "%@ access required";
+
+"need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
+"receiptImage" = "Receipt Image";
+"dateFormatMonth" = "MMM.yyyy";
+"dateFormatDay" = "MMMM dd, yyyy";
+"mainReceiptCount %d" = "Registered %d Receipt";
+
+"setting" = "Settings";
+"currencySettingSection" = "Currency unit Setting";
+"currencySettingText" = "Unit change";
+"customerServiceSection" = "Customer Service Center";
+"rating" = "App rating";
+"opinion" = "Send comments";
+
+"mailSubject" = "[Give Me A Receipt] Opinion";
+"mailBody" = "Hello. \nThank you for using My App. \nWe always value users' opinions. \nWe would appreciate it if you could select the appropriate item from the list below or write your opinion freely. \n1. Opinion:\n[Please write your comments.]\n2. Error:\n[Please write the error]\n3. ETC:\n[Please write what you want]\n\n\nThank You.";

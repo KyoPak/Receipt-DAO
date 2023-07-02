@@ -18,17 +18,17 @@ protocol CameraAlbumAccessAlertPresentable: CameraAlbumAccessable {
 extension CameraAlbumAccessAlertPresentable {
     func showAccessAlbumAlert(_ isShowPicker: Bool) {
         let alert = UIAlertController(
-            title: "영수증 사진선택",
-            message: "업로드할 영수증을 선택해주세요.",
+            title: ConstantText.selectReceipt.localize(),
+            message: ConstantText.selectReceiptText.localize(),
             preferredStyle: .actionSheet
         )
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let cameraAction = UIAlertAction(title: "촬영", style: .default) { _ in
+        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
+        let cameraAction = UIAlertAction(title: ConstantText.shooting.localize(), style: .default) { _ in
             self.openCamera()
         }
         
-        let albumAction = UIAlertAction(title: "앨범", style: .default) { _ in
+        let albumAction = UIAlertAction(title: ConstantText.album.localize(), style: .default) { _ in
             self.openAlbum()
         }
         
@@ -38,17 +38,17 @@ extension CameraAlbumAccessAlertPresentable {
     
     func showPermissionAlert(text: String) {
         let alertController = UIAlertController(
-            title: "\(text) 접근 권한 필요",
-            message: "\(text)에 접근하여 사진을 사용할 수 있도록 허용해주세요.",
+            title: ConstantText.needAccessAuth.localized(with: text),
+            message: ConstantText.needAccessAuthText.localized(with: text),
             preferredStyle: .alert
         )
-        let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+        let settingsAction = UIAlertAction(title: ConstantText.deviceSetting.localize(), style: .default) { _ in
             if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
             }
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel, handler: nil)
         
         alertController.addAction(settingsAction)
         alertController.addAction(cancelAction)

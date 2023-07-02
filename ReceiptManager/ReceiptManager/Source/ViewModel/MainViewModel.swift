@@ -13,46 +13,10 @@ import RxCocoa
 final class MainViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
-    let searchText = PublishRelay<String?>()
-    
     var receiptList: Observable<[ReceiptSectionModel]> {
         return storage.fetch(type: .month)
     }
-    
-    var searchResultList: Observable<[ReceiptSectionModel]> {
-        return Observable.combineLatest(storage.fetch(type: .month), searchText.asObservable())
-            .map { receiptSectionModels, text in
-                return receiptSectionModels.map { model in
-                    let searchItems = model.items.filter { receipt in
-                        guard let text = text, text != "" else { return false }
-                        return receipt.store.contains(text) ||
-                        receipt.product.contains(text) ||
-                        receipt.memo.contains(text)
-                    }
-                    
-                    return ReceiptSectionModel(model: model.model, items: searchItems)
-                }
-                .filter { $0.items.count != .zero }
-            }
-    }
-    
-    let dataSource: TableViewDataSource = {
-        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
-            
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ListTableViewCell.identifier, for: indexPath
-            ) as? ListTableViewCell else {
-                let cell = UITableViewCell()
-                return cell
-            }
-            
-            cell.setupData(data: receipt)
-            return cell
-        }
         
-        return dataSource
-    }()
-    
     var receiptCountText: Driver<String> {
         return receiptList
             .asDriver(onErrorJustReturn: [])
@@ -61,7 +25,9 @@ final class MainViewModel: CommonViewModel {
                 var countText = ""
                 for receiptSectionModel in receiptSectionModels
                 where receiptSectionModel.model == dateString {
-                    countText = dateString + " 영수증은 \(receiptSectionModel.items.count)건 입니다."
+                    countText = dateString
+                    + " "
+                    + ConstantText.mainReceiptCount.localized(with: receiptSectionModel.items.count)
                     break
                 }
                 
@@ -73,7 +39,7 @@ final class MainViewModel: CommonViewModel {
 extension MainViewModel {
     func moveListAction() {
         let listViewModel = ListViewModel(
-            title: ConstantText.list,
+            title: ConstantText.list.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
@@ -84,7 +50,7 @@ extension MainViewModel {
     
     func moveRegisterAction() {
         let composeViewModel = ComposeViewModel(
-            title: ConstantText.register,
+            title: ConstantText.register.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             ocrExtractor: OCRTextExtractor()
@@ -96,7 +62,7 @@ extension MainViewModel {
     
     func moveFavoriteAction() {
         let favoriteViewModel = FavoriteListViewModel(
-            title: ConstantText.bookMark,
+            title: ConstantText.bookMark.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
@@ -105,15 +71,21 @@ extension MainViewModel {
         sceneCoordinator.transition(to: favoriteScene, using: .push, animated: true)
     }
     
-    func moveDetailAction(receipt: Receipt) {
-        let detailViewModel = DetailViewModel(
-            receipt: receipt,
-            title: "",
+    func moveSettingAction() {
+        let settingViewModel = SettingViewModel(
+            title: ConstantText.setting.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage
         )
         
-        let detailScene = Scene.detail(detailViewModel)
-        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
+        let settingScene = Scene.setting(settingViewModel)
+        sceneCoordinator.transition(to: settingScene, using: .modalNavi, animated: true)
+    }
+    
+    func moveSearchAction() {
+        let searchViewModel = SearchViewModel(title: "", sceneCoordinator: sceneCoordinator, storage: storage)
+        
+        let searchScene = Scene.search(searchViewModel)
+        sceneCoordinator.transition(to: searchScene, using: .modalNavi, animated: false)
     }
 }

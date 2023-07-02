@@ -59,7 +59,9 @@ final class ListTableViewCell: UITableViewCell {
         detailButton.tintColor = nil
     }
     
-    func setupData(data: Receipt) {
+    func setupData(data: Receipt, currencyIndex: Int) {
+        let currency = Currency(rawValue: currencyIndex) ?? .KRW
+        
         productNameLabel.text = data.product
         storeLabel.text = data.store
         
@@ -71,14 +73,14 @@ final class ListTableViewCell: UITableViewCell {
             detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         }
         
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + " 원"
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + currency.description
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor
             payImageView.image = UIImage(systemName: ConstantImage.creditCard)
         } else {
             payImageView.tintColor = ConstantColor.favoriteColor
-            payImageView.image = UIImage(systemName: ConstantImage.wonSign)
+            payImageView.image = UIImage(systemName: currency.currencyImageText)
         }
     }
 }

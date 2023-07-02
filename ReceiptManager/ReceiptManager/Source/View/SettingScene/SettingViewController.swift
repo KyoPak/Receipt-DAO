@@ -1,8 +1,8 @@
 //
-//  FavoriteListViewController.swift
+//  SettingViewController.swift
 //  ReceiptManager
 //
-//  Created by parkhyo on 2023/05/02.
+//  Created by parkhyo on 2023/06/30.
 //
 
 import UIKit
@@ -10,44 +10,37 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FavoriteListViewController: UIViewController, ViewModelBindable {
-    var viewModel: FavoriteListViewModel?
-    
+final class SettingViewController: UIViewController, ViewModelBindable {
+
+    var viewModel: SettingViewModel?
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupView()
         setupTableView()
-        setupConstraints()
+        setupView()
+        setupConstraint()
     }
     
     func bindViewModel() {
         guard let viewModel = viewModel else { return }
-        
-        // ViewModel Properties Binding
         viewModel.title
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel.receiptList
+        viewModel.menuDatas
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
         
-        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+        Observable.zip(tableView.rx.modelSelected(SettingOption.self), tableView.rx.itemSelected)
             .withUnretained(self)
-            .do(onNext: { (owner, data) in
+            .do { (owner, data) in
                 owner.tableView.deselectRow(at: data.1, animated: true)
-            })
+            }
             .map { $1.0 }
             .subscribe { [weak self] in
-                self?.viewModel?.moveDetailAction(receipt: $0)
+                self?.viewModel?.menuSelectAction(menu: $0)
             }
             .disposed(by: rx.disposeBag)
         
@@ -56,46 +49,20 @@ final class FavoriteListViewController: UIViewController, ViewModelBindable {
     }
 }
 
-// MARK: - UITableViewDelegate
-extension FavoriteListViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let favoriteAction = UIContextualAction(
-            style: .normal,
-            title: nil,
-            handler: { [weak self] _, _, completion in
-                self?.viewModel?.favoriteAction(indexPath: indexPath)
-                completion(true)
-            }
-        )
-        
-        let label = UILabel(
-            text: ConstantText.clearBookMark.localize(),
-            font: .preferredFont(forTextStyle: .body)
-        )
-        label.textColor = ConstantColor.cellColor
-        label.backgroundColor = .systemYellow
-        label.sizeToFit()
-        
-        favoriteAction.backgroundColor = .systemYellow
-        favoriteAction.image = UIImage(view: label)
-        
-        let swipeActions = UISwipeActionsConfiguration(actions: [favoriteAction])
-        
-        return swipeActions
-    }
-    
+extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let data = viewModel?.dataSource[section]
+        guard let datas = try? viewModel?.menuDatas.value() else {
+            return nil
+        }
         
-        let string = data?.identity
+        let data = datas[section]
+        
+        let sectionTitle = data.title
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .white
-        label.text = string
+        label.text = sectionTitle
         label.translatesAutoresizingMaskIntoConstraints = false
         
         let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
@@ -115,32 +82,45 @@ extension FavoriteListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UIConstraint
-extension FavoriteListViewController {
+extension SettingViewController {
+    @objc private func tapCloseButton() {
+        viewModel?.cancelAction()
+    }
+}
+
+// MARK: - UI Constrints
+extension SettingViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = ConstantColor.backGrouncColor
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
-    
-    private func setupView() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = ConstantColor.backGrouncColor
+        
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: ConstantText.close.localize(),
+            style: .plain,
+            target: self,
+            action: #selector(tapCloseButton)
+        )
+        
+        navigationItem.leftBarButtonItem?.tintColor = .white
     }
     
     private func setupTableView() {
         tableView.backgroundColor = ConstantColor.backGrouncColor
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     
-    private func setupConstraints() {
+    private func setupView() {
+        view.backgroundColor = ConstantColor.backGrouncColor
+        view.addSubview(tableView)
+    }
+    
+    private func setupConstraint() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([

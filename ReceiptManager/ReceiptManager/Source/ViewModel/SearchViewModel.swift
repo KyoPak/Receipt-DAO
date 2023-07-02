@@ -1,28 +1,35 @@
 //
-//  FavoriteListViewModel.swift
+//  SearchViewModel.swift
 //  ReceiptManager
 //
-//  Created by parkhyo on 2023/05/02.
+//  Created by parkhyo on 2023/07/02.
 //
 
 import Foundation
 import RxSwift
-import RxDataSources
 import RxCocoa
+import RxDataSources
 
-final class FavoriteListViewModel: CommonViewModel {
+final class SearchViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
     private let disposeBag = DisposeBag()
-
-    var receiptList: Observable<[ReceiptSectionModel]> {
-        return storage.fetch(type: .month).map { receiptSectionModels in
-            return receiptSectionModels.map { model in
-                let filteredItems = model.items.filter { $0.isFavorite }
-                return ReceiptSectionModel(model: model.model, items: filteredItems)
+    var searchText = PublishRelay<String?>()
+    var searchResultList: Observable<[ReceiptSectionModel]> {
+        return Observable.combineLatest(storage.fetch(type: .month), searchText.asObservable())
+            .map { receiptSectionModels, text in
+                return receiptSectionModels.map { model in
+                    let searchItems = model.items.filter { receipt in
+                        guard let text = text, text != "" else { return false }
+                        return receipt.store.contains(text) ||
+                        receipt.product.contains(text) ||
+                        receipt.memo.contains(text)
+                    }
+                    
+                    return ReceiptSectionModel(model: model.model, items: searchItems)
+                }
+                .filter { $0.items.count != .zero }
             }
-            .filter { !$0.items.isEmpty }
-        }
     }
     
     let dataSource: TableViewDataSource = {
@@ -40,22 +47,8 @@ final class FavoriteListViewModel: CommonViewModel {
             return cell
         }
         
-        dataSource.canEditRowAtIndexPath = { _, _ in return true }
-        
         return dataSource
     }()
-    
-    func favoriteAction(indexPath: IndexPath) {
-        receiptList
-            .take(1)
-            .map { $0[indexPath.section].items }
-            .subscribe(onNext: { [weak self] items in
-                var receipt = items[indexPath.row]
-                receipt.isFavorite.toggle()
-                self?.storage.upsert(receipt: receipt)
-            })
-            .disposed(by: disposeBag)
-    }
     
     func moveDetailAction(receipt: Receipt) {
         let detailViewModel = DetailViewModel(
@@ -67,5 +60,11 @@ final class FavoriteListViewModel: CommonViewModel {
         
         let detailScene = Scene.detail(detailViewModel)
         sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
+    }
+    
+    func cancelAction() {
+        sceneCoordinator.close(animated: true)
+            .subscribe()
+            .disposed(by: disposeBag)
     }
 }

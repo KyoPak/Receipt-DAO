@@ -23,7 +23,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
     
     private let informationView = ComposeInformationView()
-    private let placeHoderLabel = UILabel(text: ConstantText.memo, font: .preferredFont(forTextStyle: .body))
+    private let placeHoderLabel = UILabel(text: ConstantText.memo.localize(), font: .preferredFont(forTextStyle: .body))
     
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     
@@ -133,7 +133,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         viewModel.receiptDataRelay
             .asDriver()
             .map { datas in
-                return "영수증 등록 \(datas.count - 1)/5"
+                return ConstantText.receiptImage.localize() + " \(datas.count - 1)/5"
             }
             .drive(countLabel.rx.text)
             .disposed(by: rx.disposeBag)
@@ -308,7 +308,7 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
                 PHPhotoLibrary.shared().register(self)
                 self.getCanAccessImages()
             default:
-                self.showPermissionAlert(text: ConstantText.album)
+                self.showPermissionAlert(text: ConstantText.album.localize())
             }
         }
     }
@@ -316,7 +316,7 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
     func openCamera() {
         requestCameraAuthorization { isAuth in
             if !isAuth {
-                self.showPermissionAlert(text: ConstantText.camera)
+                self.showPermissionAlert(text: ConstantText.camera.localize())
             } else {
                 let picker = UIImagePickerController()
                 picker.delegate = self
@@ -427,14 +427,14 @@ extension ComposeViewController {
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: ConstantText.cancle,
+            title: ConstantText.cancle.localize(),
             style: .plain,
             target: self,
             action: #selector(tapCancleButton)
         )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.save,
+            title: ConstantText.save.localize(),
             style: .done,
             target: self,
             action: #selector(tapSaveButton)

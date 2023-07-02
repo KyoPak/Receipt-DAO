@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  ReceiptManager
+
+  Created by parkhyo on 2023/06/29.
+  
+*/
+
+"appName" = "Give Me A Receipt";
+
+"list" = "私の領収書";
+"bookMark" = "重要";
+"clearBookMark" = "重要ではない";
+"register" = "登録";
+"input" = "入力";
+
+"shortRegister" = "登録";
+"selectImage" = "選択した画像";
+"selectButton" = "他の写真を選択";
+"save" = "保存";
+"delete" = "削除";
+
+"cancle" = "キャンセル";
+"close" = "終了";
+"complete" = "完了";
+"edit" = "編集";
+"date" = "日付";
+
+"home" = "ホーム";
+"store" = "相互名";
+"product" = "履歴";
+"price" = "価格";
+"today" = "今日";
+
+"cash" = "現金";
+"card" = "カード";
+"memo" = "簡単なメモを書きます。";
+"noPicture" = "登録された写真はありません。";
+
+"album" = "写真";
+"camera" = "カメラ";
+"searchBar" = "相互名﹒履歴﹒メモ 検索";
+"searchText" = "必要な検索用語を入力してください。";
+"searchFail" = "検索の結果は見つかりませんでした。";
+
+"selectReceipt" = "領収書の写真を選択してください";
+"selectReceiptText" = "アップロードする領収書を選択してください。";
+"shooting" = "撮影";
+"deviceSetting" = "設定に移動";
+"need %@ AccessAuth" = "%@ アクセスする必要があります";
+
+"need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
+"receiptImage" = "領収書画像";
+"dateFormatMonth" = "MM.yyyy";
+"dateFormatDay" = "MM dd, yyyy";
+"mainReceiptCount %d" = "%d 件の登録領収書";
+
+"setting" = "設定";
+"currencySettingSection" = "通貨単位の設定";
+"currencySettingText" = "単位変更";
+"customerServiceSection" = "カスタマーサービスセンター";
+"rating" = "アプリの評価";
+"opinion" = "コメントを送信する";
+
+"mailSubject" = "[Give Me A Receipt] ユーザーの意見";
+"mailBody" = "こんにちは. \nアプリをご利用いただきありがとうございます。 \n私たちは常にユーザーの意見を重視します。 \n以下のリストから該当する項目を選択していただくか、ご自由にご意見をお書きいただければ幸いです。 \n1. コメント:\n[コメントをお書きください。]\n2. エラー:\n[エラーを書いてください]\n3. 等:\n[欲しいものを書いてください]\n\n\nありがとう。";

@@ -74,6 +74,8 @@ final class ComposeViewModel: CommonViewModel {
 
 extension ComposeViewModel {
     func updateReceiptData(_ data: Data?, isFirstReceipt: Bool) {
+        guard let languageCode = Locale.current.languageCode else { return }
+        
         guard let data = data else { return }
         
         var currentReceiptData = receiptDataRelay.value
@@ -81,8 +83,8 @@ extension ComposeViewModel {
         if isFirstReceipt {
             currentReceiptData.insert(data, at: .zero)
         } else {
-            // 첫번째 이미지 OCR 로직 동작
-            if #available(iOS 16.0, *), currentReceiptData.count == 1 {
+            // 첫번째 이미지 OCR 로직 동작, 한국어만 지원
+            if #available(iOS 16.0, *), currentReceiptData.count == 1 && languageCode == "ko" {
                 ocrExtractor.extractText(data: data)
             }
             
@@ -133,7 +135,7 @@ extension ComposeViewModel {
         let currentReceiptData = receiptDataRelay.value
         
         let selectImageViewModel = SelectImageViewModel(
-            title: ConstantText.selectImage,
+            title: ConstantText.selectImage.localize(),
             sceneCoordinator: sceneCoordinator,
             storage: storage,
             data: selectDatas,

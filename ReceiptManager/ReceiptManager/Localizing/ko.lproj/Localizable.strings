@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  ReceiptManager
+
+  Created by parkhyo on 2023/06/29.
+  
+*/
+
+"appName" = "영수증 다오";
+
+"list" = "내 영수증";
+"bookMark" = "즐겨찾기";
+"clearBookMark" = "즐겨찾기 해제";
+"register" = "등록하기";
+"input" = "입력";
+
+"shortRegister" = "등록";
+"selectImage" = "선택한 이미지";
+"selectButton" = "더 많은 사진 선택";
+"save" = "저장";
+"delete" = "삭제";
+
+"cancle" = "취소";
+"close" = "닫기";
+"complete" = "완료";
+"edit" = "편집";
+"date" = "날짜";
+
+"home" = "홈";
+"store" = "상호명";
+"product" = "내역";
+"price" = "가격";
+"today" = "오늘";
+
+"cash" = "현금";
+"card" = "카드";
+"memo" = "간단한 메모를 작성해보세요.";
+"noPicture" = "등록된 사진이 없습니다.";
+
+"album" = "앨범";
+"camera" = "카메라";
+"searchBar" = "상호명﹒내역﹒메모 검색";
+"searchText" = "원하는 검색어를 입력해주세요.";
+"searchFail" = "찾으시는 검색 결과가 없습니다.";
+
+"selectReceipt" = "영수증 사진선택";
+"selectReceiptText" = "업로드할 영수증을 선택해주세요.";
+"shooting" = "촬영";
+"deviceSetting" = "설정으로 이동";
+"need %@ AccessAuth" = "%@ 접근 권한 필요";
+
+"need %@ AccessAuthText" = "%@에 접근하여 사진을 사용할 수 있도록 허용해주세요.";
+"receiptImage" = "영수증 사진";
+"dateFormatMonth" = "yyyy년 MM월";
+"dateFormatDay" = "yyyy년 MM월 dd일";
+"mainReceiptCount %d" = "영수증은 %d건 입니다.";
+
+"setting" = "설정";
+"currencySettingSection" = "화폐 단위 설정";
+"currencySettingText" = "화폐 단위 변경";
+"customerServiceSection" = "고객 센터";
+"rating" = "평점 매기기";
+"opinion" = "의견 보내기";
+
+"mailSubject" = "[영수증 다오] 의견 글";
+"mailBody" = "안녕하세요.\n 영수증 다오를 이용해주셔서 감사합니다. \n항상 사용자의 의견을 소중히 생각하고 있습니다.\n아래의 항목 중 해당하는 내용을 선택하시거나 자유롭게 의견을 작성해주시면 감사하겠습니다.\n\n 1. 의견:\n[사용자 의견을 작성해주세요]\n2. 오류:\n[오류 내용을 작성해주세요]\n3. 그 외:\n[원하시는 내용을 작성해주세요]\n\n\n감사합니다.";
