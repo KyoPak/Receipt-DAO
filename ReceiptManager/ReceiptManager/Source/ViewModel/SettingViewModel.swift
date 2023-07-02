@@ -56,8 +56,6 @@ final class SettingViewModel: CommonViewModel {
         case ConstantText.rating.localize():
             let appStoreURL = createAppStoreURL()
             openURL(urlString: appStoreURL)
-        case ConstantText.dataClear.localize():
-            print("Clear Data")
         default:
             return
         }

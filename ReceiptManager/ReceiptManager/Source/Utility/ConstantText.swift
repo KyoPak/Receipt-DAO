@@ -28,7 +28,6 @@ enum ConstantText {
     // MARK: - UserDefault Key
     static let currencyKey = "CurrencyType"
 
-    
     // MARK: - Localize Key
     static let appName = "appName"
     
@@ -86,6 +85,4 @@ enum ConstantText {
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
-    static let dataManageSection = "dataManageSection"
-    static let dataClear = "dataClear"
 }

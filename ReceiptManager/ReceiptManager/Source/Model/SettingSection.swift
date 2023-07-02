@@ -41,12 +41,6 @@ extension SettingSection {
                     SettingOption(title: ConstantText.opinion.localize()),
                     SettingOption(title: ConstantText.rating.localize())
                 ]
-            ),
-            SettingSection(
-                title: ConstantText.dataManageSection.localize(),
-                items: [
-                    SettingOption(title: ConstantText.dataClear.localize())
-                ]
             )
         ]
     }
