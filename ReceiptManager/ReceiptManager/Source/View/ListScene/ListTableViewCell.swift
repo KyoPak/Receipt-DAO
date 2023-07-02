@@ -59,7 +59,7 @@ final class ListTableViewCell: UITableViewCell {
         detailButton.tintColor = nil
     }
     
-    func setupData(data: Receipt) {
+    func setupData(data: Receipt, currency: String) {
         productNameLabel.text = data.product
         storeLabel.text = data.store
         
@@ -71,7 +71,7 @@ final class ListTableViewCell: UITableViewCell {
             detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         }
         
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + ConstantText.wonSpace.localize()
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + currency
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor

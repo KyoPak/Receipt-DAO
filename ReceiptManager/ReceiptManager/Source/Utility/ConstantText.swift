@@ -15,11 +15,19 @@ enum ConstantText {
     static let usd = "USD ＄"
     static let jpy = "JPY ¥"
     
+    static let won = " ￦"
+    static let dollar = " ＄"
+    static let yen = " ¥"
+    
     static let myEmail = "hyosing92@gmail.com"
     static let mailSubject = "mailSubject"
     static let mailBody = "mailBody"
     
     static let appID = "6449433216"
+    
+    // MARK: - UserDefault Key
+    static let currencyKey = "CurrencyType"
+
     
     // MARK: - Localize Key
     static let appName = "appName"
@@ -52,7 +60,6 @@ enum ConstantText {
     static let card = "card"
     static let memo = "memo"
     static let noPicture = "noPicture"
-    static let wonSpace = "wonSpace"
     
     static let album = "album"
     static let camera = "camera"

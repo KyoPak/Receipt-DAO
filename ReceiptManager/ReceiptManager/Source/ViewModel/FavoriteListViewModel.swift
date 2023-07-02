@@ -26,6 +26,9 @@ final class FavoriteListViewModel: CommonViewModel {
     }
     
     let dataSource: TableViewDataSource = {
+        let currencyValue = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        let currency = Currency(rawValue: currencyValue)?.description ?? Currency.KRW.description
+        
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
             
             guard let cell = tableView.dequeueReusableCell(
@@ -35,7 +38,7 @@ final class FavoriteListViewModel: CommonViewModel {
                 return cell
             }
             
-            cell.setupData(data: receipt)
+            cell.setupData(data: receipt, currency: currency)
             return cell
         }
         

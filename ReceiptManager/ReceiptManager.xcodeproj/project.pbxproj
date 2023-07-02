@@ -28,6 +28,7 @@
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */; };
 		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
+		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
 		3C86FB882A1B407A000CC99B /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */; };
 		3C86FB8A2A1B40BD000CC99B /* SelectImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */; };
@@ -96,6 +97,7 @@
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
+		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
 		3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewModel.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */,
 				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
 				3C685F682A5009650064EE2A /* SettingSection.swift */,
+				3C7D424C2A51281E00304A8C /* Currency.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
+				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */,
 				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,

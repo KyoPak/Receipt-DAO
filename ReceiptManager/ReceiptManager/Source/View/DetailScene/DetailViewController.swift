@@ -101,7 +101,8 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     }
     
     func bindViewModel() {
-        viewModel?.receipt
+        guard let viewModel = viewModel else { return }
+        viewModel.receipt
             .asDriver(onErrorJustReturn: Receipt())
             .drive(onNext: { [weak self] receipt in
                 self?.dateLabel.text = DateFormatter.string(
@@ -111,14 +112,14 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 self?.storeLabel.text = receipt.store
                 self?.productLabel.text = receipt.product
                 self?.priceLabel.text = NumberFormatter
-                    .numberDecimal(from: receipt.price) + ConstantText.wonSpace.localize()
+                    .numberDecimal(from: receipt.price) + viewModel.currency
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
                 self?.shareButton.isEnabled = receipt.receiptData.count != .zero
             })
             .disposed(by: rx.disposeBag)
         
-        viewModel?.receipt
+        viewModel.receipt
             .map { $0.receiptData }
             .asDriver(onErrorJustReturn: [])
             .drive(

@@ -50,14 +50,6 @@ final class SettingViewController: UIViewController, ViewModelBindable {
 }
 
 extension SettingViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let datas = try? viewModel?.menuDatas.value() else {
-            return .zero
-        }
-        
-        return datas[section].items.count
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let datas = try? viewModel?.menuDatas.value() else {
             return nil

@@ -9,13 +9,17 @@ import Foundation
 import RxSwift
 import RxDataSources
 
+protocol SegmentDelegate: AnyObject {
+    func changedValue(index: Int)
+}
+
 final class SettingViewModel: CommonViewModel {
     typealias TableViewDataSource = RxTableViewSectionedReloadDataSource<SettingSection>
     
     private let disposeBag = DisposeBag()
     let menuDatas = BehaviorSubject(value: SettingSection.configureSettings())
     
-    let dataSource: TableViewDataSource = {
+    lazy var dataSource: TableViewDataSource = {
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SettingCell.identifier,
@@ -25,8 +29,9 @@ final class SettingViewModel: CommonViewModel {
             }
             
             if indexPath.section == .zero {
-                cell.showSegment()
+                cell.showSegment(index: UserDefaults.standard.integer(forKey: ConstantText.currencyKey))
             }
+            cell.delegate = self
             cell.setupData(text: item.title)
             return cell
         }
@@ -76,5 +81,11 @@ final class SettingViewModel: CommonViewModel {
         let defaultUrl = "mailto:\(ConstantText.myEmail)?subject=\(subjectEncoded)&body=\(bodyEncoded)"
             
         return defaultUrl
+    }
+}
+
+extension SettingViewModel: SegmentDelegate {
+    func changedValue(index: Int) {
+        UserDefaults.standard.set(index, forKey: ConstantText.currencyKey)
     }
 }

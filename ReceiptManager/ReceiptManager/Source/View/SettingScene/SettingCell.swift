@@ -9,6 +9,7 @@ import UIKit
 
 final class SettingCell: UITableViewCell {
     private let optionLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    weak var delegate: SegmentDelegate?
     
     let currencySegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: [ConstantText.krw, ConstantText.usd, ConstantText.jpy])
@@ -33,6 +34,14 @@ final class SettingCell: UITableViewCell {
     }
 }
 
+// MARK: - SegmentController Action
+extension SettingCell {
+    @objc private func changedCurrency() {
+        delegate?.changedValue(index: currencySegmented.selectedSegmentIndex)
+    }
+}
+
+// MARK: - UI Constraint & Setting UI Component
 extension SettingCell {
     private func setupView() {
         backgroundColor = ConstantColor.cellColor
@@ -40,14 +49,17 @@ extension SettingCell {
         layer.borderWidth = 1
         layer.cornerRadius = 5
         [optionLabel, currencySegmented].forEach(contentView.addSubview(_:))
+        
+        currencySegmented.addTarget(self, action: #selector(changedCurrency), for: .valueChanged)
     }
     
     func setupData(text: String) {
         optionLabel.text = text
     }
     
-    func showSegment() {
+    func showSegment(index: Int) {
         currencySegmented.isHidden = false
+        currencySegmented.selectedSegmentIndex = index
         setupSegmentConstraint()
     }
     
