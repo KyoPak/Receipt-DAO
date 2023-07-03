@@ -62,6 +62,17 @@
 - ComposeView에서 Camera, Album에 Access하는 코드를 프로토콜로 분리하여 재사용성 향상
 - RxSwift에서 제공하는 `withUnretained()`를 사용하여 약한 참조처리
 
+### 1.3.0 (2023.07.02)
+**기능 추가**
+- 영어, 일본어 지역화 구현
+- 별도의 설정화면 구현
+  - 달러, 엔화 선택
+  - 메일 앱으로 이동 후 정해진 템플릿에 문의 내용을 작성할 수 있도록 구현
+  - 앱스토어로 이동 후 앱에 대한 리뷰를 작성할 수 있는 기능 구현
+
+**코드 개선**
+- 메인화면에서 사용하는 Search에 대한 기능을 별도의 SearchScene과 SearchViewModel로 분리
+  - 메인화면의 450줄 정도의 코드를 225 줄로 코드량을 감소시키고 기능에 대한 분리를 실천
 
 <br></br>
 ## 실행 화면
@@ -75,9 +86,9 @@
 |:---:|:--:|:--:|
 |<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/2063c5e9-6487-42a5-bceb-4549a593ea55">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/bd672349-3fb0-4a67-a97a-c14a97adc457">|
 
-|검색|
-|:---:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/510461dc-cd8b-4e34-bd5b-f4e3c754206a">|
+|검색|화폐변경|설정|
+|:---:|:--:|:--:|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/510461dc-cd8b-4e34-bd5b-f4e3c754206a">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b0f71604-7081-4f3e-9861-f6d2c5470ed8">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/208397cc-bb73-48f8-ac57-021ad459864e">
 
 
 
