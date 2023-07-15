@@ -1,0 +1,31 @@
+name: Build Test
+on:
+  push:
+    branches:
+        - main
+        - 'develop'
+        - 'feature/**'
+        - 'refactor/**'
+        - 'version/**'
+  pull_request:
+    branches:
+        - main
+        - 'develop'
+        - 'feature/**'
+        - 'version/**'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: maxim-lobanov/setup-xcode@v1.5.1
+      with:
+        xcode-version: '14.2'
+      
+    - uses: actions/checkout@v3
+    
+    - name: Build Xcode
+      run: |
+        pod install --repo-update --clean-install --project-directory=ReceiptManager/
+        xcodebuild clean build -workspace ReceiptManager/ReceiptManager.xcworkspace -scheme ReceiptManager -destination "platform=iOS Simulator,name=iPhone 11 Pro,OS=latest"
