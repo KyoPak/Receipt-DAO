@@ -23,7 +23,10 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     var viewModel: ComposeViewModel?
     
     private let informationView = ComposeInformationView()
-    private let placeHoderLabel = UILabel(text: ConstantText.memo.localize(), font: .preferredFont(forTextStyle: .body))
+    private let placeHoderLabel = UILabel(
+        text: ConstantText.memo.localize(),
+        font: .preferredFont(forTextStyle: .body)
+    )
     
     private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
     

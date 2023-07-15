@@ -42,7 +42,10 @@ extension CameraAlbumAccessAlertPresentable {
             message: ConstantText.needAccessAuthText.localized(with: text),
             preferredStyle: .alert
         )
-        let settingsAction = UIAlertAction(title: ConstantText.deviceSetting.localize(), style: .default) { _ in
+        let settingsAction = UIAlertAction(
+            title: ConstantText.deviceSetting.localize(),
+            style: .default
+        ) { _ in
             if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
             }

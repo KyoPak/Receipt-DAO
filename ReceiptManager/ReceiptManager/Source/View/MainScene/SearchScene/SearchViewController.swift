@@ -167,7 +167,8 @@ extension SearchViewController: UITableViewDelegate {
 extension SearchViewController: UISearchBarDelegate {
     private func showEmptyResultMessage() {
         let label = UILabel()
-          label.text = searchBar.text == "" ? ConstantText.searchText.localize() : ConstantText.searchFail.localize()
+          label.text = searchBar.text == "" ?
+            ConstantText.searchText.localize() : ConstantText.searchFail.localize()
           label.textColor = .white
           label.textAlignment = .center
           label.translatesAutoresizingMaskIntoConstraints = false
