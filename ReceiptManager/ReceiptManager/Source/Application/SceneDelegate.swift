@@ -25,7 +25,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window.makeKeyAndVisible()
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
             
             // Root View 이동
             let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
@@ -37,7 +37,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
             
             let mainScene = Scene.main(mainViewModel)
-            
+            storage.sync()
+                
             coordinator.transition(to: mainScene, using: .root, animated: false)
         }
     }

@@ -26,19 +26,38 @@ final class CoreDataStorage: ReceiptStorage {
         })
         return container
     }()
-
+    
     private var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
     private let modelName: String
+    private let disposeBag = DisposeBag()
     
     init(modelName: String) {
         self.modelName = modelName
     }
     
+    func sync() {
+        return mainContext.rx.entities(
+            Receipt.self, sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
+        )
+        .take(1)
+        .subscribe(onNext: { result in
+            for data in result {
+                if data.price == -1 { continue }
+                
+                var syncReceipt = data
+                syncReceipt.priceText = String(syncReceipt.price)
+                syncReceipt.price = -1
+                self.upsert(receipt: syncReceipt)
+            }
+        })
+        .disposed(by: disposeBag)
+    }
+    
+    @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
-        
         do {
             try mainContext.rx.update(receipt)
             return Observable.just(receipt)

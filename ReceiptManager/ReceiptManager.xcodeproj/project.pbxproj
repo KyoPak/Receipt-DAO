@@ -19,6 +19,7 @@
 		3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */; };
 		3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */; };
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
+		3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */; };
 		3C333E262A31F35C00E8C28A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C333E252A31F35C00E8C28A /* SearchViewController.swift */; };
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
@@ -89,6 +90,7 @@
 		3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C2E18E429FBCC6100E8E9C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		3C333E252A31F35C00E8C28A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		3C9AA3602A01306C0014807B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3622A0130FA0014807B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
+		3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ReceiptManager v2.xcdatamodel"; sourceTree = "<group>"; };
 		3CAF8AF12A162444002251DD /* LargeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewController.swift; sourceTree = "<group>"; };
 		3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewModel.swift; sourceTree = "<group>"; };
 		3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
@@ -364,6 +367,7 @@
 		3CDCDC4C29FC00A300C2BEF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */,
 				3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */,
 				3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */,
 				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
@@ -572,6 +576,7 @@
 				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
+				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C4EBB552A519282004E6C93 /* SearchViewModel.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
@@ -875,9 +880,10 @@
 		3C2E18DE29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */,
 				3C2E18DF29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodel */,
 			);
-			currentVersion = 3C2E18DF29FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodel */;
+			currentVersion = 3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */;
 			path = ReceiptManager.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

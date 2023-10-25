@@ -15,6 +15,7 @@ struct Receipt: Hashable, IdentifiableType {
     
     var store: String           // 상호명
     var price: Int              // 가격
+    var priceText: String
     var product: String         // 구매 상품
     var receiptDate: Date       // 영수증 구매 날짜
     var paymentType: Int        // 구매 방법
@@ -24,7 +25,8 @@ struct Receipt: Hashable, IdentifiableType {
     
     init(
         store: String = "",
-        price: Int = .zero,
+        price: Int = -1,        // 미사용될 가격
+        priceText: String = "0",
         product: String = "",
         receiptDate: Date = Date(),
         paymentType: Int = .zero,
@@ -35,6 +37,7 @@ struct Receipt: Hashable, IdentifiableType {
         self.identity = UUID().description   // 구분자
         self.store = store
         self.price = price
+        self.priceText = priceText
         self.product = product
         self.receiptDate = receiptDate
         self.paymentType = paymentType
@@ -56,7 +59,8 @@ extension Receipt: Persistable {
     init(entity: NSManagedObject) {
         identity = entity.value(forKey: "identity") as? String ?? UUID().description
         store = entity.value(forKey: "store") as? String ?? ""
-        price = entity.value(forKey: "price") as? Int ?? .zero
+        price = entity.value(forKey: "price") as? Int ?? -1
+        priceText = entity.value(forKey: "priceText") as? String ?? ""
         product = entity.value(forKey: "product") as? String ?? ""
         receiptDate = entity.value(forKey: "receiptDate") as? Date ?? Date()
         paymentType = entity.value(forKey: "paymentType") as? Int ?? .zero
@@ -69,6 +73,7 @@ extension Receipt: Persistable {
         entity.setValue(identity, forKey: "identity")
         entity.setValue(store, forKey: "store")
         entity.setValue(price, forKey: "price")
+        entity.setValue(priceText, forKey: "priceText")
         entity.setValue(product, forKey: "product")
         entity.setValue(receiptDate, forKey: "receiptDate")
         entity.setValue(paymentType, forKey: "paymentType")

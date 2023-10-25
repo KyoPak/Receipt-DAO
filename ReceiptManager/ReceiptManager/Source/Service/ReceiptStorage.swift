@@ -8,6 +8,8 @@
 import RxSwift
 
 protocol ReceiptStorage {
+    func sync()
+    
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt>
     
