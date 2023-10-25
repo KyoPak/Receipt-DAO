@@ -73,7 +73,7 @@ final class ListTableViewCell: UITableViewCell {
             detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         }
         
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.price) + currency.description
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.priceText) + currency.description
         
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor

@@ -17,7 +17,7 @@ final class ComposeViewModel: CommonViewModel {
     var dateRelay: BehaviorRelay<Date>
     var storeRelay: BehaviorRelay<String>
     var productRelay: BehaviorRelay<String>
-    var priceRelay: BehaviorRelay<Int>
+    var priceRelay: BehaviorRelay<String>
     var memoRelay: BehaviorRelay<String>
     var payRelay: BehaviorRelay<Int>
     var receiptDataRelay: BehaviorRelay<[Data]>
@@ -37,7 +37,7 @@ final class ComposeViewModel: CommonViewModel {
         dateRelay = BehaviorRelay(value: receipt.receiptDate)
         storeRelay = BehaviorRelay(value: receipt.store)
         productRelay = BehaviorRelay(value: receipt.product)
-        priceRelay = BehaviorRelay(value: receipt.price)
+        priceRelay = BehaviorRelay(value: receipt.priceText)
         memoRelay = BehaviorRelay(value: receipt.memo)
         payRelay = BehaviorRelay(value: receipt.paymentType)
         receiptDataRelay = BehaviorRelay(value: receipt.receiptData)
@@ -63,8 +63,8 @@ final class ComposeViewModel: CommonViewModel {
                     self?.storeRelay.accept(ocrResult.store)
                 }
                 
-                if self?.priceRelay.value == .zero {
-                    self?.priceRelay.accept(ocrResult.price)
+                if self?.priceRelay.value == "0" {
+                    self?.priceRelay.accept(String(ocrResult.price))
                 }
             }
             .disposed(by: disposeBag)
@@ -117,7 +117,7 @@ extension ComposeViewModel {
         var newReceipt = originalReceipt
         
         newReceipt.product = productRelay.value
-        newReceipt.price = priceRelay.value
+        newReceipt.priceText = priceRelay.value
         newReceipt.memo = memoRelay.value
         newReceipt.paymentType = payRelay.value
         newReceipt.store = storeRelay.value

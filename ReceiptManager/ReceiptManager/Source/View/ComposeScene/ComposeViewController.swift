@@ -112,10 +112,10 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
             .disposed(by: rx.disposeBag)
         
         viewModel.priceRelay
-            .asDriver(onErrorJustReturn: .zero)
+            .asDriver(onErrorJustReturn: "")
             .map { price in
                 let priceText = NumberFormatter.numberDecimal(from: price)
-                return priceText == "0" ? "" : priceText
+                return priceText
             }
             .drive(informationView.priceTextField.rx.text)
             .disposed(by: rx.disposeBag)
@@ -171,7 +171,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         informationView.priceTextField.rx.text.orEmpty
             .map { price in
                 let input = price.replacingOccurrences(of: ",", with: "")
-                return Int(input) ?? .zero
+                return input
             }
             .bind(to: viewModel.priceRelay)
             .disposed(by: rx.disposeBag)

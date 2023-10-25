@@ -112,7 +112,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 self?.storeLabel.text = receipt.store
                 self?.productLabel.text = receipt.product
                 self?.priceLabel.text = NumberFormatter
-                    .numberDecimal(from: receipt.price) + viewModel.currency
+                    .numberDecimal(from: receipt.priceText) + viewModel.currency
                 self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
                 self?.memoTextView.text = receipt.memo
                 self?.shareButton.isEnabled = receipt.receiptData.count != .zero

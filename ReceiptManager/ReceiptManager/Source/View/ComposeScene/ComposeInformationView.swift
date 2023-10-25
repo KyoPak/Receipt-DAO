@@ -101,24 +101,6 @@ final class ComposeInformationView: UIView {
     }
 }
 
-// MARK: - UITextField Delegate
-extension ComposeInformationView: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField == priceTextField {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-
-            if let input = textField.text?.replacingOccurrences(of: ",", with: "") {
-                if let number = formatter.number(from: input) {
-                    textField.text = formatter.string(from: number)
-                } else {
-                    textField.text = ""
-                }
-            }
-        }
-    }
-}
-
 // MARK: - DatePicker
 extension ComposeInformationView {
     @objc private func datePickerWheel(_ sender: UIDatePicker) -> Date? {
@@ -138,10 +120,10 @@ extension ComposeInformationView {
 }
 
 // MARK: - UI Constraint
-extension ComposeInformationView {
+extension ComposeInformationView: UITextFieldDelegate {
     private func setupView() {
         backgroundColor = ConstantColor.backGrouncColor
-        priceTextField.keyboardType = .numberPad
+        priceTextField.keyboardType = .decimalPad
         
         [datePicker, mainStackView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

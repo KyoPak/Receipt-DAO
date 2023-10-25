@@ -26,7 +26,7 @@ struct Receipt: Hashable, IdentifiableType {
     init(
         store: String = "",
         price: Int = -1,        // 미사용될 가격
-        priceText: String = "0",
+        priceText: String = "",
         product: String = "",
         receiptDate: Date = Date(),
         paymentType: Int = .zero,
