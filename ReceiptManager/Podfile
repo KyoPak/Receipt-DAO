@@ -13,5 +13,7 @@ pod 'RxDataSources'
 pod 'Action'
 pod 'RxCoreData'
 pod 'SwiftLint'
+pod 'Mantis', '~> 2.14.1'
+
 
 end
