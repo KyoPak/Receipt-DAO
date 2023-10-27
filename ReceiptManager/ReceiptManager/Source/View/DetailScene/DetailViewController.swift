@@ -254,6 +254,12 @@ extension DetailViewController {
     private func setupView() {
         view.backgroundColor = ConstantColor.backGroundColor
         priceLabel.textColor = ConstantColor.registerColor
+        
+        if payTypeSegmented.selectedSegmentIndex == 0 {
+            payTypeSegmented.selectedSegmentTintColor = ConstantColor.favoriteColor
+            priceLabel.textColor = ConstantColor.favoriteColor
+        }
+        
         dateLabel.textColor = .systemGray
         mainView.backgroundColor = ConstantColor.cellColor
         mainView.layer.cornerRadius = 10

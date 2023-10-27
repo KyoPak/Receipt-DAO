@@ -54,12 +54,12 @@ final class MainViewController: UIViewController, ViewModelBindable {
     
     private let registerButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .systemBackground
+        button.tintColor = .black
         button.layer.cornerRadius = 10
         button.layer.borderColor = ConstantColor.layerColor.cgColor
         button.layer.borderWidth = 1
         button.setTitle(ConstantText.register.localize(), for: .normal)
-        button.setTitleColor(UIColor.systemBackground, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: ConstantImage.plus, withConfiguration: imageConfig)
