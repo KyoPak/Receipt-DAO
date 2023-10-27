@@ -21,6 +21,8 @@ final class SearchViewController: UIViewController, ViewModelBindable {
         searchBar.searchTextField.textColor = .label
         searchBar.searchTextField.clearButtonMode = .whileEditing
         searchBar.searchTextField.leftView?.tintColor = .label
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = ConstantColor.layerColor.cgColor
         searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(

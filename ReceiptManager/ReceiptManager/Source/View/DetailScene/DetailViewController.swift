@@ -44,8 +44,8 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         let segment = UISegmentedControl(items: [ConstantText.cash.localize(), ConstantText.card.localize()])
         segment.isEnabled = false
         segment.selectedSegmentIndex = .zero
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
         segment.selectedSegmentTintColor = ConstantColor.registerColor
         
         return segment
