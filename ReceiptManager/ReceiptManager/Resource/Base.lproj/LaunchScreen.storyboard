@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,7 +22,8 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.1103356257" green="0.1590484083" blue="0.25491401549999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" name="BackGround"/>
+                        <color key="tintColor" name="BackGround"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c8a-d1-M0A" secondAttribute="trailing" constant="30" id="IS3-Gy-gfb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="c8a-d1-M0A" secondAttribute="bottom" constant="200" id="c2D-BI-K3k"/>
@@ -35,7 +37,11 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <color key="tintColor" name="BackGround"/>
     <resources>
         <image name="LauchImage" width="124" height="93.5"/>
+        <namedColor name="BackGround">
+            <color red="0.99215686274509807" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
