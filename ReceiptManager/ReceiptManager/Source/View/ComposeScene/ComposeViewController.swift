@@ -11,6 +11,7 @@ import RxCocoa
 import NSObject_Rx
 import AVFoundation
 import PhotosUI
+import Mantis
 
 final class ComposeViewController: UIViewController, ViewModelBindable {
     private var canAccessImagesData: [Data] = []
@@ -222,8 +223,9 @@ extension ComposeViewController: UINavigationControllerDelegate,
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { images, error in
                     DispatchQueue.main.async {
-                        let data = (images as? UIImage)?.pngData()
-                        self.viewModel?.updateReceiptData(data, isFirstReceipt: false)
+                        if let image = images as? UIImage {
+                            self.moveMantis(image: image)
+                        }
                     }
                 }
             }
@@ -240,12 +242,43 @@ extension ComposeViewController: UINavigationControllerDelegate,
             viewModel?.updateReceiptData(data, isFirstReceipt: false)
         } else {
             if let image = info[.originalImage] as? UIImage {
-                let data = image.pngData()
-                viewModel?.updateReceiptData(data, isFirstReceipt: false)
+                dismiss(animated: true, completion: {
+                    self.moveMantis(image: image)
+                })
             }
         }
+    }
+}
+
+// MARK: - Mantis : CropViewControllerDelegate Method
+extension ComposeViewController: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(
+        _ cropViewController: CropViewController,
+        cropped: UIImage,
+        transformation: Transformation,
+        cropInfo: CropInfo
+    ) {
+        let data = cropped.pngData()
+        viewModel?.updateReceiptData(data, isFirstReceipt: false)
+        cropViewController.dismiss(animated: true)
+    }
+    
+    func cropViewControllerDidCancel(
+        _ cropViewController: Mantis.CropViewController,
+        original: UIImage
+    ) {
+        cropViewController.dismiss(animated: true)
+    }
+    
+    private func moveMantis(image: UIImage) {
+        var config = Mantis.Config()
+        config.cropViewConfig.cropShapeType = .square
+        config.cropViewConfig.builtInRotationControlViewType = .slideDial()
         
-        dismiss(animated: true, completion: nil)
+        let imageCropViewController = Mantis.cropViewController(image: image, config: config)
+        imageCropViewController.delegate = self
+        
+        present(imageCropViewController, animated: true)
     }
 }
 
@@ -300,7 +333,7 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
                 var configuration = PHPickerConfiguration()
                 let currentImageCount = self.viewModel?.receiptDataRelay.value.count ?? .zero
                 
-                configuration.selectionLimit = 6 - currentImageCount
+                configuration.selectionLimit = 1
                 configuration.filter = .any(of: [.images, .livePhotos])
                 
                 let picker = PHPickerViewController(configuration: configuration)
