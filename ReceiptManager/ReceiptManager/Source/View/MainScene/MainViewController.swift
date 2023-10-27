@@ -98,10 +98,17 @@ final class MainViewController: UIViewController, ViewModelBindable {
     
     private let settingButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .systemBackground
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
+        button.tintColor = .black
+        button.layer.cornerRadius = 10
+        button.setTitle(ConstantText.register.localize(), for: .normal)
+        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
+        
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .light)
         let image = UIImage(systemName: ConstantImage.setting, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
+        
+        button.alignTextBelow()
+        button.backgroundColor = ConstantColor.registerColor
         
         return button
     }()
@@ -198,30 +205,32 @@ extension MainViewController {
             
             searchBar.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 30),
             searchBar.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
             
             listButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 30),
             listButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
             listButton.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -10),
             listButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
             
-            favoriteListButton.topAnchor.constraint(equalTo: listButton.topAnchor),
-            favoriteListButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 10),
-            favoriteListButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
-            favoriteListButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
+            favoriteListButton.topAnchor.constraint(equalTo: listButton.bottomAnchor, constant: 20),
+            favoriteListButton.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
+            favoriteListButton.trailingAnchor.constraint(equalTo: listButton.trailingAnchor),
+            favoriteListButton.heightAnchor.constraint(equalTo: listButton.heightAnchor),
             
-            registerButton.topAnchor.constraint(equalTo: favoriteListButton.bottomAnchor, constant: 30),
-            registerButton.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
-            registerButton.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
-            registerButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.15),
+            registerButton.topAnchor.constraint(equalTo: listButton.topAnchor),
+            registerButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 10),
+            registerButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
+            registerButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
             
-            monthSpendingLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 30),
+            settingButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 20),
+            settingButton.leadingAnchor.constraint(equalTo: registerButton.leadingAnchor),
+            settingButton.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
+            settingButton.bottomAnchor.constraint(equalTo: favoriteListButton.bottomAnchor),
+            
+            monthSpendingLabel.topAnchor.constraint(equalTo: favoriteListButton.bottomAnchor, constant: 30),
             monthSpendingLabel.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
-            monthSpendingLabel.trailingAnchor.constraint(equalTo: favoriteListButton.trailingAnchor),
-            monthSpendingLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
-            
-            settingButton.topAnchor.constraint(equalTo: monthSpendingLabel.bottomAnchor, constant: 40),
-            settingButton.trailingAnchor.constraint(equalTo: monthSpendingLabel.trailingAnchor)
+            monthSpendingLabel.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
+            monthSpendingLabel.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1)
         ])
     }
 }
