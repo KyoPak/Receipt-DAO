@@ -16,4 +16,6 @@ enum ConstantColor {
                 ?? UIColor(red: 197/255, green: 235/255, blue: 167/255, alpha: 1)
     static let cellColor = UIColor(named: "Cell")
                 ?? UIColor(red: 36/255, green: 52/255, blue: 78/255, alpha: 1)
+    static let layerColor = UIColor(named: "Layer")
+                ?? UIColor(red: 36/255, green: 52/255, blue: 78/255, alpha: 1)
 }

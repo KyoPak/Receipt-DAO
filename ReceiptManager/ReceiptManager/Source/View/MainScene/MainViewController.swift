@@ -18,7 +18,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
-        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderColor = ConstantColor.layerColor.cgColor
         button.layer.borderWidth = 1
         button.setTitle(ConstantText.list.localize(), for: .normal)
         button.setTitleColor(UIColor.label, for: .normal)
@@ -28,7 +28,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(named: "Cell")
+        button.backgroundColor = ConstantColor.cellColor
         
         return button
     }()
@@ -37,7 +37,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
-        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderColor = ConstantColor.layerColor.cgColor
         button.layer.borderWidth = 1
         button.setTitle(ConstantText.bookMark.localize(), for: .normal)
         button.setTitleColor(UIColor.label, for: .normal)
@@ -47,7 +47,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(named: "Cell")
+        button.backgroundColor = ConstantColor.cellColor
         
         return button
     }()
@@ -56,7 +56,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .systemBackground
         button.layer.cornerRadius = 10
-        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderColor = ConstantColor.layerColor.cgColor
         button.layer.borderWidth = 1
         button.setTitle(ConstantText.register.localize(), for: .normal)
         button.setTitleColor(UIColor.systemBackground, for: .normal)
@@ -66,14 +66,14 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(named: "Main")
+        button.backgroundColor = ConstantColor.registerColor
         
         return button
     }()
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.barTintColor = UIColor(named: "Cell")
+        searchBar.barTintColor = ConstantColor.cellColor
         searchBar.layer.cornerRadius = 10
         searchBar.clipsToBounds = true
         searchBar.tintColor = .label
@@ -81,8 +81,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
         searchBar.searchTextField.clearButtonMode = .whileEditing
         searchBar.searchTextField.leftView?.tintColor = .label
         searchBar.layer.borderWidth = 1
-        searchBar.layer.borderColor = UIColor(named: "Layer")?.cgColor
-        searchBar.searchTextField.backgroundColor = UIColor(named: "Cell")
+        searchBar.layer.borderColor = ConstantColor.layerColor.cgColor
+        searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: ConstantText.searchBar.localize(),
@@ -97,11 +97,11 @@ final class MainViewController: UIViewController, ViewModelBindable {
         label.textColor = .label
         label.textAlignment = .center
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        label.layer.borderColor = ConstantColor.layerColor.cgColor
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .none)
-        label.backgroundColor = UIColor(named: "Cell")
+        label.backgroundColor = ConstantColor.cellColor
         
         return label
     }()
@@ -110,9 +110,8 @@ final class MainViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
-        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderColor = ConstantColor.layerColor.cgColor
         button.layer.borderWidth = 1
-//        button.setTitle(ConstantText.setting.localize(), for: .normal)
         button.setTitleColor(UIColor.label, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .light)
@@ -120,7 +119,7 @@ final class MainViewController: UIViewController, ViewModelBindable {
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = UIColor(named: "Cell")
+        button.backgroundColor = ConstantColor.cellColor
         
         return button
     }()

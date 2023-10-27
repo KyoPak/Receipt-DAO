@@ -90,7 +90,7 @@ final class ListTableViewCell: UITableViewCell {
 extension ListTableViewCell {
     private func setupView() {
         backgroundColor = ConstantColor.cellColor
-        layer.borderColor = ConstantColor.cellColor.cgColor
+        layer.borderColor = ConstantColor.layerColor.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 5
         

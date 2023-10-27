@@ -45,7 +45,7 @@ extension SettingCell {
 extension SettingCell {
     private func setupView() {
         backgroundColor = ConstantColor.cellColor
-        layer.borderColor = ConstantColor.cellColor.cgColor
+        layer.borderColor = ConstantColor.layerColor.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 5
         [optionLabel, currencySegmented].forEach(contentView.addSubview(_:))
