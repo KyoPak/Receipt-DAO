@@ -61,7 +61,7 @@ extension SettingViewController: UITableViewDelegate {
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .label
         label.text = sectionTitle
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -92,13 +92,13 @@ extension SettingViewController {
 extension SettingViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: ConstantText.close.localize(),
             style: .plain,
@@ -106,17 +106,17 @@ extension SettingViewController {
             action: #selector(tapCloseButton)
         )
         
-        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .label
     }
     
     private func setupTableView() {
-        tableView.backgroundColor = ConstantColor.backGrouncColor
+        tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     
     private func setupView() {
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
         view.addSubview(tableView)
     }
     

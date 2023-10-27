@@ -55,7 +55,7 @@ final class DetailViewController: UIViewController, ViewModelBindable {
         let textView = UITextView()
         textView.isEditable = false
         textView.layer.cornerRadius = 10
-        textView.textColor = .white
+        textView.textColor = .label
         textView.font = .preferredFont(forTextStyle: .body)
         textView.backgroundColor = ConstantColor.cellColor
         
@@ -233,11 +233,11 @@ extension DetailViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
                 
@@ -252,9 +252,9 @@ extension DetailViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
         priceLabel.textColor = ConstantColor.registerColor
-        dateLabel.textColor = .systemGray6
+        dateLabel.textColor = .systemGray
         mainView.backgroundColor = ConstantColor.cellColor
         mainView.layer.cornerRadius = 10
         

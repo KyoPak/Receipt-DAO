@@ -18,7 +18,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var monthLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .label
         label.font = .preferredFont(forTextStyle: .body)
         
         return label
@@ -26,7 +26,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var previousButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .white
+        button.tintColor = .label
         button.setImage(UIImage(systemName: ConstantImage.chevronLeft), for: .normal)
         
         return button
@@ -34,7 +34,7 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var nextButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .white
+        button.tintColor = .label
         button.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
         
         return button
@@ -44,8 +44,8 @@ final class ListViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.setTitle(ConstantText.today.localize(), for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
-        button.backgroundColor = ConstantColor.listColor
+        button.setTitleColor(UIColor.label, for: .normal)
+        button.backgroundColor = ConstantColor.cellColor
         button.layer.cornerRadius = 5
         
         return button
@@ -175,7 +175,7 @@ extension ListViewController: UITableViewDelegate {
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .label
         label.text = string
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -209,11 +209,11 @@ extension ListViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
@@ -231,11 +231,11 @@ extension ListViewController {
         [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
     }
     
     private func setupTableView() {
-        tableView.backgroundColor = ConstantColor.backGrouncColor
+        tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     

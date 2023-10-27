@@ -17,10 +17,10 @@ final class SearchViewController: UIViewController, ViewModelBindable {
         searchBar.barTintColor = ConstantColor.cellColor
         searchBar.layer.cornerRadius = 10
         searchBar.clipsToBounds = true
-        searchBar.tintColor = .white
-        searchBar.searchTextField.textColor = .white
+        searchBar.tintColor = .label
+        searchBar.searchTextField.textColor = .label
         searchBar.searchTextField.clearButtonMode = .whileEditing
-        searchBar.searchTextField.leftView?.tintColor = .white
+        searchBar.searchTextField.leftView?.tintColor = .label
         searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
         searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
@@ -33,7 +33,7 @@ final class SearchViewController: UIViewController, ViewModelBindable {
     
     private let searchBarBackButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .white
+        button.tintColor = .label
         let image = UIImage(systemName: ConstantImage.searchBack)
         button.setImage(image, for: .normal)
         
@@ -108,10 +108,10 @@ final class SearchViewController: UIViewController, ViewModelBindable {
     
     private func setupView() {
         searchBar.becomeFirstResponder()
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
 
         searchBar.searchTextField.leftView = searchBarBackButton
-        tableView.backgroundColor = ConstantColor.backGrouncColor
+        tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         
         [searchBar, tableView].forEach(view.addSubview(_:))
@@ -143,7 +143,7 @@ extension SearchViewController: UITableViewDelegate {
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .label
         label.text = string
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -169,7 +169,7 @@ extension SearchViewController: UISearchBarDelegate {
         let label = UILabel()
           label.text = searchBar.text == "" ?
             ConstantText.searchText.localize() : ConstantText.searchFail.localize()
-          label.textColor = .white
+          label.textColor = .label
           label.textAlignment = .center
           label.translatesAutoresizingMaskIntoConstraints = false
 

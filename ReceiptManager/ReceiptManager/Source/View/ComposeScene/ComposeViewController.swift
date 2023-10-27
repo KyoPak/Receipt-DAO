@@ -50,7 +50,7 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     private let memoTextView: UITextView = {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
-        textView.textColor = .white
+        textView.textColor = .label
         textView.font = .preferredFont(forTextStyle: .body)
         textView.backgroundColor = ConstantColor.cellColor
         
@@ -362,7 +362,7 @@ extension ComposeViewController {
             action: #selector(keyboardDone)
         )
         
-        doneButton.tintColor = .black
+        doneButton.tintColor = .label
         
         toolbar.setItems([flexSpace, doneButton], animated: false)
         memoTextView.inputAccessoryView = toolbar
@@ -422,13 +422,13 @@ extension ComposeViewController: CellDeletable {
 extension ComposeViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: ConstantText.cancle.localize(),
             style: .plain,
@@ -442,12 +442,12 @@ extension ComposeViewController {
             target: self,
             action: #selector(tapSaveButton)
         )
-        navigationItem.leftBarButtonItem?.tintColor = .white
-        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .label
+        navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
     private func setupView() {
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
         
         [informationView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

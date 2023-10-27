@@ -14,8 +14,8 @@ final class SettingCell: UITableViewCell {
     let currencySegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: [ConstantText.krw, ConstantText.usd, ConstantText.jpy])
         segment.selectedSegmentIndex = .zero
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
         segment.selectedSegmentTintColor = ConstantColor.registerColor
         segment.isHidden = true
         segment.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ extension SettingCell {
 extension SettingCell {
     private func setupView() {
         backgroundColor = ConstantColor.cellColor
-        layer.borderColor = ConstantColor.listColor.cgColor
+        layer.borderColor = ConstantColor.cellColor.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 5
         [optionLabel, currencySegmented].forEach(contentView.addSubview(_:))

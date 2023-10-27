@@ -94,7 +94,7 @@ extension FavoriteListViewController: UITableViewDelegate {
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
+        label.textColor = .label
         label.text = string
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -120,11 +120,11 @@ extension FavoriteListViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
@@ -132,11 +132,11 @@ extension FavoriteListViewController {
     private func setupView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = ConstantColor.backGroundColor
     }
     
     private func setupTableView() {
-        tableView.backgroundColor = ConstantColor.backGrouncColor
+        tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     

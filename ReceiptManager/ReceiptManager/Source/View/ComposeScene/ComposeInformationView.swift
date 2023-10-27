@@ -27,21 +27,21 @@ final class ComposeInformationView: UIView {
     )
     
     let storeTextField = UITextField(
-        textColor: .white,
+        textColor: .label,
         placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let productNameTextField = UITextField(
-        textColor: .white,
+        textColor: .label,
         placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let priceTextField = UITextField(
-        textColor: .white,
+        textColor: .label,
         placeholder: ConstantText.input.localize(),
         tintColor: ConstantColor.registerColor,
         backgroundColor: ConstantColor.cellColor
@@ -122,7 +122,7 @@ extension ComposeInformationView {
 // MARK: - UI Constraint
 extension ComposeInformationView: UITextFieldDelegate {
     private func setupView() {
-        backgroundColor = ConstantColor.backGrouncColor
+        backgroundColor = ConstantColor.backGroundColor
         priceTextField.keyboardType = .decimalPad
         
         [datePicker, mainStackView].forEach {

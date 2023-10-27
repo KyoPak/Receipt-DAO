@@ -131,13 +131,13 @@ extension SelectImageViewController {
     
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ConstantColor.backGrouncColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = ConstantColor.backGroundColor
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: ConstantText.cancle.localize(),
             style: .plain,
@@ -151,8 +151,8 @@ extension SelectImageViewController {
             target: self,
             action: #selector(tapSaveButton)
         )
-        navigationItem.leftBarButtonItem?.tintColor = .white
-        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .label
+        navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
     private func setupConstraint() {

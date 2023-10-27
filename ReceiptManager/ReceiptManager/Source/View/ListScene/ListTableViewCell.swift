@@ -78,6 +78,7 @@ final class ListTableViewCell: UITableViewCell {
         if PayType(rawValue: data.paymentType) == .card {
             payImageView.tintColor = ConstantColor.registerColor
             payImageView.image = UIImage(systemName: ConstantImage.creditCard)
+            
         } else {
             payImageView.tintColor = ConstantColor.favoriteColor
             payImageView.image = UIImage(systemName: currency.currencyImageText)
@@ -89,7 +90,7 @@ final class ListTableViewCell: UITableViewCell {
 extension ListTableViewCell {
     private func setupView() {
         backgroundColor = ConstantColor.cellColor
-        layer.borderColor = ConstantColor.listColor.cgColor
+        layer.borderColor = ConstantColor.cellColor.cgColor
         layer.borderWidth = 1
         layer.cornerRadius = 5
         

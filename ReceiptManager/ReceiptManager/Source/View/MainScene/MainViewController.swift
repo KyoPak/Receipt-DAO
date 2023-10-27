@@ -16,65 +16,73 @@ final class MainViewController: UIViewController, ViewModelBindable {
     
     private let listButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .black
+        button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderWidth = 1
         button.setTitle(ConstantText.list.localize(), for: .normal)
-        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
+        button.setTitleColor(UIColor.label, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: ConstantImage.list, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = ConstantColor.listColor
+        button.backgroundColor = UIColor(named: "Cell")
         
         return button
     }()
     
     private let favoriteListButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .black
+        button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderWidth = 1
         button.setTitle(ConstantText.bookMark.localize(), for: .normal)
-        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
+        button.setTitleColor(UIColor.label, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: ConstantImage.bookMark, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = ConstantColor.favoriteColor
+        button.backgroundColor = UIColor(named: "Cell")
         
         return button
     }()
     
     private let registerButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .black
+        button.tintColor = .systemBackground
         button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderWidth = 1
         button.setTitle(ConstantText.register.localize(), for: .normal)
-        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
+        button.setTitleColor(UIColor.systemBackground, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .light)
         let image = UIImage(systemName: ConstantImage.plus, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = ConstantColor.registerColor
+        button.backgroundColor = UIColor(named: "Main")
         
         return button
     }()
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.barTintColor = ConstantColor.cellColor
+        searchBar.barTintColor = UIColor(named: "Cell")
         searchBar.layer.cornerRadius = 10
         searchBar.clipsToBounds = true
-        searchBar.tintColor = .white
-        searchBar.searchTextField.textColor = .white
+        searchBar.tintColor = .label
+        searchBar.searchTextField.textColor = .label
         searchBar.searchTextField.clearButtonMode = .whileEditing
-        searchBar.searchTextField.leftView?.tintColor = .white
-        searchBar.searchTextField.backgroundColor = ConstantColor.cellColor
+        searchBar.searchTextField.leftView?.tintColor = .label
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        searchBar.searchTextField.backgroundColor = UIColor(named: "Cell")
         searchBar.setImage(UIImage(systemName: ConstantImage.searchXCircle), for: .clear, state: .normal)
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: ConstantText.searchBar.localize(),
@@ -86,29 +94,33 @@ final class MainViewController: UIViewController, ViewModelBindable {
     
     private let monthSpendingLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .center
+        label.layer.borderWidth = 1
+        label.layer.borderColor = UIColor(named: "Layer")?.cgColor
         label.clipsToBounds = true
         label.layer.cornerRadius = 10
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .none)
-        label.backgroundColor = ConstantColor.cellColor
+        label.backgroundColor = UIColor(named: "Cell")
         
         return label
     }()
     
     private let settingButton: UIButton = {
         let button = UIButton()
-        button.tintColor = .black
+        button.tintColor = UIColor.label
         button.layer.cornerRadius = 10
-        button.setTitle(ConstantText.register.localize(), for: .normal)
-        button.setTitleColor(ConstantColor.backGrouncColor, for: .normal)
+        button.layer.borderColor = UIColor(named: "Layer")?.cgColor
+        button.layer.borderWidth = 1
+//        button.setTitle(ConstantText.setting.localize(), for: .normal)
+        button.setTitleColor(UIColor.label, for: .normal)
         
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .light)
         let image = UIImage(systemName: ConstantImage.setting, withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
         button.alignTextBelow()
-        button.backgroundColor = ConstantColor.registerColor
+        button.backgroundColor = UIColor(named: "Cell")
         
         return button
     }()
@@ -180,12 +192,12 @@ extension MainViewController {
         let backBarButtonItem = UIBarButtonItem(
             title: ConstantText.home.localize(), style: .plain, target: self, action: nil
         )
-        backBarButtonItem.tintColor = .white
+        backBarButtonItem.tintColor = .label
         navigationItem.backBarButtonItem = backBarButtonItem
     }
     
     private func setupView() {
-        view.backgroundColor = ConstantColor.backGrouncColor
+        view.backgroundColor = UIColor(named: "BackGround")
         
         [titleView, searchBar, listButton, favoriteListButton,
          registerButton, monthSpendingLabel, settingButton]
@@ -209,20 +221,20 @@ extension MainViewController {
             
             listButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 30),
             listButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
-            listButton.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -10),
+            listButton.trailingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: -5),
             listButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.2),
             
-            favoriteListButton.topAnchor.constraint(equalTo: listButton.bottomAnchor, constant: 20),
+            favoriteListButton.topAnchor.constraint(equalTo: listButton.bottomAnchor, constant: 10),
             favoriteListButton.leadingAnchor.constraint(equalTo: listButton.leadingAnchor),
             favoriteListButton.trailingAnchor.constraint(equalTo: listButton.trailingAnchor),
             favoriteListButton.heightAnchor.constraint(equalTo: listButton.heightAnchor),
             
             registerButton.topAnchor.constraint(equalTo: listButton.topAnchor),
-            registerButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 10),
+            registerButton.leadingAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 5),
             registerButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
             registerButton.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.3),
             
-            settingButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 20),
+            settingButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 10),
             settingButton.leadingAnchor.constraint(equalTo: registerButton.leadingAnchor),
             settingButton.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
             settingButton.bottomAnchor.constraint(equalTo: favoriteListButton.bottomAnchor),
