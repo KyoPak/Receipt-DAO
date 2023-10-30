@@ -21,16 +21,14 @@ final class MainViewModel: CommonViewModel {
             .asDriver(onErrorJustReturn: [])
             .map { receiptSectionModels in
                 let dateString = DateFormatter.string(from: Date())
-                var countText = ""
-                for receiptSectionModel in receiptSectionModels
-                where receiptSectionModel.model == dateString {
-                    countText = dateString
-                    + " "
-                    + ConstantText.mainReceiptCount.localized(with: receiptSectionModel.items.count)
+                
+                var registerCount = 0
+                for receiptModel in receiptSectionModels where receiptModel.model == dateString {
+                    registerCount = receiptModel.items.count
                     break
                 }
                 
-                return countText
+                return dateString + " " + ConstantText.mainReceiptCount.localized(with: registerCount)
             }
     }
 }
