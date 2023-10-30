@@ -331,15 +331,13 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
             switch authorizationStatus {
             case .authorized:
                 var configuration = PHPickerConfiguration()
-                let currentImageCount = self.viewModel?.receiptDataRelay.value.count ?? .zero
-                
                 configuration.selectionLimit = 1
                 configuration.filter = .any(of: [.images, .livePhotos])
                 
                 let picker = PHPickerViewController(configuration: configuration)
                 picker.delegate = self
-                self.present(picker, animated: true, completion: nil)
                 
+                self.present(picker, animated: true, completion: nil)
             case .limited:
                 PHPhotoLibrary.shared().register(self)
                 self.getCanAccessImages()
