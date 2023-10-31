@@ -9,7 +9,7 @@
 "appName" = "Give Me A Receipt";
 
 "list" = "My Receipt";
-"bookMark" = "Important";
+"bookMark" = "BookMark";
 "clearBookMark" = "Unimportant";
 "register" = "Register";
 "input" = "Fill";
