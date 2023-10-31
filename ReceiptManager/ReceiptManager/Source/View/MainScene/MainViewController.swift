@@ -196,7 +196,7 @@ extension MainViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = UIColor(named: "BackGround")
+        view.backgroundColor = ConstantColor.backGroundColor
         
         [titleView, searchBar, listButton, favoriteListButton,
          registerButton, monthSpendingLabel, settingButton]
