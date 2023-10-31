@@ -63,28 +63,16 @@ extension FavoriteListViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let favoriteAction = UIContextualAction(
-            style: .normal,
+            style: .destructive,
             title: nil,
             handler: { [weak self] _, _, completion in
                 self?.viewModel?.favoriteAction(indexPath: indexPath)
                 completion(true)
             }
         )
+        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkRemove)
         
-        let label = UILabel(
-            text: ConstantText.clearBookMark.localize(),
-            font: .preferredFont(forTextStyle: .body)
-        )
-        label.textColor = ConstantColor.cellColor
-        label.backgroundColor = .systemYellow
-        label.sizeToFit()
-        
-        favoriteAction.backgroundColor = .systemYellow
-        favoriteAction.image = UIImage(view: label)
-        
-        let swipeActions = UISwipeActionsConfiguration(actions: [favoriteAction])
-        
-        return swipeActions
+        return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

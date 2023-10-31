@@ -132,14 +132,14 @@ extension ListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: ConstantText.delete.localize()
+            title: nil
         ) { [weak self] _, _, completion in
             self?.viewModel?.deleteAction(indexPath: indexPath)
             completion(true)
         }
-        
-        let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
-        return swipeActions
+        deleteAction.image = UIImage(systemName: ConstantImage.trash)
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     func tableView(
@@ -154,18 +154,10 @@ extension ListViewController: UITableViewDelegate {
                 completion(true)
             }
         )
-        
-        let label = UILabel(text: ConstantText.bookMark.localize(), font: .preferredFont(forTextStyle: .body))
-        label.textColor = ConstantColor.cellColor
-        label.backgroundColor = .systemYellow
-        label.sizeToFit()
-        
         favoriteAction.backgroundColor = .systemYellow
-        favoriteAction.image = UIImage(view: label)
+        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkFill)
         
-        let swipeActions = UISwipeActionsConfiguration(actions: [favoriteAction])
-        
-        return swipeActions
+        return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

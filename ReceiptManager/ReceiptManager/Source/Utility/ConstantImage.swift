@@ -24,6 +24,9 @@ enum ConstantImage {
     static let bookMark = "bookmark"
     static let bookMarkFill = "bookmark.fill"
     
+    static let bookMarkRemove = "bookmark.slash.fill"
+    static let trash = "trash.fill"
+    
     static let creditCard = "creditcard.fill"
     static let wonSign = "wonsign.square.fill"
     static let dollarSign = "dollarsign.square.fill"

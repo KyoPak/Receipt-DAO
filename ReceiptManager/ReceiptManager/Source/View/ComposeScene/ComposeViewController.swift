@@ -276,8 +276,8 @@ extension ComposeViewController: CropViewControllerDelegate {
     
     private func moveMantis(image: UIImage) {
         var config = Mantis.Config()
-        config.cropViewConfig.cropShapeType = .square
-        config.cropViewConfig.builtInRotationControlViewType = .slideDial()
+        config.cropViewConfig.cropShapeType = .rect
+        config.cropViewConfig.builtInRotationControlViewType = .rotationDial()
         
         let imageCropViewController = Mantis.cropViewController(image: image, config: config)
         imageCropViewController.delegate = self
