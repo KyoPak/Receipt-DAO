@@ -42,6 +42,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.layer.cornerRadius = 10
         collectionView.backgroundColor = ConstantColor.cellColor
+        collectionView.layer.borderColor = ConstantColor.layerColor.cgColor
+        collectionView.layer.borderWidth = 1
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         
@@ -52,8 +54,10 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
         textView.textColor = .label
+        textView.layer.borderWidth = 1
         textView.font = .preferredFont(forTextStyle: .body)
         textView.backgroundColor = ConstantColor.cellColor
+        textView.layer.borderColor = ConstantColor.layerColor.cgColor
         
         return textView
     }()
