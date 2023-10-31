@@ -22,7 +22,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="BackGround"/>
+                        <color key="backgroundColor" name="backGround"/>
                         <color key="tintColor" name="BackGround"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="c8a-d1-M0A" secondAttribute="trailing" constant="30" id="IS3-Gy-gfb"/>
@@ -41,6 +41,9 @@
     <resources>
         <image name="LauchImage" width="124" height="93.5"/>
         <namedColor name="BackGround">
+            <color red="0.99215686274509807" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="backGround">
             <color red="0.99215686274509807" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>

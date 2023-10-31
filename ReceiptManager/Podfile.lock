@@ -1,7 +1,4 @@
 PODS:
-  - Action (5.0.0):
-    - RxCocoa (~> 6.0)
-    - RxSwift (~> 6.0)
   - Differentiator (5.0.0)
   - Mantis (2.14.1)
   - "NSObject+Rx (5.2.2)":
@@ -19,10 +16,9 @@ PODS:
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
-  - SwiftLint (0.49.1)
+  - SwiftLint (0.53.0)
 
 DEPENDENCIES:
-  - Action
   - Mantis (~> 2.14.1)
   - "NSObject+Rx"
   - RxCocoa
@@ -33,7 +29,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Action
     - Differentiator
     - Mantis
     - "NSObject+Rx"
@@ -45,7 +40,6 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  Action: 47f1825511907b4fcd79dd7a7db9526c20f78018
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Mantis: b91a7fb2b16c180c77a76bc83bb126abba105cd5
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
@@ -54,8 +48,8 @@ SPEC CHECKSUMS:
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
-  SwiftLint: 32ee33ded0636d0905ef6911b2b67bbaeeedafa5
+  SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
-PODFILE CHECKSUM: b4f20e0439ee6607ca97181e05615ed485515470
+PODFILE CHECKSUM: 21972a4d6deb2ce8516f11e5c1ee61d242143f70
 
 COCOAPODS: 1.11.3
