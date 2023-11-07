@@ -20,7 +20,6 @@
 3. 앱스토어에 기존에 존재하는 영수증 관리 앱들은 가계부와 결합되어있거나 회사에서 사용하는 용도였기 때문에 단순하며 심플한 영수증 관리 앱이 없다고 생각하였습니다.
 
 
-
 ### App Store Link
 [영수증 다오 App Store](https://apps.apple.com/kr/app/%EC%98%81%EC%88%98%EC%A6%9D-%EB%8B%A4%EC%98%A4/id6449433216)
 
@@ -29,6 +28,7 @@
 
 <br></br>
 ## 버전 업데이트
+
 ### 1.0.3 (2023.05.30)
 **오류 수정**
 - 목록 화면에서 뒤로가다가 다시 돌아올 경우 NavagationBar가 사라지는 현상 수정
@@ -76,15 +76,28 @@
  
 ### 1.4.0 (2023.11.01)
 **기능 추가**
-- Mantis 라이브러리 추가하여 이미지 편집 기능 추가
+
+- Mantis 라이브러리 추가하여 이미지 편집 기능 추가
+    - 이미지 편집 기능 요청 메일
+        - <img width="755" alt="스크린샷 2023-11-07 오후 4 30 44" src="https://github.com/KyoPak/Receipt-DAO/assets/59204352/1c01d74a-3387-41e6-ae1c-e142015c1757">
+
 - 가격 소수점 기입 가능하게 추가
   - CoreData Migration을 통해 기존의 Int형 Price를 String형 Price로 Sync 구현
+  - 가격 소수점 기입 가능 요청 메일
+      - <img width="1388" alt="스크린샷 2023-11-07 오후 4 32 14" src="https://github.com/KyoPak/Receipt-DAO/assets/59204352/07a70c1d-1f74-4d7b-ad94-780cdaaf7beb">
+
+
 
 **기능 개선**
 - UI 개선 : 기존 UI개선 및 라이트 모드, 다크 모드 분리
 
 <br></br>
 ## 실행 화면
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
 
 |목록|등록|상세|
 |:---:|:--:|:--:|
@@ -99,7 +112,7 @@
 |:---:|:--:|:--:|
 |<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/510461dc-cd8b-4e34-bd5b-f4e3c754206a">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b0f71604-7081-4f3e-9861-f6d2c5470ed8">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/208397cc-bb73-48f8-ac57-021ad459864e">
 
-
+</details>
 
 <br></br>
 ## 타임라인
