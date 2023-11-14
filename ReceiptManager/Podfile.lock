@@ -16,6 +16,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
@@ -29,6 +32,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxCoreData
   - RxDataSources
+  - RxGesture
   - RxSwift (= 6.2.0)
   - SwiftLint
 
@@ -41,6 +45,7 @@ SPEC REPOS:
     - RxCocoa
     - RxCoreData
     - RxDataSources
+    - RxGesture
     - RxRelay
     - RxSwift
     - SwiftLint
@@ -54,11 +59,12 @@ SPEC CHECKSUMS:
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxCoreData: 4c1686b30499c05b90104eec1a879f41aa1a0a65
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: ee6416d4341c857d77a0173d57ee3f745a6f1777
+PODFILE CHECKSUM: c04303c5497bdd05ca5308cb888a81e2e2411849
 
 COCOAPODS: 1.11.3
