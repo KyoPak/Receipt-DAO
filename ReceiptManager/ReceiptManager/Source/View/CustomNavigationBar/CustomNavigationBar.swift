@@ -8,12 +8,30 @@
 import UIKit
 
 class CustomNavigationBar: UIView {
+    let logoView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "logo"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 28, weight: .semibold)
         label.textColor = .label
         return label
+    }()
+    
+    let titleStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        
+        return stackView
     }()
     
     init(title: String) {
@@ -29,21 +47,22 @@ class CustomNavigationBar: UIView {
     }
     
     func setupHierarchy() {
-        [titleLabel].forEach(addSubview(_:))
+        [logoView, titleLabel].forEach(titleStackView.addArrangedSubview(_:))
+        addSubview(titleStackView)
     }
     
     func setupProperties(title: String) {
         titleLabel.text = title
         backgroundColor = .clear
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func setupConstraints() {
         let safeArea = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            titleLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20)
+            titleStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            titleStackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
 }

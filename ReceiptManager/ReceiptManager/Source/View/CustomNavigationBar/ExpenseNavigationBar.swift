@@ -8,8 +8,6 @@
 import UIKit
 
 final class ExpenseNavigationBar: CustomNavigationBar {
-    let logoView = UIImageView()
-    
     private let searchButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
@@ -19,11 +17,11 @@ final class ExpenseNavigationBar: CustomNavigationBar {
         return button
     }()
     
-    init(title: String, imageName: String) {
+    override init(title: String) {
         super.init(title: title)
 
         setupHierarchy()
-        self.setupProperties(title: title, imageName: imageName)
+        self.setupProperties(title: title)
         setupConstraints()
     }
 
@@ -33,16 +31,13 @@ final class ExpenseNavigationBar: CustomNavigationBar {
     
     override func setupHierarchy() {
         super.setupHierarchy()
-        [logoView, searchButton].forEach(addSubview(_:))
+        [searchButton].forEach(addSubview(_:))
     }
     
-    func setupProperties(title: String, imageName: String) {
+    override func setupProperties(title: String) {
         super.setupProperties(title: title)
-        
-        logoView.image = UIImage(named: imageName)
-        logoView.contentMode = .scaleAspectFit
-        
-        [logoView, searchButton].forEach {
+                
+        [searchButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -52,12 +47,6 @@ final class ExpenseNavigationBar: CustomNavigationBar {
         let safeArea = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            titleLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20),
-            
-            logoView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 3),
-            logoView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-
             searchButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             searchButton.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])

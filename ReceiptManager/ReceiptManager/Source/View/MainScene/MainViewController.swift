@@ -13,7 +13,7 @@ import NSObject_Rx
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
     
-    private let navigationBar = ExpenseNavigationBar(title: "나의 지출", imageName: "logo")
+    private let navigationBar = ExpenseNavigationBar(title: "나의 지출")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
