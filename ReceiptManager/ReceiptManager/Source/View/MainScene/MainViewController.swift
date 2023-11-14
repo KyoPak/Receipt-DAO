@@ -13,9 +13,18 @@ import NSObject_Rx
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
     
+    private let navigationBar = ExpenseNavigationBar(title: "나의 지출", imageName: "logo")
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupHierarchy()
+        setupProperties()
+        setupNavigationBar()
         setupContraints()
     }
     
@@ -26,15 +35,30 @@ final class MainViewController: UIViewController, ViewModelBindable {
 
 // MARK: - UIConstraints
 extension MainViewController {
-    private func setupView() {
+    private func setupHierarchy() {
+        view.addSubview(navigationBar)
         view.backgroundColor = ConstantColor.backGroundColor
+    }
+    
+    func setupProperties() {
+        
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func setupNavigationBar() {
+        title = ConstantText.list.localize()
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
     }
     
     private func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            
+            navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            navigationBar.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
 }
