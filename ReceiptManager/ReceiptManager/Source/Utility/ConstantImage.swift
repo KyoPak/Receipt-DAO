@@ -25,8 +25,8 @@ enum ConstantImage {
     static let chevronLeft = "chevron.left"
     static let chevronRight = "chevron.right"
     
-    static let bookMark = "bookmark"
-    static let bookMarkFill = "bookmark.fill"
+    static let bookMark = "bookmark.circle"
+    static let bookMarkFill = "bookmark.circle.fill"
     
     static let bookMarkRemove = "bookmark.slash.fill"
     static let trash = "trash.fill"
