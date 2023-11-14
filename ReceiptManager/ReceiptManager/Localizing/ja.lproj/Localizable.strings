@@ -6,9 +6,9 @@
   
 */
 
-"appName" = "Give Me A Receipt";
+"appName" = "MoneyMemory";
 
-"list" = "私の領収書";
+"list" = "私の経費";
 "bookMark" = "重要";
 "clearBookMark" = "重要ではない";
 "register" = "登録";

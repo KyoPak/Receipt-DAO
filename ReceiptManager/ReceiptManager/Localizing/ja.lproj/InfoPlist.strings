@@ -6,7 +6,7 @@
   
 */
 
-"CFBundleDisplayName" = "Give Me A Recipt";
-"CFBundleName" = "Give Me A Recipt";
+"CFBundleDisplayName" = "MoneyMemory";
+"CFBundleName" = "MoneyMemory";
 "NSCameraUsageDescription" = "領収書を取得した後、カメラアクセスに同意する必要があります。 領収書を取得した後、添付ファイルにカメラ機能を使用する必要があります。 これを設定で変更できます。 カメラの許可を許可してください。";
 "NSPhotoLibraryUsageDescription" = "領収書の写真添付ファイルを使用して写真をインポートするには、画像ライブラリアクセスが必要です。 これを設定で変更できます。 ライブラリアクセスを許可してください。";

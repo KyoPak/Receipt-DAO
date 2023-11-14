@@ -6,9 +6,9 @@
   
 */
 
-"appName" = "영수증 다오";
+"appName" = "다오";
 
-"list" = "내 영수증";
+"list" = "나의 지출";
 "bookMark" = "즐겨찾기";
 "clearBookMark" = "즐겨찾기 해제";
 "register" = "등록하기";

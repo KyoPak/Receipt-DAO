@@ -788,7 +788,7 @@
 				DEVELOPMENT_TEAM = ZRLFU9PV5L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReceiptManager/Resource/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "영수증 다오";
+				INFOPLIST_KEY_CFBundleDisplayName = "다오";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = NSPhotoLibraryUsageDescription;
@@ -826,7 +826,7 @@
 				DEVELOPMENT_TEAM = ZRLFU9PV5L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReceiptManager/Resource/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "영수증 다오";
+				INFOPLIST_KEY_CFBundleDisplayName = "다오";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = NSPhotoLibraryUsageDescription;

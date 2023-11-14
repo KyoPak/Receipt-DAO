@@ -6,9 +6,9 @@
   
 */
 
-"appName" = "Give Me A Receipt";
+"appName" = "MoneyMemory";
 
-"list" = "My Receipt";
+"list" = "My Expense";
 "bookMark" = "BookMark";
 "clearBookMark" = "Unimportant";
 "register" = "Register";
