@@ -36,6 +36,7 @@
 		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
 		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
+		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
 		3C86FB882A1B407A000CC99B /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */; };
 		3C86FB8A2A1B40BD000CC99B /* SelectImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */; };
 		3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */; };
@@ -111,6 +112,7 @@
 		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
 		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
 		3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewModel.swift; sourceTree = "<group>"; };
 		3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
@@ -238,6 +240,14 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */,
+			);
+			path = CustomNavigationBar;
+			sourceTree = "<group>";
+		};
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,6 +372,7 @@
 		3CDCDC4A29FC007400C2BEF6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
 				3C614B492B036D52009D1795 /* CustomTabBar */,
 				3C0894C12A4E6ABB00C6E7CD /* SettingScene */,
 				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
@@ -600,6 +611,7 @@
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
+				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
 				3C4EBB552A519282004E6C93 /* SearchViewModel.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
 				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,
