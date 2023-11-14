@@ -26,20 +26,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
-            
-            // Root View 이동
-            let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
             let coordinator = DefaultSceneCoordinator(window: window)
-            let mainViewModel = MainViewModel(
-                title: ConstantText.appName.localize(),
-                sceneCoordinator: coordinator,
-                storage: storage
-            )
-            
-            let mainScene = Scene.main(mainViewModel)
+            let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
+        
             storage.sync()
-                
-            coordinator.transition(to: mainScene, using: .root, animated: false)
+            
+            let navigationController = UINavigationController()
+            navigationController.setViewControllers(
+                [CustomTabBarController(coordinator: coordinator, storage: storage)],
+                animated: true
+            )
+            window.rootViewController = navigationController
         }
     }
 

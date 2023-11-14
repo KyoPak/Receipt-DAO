@@ -27,6 +27,10 @@
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
+		3C614B482B036AC1009D1795 /* CustomItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B472B036AC1009D1795 /* CustomItemView.swift */; };
+		3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4A2B03730D009D1795 /* CustomTabItem.swift */; };
+		3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4C2B03759B009D1795 /* CustomTabBar.swift */; };
+		3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */; };
 		3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */; };
@@ -98,6 +102,10 @@
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
+		3C614B472B036AC1009D1795 /* CustomItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemView.swift; sourceTree = "<group>"; };
+		3C614B4A2B03730D009D1795 /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
+		3C614B4C2B03759B009D1795 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinator.swift; sourceTree = "<group>"; };
 		3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSceneCoordinator.swift; sourceTree = "<group>"; };
@@ -217,6 +225,17 @@
 				3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		3C614B492B036D52009D1795 /* CustomTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				3C614B472B036AC1009D1795 /* CustomItemView.swift */,
+				3C614B4A2B03730D009D1795 /* CustomTabItem.swift */,
+				3C614B4C2B03759B009D1795 /* CustomTabBar.swift */,
+				3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */,
+			);
+			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
 		3C9AA3432A0117B60014807B /* Utility */ = {
@@ -343,6 +362,7 @@
 		3CDCDC4A29FC007400C2BEF6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3C614B492B036D52009D1795 /* CustomTabBar */,
 				3C0894C12A4E6ABB00C6E7CD /* SettingScene */,
 				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
 				3C9AA34E2A012FA10014807B /* ListScene */,
@@ -568,8 +588,10 @@
 			files = (
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */,
+				3C614B482B036AC1009D1795 /* CustomItemView.swift in Sources */,
 				3C9AA34B2A012EDA0014807B /* Transition.swift in Sources */,
 				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
+				3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3C86FB8A2A1B40BD000CC99B /* SelectImageViewModel.swift in Sources */,
 				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
@@ -589,6 +611,7 @@
 				3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */,
 				3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */,
 				3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */,
+				3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */,
 				3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
@@ -620,6 +643,7 @@
 				3C685F692A5009650064EE2A /* SettingSection.swift in Sources */,
 				3CFD22FC29FE4CA300AE59C7 /* MainViewModel.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,
+				3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */,
 				3C9AA3482A012C880014807B /* TitleView.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
 			);

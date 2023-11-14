@@ -12,11 +12,6 @@ import NSObject_Rx
 
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigationBar()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,16 +26,6 @@ final class MainViewController: UIViewController, ViewModelBindable {
 
 // MARK: - UIConstraints
 extension MainViewController {
-    private func setupNavigationBar() {
-        title = ConstantText.appName.localize()
-                
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.shadowImage = nil
-        
-        navigationController?.navigationBar.tintColor = .label
-    }
-    
     private func setupView() {
         view.backgroundColor = ConstantColor.backGroundColor
     }
