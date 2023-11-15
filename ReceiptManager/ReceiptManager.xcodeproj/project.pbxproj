@@ -39,6 +39,8 @@
 		3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A37F2B04CE1000377A73 /* Coordinator.swift */; };
 		3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */; };
 		3C74A3842B04F66F00377A73 /* MainViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */; };
+		3C74A3882B050D8800377A73 /* BookMarkViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */; };
+		3C74A38B2B050DD200377A73 /* BookMarkViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */; };
 		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
 		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
@@ -119,6 +121,8 @@
 		3C74A37F2B04CE1000377A73 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCoordinator.swift; sourceTree = "<group>"; };
+		3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewCoordinator.swift; sourceTree = "<group>"; };
+		3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewReactor.swift; sourceTree = "<group>"; };
 		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
@@ -271,8 +275,17 @@
 				3C74A37F2B04CE1000377A73 /* Coordinator.swift */,
 				3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */,
 				3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */,
+				3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		3C74A3892B050DB700377A73 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */ = {
@@ -346,6 +359,7 @@
 		3C9AA3512A012FD10014807B /* BookMarkScene */ = {
 			isa = PBXGroup;
 			children = (
+				3C74A3892B050DB700377A73 /* Reactor */,
 				3C9AA3522A012FE60014807B /* BookMarkViewController.swift */,
 			);
 			path = BookMarkScene;
@@ -670,6 +684,7 @@
 				3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */,
 				3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */,
 				3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */,
+				3C74A38B2B050DD200377A73 /* BookMarkViewReactor.swift in Sources */,
 				3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
@@ -690,6 +705,7 @@
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,
 				3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */,
 				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
+				3C74A3882B050D8800377A73 /* BookMarkViewCoordinator.swift in Sources */,
 				3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */,
 				3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */,
 				3C1B36922A34460000749774 /* CameraAlbumAccess.swift in Sources */,
