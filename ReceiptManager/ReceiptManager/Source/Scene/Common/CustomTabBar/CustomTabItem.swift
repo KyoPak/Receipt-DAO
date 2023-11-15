@@ -8,7 +8,7 @@
 import UIKit
 
 enum CustomTabItem: String, CaseIterable {
-    case list
+    case main
     case bookmark
     case setting
 }
@@ -16,7 +16,7 @@ enum CustomTabItem: String, CaseIterable {
 extension CustomTabItem {
     var name: String {
         switch self {
-        case .list:
+        case .main:
             return ConstantText.list.localize()
         case .bookmark:
             return ConstantText.bookMark.localize()
@@ -25,36 +25,9 @@ extension CustomTabItem {
         }
     }
     
-    func viewController(storage: CoreDataStorage, coordinator: SceneCoordinator) -> UIViewController {
-        
-        // 추후 여기서 Reactor 주입
-        switch self {
-        case .list:
-            let mainViewReactor = MainViewReactor()
-            
-            return Scene.main(mainViewReactor, coordinator).instantiate()
-        case .bookmark:
-            let favoriteViewModel = FavoriteListViewModel(
-                title: ConstantText.bookMark.localize(),
-                sceneCoordinator: coordinator,
-                storage: storage
-            )
-            
-            return Scene.favorite(favoriteViewModel).instantiate()
-        case .setting:
-            let settingViewModel = SettingViewModel(
-                title: ConstantText.setting.localize(),
-                sceneCoordinator: coordinator,
-                storage: storage
-            )
-            
-            return Scene.setting(settingViewModel).instantiate()
-        }
-    }
-    
     var icon: UIImage? {
         switch self {
-        case .list:
+        case .main:
             return UIImage(systemName: ConstantImage.listCircle)?
                 .withTintColor(.white.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         case .bookmark:
@@ -68,7 +41,7 @@ extension CustomTabItem {
     
     var selectedIcon: UIImage? {
         switch self {
-        case .list:
+        case .main:
             return UIImage(systemName: ConstantImage.listCircleFill)?
                 .withTintColor(.white, renderingMode: .alwaysOriginal)
         case .bookmark:
@@ -77,6 +50,21 @@ extension CustomTabItem {
         case .setting:
             return UIImage(systemName: ConstantImage.gearFill)?
                 .withTintColor(.white, renderingMode: .alwaysOriginal)
+        }
+    }
+    
+    
+    func initialCoordinator(
+        navigationController: UINavigationController,
+        storage: CoreDataStorage
+    ) -> Coordinator {
+        switch self {
+        case .main:
+            return MainViewCoordinator(navigationController: navigationController, storage: storage)
+        case .bookmark:
+            return
+        case .setting:
+            return
         }
     }
 }

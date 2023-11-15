@@ -13,11 +13,11 @@ import RxGesture
 
 final class CustomTabBar: UIStackView {
     private let disposeBag = DisposeBag()
-    private let listItem = CustomItemView(with: .list, index: 0)
+    private let mainItem = CustomItemView(with: .main, index: 0)
     private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
     private let settingItem = CustomItemView(with: .setting, index: 2)
     
-    private lazy var customItemViews: [CustomItemView] = [listItem, bookmarkItem, settingItem]
+    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem, settingItem]
     
     private let itemTappedSubject = PublishSubject<Int>()
     var itemTapped: Observable<Int> { return itemTappedSubject.asObservable() }
@@ -39,7 +39,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [listItem, bookmarkItem, settingItem].forEach { self.addArrangedSubview($0) }
+        [mainItem, bookmarkItem, settingItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -63,12 +63,12 @@ final class CustomTabBar: UIStackView {
     
     //MARK: - Bindings
     private func bind() {
-        listItem.rx.tapGesture()
+        mainItem.rx.tapGesture()
             .when(.recognized)
             .bind { [weak self] _ in
                 guard let self = self else { return }
-                self.listItem.animateClick {
-                    self.selectItem(index: self.listItem.index)
+                self.mainItem.animateClick {
+                    self.selectItem(index: self.mainItem.index)
                 }
             }
             .disposed(by: disposeBag)

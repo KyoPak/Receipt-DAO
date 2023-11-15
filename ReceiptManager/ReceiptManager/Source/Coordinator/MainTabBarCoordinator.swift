@@ -23,15 +23,17 @@ final class MainTabBarCoordinator: Coordinator {
         let tabBarController = CustomTabBarController()
         tabBarController.coordinator = self
         
-        let mainViewReactor = MainViewReactor(stoage: storage)
-        let mainNavigationController = UINavigationController(
-            rootViewController: MainViewController(reactor: mainViewReactor)
-        )
+        let coordinators = CustomTabItem.allCases.map {
+            $0.initialCoordinator(navigationController: navigationController, storage: storage)
+        }
         
-        tabBarController.setViewControllers([mainNavigationController], animated: false)
+        coordinators.map {
+            $0.start()
+            childCoordinators.append($0)
+        }
+        
+        let controllers = coordinators.map { $0.navigationController }
+    
+        tabBarController.setViewControllers(controllers, animated: false)
     }
-    
-    func removeChild(to child: Coordinator?) { }
-    
-    func close(to controller: UIViewController) { }
 }

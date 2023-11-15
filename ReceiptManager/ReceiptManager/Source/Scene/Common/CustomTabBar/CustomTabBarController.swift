@@ -10,16 +10,12 @@ import UIKit
 import RxSwift
 
 final class CustomTabBarController: UITabBarController {
-    let coordinator: SceneCoordinator
-    let storage: CoreDataStorage
-    
     private let customTabBar = CustomTabBar()
     private let disposeBag = DisposeBag()
 
-    init(coordinator: SceneCoordinator, storage: CoreDataStorage) {
-        self.coordinator = coordinator
-        self.storage = storage
-        
+    weak var coordinator: MainTabBarCoordinator?
+    
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,11 +42,6 @@ final class CustomTabBarController: UITabBarController {
         tabBar.isHidden = true
         selectedIndex = 0
         customTabBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        let controllers = CustomTabItem.allCases.map {
-            return $0.viewController(storage: storage, coordinator: coordinator)
-        }
-        setViewControllers(controllers, animated: true)
     }
     
     private func setupHierarchy() {
