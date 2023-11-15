@@ -15,7 +15,8 @@ final class MainViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     private let navigationBar = ExpenseNavigationBar(title: ConstantText.list.localize())
-    private var coordiantor: SceneCoordinator
+    
+    weak var coordinator: MainViewCoordinator?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,12 +30,10 @@ final class MainViewController: UIViewController, View {
         setupContraints()
     }
     
-    init(reactor: MainViewReactor, coordinator: SceneCoordinator) {
-        self.coordiantor = coordinator
-        super.init(nibName: nil, bundle: nil)
+    init(reactor: MainViewReactor) {
+        super.init()
         
         self.reactor = reactor
-        
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +44,10 @@ final class MainViewController: UIViewController, View {
         bindAction(reactor)
         bindState(reactor)
     }
-    
+}
+
+// MARK: - Reactor Bind
+extension MainViewController {
     private func bindView(_ reactor: MainViewReactor) {
         
     }

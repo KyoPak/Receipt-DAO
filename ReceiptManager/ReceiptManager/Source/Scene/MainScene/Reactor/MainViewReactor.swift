@@ -37,6 +37,12 @@ final class MainViewReactor: Reactor {
     let initialState = State(
         title: ConstantText.list.localize(), isRegister: false, isSearch: false, showMode: .list
     )
+    
+    private let storage: CoreDataStorage
+    
+    init(stoage: CoreDataStorage) {
+        self.storage = storage
+    }
 
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
