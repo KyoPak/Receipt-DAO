@@ -8,7 +8,7 @@
 import UIKit
 
 final class ExpenseNavigationBar: CustomNavigationBar {
-    private let searchButton: UIButton = {
+    let searchButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
         let image = UIImage(systemName: ConstantImage.searchOrigin)
