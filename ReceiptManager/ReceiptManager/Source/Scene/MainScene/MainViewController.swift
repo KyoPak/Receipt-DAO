@@ -12,11 +12,15 @@ import RxSwift
 import RxCocoa
 
 final class MainViewController: UIViewController, View {
+    
+    // Properties
+    
     var disposeBag = DisposeBag()
+    weak var coordinator: MainViewCoordinator?
+    
+    // UI Properties
     
     private let navigationBar = ExpenseNavigationBar(title: ConstantText.list.localize())
-    
-    weak var coordinator: MainViewCoordinator?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,6 +33,8 @@ final class MainViewController: UIViewController, View {
         setupProperties()
         setupContraints()
     }
+    
+    // Initializer
     
     init(reactor: MainViewReactor) {
         super.init()

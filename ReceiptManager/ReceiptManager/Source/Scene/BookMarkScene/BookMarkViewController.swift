@@ -6,11 +6,20 @@
 //
 
 import UIKit
+
+import ReactorKit
 import RxSwift
 import RxCocoa
-import NSObject_Rx
 
-final class BookMarkViewController: UIViewController{
+final class BookMarkViewController: UIViewController, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
+    weak var coordinator: BookMarkViewCoordinator?
+    
+    // UI Properties
+    
     private let navigationBar = CustomNavigationBar(title: ConstantText.bookMark.localize())
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
@@ -26,31 +35,63 @@ final class BookMarkViewController: UIViewController{
         setupConstraints()
     }
     
-    func bindViewModel() {
-        guard let viewModel = viewModel else { return }
+    // Initializer
+    
+    init(reactor: BookMarkReactor) {
+        super.init()
         
-        // ViewModel Properties Binding
-        viewModel.title
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: BookMarkViewReactor) {
+        bindAction(reactor)
+        bindState(reactor)
+    }
+    
+//    func bindViewModel() {
+//        guard let viewModel = viewModel else { return }
+//
+//        // ViewModel Properties Binding
+//        viewModel.title
+//            .drive(navigationItem.rx.title)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.receiptList
+//            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+//            .disposed(by: rx.disposeBag)
+//        
+//        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+//            .withUnretained(self)
+//            .do(onNext: { (owner, data) in
+//                owner.tableView.deselectRow(at: data.1, animated: true)
+//            })
+//            .map { $1.0 }
+//            .subscribe { [weak self] in
+//                self?.viewModel?.moveDetailAction(receipt: $0)
+//            }
+//            .disposed(by: rx.disposeBag)
+//
+//        tableView.rx.setDelegate(self)
+//            .disposed(by: rx.disposeBag)
+//    }
+}
+
+// MARK: - Reactor Bind
+extension MainViewController {
+    private func bindView(_ reactor: BookMarkViewReactor) {
         
-        viewModel.receiptList
-            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-            .disposed(by: rx.disposeBag)
+    }
+    
+    private func bindAction(_ reactor: BookMarkViewReactor) {
         
-        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
-            .withUnretained(self)
-            .do(onNext: { (owner, data) in
-                owner.tableView.deselectRow(at: data.1, animated: true)
-            })
-            .map { $1.0 }
-            .subscribe { [weak self] in
-                self?.viewModel?.moveDetailAction(receipt: $0)
-            }
-            .disposed(by: rx.disposeBag)
+    }
+    
+    private func bindState(_ reactor: BookMarkViewReactor) {
         
-        tableView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
     }
 }
 
