@@ -249,6 +249,15 @@
 			path = CustomNavigationBar;
 			sourceTree = "<group>";
 		};
+		3C7FD5042B047A5D0084E650 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3C614B492B036D52009D1795 /* CustomTabBar */,
+				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		3C9AA3432A0117B60014807B /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +288,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		3C9AA3492A012D0F0014807B /* Scene */ = {
+		3C9AA3492A012D0F0014807B /* SceneCoordinator */ = {
 			isa = PBXGroup;
 			children = (
 				3C9AA34A2A012EDA0014807B /* Transition.swift */,
@@ -287,7 +296,7 @@
 				3C6C06FA2A013FC100974AD3 /* SceneCoordinator.swift */,
 				3C6C06FC2A01408300974AD3 /* DefaultSceneCoordinator.swift */,
 			);
-			path = Scene;
+			path = SceneCoordinator;
 			sourceTree = "<group>";
 		};
 		3C9AA34E2A012FA10014807B /* ListScene */ = {
@@ -341,9 +350,9 @@
 			isa = PBXGroup;
 			children = (
 				3C9AA3432A0117B60014807B /* Utility */,
-				3C9AA3492A012D0F0014807B /* Scene */,
+				3C9AA3492A012D0F0014807B /* SceneCoordinator */,
 				3CDCDC4929FC006500C2BEF6 /* Application */,
-				3CDCDC4A29FC007400C2BEF6 /* View */,
+				3CDCDC4A29FC007400C2BEF6 /* Scene */,
 				3CFD22FA29FE4C9000AE59C7 /* ViewModel */,
 				3CDCDC4C29FC00A300C2BEF6 /* Model */,
 				3CDCDC5129FC03C400C2BEF6 /* Service */,
@@ -370,11 +379,10 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		3CDCDC4A29FC007400C2BEF6 /* View */ = {
+		3CDCDC4A29FC007400C2BEF6 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
-				3C614B492B036D52009D1795 /* CustomTabBar */,
+				3C7FD5042B047A5D0084E650 /* Common */,
 				3C0894C12A4E6ABB00C6E7CD /* SettingScene */,
 				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
 				3C9AA34E2A012FA10014807B /* ListScene */,
@@ -383,7 +391,7 @@
 				3C9AA3552A01300F0014807B /* DetailScene */,
 				3C9AA3642A0135110014807B /* ViewModelBindable.swift */,
 			);
-			path = View;
+			path = Scene;
 			sourceTree = "<group>";
 		};
 		3CDCDC4B29FC008700C2BEF6 /* MainScene */ = {
