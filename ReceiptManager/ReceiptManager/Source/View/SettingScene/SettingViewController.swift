@@ -11,16 +11,20 @@ import RxCocoa
 import NSObject_Rx
 
 final class SettingViewController: UIViewController, ViewModelBindable {
-
     var viewModel: SettingViewModel?
+    private let navigationBar = CustomNavigationBar(title: ConstantText.setting.localize())
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setupTableView()
-        setupView()
-        setupConstraint()
+        setupHierarchy()
+        setupProperties()
+        setupConstraints()
     }
     
     func bindViewModel() {
@@ -91,40 +95,31 @@ extension SettingViewController {
 // MARK: - UI Constrints
 extension SettingViewController {
     private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ConstantColor.backGroundColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: ConstantText.close.localize(),
-            style: .plain,
-            target: self,
-            action: #selector(tapCloseButton)
-        )
-        
-        navigationItem.leftBarButtonItem?.tintColor = .label
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    private func setupTableView() {
+    private func setupHierarchy() {
+        [navigationBar, tableView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
+        view.backgroundColor = ConstantColor.backGroundColor
+        
         tableView.backgroundColor = ConstantColor.backGroundColor
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        [navigationBar, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         tableView.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     
-    private func setupView() {
-        view.backgroundColor = ConstantColor.backGroundColor
-        view.addSubview(tableView)
-    }
-    
-    private func setupConstraint() {
+    private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            
+            tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)

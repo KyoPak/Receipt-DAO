@@ -13,7 +13,7 @@ import NSObject_Rx
 final class MainViewController: UIViewController, ViewModelBindable {
     var viewModel: MainViewModel?
     
-    private let navigationBar = ExpenseNavigationBar(title: "나의 지출")
+    private let navigationBar = ExpenseNavigationBar(title: ConstantText.list.localize())
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -24,7 +24,6 @@ final class MainViewController: UIViewController, ViewModelBindable {
         super.viewDidLoad()
         setupHierarchy()
         setupProperties()
-        setupNavigationBar()
         setupContraints()
     }
     
@@ -41,14 +40,11 @@ extension MainViewController {
     }
     
     func setupProperties() {
-        
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupNavigationBar() {
-        title = ConstantText.list.localize()
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func setupContraints() {

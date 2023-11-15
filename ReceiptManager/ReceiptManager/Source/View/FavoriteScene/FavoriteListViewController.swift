@@ -12,19 +12,19 @@ import NSObject_Rx
 
 final class FavoriteListViewController: UIViewController, ViewModelBindable {
     var viewModel: FavoriteListViewModel?
+    private let navigationBar = CustomNavigationBar(title: ConstantText.bookMark.localize())
     
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
+        setupNavigationBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setupView()
-        setupTableView()
+        setupHierarchy()
+        setupProperties()
         setupConstraints()
     }
     
@@ -106,24 +106,17 @@ extension FavoriteListViewController: UITableViewDelegate {
 // MARK: - UIConstraint
 extension FavoriteListViewController {
     private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = ConstantColor.backGroundColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    private func setupView() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupHierarchy() {
+        [navigationBar, tableView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
-    }
-    
-    private func setupTableView() {
+        [navigationBar, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        
         tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
@@ -132,7 +125,12 @@ extension FavoriteListViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            
+            tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
