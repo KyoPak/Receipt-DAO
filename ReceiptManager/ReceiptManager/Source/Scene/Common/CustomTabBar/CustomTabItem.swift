@@ -26,15 +26,13 @@ extension CustomTabItem {
     }
     
     func viewController(storage: CoreDataStorage, coordinator: SceneCoordinator) -> UIViewController {
+        
+        // 추후 여기서 Reactor 주입
         switch self {
         case .list:
-            let mainViewModel = MainViewModel(
-                title: ConstantText.appName.localize(),
-                sceneCoordinator: coordinator,
-                storage: storage
-            )
+            let mainViewReactor = MainViewReactor()
             
-            return Scene.main(mainViewModel).instantiate()
+            return Scene.main(mainViewReactor, coordinator).instantiate()
         case .bookmark:
             let favoriteViewModel = FavoriteListViewModel(
                 title: ConstantText.bookMark.localize(),

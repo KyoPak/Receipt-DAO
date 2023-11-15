@@ -8,7 +8,7 @@
 import UIKit
 
 enum Scene {
-    case main(MainViewModel)
+    case main(MainViewReactor, SceneCoordinator)
     case list(ListViewModel)
     case favorite(FavoriteListViewModel)
     case compose(ComposeViewModel)
@@ -22,9 +22,8 @@ enum Scene {
 extension Scene {
     func instantiate() -> UIViewController {
         switch self {
-        case .main(let mainViewModel):
-            let viewController = MainViewController()
-            viewController.bind(viewModel: mainViewModel)
+        case .main(let mainViewReactor, let coordinator):
+            let viewController = MainViewController(reactor: mainViewReactor, coordinator: coordinator)
             
             return viewController
         case .list(let listViewModel):

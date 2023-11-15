@@ -22,6 +22,7 @@
 		3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */; };
 		3C333E262A31F35C00E8C28A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C333E252A31F35C00E8C28A /* SearchViewController.swift */; };
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
+		3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C02B049F240005BA4C /* MainViewReactor.swift */; };
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
 		3C4EBB552A519282004E6C93 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EBB542A519282004E6C93 /* SearchViewModel.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
@@ -98,6 +99,7 @@
 		3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		3C333E252A31F35C00E8C28A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
+		3C4405C02B049F240005BA4C /* MainViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewReactor.swift; sourceTree = "<group>"; };
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
 		3C4EBB542A519282004E6C93 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
@@ -211,6 +213,14 @@
 				3CDCDC4729FC002D00C2BEF6 /* Source */,
 			);
 			path = ReceiptManager;
+			sourceTree = "<group>";
+		};
+		3C4405BF2B049F140005BA4C /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3C4405C02B049F240005BA4C /* MainViewReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		3C4EBB532A519261004E6C93 /* SearchScene */ = {
@@ -397,6 +407,7 @@
 		3CDCDC4B29FC008700C2BEF6 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
+				3C4405BF2B049F140005BA4C /* Reactor */,
 				3C4EBB532A519261004E6C93 /* SearchScene */,
 				3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */,
 			);
@@ -633,6 +644,7 @@
 				3C6C06FD2A01408300974AD3 /* DefaultSceneCoordinator.swift in Sources */,
 				3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */,
 				3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */,
+				3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
 				3C9AA35D2A0130570014807B /* FavoriteListViewModel.swift in Sources */,
