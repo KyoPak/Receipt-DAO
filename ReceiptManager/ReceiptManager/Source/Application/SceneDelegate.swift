@@ -23,20 +23,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = UIStoryboard(name: ConstantText.launchScreen, bundle: nil)
             .instantiateInitialViewController()
         
-        window.makeKeyAndVisible()
-        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
-            let coordinator = DefaultSceneCoordinator(window: window)
+
             let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
-        
             storage.sync()
             
             let navigationController = UINavigationController()
-            navigationController.setViewControllers(
-                [CustomTabBarController(coordinator: coordinator, storage: storage)],
-                animated: true
+            let mainTabBarCoordinator = MainTabBarCoordinator(
+                navigationController: navigationController,
+                storage: storage
             )
+            
+            mainTabBarCoordinator.start()
             window.rootViewController = navigationController
+            window.makeKeyAndVisible()
         }
     }
 
