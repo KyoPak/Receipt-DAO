@@ -62,7 +62,7 @@ extension CustomTabItem {
         case .main:
             return MainViewCoordinator(navigationController: navigationController, storage: storage)
         case .bookmark:
-            return
+            return BookMarkViewCoordinator(navigationController: navigationController, storage: storage)
         case .setting:
             return
         }
