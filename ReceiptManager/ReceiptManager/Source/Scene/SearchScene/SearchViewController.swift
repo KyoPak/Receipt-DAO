@@ -6,11 +6,13 @@
 //
 
 import UIKit
+
+import ReactorKit
 import RxCocoa
 import RxSwift
 
-final class SearchViewController: UIViewController, ViewModelBindable {
-    var viewModel: SearchViewModel?
+final class SearchViewController: UIViewController, View{
+    var disposeBag = DisposeBag()
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -44,86 +46,122 @@ final class SearchViewController: UIViewController, ViewModelBindable {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    func bindViewModel() {
-        guard let viewModel = viewModel else { return }
+    //    func bindViewModel() {
+    //        guard let viewModel = viewModel else { return }
+    //
+    //        searchBar.rx.textDidEndEditing
+    //            .withUnretained(self)
+    //            .bind { (owner, _) in
+    //                owner.searchBar.resignFirstResponder()
+    //            }
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        searchBar.rx.searchButtonClicked
+    //            .withUnretained(self)
+    //            .bind { (owner, _) in
+    //                owner.searchBar.endEditing(true)
+    //            }
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        searchBarBackButton.rx.tap
+    //            .withUnretained(self)
+    //            .bind { (owner, _) in
+    //                owner.viewModel?.cancelAction()
+    //            }
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        searchBar.rx.text.orEmpty
+    //            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+    //            .distinctUntilChanged()
+    //            .bind(to: viewModel.searchText)
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        viewModel.searchResultList
+    //            .do(onNext: { [weak self] datas in
+    //                datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
+    //            })
+    //            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        searchBar.rx.setDelegate(self)
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        tableView.rx.setDelegate(self)
+    //            .disposed(by: rx.disposeBag)
+    //
+    //        Observable.zip(
+    //            tableView.rx.modelSelected(Receipt.self),
+    //            tableView.rx.itemSelected
+    //        )
+    //        .withUnretained(self)
+    //        .do { (owner, data) in
+    //            owner.tableView.deselectRow(at: data.1, animated: true)
+    //        }
+    //        .map { $1.0 }
+    //        .subscribe { [weak self] in
+    //            self?.viewModel?.moveDetailAction(receipt: $0)
+    //        }
+    //        .disposed(by: rx.disposeBag)
+    //    }
+    
+    init(reactor: SearchViewReactor) {
+        super.init()
         
-        searchBar.rx.textDidEndEditing
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.searchBar.resignFirstResponder()
-            }
-            .disposed(by: rx.disposeBag)
-
-        searchBar.rx.searchButtonClicked
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.searchBar.endEditing(true)
-            }
-            .disposed(by: rx.disposeBag)
-        
-        searchBarBackButton.rx.tap
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.viewModel?.cancelAction()
-            }
-            .disposed(by: rx.disposeBag)
-        
-        searchBar.rx.text.orEmpty
-            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .bind(to: viewModel.searchText)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.searchResultList
-            .do(onNext: { [weak self] datas in
-                datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
-            })
-            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-            .disposed(by: rx.disposeBag)
-        
-        searchBar.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
-        
-        tableView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
-        
-        Observable.zip(
-            tableView.rx.modelSelected(Receipt.self),
-            tableView.rx.itemSelected
-        )
-        .withUnretained(self)
-        .do { (owner, data) in
-            owner.tableView.deselectRow(at: data.1, animated: true)
-        }
-        .map { $1.0 }
-        .subscribe { [weak self] in
-            self?.viewModel?.moveDetailAction(receipt: $0)
-        }
-        .disposed(by: rx.disposeBag)
+        self.reactor = reactor
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupConstraint()
+        setupHierarchy()
+        setupProperties()
+        setupConstraints()
     }
     
-    private func setupView() {
-        searchBar.becomeFirstResponder()
-        view.backgroundColor = ConstantColor.backGroundColor
+    func bind(reactor: SearchViewReactor) {
+        bindAction(reactor)
+        bindState(reactor)
+    }
+}
 
+// MARK: - Reactor Bind
+extension SearchViewController {
+    private func bindView(_ reactor: SearchViewReactor) {
+        
+    }
+    
+    private func bindAction(_ reactor: SearchViewReactor) {
+        navigationBar.searchButton.rx.tap
+            .map { Reactor.Action.searchButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindState(_ reactor: SearchViewReactor) {
+        
+    }
+}
+
+
+// MARK: - UIConstraints
+extension SearchViewController {
+    private func setupHierarchy() {
+        [searchBar, tableView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
+        view.backgroundColor = ConstantColor.backGroundColor
+        
+        searchBar.becomeFirstResponder()
         searchBar.searchTextField.leftView = searchBarBackButton
+        
         tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
-        
-        [searchBar, tableView].forEach(view.addSubview(_:))
-        [searchBar, tableView].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        [searchBar, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
     }
     
-    private func setupConstraint() {
+    private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
             searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),

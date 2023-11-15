@@ -1,5 +1,5 @@
 //
-//  FavoriteListViewController.swift
+//  BookMarkViewController.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/05/02.
@@ -10,10 +10,8 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class FavoriteListViewController: UIViewController, ViewModelBindable {
-    var viewModel: FavoriteListViewModel?
+final class BookMarkViewController: UIViewController{
     private let navigationBar = CustomNavigationBar(title: ConstantText.bookMark.localize())
-    
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +55,7 @@ final class FavoriteListViewController: UIViewController, ViewModelBindable {
 }
 
 // MARK: - UITableViewDelegate
-extension FavoriteListViewController: UITableViewDelegate {
+extension BookMarkViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
@@ -104,7 +102,7 @@ extension FavoriteListViewController: UITableViewDelegate {
 }
 
 // MARK: - UIConstraint
-extension FavoriteListViewController {
+extension BookMarkViewController {
     private func setupNavigationBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
