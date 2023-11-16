@@ -11,21 +11,21 @@ final class ListViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
     var storage: CoreDataStorage
+    var viewController: UIViewController?
     
-    init(navigationController: UINavigationController, storage: CoreDataStorage) {
-        self.navigationController = navigationController
+    init(storage: CoreDataStorage) {
         self.storage = storage
     }
     
     func start() {
         let listViewReactor = ListViewReactor(storage: storage)
         let listViewController = ListViewController(reactor: listViewReactor)
-        
         listViewController.coordinator = self
+        viewController = listViewController
         
-        guard let parentViewController = parentCoordinator?.navigationController.viewControllers.last else {
+        guard let parentViewController = parentCoordinator?.navigationController?.viewControllers.last else {
             return
         }
         parentViewController.addChild(listViewController)

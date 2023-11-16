@@ -11,7 +11,7 @@ final class MainTabBarCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
     var storage: CoreDataStorage
     var window: UIWindow?
     
@@ -22,7 +22,7 @@ final class MainTabBarCoordinator: Coordinator {
     }
     
     func start() {
-        navigationController.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         
         let tabBarController = CustomTabBarController()
         tabBarController.coordinator = self
@@ -36,7 +36,7 @@ final class MainTabBarCoordinator: Coordinator {
             childCoordinators.append($0)
         }
         
-        let controllers = coordinators.map { $0.navigationController }
+        let controllers = coordinators.map { $0.navigationController ?? UINavigationController() }
         tabBarController.setViewControllers(controllers, animated: false)
         window?.rootViewController = tabBarController
     }

@@ -55,7 +55,7 @@ extension CustomTabItem {
     
     
     func initialCoordinator(
-        navigationController: UINavigationController,
+        navigationController: UINavigationController?,
         storage: CoreDataStorage
     ) -> Coordinator {
         switch self {

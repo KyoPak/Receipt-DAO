@@ -11,7 +11,7 @@ final class BookMarkViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
     var storage: CoreDataStorage
     
     init(navigationController: UINavigationController, storage: CoreDataStorage) {
@@ -25,6 +25,6 @@ final class BookMarkViewCoordinator: Coordinator {
         
         bookMarkViewController.coordinator = self
         
-        navigationController.pushViewController(bookMarkViewController, animated: false)
+        navigationController?.pushViewController(bookMarkViewController, animated: false)
     }
 }
