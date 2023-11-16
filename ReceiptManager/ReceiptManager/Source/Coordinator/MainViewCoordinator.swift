@@ -21,6 +21,7 @@ final class MainViewCoordinator: Coordinator {
     
     func start() {
         let listViewCoordinator = ListViewCoordinator(storage: storage)
+        listViewCoordinator.start()
         
         let child = [listViewCoordinator.viewController ?? UIViewController()]
         
