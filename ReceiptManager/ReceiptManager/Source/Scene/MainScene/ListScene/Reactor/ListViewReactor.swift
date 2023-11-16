@@ -34,10 +34,17 @@ final class ListViewReactor: Reactor {
     
     struct State {
         var date: Date
-        var expenseList: [ReceiptSectionModel]
+        var dateText: String
+        var expenseTotal: [ReceiptSectionModel]
+        var expenseByMonth: [ReceiptSectionModel]
     }
     
-    let initialState = State(date: Date(), expenseList: [])
+    let initialState = State(
+        date: Date(),
+        dateText: DateFormatter.string(from: Date()),
+        expenseTotal: [],
+        expenseByMonth: []
+    )
     
     private let storage: CoreDataStorage
     
@@ -50,6 +57,7 @@ final class ListViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
+            // 모든 데이터 갯수
             return loadData().map { sectionModels in
                 return Mutation.loadData(sectionModels)
             }
@@ -68,8 +76,7 @@ final class ListViewReactor: Reactor {
         let calendar = Calendar.current
         switch mutation {
         case .loadData(let models):
-            let newModels = filterData(by: newState.date, for: models)
-            newState.expenseList = newModels
+            newState.expenseTotal = models
         case .nextMonth:
             let newDate = calendar.date(byAdding: DateComponents(month: 1), to: newState.date)
             newState.date = newDate ?? Date()
@@ -80,6 +87,12 @@ final class ListViewReactor: Reactor {
             let nowDate = Date()
             newState.date = nowDate
         }
+        
+        let modelsByMonth = filterData(by: newState.date, for: newState.expenseTotal)
+        newState.expenseByMonth = modelsByMonth
+        
+        let newDateText = DateFormatter.string(from: newState.date)
+        newState.dateText = newDateText
         
         return newState
     }
@@ -96,6 +109,7 @@ extension ListViewReactor {
         return data.filter { sectionModel in
             return sectionModel.items.contains { expense in
                 let expenseDate = DateFormatter.string(from: expense.receiptDate)
+                
                 return expenseDate == currentDate
             }
         }

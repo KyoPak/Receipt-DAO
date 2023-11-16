@@ -45,7 +45,7 @@ final class ListViewController: UIViewController, View {
         return button
     }()
     
-    private var nowButton: UIButton = {
+    private var currentButton: UIButton = {
         let button = UIButton()
         button.setTitle(ConstantText.today.localize(), for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
@@ -84,23 +84,11 @@ final class ListViewController: UIViewController, View {
     
 //    func bindViewModel() {
 //        guard let viewModel = viewModel else { return }
-//
-//        // ViewModel Properties Binding
-//        viewModel.title
-//            .drive(navigationItem.rx.title)
-//            .disposed(by: rx.disposeBag)
-//
+
 //        viewModel.receiptList
 //            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
 //            .disposed(by: rx.disposeBag)
 //
-//        viewModel.currentDateRelay
-//            .map { date in
-//                return DateFormatter.string(from: date)
-//            }
-//            .asDriver(onErrorJustReturn: "")
-//            .drive(monthLabel.rx.text)
-//            .disposed(by: rx.disposeBag)
 //
 //        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
 //            .withUnretained(self)
@@ -113,27 +101,6 @@ final class ListViewController: UIViewController, View {
 //            })
 //            .disposed(by: rx.disposeBag)
 //
-//        // Button Binding
-//        previousButton.rx.tap
-//            .withUnretained(self)
-//            .bind { (owner, _) in
-//                owner.viewModel?.movePriviousAction()
-//            }
-//            .disposed(by: rx.disposeBag)
-//
-//        nextButton.rx.tap
-//            .withUnretained(self)
-//            .bind { (owner, _) in
-//                owner.viewModel?.moveNextAction()
-//            }
-//            .disposed(by: rx.disposeBag)
-//
-//        nowButton.rx.tap
-//            .withUnretained(self)
-//            .bind { (owner, _) in
-//                owner.viewModel?.moveNowAction()
-//            }
-//            .disposed(by: rx.disposeBag)
 //
 //        tableView.rx.setDelegate(self)
 //            .disposed(by: rx.disposeBag)
@@ -143,7 +110,6 @@ final class ListViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension ListViewController {
     private func bindView(_ reactor: ListViewReactor) {
-        
     }
     
     private func bindAction(_ reactor: ListViewReactor) {
@@ -151,13 +117,30 @@ extension ListViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        previousButton.rx.tap
+            .map { Reactor.Action.previoutMonthButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .map { Reactor.Action.nextMonthButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        currentButton.rx.tap
+            .map { Reactor.Action.currentMonthButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: ListViewReactor) {
-        
+        reactor.state.map { $0.dateText }
+            .asDriver(onErrorJustReturn: "")
+            .drive(monthLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
-
 
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
@@ -228,14 +211,14 @@ extension ListViewController: UITableViewDelegate {
 extension ListViewController {
     private func setupHierarchy() {
         [headerView, tableView].forEach(view.addSubview(_:))
-        [monthLabel, previousButton, nextButton, nowButton].forEach(headerView.addSubview(_:))
+        [monthLabel, previousButton, nextButton, currentButton].forEach(headerView.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
         tableView.backgroundColor = ConstantColor.backGroundColor
         
-        [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
+        [headerView, monthLabel, previousButton, nextButton, currentButton, tableView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
@@ -262,10 +245,10 @@ extension ListViewController {
             nextButton.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 5),
             nextButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
-            nowButton.widthAnchor.constraint(equalToConstant: 60),
-            nowButton.heightAnchor.constraint(equalToConstant: 30),
-            nowButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
-            nowButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
+            currentButton.widthAnchor.constraint(equalToConstant: 60),
+            currentButton.heightAnchor.constraint(equalToConstant: 30),
+            currentButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
+            currentButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
