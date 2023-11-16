@@ -21,6 +21,7 @@
 		3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */; };
 		3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */; };
 		3C333E262A31F35C00E8C28A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C333E252A31F35C00E8C28A /* SearchViewController.swift */; };
+		3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */; };
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
 		3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C02B049F240005BA4C /* MainViewReactor.swift */; };
 		3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C32B049F920005BA4C /* SearchViewReactor.swift */; };
@@ -61,6 +62,7 @@
 		3C9AA3612A01306C0014807B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3602A01306C0014807B /* DetailViewModel.swift */; };
 		3C9AA3632A0130FA0014807B /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3622A0130FA0014807B /* Scene.swift */; };
 		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
+		3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA722392B051749005347AB /* ListViewReactor.swift */; };
 		3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF12A162444002251DD /* LargeImageViewController.swift */; };
 		3CAF8AF42A1627BA002251DD /* LargeImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */; };
 		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
@@ -103,6 +105,7 @@
 		3C2E18E629FBCC6100E8E9C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C32F8FD2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1toV2.xcmappingmodel; sourceTree = "<group>"; };
 		3C333E252A31F35C00E8C28A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewCoordinator.swift; sourceTree = "<group>"; };
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3C4405C02B049F240005BA4C /* MainViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewReactor.swift; sourceTree = "<group>"; };
 		3C4405C32B049F920005BA4C /* SearchViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewReactor.swift; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		3C9AA3602A01306C0014807B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		3C9AA3622A0130FA0014807B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
+		3CA722392B051749005347AB /* ListViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewReactor.swift; sourceTree = "<group>"; };
 		3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ReceiptManager v2.xcdatamodel"; sourceTree = "<group>"; };
 		3CAF8AF12A162444002251DD /* LargeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewController.swift; sourceTree = "<group>"; };
 		3CAF8AF32A1627BA002251DD /* LargeImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewModel.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 				3C74A37F2B04CE1000377A73 /* Coordinator.swift */,
 				3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */,
 				3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */,
+				3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */,
 				3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -350,6 +355,7 @@
 		3C9AA34E2A012FA10014807B /* ListScene */ = {
 			isa = PBXGroup;
 			children = (
+				3CA722382B05173C005347AB /* Reactor */,
 				3C9AA34F2A012FC20014807B /* ListViewController.swift */,
 				3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */,
 			);
@@ -384,6 +390,14 @@
 				3CAF8AF12A162444002251DD /* LargeImageViewController.swift */,
 			);
 			path = DetailScene;
+			sourceTree = "<group>";
+		};
+		3CA722382B05173C005347AB /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3CA722392B051749005347AB /* ListViewReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		3CB563F72A286CFD008A6CD0 /* OCR */ = {
@@ -435,7 +449,6 @@
 				3C7FD5042B047A5D0084E650 /* Common */,
 				3C0894C12A4E6ABB00C6E7CD /* SettingScene */,
 				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
-				3C9AA34E2A012FA10014807B /* ListScene */,
 				3C9AA3512A012FD10014807B /* BookMarkScene */,
 				3C4EBB532A519261004E6C93 /* SearchScene */,
 				3C9AA3542A012FF80014807B /* ComposeScene */,
@@ -448,6 +461,7 @@
 		3CDCDC4B29FC008700C2BEF6 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
+				3C9AA34E2A012FA10014807B /* ListScene */,
 				3C4405BF2B049F140005BA4C /* Reactor */,
 				3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */,
 			);
@@ -678,6 +692,7 @@
 				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
+				3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */,
 				3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */,
 				3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */,
 				3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */,
@@ -720,6 +735,7 @@
 				3C685F692A5009650064EE2A /* SettingSection.swift in Sources */,
 				3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */,
 				3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */,
+				3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */,
 				3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
 			);
