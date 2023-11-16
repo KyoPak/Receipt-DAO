@@ -105,9 +105,13 @@ final class SearchViewController: UIViewController, View{
     //    }
     
     init(reactor: SearchViewReactor) {
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         
         self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -130,10 +134,7 @@ extension SearchViewController {
     }
     
     private func bindAction(_ reactor: SearchViewReactor) {
-        navigationBar.searchButton.rx.tap
-            .map { Reactor.Action.searchButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        
     }
     
     private func bindState(_ reactor: SearchViewReactor) {
@@ -176,28 +177,28 @@ extension SearchViewController {
 }
 
 extension SearchViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let data = viewModel?.dataSource[section]
-        
-        let string = data?.identity
-        
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .label
-        label.text = string
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-        
-        headerView.addSubview(label)
-        
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
-        
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let data = viewModel?.dataSource[section]
+//
+//        let string = data?.identity
+//
+//        let label = UILabel()
+//        label.font = .boldSystemFont(ofSize: 15)
+//        label.textColor = .label
+//        label.text = string
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+//
+//        headerView.addSubview(label)
+//
+//        NSLayoutConstraint.activate([
+//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+//        ])
+//        
+//        return headerView
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40

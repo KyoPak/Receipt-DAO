@@ -20,7 +20,7 @@ final class BookMarkViewCoordinator: Coordinator {
     }
     
     func start() {
-        let bookMarkViewReactor = BookMarkViewReactor(stoage: storage)
+        let bookMarkViewReactor = BookMarkViewReactor(storage: storage)
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
         
         bookMarkViewController.coordinator = self

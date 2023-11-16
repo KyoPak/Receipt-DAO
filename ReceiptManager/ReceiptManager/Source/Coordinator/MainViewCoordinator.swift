@@ -20,10 +20,14 @@ final class MainViewCoordinator: Coordinator {
     }
     
     func start() {
-        let mainViewReactor = MainViewReactor(stoage: storage)
+        let mainViewReactor = MainViewReactor(storage: storage)
         let mainViewController = MainViewController(reactor: mainViewReactor)
         
         mainViewController.coordinator = self
+        
+        let listViewCoordinator = ListViewCoordinator(navigationController: navigationController, storage: storage)
+        childCoordinators.append(listViewCoordinator)
+        listViewCoordinator.parentCoordinator = self
         
         navigationController.pushViewController(mainViewController, animated: false)
     }

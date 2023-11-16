@@ -8,7 +8,6 @@
 import UIKit
 
 enum Scene {
-    case list(ListViewModel)
     case compose(ComposeViewModel)
     case detail(DetailViewModel)
     case large(LargeImageViewModel)
@@ -18,11 +17,6 @@ enum Scene {
 extension Scene {
     func instantiate() -> UIViewController {
         switch self {
-        case .list(let listViewModel):
-            let viewController = ListViewController()
-            viewController.bind(viewModel: listViewModel)
-            
-            return viewController
         case .compose(let composeViewModel):
             let viewController = ComposeViewController()
             viewController.bind(viewModel: composeViewModel)

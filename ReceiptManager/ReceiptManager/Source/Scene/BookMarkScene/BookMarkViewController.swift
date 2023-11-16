@@ -37,8 +37,8 @@ final class BookMarkViewController: UIViewController, View {
     
     // Initializer
     
-    init(reactor: BookMarkReactor) {
-        super.init()
+    init(reactor: BookMarkViewReactor) {
+        super.init(nibName: nil, bundle: nil)
         
         self.reactor = reactor
     }
@@ -81,7 +81,7 @@ final class BookMarkViewController: UIViewController, View {
 }
 
 // MARK: - Reactor Bind
-extension MainViewController {
+extension BookMarkViewController {
     private func bindView(_ reactor: BookMarkViewReactor) {
         
     }
@@ -97,45 +97,45 @@ extension MainViewController {
 
 // MARK: - UITableViewDelegate
 extension BookMarkViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let favoriteAction = UIContextualAction(
-            style: .destructive,
-            title: nil,
-            handler: { [weak self] _, _, completion in
-                self?.viewModel?.favoriteAction(indexPath: indexPath)
-                completion(true)
-            }
-        )
-        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkRemove)
-        
-        return UISwipeActionsConfiguration(actions: [favoriteAction])
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let data = viewModel?.dataSource[section]
-        
-        let string = data?.identity
-        
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .label
-        label.text = string
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-
-        headerView.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
-        
-        return headerView
-    }
+//    func tableView(
+//        _ tableView: UITableView,
+//        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+//    ) -> UISwipeActionsConfiguration? {
+//        let favoriteAction = UIContextualAction(
+//            style: .destructive,
+//            title: nil,
+//            handler: { [weak self] _, _, completion in
+//                self?.viewModel?.favoriteAction(indexPath: indexPath)
+//                completion(true)
+//            }
+//        )
+//        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkRemove)
+//
+//        return UISwipeActionsConfiguration(actions: [favoriteAction])
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let data = viewModel?.dataSource[section]
+//
+//        let string = data?.identity
+//
+//        let label = UILabel()
+//        label.font = .boldSystemFont(ofSize: 15)
+//        label.textColor = .label
+//        label.text = string
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+//
+//        headerView.addSubview(label)
+//
+//        NSLayoutConstraint.activate([
+//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+//        ])
+//
+//        return headerView
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40

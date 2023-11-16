@@ -37,7 +37,7 @@ final class MainViewController: UIViewController, View {
     // Initializer
     
     init(reactor: MainViewReactor) {
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         
         self.reactor = reactor
     }

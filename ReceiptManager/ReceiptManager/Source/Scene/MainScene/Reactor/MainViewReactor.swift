@@ -40,7 +40,7 @@ final class MainViewReactor: Reactor {
     
     private let storage: CoreDataStorage
     
-    init(stoage: CoreDataStorage) {
+    init(storage: CoreDataStorage) {
         self.storage = storage
     }
 

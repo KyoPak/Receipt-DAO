@@ -6,14 +6,21 @@
 //
 
 import UIKit
+
+import ReactorKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class ListViewController: UIViewController, ViewModelBindable {
-    var viewModel: ListViewModel?
+final class ListViewController: UIViewController, View {
     
-    // MARK: - UIComponent
+    // Properties
+    
+    var disposeBag = DisposeBag()
+    weak var coordinator: ListViewCoordinator?
+    
+    // UI Properties
+    
     private var headerView = UIView()
     
     private var monthLabel: UILabel = {
@@ -28,7 +35,6 @@ final class ListViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .label
         button.setImage(UIImage(systemName: ConstantImage.chevronLeft), for: .normal)
-        
         return button
     }()
     
@@ -36,7 +42,6 @@ final class ListViewController: UIViewController, ViewModelBindable {
         let button = UIButton()
         button.tintColor = .label
         button.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
-        
         return button
     }()
     
@@ -53,76 +58,106 @@ final class ListViewController: UIViewController, ViewModelBindable {
     
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setupView()
-        setupTableView()
+        setupHierarchy()
+        setupProperties()
         setupConstraints()
     }
     
-    func bindViewModel() {
-        guard let viewModel = viewModel else { return }
+    // Initializer
+    
+    init(reactor: ListViewReactor) {
+        super.init(nibName: nil, bundle: nil)
         
-        // ViewModel Properties Binding
-        viewModel.title
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.receiptList
-            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.currentDateRelay
-            .map { date in
-                return DateFormatter.string(from: date)
-            }
-            .asDriver(onErrorJustReturn: "")
-            .drive(monthLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
-            .withUnretained(self)
-            .do(onNext: { (owner, data) in
-                owner.tableView.deselectRow(at: data.1, animated: true)
-            })
-            .map { $1.0 }
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel?.moveDetailAction(receipt: $0)
-            })
-            .disposed(by: rx.disposeBag)
-            
-        // Button Binding
-        previousButton.rx.tap
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.viewModel?.movePriviousAction()
-            }
-            .disposed(by: rx.disposeBag)
-        
-        nextButton.rx.tap
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.viewModel?.moveNextAction()
-            }
-            .disposed(by: rx.disposeBag)
-        
-        nowButton.rx.tap
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.viewModel?.moveNowAction()
-            }
-            .disposed(by: rx.disposeBag)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: ListViewReactor) {
+        bindAction(reactor)
+        bindState(reactor)
+    }
+    
+//    func bindViewModel() {
+//        guard let viewModel = viewModel else { return }
+//
+//        // ViewModel Properties Binding
+//        viewModel.title
+//            .drive(navigationItem.rx.title)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.receiptList
+//            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.currentDateRelay
+//            .map { date in
+//                return DateFormatter.string(from: date)
+//            }
+//            .asDriver(onErrorJustReturn: "")
+//            .drive(monthLabel.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+//            .withUnretained(self)
+//            .do(onNext: { (owner, data) in
+//                owner.tableView.deselectRow(at: data.1, animated: true)
+//            })
+//            .map { $1.0 }
+//            .subscribe(onNext: { [weak self] in
+//                self?.viewModel?.moveDetailAction(receipt: $0)
+//            })
+//            .disposed(by: rx.disposeBag)
+//
+//        // Button Binding
+//        previousButton.rx.tap
+//            .withUnretained(self)
+//            .bind { (owner, _) in
+//                owner.viewModel?.movePriviousAction()
+//            }
+//            .disposed(by: rx.disposeBag)
+//
+//        nextButton.rx.tap
+//            .withUnretained(self)
+//            .bind { (owner, _) in
+//                owner.viewModel?.moveNextAction()
+//            }
+//            .disposed(by: rx.disposeBag)
+//
+//        nowButton.rx.tap
+//            .withUnretained(self)
+//            .bind { (owner, _) in
+//                owner.viewModel?.moveNowAction()
+//            }
+//            .disposed(by: rx.disposeBag)
+//
+//        tableView.rx.setDelegate(self)
+//            .disposed(by: rx.disposeBag)
+//    }
+}
 
-        tableView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
+// MARK: - Reactor Bind
+extension ListViewController {
+    private func bindView(_ reactor: ListViewReactor) {
+        
+    }
+    
+    private func bindAction(_ reactor: ListViewReactor) {
+        rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindState(_ reactor: ListViewReactor) {
+        
     }
 }
+
 
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
@@ -134,7 +169,7 @@ extension ListViewController: UITableViewDelegate {
             style: .destructive,
             title: nil
         ) { [weak self] _, _, completion in
-            self?.viewModel?.deleteAction(indexPath: indexPath)
+//            self?.viewModel?.deleteAction(indexPath: indexPath)
             completion(true)
         }
         deleteAction.image = UIImage(systemName: ConstantImage.trash)
@@ -150,7 +185,7 @@ extension ListViewController: UITableViewDelegate {
             style: .normal,
             title: nil,
             handler: { [weak self] _, _, completion in
-                self?.viewModel?.favoriteAction(indexPath: indexPath)
+//                self?.viewModel?.favoriteAction(indexPath: indexPath)
                 completion(true)
             }
         )
@@ -160,74 +195,48 @@ extension ListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let data = viewModel?.dataSource[section]
-        
-        let string = data?.identity
-        
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .label
-        label.text = string
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
-        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-
-        headerView.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
-        
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let data = viewModel?.dataSource[section]
+//
+//        let string = data?.identity
+//
+//        let label = UILabel()
+//        label.font = .boldSystemFont(ofSize: 15)
+//        label.textColor = .label
+//        label.text = string
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//
+//        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
+//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+//
+//        headerView.addSubview(label)
+//
+//        NSLayoutConstraint.activate([
+//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+//        ])
+//
+//        return headerView
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
 }
 
-// MARK: - Action
-extension ListViewController {
-    @objc private func registerButtonTapped() {
-        viewModel?.moveRegisterAction()
-    }
-}
-
 // MARK: - UIConstraint
 extension ListViewController {
-    private func setupNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = ConstantColor.backGroundColor
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.shortRegister.localize(),
-            style: .done,
-            target: self,
-            action: #selector(registerButtonTapped)
-        )
-    }
-    
-    private func setupView() {
+    private func setupHierarchy() {
         [headerView, tableView].forEach(view.addSubview(_:))
         [monthLabel, previousButton, nextButton, nowButton].forEach(headerView.addSubview(_:))
-        [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
-            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        
-        view.backgroundColor = ConstantColor.backGroundColor
     }
     
-    private func setupTableView() {
+    private func setupProperties() {
+        view.backgroundColor = ConstantColor.backGroundColor
         tableView.backgroundColor = ConstantColor.backGroundColor
+        
+        [headerView, monthLabel, previousButton, nextButton, nowButton, tableView]
+            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     
