@@ -8,6 +8,9 @@
 import UIKit
 
 final class ListTableViewCell: UITableViewCell {
+    
+    // UI Properties
+    
     private let payImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -42,6 +45,8 @@ final class ListTableViewCell: UITableViewCell {
         distribution: .fill,
         spacing: 10
     )
+    
+    // Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

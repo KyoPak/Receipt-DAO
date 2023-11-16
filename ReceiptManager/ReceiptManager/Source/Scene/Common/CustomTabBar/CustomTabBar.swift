@@ -14,10 +14,10 @@ import RxGesture
 final class CustomTabBar: UIStackView {
     private let disposeBag = DisposeBag()
     private let mainItem = CustomItemView(with: .main, index: 0)
-    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
-    private let settingItem = CustomItemView(with: .setting, index: 2)
+//    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
+//    private let settingItem = CustomItemView(with: .setting, index: 2)
     
-    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem, settingItem]
+    private lazy var customItemViews: [CustomItemView] = [mainItem]
     
     private let itemTappedSubject = PublishSubject<Int>()
     var itemTapped: Observable<Int> { return itemTappedSubject.asObservable() }
@@ -39,7 +39,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem, bookmarkItem, settingItem].forEach { self.addArrangedSubview($0) }
+        [mainItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -73,24 +73,24 @@ final class CustomTabBar: UIStackView {
             }
             .disposed(by: disposeBag)
         
-        bookmarkItem.rx.tapGesture()
-            .when(.recognized)
-            .bind { [weak self] _ in
-                guard let self = self else { return }
-                self.bookmarkItem.animateClick {
-                    self.selectItem(index: self.bookmarkItem.index)
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        settingItem.rx.tapGesture()
-            .when(.recognized)
-            .bind { [weak self] _ in
-                guard let self = self else { return }
-                self.settingItem.animateClick {
-                    self.selectItem(index: self.settingItem.index)
-                }
-            }
-            .disposed(by: disposeBag)
+//        bookmarkItem.rx.tapGesture()
+//            .when(.recognized)
+//            .bind { [weak self] _ in
+//                guard let self = self else { return }
+//                self.bookmarkItem.animateClick {
+//                    self.selectItem(index: self.bookmarkItem.index)
+//                }
+//            }
+//            .disposed(by: disposeBag)
+//
+//        settingItem.rx.tapGesture()
+//            .when(.recognized)
+//            .bind { [weak self] _ in
+//                guard let self = self else { return }
+//                self.settingItem.animateClick {
+//                    self.selectItem(index: self.settingItem.index)
+//                }
+//            }
+//            .disposed(by: disposeBag)
     }
 }

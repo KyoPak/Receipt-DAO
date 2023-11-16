@@ -13,13 +13,17 @@ final class MainTabBarCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     var storage: CoreDataStorage
+    var window: UIWindow?
     
-    init(navigationController: UINavigationController, storage: CoreDataStorage) {
-        self.navigationController = navigationController
+    init(window: UIWindow?, storage: CoreDataStorage) {
+        self.window = window
         self.storage = storage
+        self.navigationController = UINavigationController()
     }
     
     func start() {
+        navigationController.setNavigationBarHidden(true, animated: false)
+        
         let tabBarController = CustomTabBarController()
         tabBarController.coordinator = self
         
@@ -33,7 +37,7 @@ final class MainTabBarCoordinator: Coordinator {
         }
         
         let controllers = coordinators.map { $0.navigationController }
-    
         tabBarController.setViewControllers(controllers, animated: false)
+        window?.rootViewController = tabBarController
     }
 }

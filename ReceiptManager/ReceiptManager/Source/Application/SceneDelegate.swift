@@ -18,25 +18,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        window.makeKeyAndVisible()
         
         // Launch Screen
         window.rootViewController = UIStoryboard(name: ConstantText.launchScreen, bundle: nil)
             .instantiateInitialViewController()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
-
             let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
             storage.sync()
             
-            let navigationController = UINavigationController()
-            let mainTabBarCoordinator = MainTabBarCoordinator(
-                navigationController: navigationController,
-                storage: storage
-            )
-            
+            let mainTabBarCoordinator = MainTabBarCoordinator(window: window, storage: storage)
             mainTabBarCoordinator.start()
-            window.rootViewController = navigationController
-            window.makeKeyAndVisible()
         }
     }
 
