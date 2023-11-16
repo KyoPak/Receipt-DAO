@@ -21,6 +21,7 @@ final class MainViewController: UIViewController, View {
     // UI Properties
     
     private let navigationBar = ExpenseNavigationBar(title: ConstantText.list.localize())
+    private var childViewController: UIViewController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,9 +37,13 @@ final class MainViewController: UIViewController, View {
     
     // Initializer
     
-    init(reactor: MainViewReactor) {
+    init(reactor: MainViewReactor, childViewControllers: [UIViewController]) {
+        // 추후, 상태값에 따라서 초기 설정해줘야함.
+        childViewController = childViewControllers[0]
+        
         super.init(nibName: nil, bundle: nil)
         
+        setupChildView(childViewControllers)
         self.reactor = reactor
     }
     
@@ -67,7 +72,7 @@ extension MainViewController {
     
     private func bindState(_ reactor: MainViewReactor) {
         reactor.state.map { $0.isRegister }
-            .bind { print("TAP REGISTER" , $0) }
+            .bind { print("TAP REGISTER", $0) }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.isSearch }
@@ -78,13 +83,19 @@ extension MainViewController {
 
 // MARK: - UIConstraints
 extension MainViewController {
+    private func setupChildView(_ child: [UIViewController]) {
+        child.forEach { addChild($0) }
+    }
+    
     private func setupHierarchy() {
-        view.addSubview(navigationBar)
+        [navigationBar, childViewController.view].forEach { view.addSubview($0) }
         view.backgroundColor = ConstantColor.backGroundColor
     }
     
     func setupProperties() {
-        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        [navigationBar, childViewController.view].forEach {
+            $0?.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
     private func setupNavigationBar() {
@@ -93,12 +104,18 @@ extension MainViewController {
     
     private func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
+        let childView: UIView = childViewController.view
         
         NSLayoutConstraint.activate([
+            navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
             navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            navigationBar.heightAnchor.constraint(equalToConstant: 70)
+            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            
+            childView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            childView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            childView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            childView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
 }
