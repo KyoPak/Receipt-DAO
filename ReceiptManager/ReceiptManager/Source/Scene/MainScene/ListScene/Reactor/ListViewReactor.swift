@@ -73,7 +73,7 @@ final class ListViewReactor: Reactor {
             }
             
         case .cellDelete(let indexPath):
-            var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
+            let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             storage.delete(receipt: expense)
             
             return loadData().map { models in

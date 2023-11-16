@@ -88,7 +88,8 @@ final class CoreDataStorage: ReceiptStorage {
             return section
         }
     }
-    
+
+    @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
         do {
             try mainContext.rx.delete(receipt)
