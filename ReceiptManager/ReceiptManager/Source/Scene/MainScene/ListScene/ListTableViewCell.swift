@@ -19,9 +19,9 @@ final class ListTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let productNameLabel = UILabel(font: .preferredFont(forTextStyle: .body))
-    private let storeLabel = UILabel(font: .systemFont(ofSize: 20, weight: .semibold))
-    private let priceLabel = UILabel(font: .preferredFont(forTextStyle: .body))
+    private let productNameLabel = UILabel(font: .systemFont(ofSize: 13))
+    private let storeLabel = UILabel(font: .systemFont(ofSize: 16, weight: .semibold))
+    private let priceLabel = UILabel(font: .systemFont(ofSize: 15, weight: .semibold))
     
     private let detailButton: UIButton = {
         let button = UIButton()
@@ -107,7 +107,7 @@ extension ListTableViewCell {
         
         NSLayoutConstraint.activate([
             
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
             payImageView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             payImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
