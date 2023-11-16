@@ -8,13 +8,34 @@
 import UIKit
 
 import ReactorKit
-import RxSwift
 import RxCocoa
-import NSObject_Rx
+import RxDataSources
+import RxSwift
 
 final class ListViewController: UIViewController, View {
     
     // Properties
+    
+    typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
+    let dataSource: TableViewDataSource = {
+        let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListTableViewCell.identifier, for: indexPath
+            ) as? ListTableViewCell else {
+                let cell = UITableViewCell()
+                return cell
+            }
+            
+            cell.setupData(data: receipt, currencyIndex: currencyIndex)
+            return cell
+        }
+        
+        dataSource.canEditRowAtIndexPath = { _, _ in return true }
+        
+        return dataSource
+    }()
     
     var disposeBag = DisposeBag()
     weak var coordinator: ListViewCoordinator?
@@ -27,7 +48,6 @@ final class ListViewController: UIViewController, View {
         let label = UILabel()
         label.textColor = .label
         label.font = .preferredFont(forTextStyle: .body)
-        
         return label
     }()
     
@@ -52,7 +72,6 @@ final class ListViewController: UIViewController, View {
         button.setTitleColor(UIColor.label, for: .normal)
         button.backgroundColor = ConstantColor.cellColor
         button.layer.cornerRadius = 5
-        
         return button
     }()
     
@@ -78,38 +97,30 @@ final class ListViewController: UIViewController, View {
     }
     
     func bind(reactor: ListViewReactor) {
+        bindView()
         bindAction(reactor)
         bindState(reactor)
     }
     
-//    func bindViewModel() {
-//        guard let viewModel = viewModel else { return }
-
-//        viewModel.receiptList
-//            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-//            .disposed(by: rx.disposeBag)
-//
-//
-//        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
-//            .withUnretained(self)
-//            .do(onNext: { (owner, data) in
-//                owner.tableView.deselectRow(at: data.1, animated: true)
-//            })
-//            .map { $1.0 }
-//            .subscribe(onNext: { [weak self] in
-//                self?.viewModel?.moveDetailAction(receipt: $0)
-//            })
-//            .disposed(by: rx.disposeBag)
-//
-//
-//        tableView.rx.setDelegate(self)
-//            .disposed(by: rx.disposeBag)
-//    }
+    //    func bindViewModel() {
+    //        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+    //            .withUnretained(self)
+    //            .do(onNext: { (owner, data) in
+    //                owner.tableView.deselectRow(at: data.1, animated: true)
+    //            })
+    //            .map { $1.0 }
+    //            .subscribe(onNext: { [weak self] in
+    //                self?.viewModel?.moveDetailAction(receipt: $0)
+    //            })
+    //            .disposed(by: rx.disposeBag)
+    //    }
 }
 
 // MARK: - Reactor Bind
 extension ListViewController {
-    private func bindView(_ reactor: ListViewReactor) {
+    private func bindView() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: ListViewReactor) {
@@ -132,6 +143,24 @@ extension ListViewController {
             .map { Reactor.Action.currentMonthButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(bookmarkCell))
+            .flatMap { params -> Observable<IndexPath> in
+                guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
+                return Observable.just(indexPath)
+            }
+            .map { Reactor.Action.cellBookMark($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(deleteCell))
+            .flatMap { params -> Observable<IndexPath> in
+                guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
+                return Observable.just(indexPath)
+            }
+            .map { Reactor.Action.cellDelete($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: ListViewReactor) {
@@ -139,11 +168,18 @@ extension ListViewController {
             .asDriver(onErrorJustReturn: "")
             .drive(monthLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.expenseByMonth }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ListViewController: UITableViewDelegate {
+    @objc dynamic func bookmarkCell(indexPath: IndexPath) { }
+    @objc dynamic func deleteCell(indexPath: IndexPath) { }
+    
     func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
@@ -152,11 +188,12 @@ extension ListViewController: UITableViewDelegate {
             style: .destructive,
             title: nil
         ) { [weak self] _, _, completion in
-//            self?.viewModel?.deleteAction(indexPath: indexPath)
+            
+            self?.deleteCell(indexPath: indexPath)
             completion(true)
         }
         deleteAction.image = UIImage(systemName: ConstantImage.trash)
-
+        
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
@@ -168,7 +205,8 @@ extension ListViewController: UITableViewDelegate {
             style: .normal,
             title: nil,
             handler: { [weak self] _, _, completion in
-//                self?.viewModel?.favoriteAction(indexPath: indexPath)
+                
+                self?.bookmarkCell(indexPath: indexPath)
                 completion(true)
             }
         )
@@ -177,30 +215,30 @@ extension ListViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
-
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let data = viewModel?.dataSource[section]
-//
-//        let string = data?.identity
-//
-//        let label = UILabel()
-//        label.font = .boldSystemFont(ofSize: 15)
-//        label.textColor = .label
-//        label.text = string
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//
-//        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
-//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-//
-//        headerView.addSubview(label)
-//
-//        NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-//        ])
-//
-//        return headerView
-//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let data = dataSource[section]
+        
+        let string = data.identity
+        
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .label
+        label.text = string
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+        
+        headerView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+        
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
@@ -230,7 +268,7 @@ extension ListViewController {
             headerView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            headerView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.1),
+            headerView.heightAnchor.constraint(equalToConstant: 60),
             
             monthLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
             monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),

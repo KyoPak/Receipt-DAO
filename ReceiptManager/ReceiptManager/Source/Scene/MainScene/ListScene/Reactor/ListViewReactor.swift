@@ -10,41 +10,33 @@ import RxSwift
 import RxCocoa
 
 final class ListViewReactor: Reactor {
+    
+    // Reactor Properties
+    
     enum Action {
         case viewWillAppear
         case nextMonthButtonTapped
         case previoutMonthButtonTapped
         case currentMonthButtonTapped
-        
-//        case cellSelect(IndexPath)
-//        case cellDelete(IndexPath)
-//        case cellBookMark(IndexPath)
+        case cellBookMark(IndexPath)
+        case cellDelete(IndexPath)
     }
     
     enum Mutation {
         case loadData([ReceiptSectionModel])
-        case nextMonth
-        case previousMonth
-        case currentMonth
-        
-//        case detailExpense(IndexPath)
-//        case deleteExpense(IndexPath)
-//        case bookMarkExpense(IndexPath)
+        case updateDate(Date, [ReceiptSectionModel])
+        case updateExpenseList([ReceiptSectionModel])
     }
     
     struct State {
         var date: Date
         var dateText: String
-        var expenseTotal: [ReceiptSectionModel]
         var expenseByMonth: [ReceiptSectionModel]
     }
     
-    let initialState = State(
-        date: Date(),
-        dateText: DateFormatter.string(from: Date()),
-        expenseTotal: [],
-        expenseByMonth: []
-    )
+    let initialState = State(date: Date(), dateText: DateFormatter.string(from: Date()), expenseByMonth: [])
+    
+    // Properties
     
     private let storage: CoreDataStorage
     
@@ -53,46 +45,58 @@ final class ListViewReactor: Reactor {
     init(storage: CoreDataStorage) {
         self.storage = storage
     }
-
+    
+    // Reactor Method
+    
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            // 모든 데이터 갯수
             return loadData().map { sectionModels in
                 return Mutation.loadData(sectionModels)
             }
         case .nextMonthButtonTapped:
-            return Observable.just(Mutation.nextMonth)
+            return updateDate(byAddingMonths: 1)
+            
         case .previoutMonthButtonTapped:
-            return Observable.just(Mutation.previousMonth)
+            return updateDate(byAddingMonths: -1)
+            
         case .currentMonthButtonTapped:
-            return Observable.just(Mutation.currentMonth)
+            return updateDate(current: true)
+            
+        case .cellBookMark(let indexPath):
+            var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
+            expense.isFavorite.toggle()
+            storage.upsert(receipt: expense)
+            
+            return loadData().map { models in
+                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+            }
+            
+        case .cellDelete(let indexPath):
+            var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
+            storage.delete(receipt: expense)
+            
+            return loadData().map { models in
+                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+            }
         }
     }
-
+    
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        let calendar = Calendar.current
         switch mutation {
         case .loadData(let models):
-            newState.expenseTotal = models
-        case .nextMonth:
-            let newDate = calendar.date(byAdding: DateComponents(month: 1), to: newState.date)
-            newState.date = newDate ?? Date()
-        case .previousMonth:
-            let newDate = calendar.date(byAdding: DateComponents(month: -1), to: newState.date)
-            newState.date = newDate ?? Date()
-        case .currentMonth:
-            let nowDate = Date()
-            newState.date = nowDate
+            newState.expenseByMonth = filterData(by: currentState.date, for: models)
+            
+        case .updateDate(let date, let models):
+            newState.date = date
+            newState.dateText = DateFormatter.string(from: date)
+            newState.expenseByMonth = models
+            
+        case .updateExpenseList(let models):
+            newState.expenseByMonth = models
         }
-        
-        let modelsByMonth = filterData(by: newState.date, for: newState.expenseTotal)
-        newState.expenseByMonth = modelsByMonth
-        
-        let newDateText = DateFormatter.string(from: newState.date)
-        newState.dateText = newDateText
         
         return newState
     }
@@ -112,6 +116,21 @@ extension ListViewReactor {
                 
                 return expenseDate == currentDate
             }
+        }
+    }
+    
+    private func updateDate(byAddingMonths months: Int = 0, current: Bool = false) -> Observable<Mutation> {
+        if current {
+            return loadData().map { models in
+                Mutation.updateDate(Date(), self.filterData(by: Date(), for: models))
+            }
+        }
+        
+        let calendar = Calendar.current
+        let newDate = calendar.date(byAdding: DateComponents(month: months), to: currentState.date) ?? Date()
+        
+        return loadData().map { models in
+            Mutation.updateDate(newDate, self.filterData(by: newDate, for: models))
         }
     }
 }
