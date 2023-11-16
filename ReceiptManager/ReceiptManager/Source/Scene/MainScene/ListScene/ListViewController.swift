@@ -101,19 +101,6 @@ final class ListViewController: UIViewController, View {
         bindAction(reactor)
         bindState(reactor)
     }
-    
-    //    func bindViewModel() {
-    //        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
-    //            .withUnretained(self)
-    //            .do(onNext: { (owner, data) in
-    //                owner.tableView.deselectRow(at: data.1, animated: true)
-    //            })
-    //            .map { $1.0 }
-    //            .subscribe(onNext: { [weak self] in
-    //                self?.viewModel?.moveDetailAction(receipt: $0)
-    //            })
-    //            .disposed(by: rx.disposeBag)
-    //    }
 }
 
 // MARK: - Reactor Bind
@@ -121,6 +108,17 @@ extension ListViewController {
     private func bindView() {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (owner, data) in
+                owner.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.coordinator?.presentDetailView(expense: $0)
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     private func bindAction(_ reactor: ListViewReactor) {

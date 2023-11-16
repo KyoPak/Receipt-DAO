@@ -10,10 +10,13 @@ import RxSwift
 import RxCocoa
 
 final class MainViewReactor: Reactor {
+    
+    // Reactor Properties
+    
     enum Action {
-        case registerButtonTapped       // 등록 버튼 탭
-        case searchButtonTapped         // 검색 버튼 클릭
-        case showModeButtomTapped       // 추후 구현 : 캘린더 방식, 리스트 방식
+        case registerButtonTapped
+        case searchButtonTapped
+        case showModeButtomTapped
     }
     
     enum Mutation {
@@ -38,12 +41,18 @@ final class MainViewReactor: Reactor {
         title: ConstantText.list.localize(), isRegister: false, isSearch: false, showMode: .list
     )
     
+    // Properties
+    
     private let storage: CoreDataStorage
+    
+    // Initializer
     
     init(storage: CoreDataStorage) {
         self.storage = storage
     }
 
+    // Reactor Method
+    
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .registerButtonTapped:
