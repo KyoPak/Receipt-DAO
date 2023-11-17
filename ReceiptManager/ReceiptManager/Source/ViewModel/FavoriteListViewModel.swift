@@ -55,16 +55,4 @@ final class FavoriteListViewModel: CommonViewModel {
             })
             .disposed(by: disposeBag)
     }
-    
-    func moveDetailAction(receipt: Receipt) {
-        let detailViewModel = DetailViewModel(
-            receipt: receipt,
-            title: "",
-            sceneCoordinator: sceneCoordinator,
-            storage: storage
-        )
-        
-        let detailScene = Scene.detail(detailViewModel)
-        sceneCoordinator.transition(to: detailScene, using: .push, animated: true)
-    }
 }
