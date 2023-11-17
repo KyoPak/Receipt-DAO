@@ -133,12 +133,12 @@ extension BookMarkViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = dataSource[section]
 
-        let sectionText = data.identity
+        let headerText = data.identity
 
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .label
-        label.text = sectionText
+        label.text = headerText
         label.translatesAutoresizingMaskIntoConstraints = false
 
         let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")

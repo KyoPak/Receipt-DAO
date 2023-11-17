@@ -217,12 +217,12 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = dataSource[section]
         
-        let string = data.identity
+        let headerText = data.identity
         
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .label
-        label.text = string
+        label.text = headerText
         label.translatesAutoresizingMaskIntoConstraints = false
         
         // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
