@@ -25,6 +25,9 @@ enum ConstantText {
     
     static let appID = "6449433216"
     
+    // View Title
+    static let detail = "detail"
+    
     // MARK: - UserDefault Key
     static let currencyKey = "CurrencyType"
 

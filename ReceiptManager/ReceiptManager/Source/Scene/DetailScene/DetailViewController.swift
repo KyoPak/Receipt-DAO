@@ -6,11 +6,19 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 
-final class DetailViewController: UIViewController, ViewModelBindable {
-    var viewModel: DetailViewModel?
+import ReactorKit
+import RxCocoa
+import RxSwift
+
+final class DetailViewController: UIViewController, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
+    weak var coordinator: DetailViewCoordinator?
+    
+    // UI Properties
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -89,38 +97,110 @@ final class DetailViewController: UIViewController, ViewModelBindable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupNavigationBar()
+        setupHierarchy()
+        setupProperties()
         setupConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupNavigationBar()
         scrollToFirstItem()
         changePageLabel(page: 1)
     }
     
-    func bindViewModel() {
-        guard let viewModel = viewModel else { return }
-        viewModel.receipt
-            .asDriver(onErrorJustReturn: Receipt())
-            .drive(onNext: { [weak self] receipt in
-                self?.dateLabel.text = DateFormatter.string(
-                    from: receipt.receiptDate,
-                    ConstantText.dateFormatDay.localize()
-                )
-                self?.storeLabel.text = receipt.store
-                self?.productLabel.text = receipt.product
-                self?.priceLabel.text = NumberFormatter
-                    .numberDecimal(from: receipt.priceText) + viewModel.currency
-                self?.payTypeSegmented.selectedSegmentIndex = receipt.paymentType
-                self?.memoTextView.text = receipt.memo
-                self?.shareButton.isEnabled = receipt.receiptData.count != .zero
-            })
-            .disposed(by: rx.disposeBag)
+    // Initializer
+    
+    init(reactor: DetailViewReactor) {
+        super.init(nibName: nil, bundle: nil)
         
-        viewModel.receipt
-            .map { $0.receiptData }
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: DetailViewReactor) {
+        bindView()
+        bindAction(reactor)
+        bindState(reactor)
+    }
+    
+//    func bindViewModel() {
+//        viewModel.receipt
+//            .map { $0.receiptData }
+//            .asDriver(onErrorJustReturn: [])
+//            .drive(
+//                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+//            ) { indexPath, data, cell in
+//                cell.hiddenButton()
+//                cell.setupReceiptImage(data)
+//            }
+//            .disposed(by: rx.disposeBag)
+//        
+//        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
+//            .withUnretained(self)
+//            .do(onNext: { (onwer, data) in
+//                onwer.collectionView.deselectItem(at: data.1, animated: true)
+//            })
+//            .map { $1.0 }
+//            .subscribe(onNext: { [weak self] in
+//                self?.viewModel?.largeImageAction(data: $0)
+//            })
+//            .disposed(by: rx.disposeBag)
+//
+//        collectionView.rx.setDelegate(self)
+//            .disposed(by: rx.disposeBag)
+//    }
+}
+
+// MARK: - Reactor Bind
+extension DetailViewController {
+    private func bindView() {
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindAction(_ reactor: DetailViewReactor) {
+        rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindState(_ reactor: DetailViewReactor) {
+        reactor.state.map { $0.title }
+            .asDriver(onErrorJustReturn: "")
+            .drive { self.title = $0 }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.expense }
+            .asDriver(onErrorJustReturn: Receipt())
+            .drive(onNext: { item in
+                self.storeLabel.text = item.store
+                self.productLabel.text = item.product
+                self.payTypeSegmented.selectedSegmentIndex = item.paymentType
+                self.memoTextView.text = item.memo
+                self.shareButton.isEnabled = item.receiptData.count != .zero
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.priceText }
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { priceText in
+                self.priceLabel.text = priceText
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.dateText }
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { dateText in
+                self.dateLabel.text = dateText
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.expense.receiptData }
             .asDriver(onErrorJustReturn: [])
             .drive(
                 collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
@@ -129,22 +209,9 @@ final class DetailViewController: UIViewController, ViewModelBindable {
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
-        
-        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
-            .withUnretained(self)
-            .do(onNext: { (onwer, data) in
-                onwer.collectionView.deselectItem(at: data.1, animated: true)
-            })
-            .map { $1.0 }
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel?.largeImageAction(data: $0)
-            })
-            .disposed(by: rx.disposeBag)
-        
-        collectionView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
     }
 }
+
 
 // MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
@@ -156,15 +223,15 @@ extension DetailViewController: UICollectionViewDelegate {
     }
     
     private func changePageLabel(page: Int) {
-        let receiptData = (try? viewModel?.receipt.value().receiptData) ?? []
-        let totalCount = receiptData.count
-        
-        if totalCount == .zero {
-            countLabel.text = ConstantText.noPicture.localize()
-            return
-        }
-        
-        countLabel.text = "\(page)/\(totalCount)"
+//        let receiptData = (try? viewModel?.receipt.value().receiptData) ?? []
+//        let totalCount = receiptData.count
+//
+//        if totalCount == .zero {
+//            countLabel.text = ConstantText.noPicture.localize()
+//            return
+//        }
+//
+//        countLabel.text = "\(page)/\(totalCount)"
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -200,31 +267,31 @@ extension DetailViewController: UICollectionViewDelegate {
 // MARK: - Action
 extension DetailViewController {
     @objc private func shareButtonTapped() {
-        let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
-        presentActivityView(data: receipt)
+//        let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
+//        presentActivityView(data: receipt)
     }
     
     @objc private func composeButtonTapped() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let editAction = UIAlertAction(
-            title: ConstantText.edit.localize(),
-            style: .default
-        ) { [weak self] _ in
-            self?.viewModel?.makeEditAction()
-        }
-        
-        let deleteAction = UIAlertAction(
-            title: ConstantText.delete.localize(),
-            style: .destructive
-        ) { [weak self] _ in
-            self?.viewModel?.delete()
-        }
-        
-        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
-        [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
-        
-        present(alert, animated: true)
+//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//
+//        let editAction = UIAlertAction(
+//            title: ConstantText.edit.localize(),
+//            style: .default
+//        ) { [weak self] _ in
+//            self?.viewModel?.makeEditAction()
+//        }
+//
+//        let deleteAction = UIAlertAction(
+//            title: ConstantText.delete.localize(),
+//            style: .destructive
+//        ) { [weak self] _ in
+//            self?.viewModel?.delete()
+//        }
+//
+//        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
+//        [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
+//
+//        present(alert, animated: true)
     }
 }
 
@@ -251,7 +318,12 @@ extension DetailViewController {
         navigationItem.rightBarButtonItems = [composeButton, shareButton]
     }
     
-    private func setupView() {
+    private func setupHierarchy() {
+        [dateLabel, mainStackView].forEach(mainView.addSubview(_:))
+        [mainView, collectionView, countLabel, memoTextView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
         priceLabel.textColor = ConstantColor.registerColor
         
@@ -264,11 +336,9 @@ extension DetailViewController {
         mainView.backgroundColor = ConstantColor.cellColor
         mainView.layer.cornerRadius = 10
         
-        [dateLabel, mainStackView].forEach(mainView.addSubview(_:))
         [mainView, memoTextView, collectionView, memoTextView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [mainView, collectionView, countLabel, memoTextView].forEach(view.addSubview(_:))
     }
     
     private func setupConstraints() {

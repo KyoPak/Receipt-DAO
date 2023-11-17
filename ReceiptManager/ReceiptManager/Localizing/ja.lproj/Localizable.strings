@@ -14,6 +14,8 @@
 "register" = "登録";
 "input" = "入力";
 
+"detail" = "詳細";
+
 "shortRegister" = "登録";
 "selectImage" = "選択した画像";
 "selectButton" = "他の写真を選択";
