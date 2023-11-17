@@ -15,13 +15,14 @@ final class DetailViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-//        case shareButtonTapped
+        case shareButtonTapped
 //        case imageTapped
 //        case imageSwipe
     }
     
     enum Mutation {
         case loadData
+        case shareData
 //        case imageSwipe
     }
     
@@ -30,6 +31,7 @@ final class DetailViewReactor: Reactor {
         var expense: Receipt
         var dateText: String
         var priceText: String
+        var expenseImageData: [Data]
     }
     
     let initialState: State
@@ -48,7 +50,13 @@ final class DetailViewReactor: Reactor {
         let dateText = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
         let priceText = NumberFormatter.numberDecimal(from: item.priceText) + currency
         
-        initialState = State(title: title, expense: item, dateText: dateText, priceText: priceText)
+        initialState = State(
+            title: title,
+            expense: item,
+            dateText: dateText,
+            priceText: priceText,
+            expenseImageData: []
+        )
     }
     
     // Reactor Method
@@ -57,13 +65,22 @@ final class DetailViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return Observable.just(Mutation.loadData)
+            
+        case .shareButtonTapped:
+            return Observable.just(Mutation.shareData)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+        
         switch mutation {
         case .loadData:
-            return state
+            break
+        case .shareData:
+            newState.expenseImageData = newState.expense.receiptData
         }
+        
+        return newState
     }
 }

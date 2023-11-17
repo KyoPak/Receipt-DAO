@@ -88,11 +88,11 @@ final class DetailViewController: UIViewController, View {
     
     private var mainView = UIView(frame: .zero)
     
-    private lazy var shareButton = UIBarButtonItem(
+    private let shareButton = UIBarButtonItem(
         image: UIImage(systemName: ConstantImage.share),
         style: .plain,
         target: self,
-        action: #selector(shareButtonTapped)
+        action: nil
     )
     
     override func viewDidLoad() {
@@ -167,6 +167,11 @@ extension DetailViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        shareButton.rx.tap
+            .map { Reactor.Action.shareButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: DetailViewReactor) {
@@ -178,11 +183,7 @@ extension DetailViewController {
         reactor.state.map { $0.expense }
             .asDriver(onErrorJustReturn: Receipt())
             .drive(onNext: { item in
-                self.storeLabel.text = item.store
-                self.productLabel.text = item.product
-                self.payTypeSegmented.selectedSegmentIndex = item.paymentType
-                self.memoTextView.text = item.memo
-                self.shareButton.isEnabled = item.receiptData.count != .zero
+                self.updateUI(item: item)
             })
             .disposed(by: disposeBag)
         
@@ -209,9 +210,15 @@ extension DetailViewController {
                 cell.setupReceiptImage(data)
             }
             .disposed(by: rx.disposeBag)
+        
+        reactor.state.map { $0.expenseImageData }
+            .asDriver(onErrorJustReturn: [])
+            .drive { datas in
+                if datas.count == .zero { return }
+                self.presentActivityView(datas: datas) }
+            .disposed(by: disposeBag)
     }
 }
-
 
 // MARK: - UICollectionViewDelegate
 extension DetailViewController: UICollectionViewDelegate {
@@ -266,11 +273,6 @@ extension DetailViewController: UICollectionViewDelegate {
 
 // MARK: - Action
 extension DetailViewController {
-    @objc private func shareButtonTapped() {
-//        let receipt = (try? viewModel?.receipt.value()) ?? Receipt()
-//        presentActivityView(data: receipt)
-    }
-    
     @objc private func composeButtonTapped() {
 //        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 //
@@ -316,6 +318,14 @@ extension DetailViewController {
         )
         
         navigationItem.rightBarButtonItems = [composeButton, shareButton]
+    }
+    
+    private func updateUI(item: Receipt) {
+        storeLabel.text = item.store
+        productLabel.text = item.product
+        payTypeSegmented.selectedSegmentIndex = item.paymentType
+        memoTextView.text = item.memo
+        shareButton.isEnabled = item.receiptData.count != .zero
     }
     
     private func setupHierarchy() {
