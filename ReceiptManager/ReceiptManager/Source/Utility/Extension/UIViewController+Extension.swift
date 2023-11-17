@@ -9,9 +9,7 @@ import UIKit
 
 // MARK: - Activity View
 extension UIViewController {
-    func presentActivityView(data: Receipt?) {
-        guard let datas = data?.receiptData else { return }
-        
+    func presentActivityView(datas: [Data]) {
         var imageDatas: [UIImage] = []
         
         for data in datas {
