@@ -14,10 +14,10 @@ import RxGesture
 final class CustomTabBar: UIStackView {
     private let disposeBag = DisposeBag()
     private let mainItem = CustomItemView(with: .main, index: 0)
-//    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
+    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
 //    private let settingItem = CustomItemView(with: .setting, index: 2)
     
-    private lazy var customItemViews: [CustomItemView] = [mainItem]
+    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem]
     
     private let itemTappedSubject = PublishSubject<Int>()
     var itemTapped: Observable<Int> { return itemTappedSubject.asObservable() }
@@ -39,7 +39,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem].forEach { self.addArrangedSubview($0) }
+        [mainItem, bookmarkItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -47,7 +47,7 @@ final class CustomTabBar: UIStackView {
         distribution = .fillEqually
         alignment = .center
         
-        backgroundColor = ConstantColor.registerColor
+        backgroundColor = .label
         layer.cornerRadius = 20
         
         customItemViews.forEach {
@@ -73,15 +73,15 @@ final class CustomTabBar: UIStackView {
             }
             .disposed(by: disposeBag)
         
-//        bookmarkItem.rx.tapGesture()
-//            .when(.recognized)
-//            .bind { [weak self] _ in
-//                guard let self = self else { return }
-//                self.bookmarkItem.animateClick {
-//                    self.selectItem(index: self.bookmarkItem.index)
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        bookmarkItem.rx.tapGesture()
+            .when(.recognized)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                self.bookmarkItem.animateClick {
+                    self.selectItem(index: self.bookmarkItem.index)
+                }
+            }
+            .disposed(by: disposeBag)
 //
 //        settingItem.rx.tapGesture()
 //            .when(.recognized)
