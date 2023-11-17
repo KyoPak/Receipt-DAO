@@ -38,6 +38,18 @@ final class CustomTabBarController: UITabBarController {
         navigationController?.isNavigationBarHidden = true
     }
     
+    // MARK: - Bindings
+    private func bind() {
+        customTabBar.itemTapped
+            .bind { [weak self] in
+                self?.selectedIndex = $0
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - UIConstraints
+extension CustomTabBarController {
     private func setupProperties() {
         tabBar.isHidden = true
         selectedIndex = 0
@@ -45,8 +57,6 @@ final class CustomTabBarController: UITabBarController {
     }
     
     private func setupHierarchy() {
-        tabBar.isHidden = true
-        
         view.addSubview(customTabBar)
     }
     
@@ -56,17 +66,8 @@ final class CustomTabBarController: UITabBarController {
         NSLayoutConstraint.activate([
             customTabBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             customTabBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            customTabBar.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20),
-            customTabBar.heightAnchor.constraint(equalToConstant: 70)
+            customTabBar.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            customTabBar.heightAnchor.constraint(equalToConstant: 60)
         ])
-    }
-    
-    // MARK: - Bindings
-    private func bind() {
-        customTabBar.itemTapped
-            .bind { [weak self] in
-                self?.selectedIndex = $0
-            }
-            .disposed(by: disposeBag)
     }
 }

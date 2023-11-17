@@ -53,7 +53,6 @@ extension CustomTabItem {
         }
     }
     
-    
     func initialCoordinator(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,

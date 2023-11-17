@@ -266,18 +266,18 @@ extension ListViewController {
             headerView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 60),
+            headerView.heightAnchor.constraint(equalToConstant: 50),
             
-            monthLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
+            monthLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             
             previousButton.widthAnchor.constraint(equalToConstant: 45),
-            previousButton.heightAnchor.constraint(equalToConstant: 45),
+            previousButton.heightAnchor.constraint(equalToConstant: 40),
             previousButton.trailingAnchor.constraint(equalTo: monthLabel.leadingAnchor, constant: -5),
             previousButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
-            nextButton.widthAnchor.constraint(equalToConstant: 44),
-            nextButton.heightAnchor.constraint(equalToConstant: 44),
+            nextButton.widthAnchor.constraint(equalToConstant: 45),
+            nextButton.heightAnchor.constraint(equalToConstant: 40),
             nextButton.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 5),
             nextButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
