@@ -8,12 +8,35 @@
 import UIKit
 
 import ReactorKit
+import RxDataSources
 import RxSwift
 import RxCocoa
 
 final class BookMarkViewController: UIViewController, View {
     
     // Properties
+    
+    typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
+    
+    let dataSource: TableViewDataSource = {
+        let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListTableViewCell.identifier, for: indexPath
+            ) as? ListTableViewCell else {
+                let cell = UITableViewCell()
+                return cell
+            }
+            
+            cell.setupData(data: receipt, currencyIndex: currencyIndex)
+            return cell
+        }
+        
+        dataSource.canEditRowAtIndexPath = { _, _ in return true }
+        
+        return dataSource
+    }()
     
     var disposeBag = DisposeBag()
     weak var coordinator: BookMarkViewCoordinator?
@@ -48,22 +71,12 @@ final class BookMarkViewController: UIViewController, View {
     }
     
     func bind(reactor: BookMarkViewReactor) {
+        bindView()
         bindAction(reactor)
         bindState(reactor)
     }
     
 //    func bindViewModel() {
-//        guard let viewModel = viewModel else { return }
-//
-//        // ViewModel Properties Binding
-//        viewModel.title
-//            .drive(navigationItem.rx.title)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.receiptList
-//            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-//            .disposed(by: rx.disposeBag)
-//        
 //        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
 //            .withUnretained(self)
 //            .do(onNext: { (owner, data) in
@@ -74,24 +87,27 @@ final class BookMarkViewController: UIViewController, View {
 //                self?.viewModel?.moveDetailAction(receipt: $0)
 //            }
 //            .disposed(by: rx.disposeBag)
-//
-//        tableView.rx.setDelegate(self)
-//            .disposed(by: rx.disposeBag)
 //    }
 }
 
 // MARK: - Reactor Bind
 extension BookMarkViewController {
-    private func bindView(_ reactor: BookMarkViewReactor) {
-        
+    private func bindView() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: BookMarkViewReactor) {
-        
+        rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: BookMarkViewReactor) {
-        
+        reactor.state.map { $0.expenseByBookMark }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
 }
 
@@ -114,28 +130,28 @@ extension BookMarkViewController: UITableViewDelegate {
 //        return UISwipeActionsConfiguration(actions: [favoriteAction])
 //    }
 //
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let data = viewModel?.dataSource[section]
-//
-//        let string = data?.identity
-//
-//        let label = UILabel()
-//        label.font = .boldSystemFont(ofSize: 15)
-//        label.textColor = .label
-//        label.text = string
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-//
-//        headerView.addSubview(label)
-//
-//        NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-//        ])
-//
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let data = dataSource[section]
+
+        let sectionText = data.identity
+
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .label
+        label.text = sectionText
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+
+        headerView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
@@ -167,7 +183,7 @@ extension BookMarkViewController {
             navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            navigationBar.heightAnchor.constraint(equalToConstant: 60),
             
             tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
