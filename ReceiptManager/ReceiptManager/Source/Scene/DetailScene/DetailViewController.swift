@@ -138,20 +138,7 @@ final class DetailViewController: UIViewController, View {
 //                cell.setupReceiptImage(data)
 //            }
 //            .disposed(by: rx.disposeBag)
-//        
-//        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
-//            .withUnretained(self)
-//            .do(onNext: { (onwer, data) in
-//                onwer.collectionView.deselectItem(at: data.1, animated: true)
-//            })
-//            .map { $1.0 }
-//            .subscribe(onNext: { [weak self] in
-//                self?.viewModel?.largeImageAction(data: $0)
-//            })
-//            .disposed(by: rx.disposeBag)
 //
-//        collectionView.rx.setDelegate(self)
-//            .disposed(by: rx.disposeBag)
 //    }
 }
 
@@ -160,6 +147,17 @@ extension DetailViewController {
     private func bindView() {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (onwer, data) in
+                onwer.collectionView.deselectItem(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.coordinator?.presentLargeImage(image: $0)
+            })
+            .disposed(by: rx.disposeBag)
     }
     
     private func bindAction(_ reactor: DetailViewReactor) {

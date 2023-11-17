@@ -9,8 +9,9 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class LargeImageViewController: UIViewController, ViewModelBindable {
-    var viewModel: LargeImageViewModel?
+final class LargeImageViewController: UIViewController {
+    
+    // UI Properties
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,26 +29,28 @@ final class LargeImageViewController: UIViewController, ViewModelBindable {
         return button
     }()
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel?.closeView()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupConstraint()
+        bindView()
+        setupHierarchy()
+        setupConstraints()
     }
     
-    func bindViewModel() {
-        viewModel?.data
-            .map { UIImage(data: $0) }
-            .bind(to: imageView.rx.image)
-            .disposed(by: rx.disposeBag)
-        
+    // Initializer
+    
+    init(data: Data) {
+        super.init(nibName: nil, bundle: nil)
+        setupProperties(data: data)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bindView() {
         closeButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.viewModel?.closeView()
+                self?.dismiss(animated: false)
             })
             .disposed(by: rx.disposeBag)
     }
@@ -55,13 +58,17 @@ final class LargeImageViewController: UIViewController, ViewModelBindable {
 
 // MARK: - UIConstrinat
 extension LargeImageViewController {
-    private func setupView() {
+    private func setupProperties(data: Data) {
+        imageView.image = UIImage(data: data)
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .black
+    }
+    
+    private func setupHierarchy() {
         [closeButton, imageView].forEach(view.addSubview(_:))
     }
     
-    private func setupConstraint() {
+    private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([

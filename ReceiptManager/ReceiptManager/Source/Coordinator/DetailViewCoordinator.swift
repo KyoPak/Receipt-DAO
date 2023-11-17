@@ -29,7 +29,12 @@ final class DetailViewCoordinator: Coordinator {
         )
         let detailViewController = DetailViewController(reactor: detailViewReactor)
         detailViewController.coordinator = self
-        
         navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func presentLargeImage(image: Data) {
+        let largeImageViewController = LargeImageViewController(data: image)
+        
+        navigationController?.present(largeImageViewController, animated: true)
     }
 }
