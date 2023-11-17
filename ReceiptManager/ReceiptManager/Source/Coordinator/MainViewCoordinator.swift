@@ -11,10 +11,16 @@ final class MainViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
+    var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
     
-    init(navigationController: UINavigationController?, storage: CoreDataStorage) {
+    init(
+        outerNavigationController: UINavigationController,
+        navigationController: UINavigationController?,
+        storage: CoreDataStorage
+    ) {
+        self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
         self.storage = storage
     }
@@ -34,5 +40,15 @@ final class MainViewCoordinator: Coordinator {
         listViewCoordinator.parentCoordinator = self
         
         navigationController?.pushViewController(mainViewController, animated: false)
+    }
+    
+    func moveDetailView(expense: Receipt) {
+        let detailViewCoordinator = DetailViewCoordinator(
+            navigationController: outerNavigationController,
+            storage: storage,
+            expense: expense
+        )
+        
+        detailViewCoordinator.start()
     }
 }

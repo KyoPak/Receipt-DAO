@@ -32,14 +32,8 @@ final class ListViewCoordinator: Coordinator {
     }
     
     func presentDetailView(expense: Receipt) {
-        let detailViewCoordinator = DetailViewCoordinator(
-            navigationController: UINavigationController(),
-            storage: storage,
-            expense: expense
-        )
+        let mainViewCoordinator = parentCoordinator as? MainViewCoordinator
         
-        childCoordinators.append(detailViewCoordinator)
-        detailViewCoordinator.parentCoordinator = self
-        detailViewCoordinator.start()
+        mainViewCoordinator?.moveDetailView(expense: expense)
     }
 }
