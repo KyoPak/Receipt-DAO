@@ -109,6 +109,13 @@ final class DetailViewController: UIViewController, View {
         changePageLabel(page: 1)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParent {
+            coordinator?.close(self)
+        }
+    }
+    
     // Initializer
     
     init(reactor: DetailViewReactor) {
