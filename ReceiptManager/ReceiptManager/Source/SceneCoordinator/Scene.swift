@@ -9,8 +9,6 @@ import UIKit
 
 enum Scene {
     case compose(ComposeViewModel)
-    
-    case large(LargeImageViewModel)
     case selectImage(SelectImageViewModel)
 }
 
@@ -21,12 +19,6 @@ extension Scene {
             let viewController = ComposeViewController()
             viewController.bind(viewModel: composeViewModel)
 
-            return viewController
-        
-        case .large(let largeImageViewModel):
-            let viewController = LargeImageViewController()
-            viewController.bind(viewModel: largeImageViewModel)
-            
             return viewController
         case .selectImage(let selectImageViewModel):
             let viewController = SelectImageViewController()
