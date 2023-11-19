@@ -49,6 +49,9 @@ final class MainViewCoordinator: Coordinator {
             expense: expense
         )
         
+        detailViewCoordinator.parentCoordinator = self
+        childCoordinators.append(detailViewCoordinator)
+        
         detailViewCoordinator.start()
     }
 }
