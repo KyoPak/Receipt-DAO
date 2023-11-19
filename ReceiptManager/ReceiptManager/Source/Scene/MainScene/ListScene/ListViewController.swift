@@ -12,6 +12,8 @@ import RxCocoa
 import RxDataSources
 import RxSwift
 
+typealias ReceiptSectionModel = AnimatableSectionModel<String, Receipt>
+
 final class ListViewController: UIViewController, View {
     
     // Properties
