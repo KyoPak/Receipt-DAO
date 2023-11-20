@@ -21,7 +21,7 @@ final class DetailViewReactor: Reactor {
     
     enum Mutation {
         case loadData
-        case shareData
+        case shareData([Data])
         case imageSwipe(String)
     }
     
@@ -70,7 +70,7 @@ final class DetailViewReactor: Reactor {
             return Observable.just(Mutation.loadData)
             
         case .shareButtonTapped:
-            return Observable.just(Mutation.shareData)
+            return Observable.just(Mutation.shareData(currentState.expense.receiptData))
             
         case .imageSwipe(let bound):
             let currentPage = Int(bound.midX / bound.width) + 1
@@ -82,13 +82,14 @@ final class DetailViewReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        newState.expenseImageData.removeAll()
         
         switch mutation {
         case .loadData:
             break
         
-        case .shareData:
-            newState.expenseImageData = newState.expense.receiptData
+        case .shareData(let datas):
+            newState.expenseImageData = datas
         
         case .imageSwipe(let text):
             newState.imagePageText = text
