@@ -105,8 +105,7 @@ final class DetailViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        scrollToFirstItem()
-        changePageLabel(page: 1)
+//        scrollToFirstItem()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,20 +132,6 @@ final class DetailViewController: UIViewController, View {
         bindAction(reactor)
         bindState(reactor)
     }
-    
-//    func bindViewModel() {
-//        viewModel.receipt
-//            .map { $0.receiptData }
-//            .asDriver(onErrorJustReturn: [])
-//            .drive(
-//                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-//            ) { indexPath, data, cell in
-//                cell.hiddenButton()
-//                cell.setupReceiptImage(data)
-//            }
-//            .disposed(by: rx.disposeBag)
-//
-//    }
 }
 
 // MARK: - Reactor Bind
@@ -175,6 +160,14 @@ extension DetailViewController {
         
         shareButton.rx.tap
             .map { Reactor.Action.shareButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(scrollViewDidEndDecelerating))
+            .map { scrollView in
+                let collectionView = scrollView.first as? UICollectionView ?? UICollectionView()
+                return Reactor.Action.imageSwipe(collectionView.bounds)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -222,6 +215,13 @@ extension DetailViewController {
                 if datas.count == .zero { return }
                 self.presentActivityView(datas: datas) }
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.imagePageText }
+            .asDriver(onErrorJustReturn: "")
+            .drive { text in
+                self.countLabel.text = text
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -233,25 +233,8 @@ extension DetailViewController: UICollectionViewDelegate {
             collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
         }
     }
-    
-    private func changePageLabel(page: Int) {
-//        let receiptData = (try? viewModel?.receipt.value().receiptData) ?? []
-//        let totalCount = receiptData.count
-//
-//        if totalCount == .zero {
-//            countLabel.text = ConstantText.noPicture.localize()
-//            return
-//        }
-//
-//        countLabel.text = "\(page)/\(totalCount)"
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let visibleBounds = collectionView.bounds
-        let currentPage = Int(visibleBounds.midX / visibleBounds.width) + 1
         
-        changePageLabel(page: currentPage)
-    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { }
 
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
@@ -263,14 +246,10 @@ extension DetailViewController: UICollectionViewDelegate {
         let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
         let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
         
-        let tempCG: CGFloat
-        if velocity.x > .zero {
-            tempCG = ceil(estimatedIndex)
-        } else if velocity.x < .zero {
-            tempCG = floor(estimatedIndex)
-        } else {
-            tempCG = round(estimatedIndex)
-        }
+        var tempCG: CGFloat = .zero
+        if velocity.x > .zero { tempCG = ceil(estimatedIndex) }
+        if velocity.x < .zero { tempCG = floor(estimatedIndex) }
+        if velocity.x == .zero { tempCG = round(estimatedIndex) }
         
         targetContentOffset.pointee = CGPoint(x: tempCG * cellWidthIncludingSpacing, y: .zero)
     }
