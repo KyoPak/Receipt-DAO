@@ -209,11 +209,12 @@ extension DetailViewController {
             }
             .disposed(by: rx.disposeBag)
         
-        reactor.state.map { $0.expenseImageData }
+        reactor.state.map { $0.shareExpenseDatas }
+            .compactMap { $0 }
             .asDriver(onErrorJustReturn: [])
-            .drive { datas in
-                if datas.count == .zero { return }
-                self.presentActivityView(datas: datas) }
+            .drive(onNext: { datas in
+                self.presentActivityView(datas: datas)
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.imagePageText }
