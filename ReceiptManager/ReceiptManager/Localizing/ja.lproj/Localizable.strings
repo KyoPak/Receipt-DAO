@@ -11,7 +11,8 @@
 "list" = "私の経費";
 "bookMark" = "重要";
 "clearBookMark" = "重要ではない";
-"register" = "登録";
+"registerTitle" = "登録する";
+"editTitle" = "編集";
 "input" = "入力";
 
 "detail" = "詳細";

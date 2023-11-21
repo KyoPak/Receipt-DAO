@@ -11,7 +11,8 @@
 "list" = "My Expense";
 "bookMark" = "BookMark";
 "clearBookMark" = "Unimportant";
-"register" = "Register";
+"registerTitle" = "Register";
+"editTitle" = "Edit";
 "input" = "Fill";
 
 "detail" = "Detail";
