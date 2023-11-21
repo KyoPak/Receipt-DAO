@@ -83,11 +83,11 @@ extension CustomItemView {
     
     private func setupProperties() {
         nameLabel.text = item.name
-        nameLabel.textColor = .white.withAlphaComponent(0.4)
+        nameLabel.textColor = .label.withAlphaComponent(0.4)
         nameLabel.textAlignment = .center
         nameLabel.font = .systemFont(ofSize: 11, weight: .semibold)
         
-        underlineView.backgroundColor = .white
+        underlineView.backgroundColor = .label
         underlineView.layer.cornerRadius = 2
         
         iconImageView.image = isSelected ? item.selectedIcon : item.icon
@@ -97,11 +97,11 @@ extension CustomItemView {
         let safeArea = self.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            iconImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 6),
             iconImageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor),
             iconImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            iconImageView.heightAnchor.constraint(equalToConstant: 40),
-            iconImageView.widthAnchor.constraint(equalToConstant: 40),
+            iconImageView.heightAnchor.constraint(equalToConstant: 35),
+            iconImageView.widthAnchor.constraint(equalToConstant: 35),
             
             nameLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             nameLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),

@@ -29,10 +29,10 @@ extension CustomTabItem {
         switch self {
         case .main:
             return UIImage(systemName: ConstantImage.listCircle)?
-                .withTintColor(.systemBackground.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+                .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMark)?
-                .withTintColor(.systemBackground.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+                .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
 //        case .setting:
 //            return UIImage(systemName: ConstantImage.gear)?
 //                .withTintColor(.white.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
@@ -43,10 +43,10 @@ extension CustomTabItem {
         switch self {
         case .main:
             return UIImage(systemName: ConstantImage.listCircleFill)?
-                .withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
+                .withTintColor(.label, renderingMode: .alwaysOriginal)
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMarkFill)?
-                .withTintColor(.systemBackground, renderingMode: .alwaysOriginal)
+                .withTintColor(.label, renderingMode: .alwaysOriginal)
 //        case .setting:
 //            return UIImage(systemName: ConstantImage.gearFill)?
 //                .withTintColor(.white, renderingMode: .alwaysOriginal)

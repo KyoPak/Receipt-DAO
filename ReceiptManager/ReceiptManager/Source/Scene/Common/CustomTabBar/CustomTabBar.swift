@@ -31,7 +31,7 @@ final class CustomTabBar: UIStackView {
     private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem]
     
     private let registerItem: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "plus.circle.fill"))
+        let imageView = UIImageView(image: UIImage(systemName: "plus.circle.fill")?.withTintColor(ConstantColor.registerColor, renderingMode: .alwaysOriginal))
         return imageView
     }()
         
@@ -60,7 +60,7 @@ final class CustomTabBar: UIStackView {
         distribution = .fillEqually
         alignment = .center
         
-        backgroundColor = .label
+        backgroundColor = ConstantColor.backGroundColor
         layer.cornerRadius = 20
         
         customItemViews.forEach {
