@@ -36,7 +36,7 @@ enum ConstantImage {
     static let dollarSign = "dollarsign.square.fill"
     static let yenSign = "yensign.square.fill"
     
-    static let camera = "camera.circle"
+    static let camera = "camera.fill"
     static let keyboardDown = "keyboard.chevron.compact.down"
     static let setting = "gear"
 }

@@ -14,23 +14,23 @@ protocol CellDeletable: AnyObject {
 final class ImageCell: UICollectionViewCell {
     weak var delegate: CellDeletable?
 
+    private let registerView = ImageRegisterCellView()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return imageView
     }()
     
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: ConstantImage.xmark), for: .normal)
-        button.tintColor = .label
-        button.backgroundColor = .red
+        button.setImage(UIImage(named: "deleteImage"), for: .normal)
         button.contentMode = .center
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
     }()
 
@@ -53,6 +53,7 @@ final class ImageCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         deleteButton.isHidden = false
+        registerView.isHidden = true
     }
 }
 
@@ -61,8 +62,12 @@ extension ImageCell {
         imageView.image = UIImage(data: data)
     }
     
-    func hiddenButton() {
+    func hiddenDeleteButton() {
         deleteButton.isHidden = true
+    }
+    
+    func showRegisterButton() {
+        registerView.isHidden = false
     }
     
     @objc private func deleteButtonTapped() {
@@ -73,12 +78,17 @@ extension ImageCell {
 // MARK: - Constraints
 extension ImageCell {
     private func setupView() {
-        contentView.backgroundColor = ConstantColor.cellColor
-        [imageView, deleteButton].forEach(contentView.addSubview(_:))
+        contentView.backgroundColor = ConstantColor.backGroundColor
+        [registerView, imageView, deleteButton].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            registerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            registerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            registerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            registerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
