@@ -10,10 +10,15 @@ import UIKit
 import RxSwift
 
 final class CustomTabBarController: UITabBarController {
-    private let customTabBar = CustomTabBar()
+    
+    // Properties
+    
     private let disposeBag = DisposeBag()
-
     weak var coordinator: MainTabBarCoordinator?
+
+    // UI Properties
+    
+    private let customTabBar = CustomTabBar()
     
     init() {
         super.init(nibName: nil, bundle: nil)

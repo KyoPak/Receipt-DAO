@@ -12,27 +12,29 @@ import RxCocoa
 import RxGesture
 
 final class CustomTabBar: UIStackView {
+    
+    // Properties
+    
     private let disposeBag = DisposeBag()
-    private let mainItem = CustomItemView(with: .main, index: 0)
-    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
-    
-//    private let settingItem = CustomItemView(with: .setting, index: 2)
-    
-    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem]
-    
-    private let registerButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage.init(systemName: "plus.circle.fill"), for: .normal)
-        
-        return button
-    }()
-    
     private let itemTappedSubject = PublishSubject<Int>()
     private let registerButtonSubject = PublishSubject<Void>()
     
     var itemTapped: Observable<Int> { return itemTappedSubject.asObservable() }
     var registerButtonTapped: Observable<Void> { return registerButtonSubject.asObservable() }
     
+    // UI Properties
+    
+    private let mainItem = CustomItemView(with: .main, index: 0)
+    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
+//    private let settingItem = CustomItemView(with: .setting, index: 2)
+    
+    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem]
+    
+    private let registerItem: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "plus.circle.fill"))
+        return imageView
+    }()
+        
     init() {
         super.init(frame: .zero)
         
@@ -50,7 +52,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem, bookmarkItem, registerButton].forEach { self.addArrangedSubview($0) }
+        [mainItem, bookmarkItem, registerItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -66,7 +68,10 @@ final class CustomTabBar: UIStackView {
             $0.clipsToBounds = true
         }
         
-        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        registerItem.translatesAutoresizingMaskIntoConstraints = false
+        registerItem.contentMode = .scaleAspectFit
+        registerItem.clipsToBounds = true
+        registerItem.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     private func selectItem(index: Int) {
@@ -96,7 +101,8 @@ final class CustomTabBar: UIStackView {
             }
             .disposed(by: disposeBag)
   
-        registerButton.rx.tap
+        registerItem.rx.tapGesture()
+            .when(.recognized)
             .bind { _ in
                 self.registerButtonSubject.onNext(Void())
             }
