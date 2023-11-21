@@ -11,6 +11,11 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
+enum ComposeAlertActionType {
+    case edit
+    case delete
+}
+
 final class DetailViewController: UIViewController, View {
     
     // Properties
@@ -95,6 +100,13 @@ final class DetailViewController: UIViewController, View {
         action: nil
     )
     
+    let composeButton = UIBarButtonItem(
+        image: UIImage(systemName: ConstantImage.compose),
+        style: .plain,
+        target: self,
+        action: nil
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
@@ -153,6 +165,19 @@ extension DetailViewController {
     }
     
     private func bindAction(_ reactor: DetailViewReactor) {
+        composeButton.rx.tap
+            .flatMap { self.showComposeAlert() }
+            .map { actionType in
+                switch actionType {
+                case .edit:
+                    return Reactor.Action.deleteButtonTapped
+                case .delete:
+                    return Reactor.Action.deleteButtonTapped
+                }
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
         rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
@@ -209,7 +234,7 @@ extension DetailViewController {
             }
             .disposed(by: rx.disposeBag)
         
-        reactor.state.map { $0.shareExpenseDatas }
+        reactor.state.map { $0.shareExpense }
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { datas in
@@ -221,6 +246,14 @@ extension DetailViewController {
             .asDriver(onErrorJustReturn: "")
             .drive { text in
                 self.countLabel.text = text
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.deleteExpense }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { _ in
+                self.coordinator?.close(self)
             }
             .disposed(by: disposeBag)
     }
@@ -256,29 +289,33 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Action
+// MARK: - ComposeAlert
 extension DetailViewController {
-    @objc private func composeButtonTapped() {
-//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//
-//        let editAction = UIAlertAction(
-//            title: ConstantText.edit.localize(),
-//            style: .default
-//        ) { [weak self] _ in
-//            self?.viewModel?.makeEditAction()
-//        }
-//
-//        let deleteAction = UIAlertAction(
-//            title: ConstantText.delete.localize(),
-//            style: .destructive
-//        ) { [weak self] _ in
-//            self?.viewModel?.delete()
-//        }
-//
-//        let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
-//        [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
-//
-//        present(alert, animated: true)
+    private func showComposeAlert() -> Observable<ComposeAlertActionType> {
+        
+        return Observable.create { [weak self] observer in
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+            let editAction = UIAlertAction(title: ConstantText.edit.localize(), style: .default) { _ in
+                observer.onNext(.edit)
+                observer.onCompleted()
+                alert.dismiss(animated: true)
+            }
+
+            let deleteAction = UIAlertAction(title: ConstantText.delete.localize(), style: .destructive) { _ in
+                observer.onNext(.delete)
+                observer.onCompleted()
+                alert.dismiss(animated: true)
+            }
+            
+            let cancelAction = UIAlertAction(title: ConstantText.cancle.localize(), style: .cancel)
+            
+            [editAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
+
+            self?.present(alert, animated: true)
+            
+            return Disposables.create()
+        }
     }
 }
 
@@ -295,13 +332,6 @@ extension DetailViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
                 
-        let composeButton = UIBarButtonItem(
-            image: UIImage(systemName: ConstantImage.compose),
-            style: .plain,
-            target: self,
-            action: #selector(composeButtonTapped)
-        )
-        
         navigationItem.rightBarButtonItems = [composeButton, shareButton]
     }
     

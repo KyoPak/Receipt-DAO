@@ -17,12 +17,15 @@ final class DetailViewReactor: Reactor {
         case viewWillAppear
         case shareButtonTapped
         case imageSwipe(CGRect)
+//        case composeButtonTapped
+        case deleteButtonTapped
     }
     
     enum Mutation {
         case loadData
         case shareData([Data]?)
         case imageSwipe(String)
+        case deleteExpense(Void?)
     }
     
     struct State {
@@ -30,8 +33,9 @@ final class DetailViewReactor: Reactor {
         var expense: Receipt
         var dateText: String
         var priceText: String
-        var shareExpenseDatas: [Data]?
         var imagePageText: String
+        var shareExpense: [Data]?
+        var deleteExpense: Void?
     }
     
     let initialState: State
@@ -57,8 +61,9 @@ final class DetailViewReactor: Reactor {
             expense: item,
             dateText: dateText,
             priceText: priceText,
-            shareExpenseDatas: nil,
-            imagePageText: imagePageText
+            imagePageText: imagePageText,
+            shareExpense: nil,
+            deleteExpense: nil
         )
     }
     
@@ -80,6 +85,12 @@ final class DetailViewReactor: Reactor {
             let totalPage = currentState.expense.receiptData.count
             
             return Observable.just(Mutation.imageSwipe(countPageText(total: totalPage, current: currentPage)))
+            
+        case .deleteButtonTapped:
+            let expense = currentState.expense
+            storage.delete(receipt: expense)
+            
+            return Observable.just(Mutation.deleteExpense(Void()))
         }
     }
     
@@ -91,10 +102,13 @@ final class DetailViewReactor: Reactor {
             break
         
         case .shareData(let datas):
-            newState.shareExpenseDatas = datas
+            newState.shareExpense = datas
         
         case .imageSwipe(let text):
             newState.imagePageText = text
+            
+        case .deleteExpense(let void):
+            newState.deleteExpense = void
         }
         
         return newState
