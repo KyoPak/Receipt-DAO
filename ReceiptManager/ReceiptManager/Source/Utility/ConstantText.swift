@@ -37,11 +37,10 @@ enum ConstantText {
     static let list = "list"
     static let bookMark = "bookMark"
     static let clearBookMark = "clearBookMark"
-    static let registerTitle = "registerTitle";
+    static let registerTitle = "registerTitle"
     static let editTitle = "editTitle"
     static let input = "input"
     
-    static let shortRegister = "shortRegister"
     static let selectImage = "selectImage"
     static let selectButton = "selectButton"
     static let save = "save"
