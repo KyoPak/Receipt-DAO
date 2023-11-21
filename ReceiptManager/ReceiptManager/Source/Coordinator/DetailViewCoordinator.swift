@@ -37,4 +37,16 @@ final class DetailViewCoordinator: Coordinator {
         
         navigationController?.present(largeImageViewController, animated: true)
     }
+    
+    func presentComposeView(expense: Receipt?) {
+        let composeViewCoordinator = ComposeViewCoordinator(
+            navigationController: navigationController,
+            storage: storage,
+            expense: expense
+        )
+        childCoordinators.append(composeViewCoordinator)
+        composeViewCoordinator.parentCoordinator = self
+        
+        composeViewCoordinator.startWithPush()
+    }
 }

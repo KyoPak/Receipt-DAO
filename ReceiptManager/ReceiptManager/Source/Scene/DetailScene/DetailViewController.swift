@@ -170,9 +170,9 @@ extension DetailViewController {
             .map { actionType in
                 switch actionType {
                 case .edit:
-                    return Reactor.Action.deleteButtonTapped
+                    return Reactor.Action.edit
                 case .delete:
-                    return Reactor.Action.deleteButtonTapped
+                    return Reactor.Action.delete
                 }
             }
             .bind(to: reactor.action)
@@ -246,6 +246,14 @@ extension DetailViewController {
             .asDriver(onErrorJustReturn: "")
             .drive { text in
                 self.countLabel.text = text
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.editExpense }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { expense in
+                self.coordinator?.presentComposeView(expense: expense)
             }
             .disposed(by: disposeBag)
         

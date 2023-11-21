@@ -32,4 +32,11 @@ final class ComposeViewCoordinator: Coordinator {
         
         navigationController?.present(innerNavigationController, animated: true)
     }
+    
+    func startWithPush() {
+        let composeViewReactor = ComposeViewReactor(storage: storage, expense: expense)
+        let composeViewController = ComposeViewController(reactor: composeViewReactor)
+        
+        navigationController?.pushViewController(composeViewController, animated: true)
+    }
 }

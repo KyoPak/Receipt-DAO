@@ -17,14 +17,15 @@ final class DetailViewReactor: Reactor {
         case viewWillAppear
         case shareButtonTapped
         case imageSwipe(CGRect)
-//        case composeButtonTapped
-        case deleteButtonTapped
+        case edit
+        case delete
     }
     
     enum Mutation {
         case loadData
         case shareData([Data]?)
         case imageSwipe(String)
+        case editExpense(Receipt?)
         case deleteExpense(Void?)
     }
     
@@ -35,6 +36,7 @@ final class DetailViewReactor: Reactor {
         var priceText: String
         var imagePageText: String
         var shareExpense: [Data]?
+        var editExpense: Receipt?
         var deleteExpense: Void?
     }
     
@@ -63,6 +65,7 @@ final class DetailViewReactor: Reactor {
             priceText: priceText,
             imagePageText: imagePageText,
             shareExpense: nil,
+            editExpense: nil,
             deleteExpense: nil
         )
     }
@@ -86,7 +89,13 @@ final class DetailViewReactor: Reactor {
             
             return Observable.just(Mutation.imageSwipe(countPageText(total: totalPage, current: currentPage)))
             
-        case .deleteButtonTapped:
+        case .edit:
+            return Observable.concat([
+                Observable.just(Mutation.editExpense(currentState.expense)),
+                Observable.just(Mutation.editExpense(nil))
+            ])
+            
+        case .delete:
             let expense = currentState.expense
             storage.delete(receipt: expense)
             
@@ -106,6 +115,9 @@ final class DetailViewReactor: Reactor {
         
         case .imageSwipe(let text):
             newState.imagePageText = text
+            
+        case .editExpense(let expense):
+            newState.editExpense = expense
             
         case .deleteExpense(let void):
             newState.deleteExpense = void
