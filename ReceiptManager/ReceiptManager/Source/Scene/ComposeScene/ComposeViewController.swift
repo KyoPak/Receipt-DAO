@@ -39,8 +39,6 @@ final class ComposeViewController: UIViewController, View {
         font: .preferredFont(forTextStyle: .body)
     )
     
-    private let countLabel = UILabel(text: "", font: .preferredFont(forTextStyle: .body))
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -51,9 +49,7 @@ final class ComposeViewController: UIViewController, View {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.layer.cornerRadius = 10
-        collectionView.backgroundColor = ConstantColor.cellColor
-        collectionView.layer.borderColor = ConstantColor.layerColor.cgColor
-        collectionView.layer.borderWidth = 1
+        collectionView.backgroundColor = ConstantColor.backGroundColor
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
         collectionView.contentInset = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         
@@ -76,7 +72,6 @@ final class ComposeViewController: UIViewController, View {
         super.viewDidLoad()
         setupHierarchy()
         setupProperties()
-        setupFirstCell()
         setupNotification()
         setupConstraints()
         createKeyboardDownButton()
@@ -99,124 +94,6 @@ final class ComposeViewController: UIViewController, View {
         bindAction(reactor)
         bindState(reactor)
     }
-    
-    private func setupFirstCell() {
-        let addImage: UIImage = {
-            guard let image = UIImage(systemName: ConstantImage.camera)?.withTintColor(.lightGray) else {
-                return UIImage()
-            }
-            
-            let configuration = UIImage.SymbolConfiguration(weight: .ultraLight)
-            let thinImage = image.withConfiguration(configuration)
-            let tintedThinImage = thinImage.withTintColor(.lightGray)
-            
-            return tintedThinImage
-        }()
-        
-        viewModel?.updateReceiptData(addImage.pngData(), isFirstReceipt: true)
-    }
-    
-//    func bindViewModel() {
-//        bindViewModeltoUI()
-//        bindUItoViewModel()
-//    }
-    
-//    private func bindViewModeltoUI() {
-//        guard let viewModel = viewModel else { return }
-//
-//        // ViewModel Data를 UI 바인딩
-//        viewModel.storeRelay
-//            .asDriver(onErrorJustReturn: "")
-//            .drive(informationView.storeTextField.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.productRelay
-//            .asDriver(onErrorJustReturn: "")
-//            .drive(informationView.productNameTextField.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.priceRelay
-//            .asDriver(onErrorJustReturn: "")
-//            .map { price in
-//                let priceText = NumberFormatter.numberDecimal(from: price)
-//                return priceText
-//            }
-//            .drive(informationView.priceTextField.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.payRelay
-//            .asDriver(onErrorJustReturn: .zero)
-//            .drive(informationView.payTypeSegmented.rx.selectedSegmentIndex)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.memoRelay
-//            .asDriver(onErrorJustReturn: "")
-//            .do(onNext: { [weak self] text in
-//                self?.placeHoderLabel.isHidden = !text.isEmpty
-//            })
-//            .drive(memoTextView.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.receiptDataRelay
-//            .asDriver()
-//            .map { datas in
-//                return ConstantText.receiptImage.localize() + " \(datas.count - 1)/5"
-//            }
-//            .drive(countLabel.rx.text)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.receiptDataRelay
-//            .asDriver()
-//            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-//            ) { indexPath, data, cell in
-//                if indexPath == .zero { cell.hiddenButton() }
-//                cell.delegate = self
-//                cell.setupReceiptImage(data)
-//            }
-//            .disposed(by: rx.disposeBag)
-//    }
-//
-//    private func bindUItoViewModel() {
-//        // UI의 Data를 ViewModel에 바인딩
-//        informationView.datePicker.rx.date
-//            .bind(to: viewModel.dateRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        informationView.storeTextField.rx.text.orEmpty
-//            .bind(to: viewModel.storeRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        informationView.productNameTextField.rx.text.orEmpty
-//            .bind(to: viewModel.productRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        informationView.priceTextField.rx.text.orEmpty
-//            .map { price in
-//                let input = price.replacingOccurrences(of: ",", with: "")
-//                return input
-//            }
-//            .bind(to: viewModel.priceRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        informationView.payTypeSegmented.rx.selectedSegmentIndex
-//            .bind(to: viewModel.payRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        memoTextView.rx.text.orEmpty
-//            .bind(to: viewModel.memoRelay)
-//            .disposed(by: rx.disposeBag)
-//
-//        collectionView.rx.itemSelected
-//            .withUnretained(self)
-//            .bind { (owner, indexPath) in
-//                let count = owner.viewModel?.receiptDataRelay.value.count ?? .zero
-//
-//                if indexPath.row == .zero && count < 6 {
-//                    owner.showAccessAlbumAlert(true)
-//                }
-//            }
-//            .disposed(by: rx.disposeBag)
-//    }
 }
 
 // MARK: - Reactor Bind
@@ -247,15 +124,36 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense }
+            .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .bind(onNext: { expense in
-                self.informationView.datePicker.date = expense.receiptDate
-                self.informationView.storeTextField.text = expense.store
-                self.informationView.productNameTextField.text = expense.product
-                self.informationView.payTypeSegmented.selectedSegmentIndex = expense.paymentType
-                self.informationView.priceTextField.text = expense.priceText
-            })
+            .do { self.placeHoderLabel.isHidden = !$0.memo.isEmpty }
+            .drive { self.setupData(item: $0) }
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.priceText }
+            .asDriver(onErrorJustReturn: "")
+            .drive { text in
+                self.informationView.priceTextField.text = text
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.registerdImageDatas }
+            .asDriver(onErrorJustReturn: [])
+            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+            ) { indexPath, data, cell in
+                cell.delegate = self
+                cell.setupCountLabel(reactor.currentState.registerdImageDatas.count)
+                
+                if indexPath == .zero {
+                    cell.hiddenDeleteButton()
+                    cell.showRegisterButton()
+                }
+                
+                if indexPath != .zero {
+                    cell.setupReceiptImage(data)
+                }
+            }
+            .disposed(by: rx.disposeBag)
     }
 }
 
@@ -512,6 +410,15 @@ extension ComposeViewController: CellDeletable {
 
 // MARK: - UIConstraint
 extension ComposeViewController {
+    private func setupData(item: Receipt) {
+        informationView.datePicker.date = item.receiptDate
+        informationView.storeTextField.text = item.store
+        informationView.productNameTextField.text = item.product
+        informationView.payTypeSegmented.selectedSegmentIndex = item.paymentType
+        informationView.priceTextField.text = item.priceText
+        memoTextView.text = item.memo
+    }
+    
     private func setupNavigationBar() {
         navigationController?.setNavigationBarHidden(false, animated: false)
         
@@ -548,8 +455,7 @@ extension ComposeViewController {
     }
     
     private func setupHierarchy() {
-        [informationView, countLabel, collectionView, memoTextView, placeHoderLabel]
-            .forEach(view.addSubview(_:))
+        [informationView, collectionView, memoTextView, placeHoderLabel].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
@@ -572,16 +478,12 @@ extension ComposeViewController {
             informationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             informationView.heightAnchor.constraint(equalToConstant: 200),
             
-            countLabel.topAnchor.constraint(equalTo: informationView.bottomAnchor, constant: 20),
-            countLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            
-            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: informationView.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalToConstant: 140),
             
-            memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 30),
+            memoTextView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 10),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -50),

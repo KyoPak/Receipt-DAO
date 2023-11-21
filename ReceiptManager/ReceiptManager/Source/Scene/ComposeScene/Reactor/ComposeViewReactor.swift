@@ -15,7 +15,6 @@ final class ComposeViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-//        case saveButtonTapped
     }
     
     enum Mutation {
@@ -26,7 +25,8 @@ final class ComposeViewReactor: Reactor {
         var title: String
         var transitionType: TransitionType
         var expense: Receipt?
-        var priceText: String?
+        var priceText: String
+        var registerdImageDatas: [Data]
     }
     
     let initialState: State
@@ -42,11 +42,15 @@ final class ComposeViewReactor: Reactor {
         
         let titleText = transisionType == .modal ?
             ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
+        var imageDatas = expense?.receiptData ?? []
+        imageDatas.insert(Data(), at: .zero)
         
         initialState = State(
             title: titleText,
             transitionType: transisionType,
-            expense: expense
+            expense: expense,
+            priceText: NumberFormatter.numberDecimal(from: expense?.priceText ?? ""),
+            registerdImageDatas: imageDatas
         )
     }
     

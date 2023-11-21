@@ -73,6 +73,10 @@ extension ImageCell {
     @objc private func deleteButtonTapped() {
         delegate?.deleteCell(in: self)
     }
+    
+    func setupCountLabel(_ count: Int) {
+        registerView.setupCountLabel(count)
+    }
 }
 
 // MARK: - Constraints

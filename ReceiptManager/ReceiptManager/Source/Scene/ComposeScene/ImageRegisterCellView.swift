@@ -34,7 +34,16 @@ final class ImageRegisterCellView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+extension ImageRegisterCellView {
+    func setupCountLabel(_ count: Int) {
+        countLabel.text = "\(count - 1)/5"
+    }
+}
+
+// MARK: - UI Constraints
+extension ImageRegisterCellView {
     private func setupProperties() {
         [imageView, countLabel].forEach(addSubview(_:))
         backgroundColor = ConstantColor.cellColor
@@ -52,9 +61,8 @@ final class ImageRegisterCellView: UIView {
         
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            
-            countLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            countLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 2),
             countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
     }
