@@ -26,8 +26,10 @@ final class ComposeViewCoordinator: Coordinator {
         
         let composeViewController = ComposeViewController(reactor: composeViewReactor)
         composeViewController.coordinator = self
-        composeViewController.modalPresentationStyle = .fullScreen
         
-        navigationController?.present(composeViewController, animated: true)
+        let innerNavigationController = UINavigationController(rootViewController: composeViewController)
+        innerNavigationController.modalPresentationStyle = .fullScreen
+        
+        navigationController?.present(innerNavigationController, animated: true)
     }
 }

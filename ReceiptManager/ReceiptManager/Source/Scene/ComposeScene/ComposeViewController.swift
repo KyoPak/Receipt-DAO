@@ -232,7 +232,7 @@ final class ComposeViewController: UIViewController, View {
 // MARK: - Action
 extension ComposeViewController {
     @objc private func tapCancleButton() {
-        viewModel?.cancelAction()
+        coordinator?.close(navigationController ?? UINavigationController())
     }
     
     @objc private func tapSaveButton() {
@@ -483,6 +483,9 @@ extension ComposeViewController: CellDeletable {
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupNavigationBar() {
+        print(navigationController)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = ConstantColor.backGroundColor
         appearance.titleTextAttributes = [.foregroundColor: UIColor.label]

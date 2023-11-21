@@ -30,12 +30,13 @@ extension Coordinator {
     func close(_ controller: UIViewController) {
         var controllers = navigationController?.viewControllers
         
+        removeChild(self)
+        
         if controller.parent == nil {
             controller.dismiss(animated: true)
             return
         }
         
-        removeChild(self)
         controllers?.removeAll(where: { $0 === controller })
         
         guard let lastController = controllers?.last else { return }
