@@ -45,6 +45,12 @@ final class CustomTabBarController: UITabBarController {
                 self?.selectedIndex = $0
             }
             .disposed(by: disposeBag)
+        
+        customTabBar.registerButtonTapped
+            .bind { _ in
+                self.coordinator?.showRegister()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
