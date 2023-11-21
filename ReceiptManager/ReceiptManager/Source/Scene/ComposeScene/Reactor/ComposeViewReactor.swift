@@ -15,10 +15,12 @@ final class ComposeViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
+        case imageAppend(Data)
     }
     
     enum Mutation {
         case loadData
+        case imageDataAppend([Data])
     }
     
     struct State {
@@ -60,6 +62,10 @@ final class ComposeViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return Observable.just(Mutation.loadData)
+        case .imageAppend(let data):
+            var currentDatas = currentState.registerdImageDatas
+            currentDatas.append(data)
+            return Observable.just(Mutation.imageDataAppend(currentDatas))
         }
         
     }
@@ -70,6 +76,8 @@ final class ComposeViewReactor: Reactor {
         switch mutation {
         case .loadData:
             break
+        case .imageDataAppend(let datas):
+            newState.registerdImageDatas = datas
         }
         
         return newState

@@ -54,6 +54,7 @@ final class ImageCell: UICollectionViewCell {
         super.prepareForReuse()
         deleteButton.isHidden = false
         registerView.isHidden = true
+        imageView.isHidden = false
     }
 }
 
@@ -66,8 +67,9 @@ extension ImageCell {
         deleteButton.isHidden = true
     }
     
-    func showRegisterButton() {
-        registerView.isHidden = false
+    func setupHidden(isFirstCell: Bool) {
+        imageView.isHidden = isFirstCell
+        registerView.isHidden = !isFirstCell
     }
     
     @objc private func deleteButtonTapped() {

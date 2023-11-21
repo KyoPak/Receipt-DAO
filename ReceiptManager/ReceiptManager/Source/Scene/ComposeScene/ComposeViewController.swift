@@ -107,6 +107,25 @@ extension ComposeViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(appendExpenseImage))
+            .map { data in
+                let data = data.first as? Data ?? Data()
+                return Reactor.Action.imageAppend(data)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .withUnretained(self)
+            .bind { (owner, indexPath) in
+                let count = reactor.currentState.registerdImageDatas.count
+                
+                if indexPath.row == .zero && count < 6 {
+                    owner.showAccessAlbumAlert(true)
+                }
+            }
+            .disposed(by: rx.disposeBag)
     }
     
     private func bindState(_ reactor: ComposeViewReactor) {
@@ -143,10 +162,10 @@ extension ComposeViewController {
             ) { indexPath, data, cell in
                 cell.delegate = self
                 cell.setupCountLabel(reactor.currentState.registerdImageDatas.count)
+                cell.setupHidden(isFirstCell: indexPath == .zero)
                 
                 if indexPath == .zero {
                     cell.hiddenDeleteButton()
-                    cell.showRegisterButton()
                 }
                 
                 if indexPath != .zero {
@@ -159,6 +178,8 @@ extension ComposeViewController {
 
 // MARK: - Action
 extension ComposeViewController {
+    @objc dynamic func appendExpenseImage(_ data: Data?) { }
+    
     @objc private func tapCancleButton() {
         coordinator?.close(navigationController ?? UINavigationController())
     }
@@ -198,7 +219,7 @@ extension ComposeViewController: UINavigationControllerDelegate,
     ) {
         if let image = info[.editedImage] as? UIImage {
             let data = image.pngData()
-            viewModel?.updateReceiptData(data, isFirstReceipt: false)
+            appendExpenseImage(data)
         } else {
             if let image = info[.originalImage] as? UIImage {
                 dismiss(animated: true, completion: {
@@ -218,7 +239,7 @@ extension ComposeViewController: CropViewControllerDelegate {
         cropInfo: CropInfo
     ) {
         let data = cropped.pngData()
-        viewModel?.updateReceiptData(data, isFirstReceipt: false)
+        appendExpenseImage(data)
         cropViewController.dismiss(animated: true)
     }
     
