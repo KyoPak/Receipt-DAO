@@ -46,4 +46,17 @@ final class MainTabBarCoordinator: Coordinator {
         navigationController?.setViewControllers([tabBarController], animated: true)
         window?.rootViewController = navigationController
     }
+    
+    func showRegister() {
+        let coordinator = ComposeViewCoordinator(
+            navigationController: navigationController,
+            storage: storage,
+            expense: nil
+        )
+        
+        coordinator.parentCoordinator = self
+        childCoordinators.append(coordinator)
+        
+        coordinator.start()
+    }
 }

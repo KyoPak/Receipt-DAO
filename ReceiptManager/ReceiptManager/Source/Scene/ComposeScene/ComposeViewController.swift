@@ -20,6 +20,7 @@ final class ComposeViewController: UIViewController, View {
     // Properties
     
     var disposeBag = DisposeBag()
+    weak var coordinator: ComposeViewCoordinator?
     
     private var canAccessImagesData: [Data] = []
     private var fetchResult = PHFetchResult<PHAsset>()
