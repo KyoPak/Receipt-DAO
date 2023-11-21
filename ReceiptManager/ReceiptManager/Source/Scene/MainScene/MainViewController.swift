@@ -110,7 +110,7 @@ extension MainViewController {
             navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
             navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            navigationBar.heightAnchor.constraint(equalToConstant: 60),
             
             childView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             childView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
