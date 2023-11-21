@@ -6,6 +6,8 @@
 //
 
 import UIKit
+
+import ReactorKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
@@ -13,7 +15,12 @@ import AVFoundation
 import PhotosUI
 import Mantis
 
-final class ComposeViewController: UIViewController, ViewModelBindable {
+final class ComposeViewController: UIViewController, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
+    
     private var canAccessImagesData: [Data] = []
     private var fetchResult = PHFetchResult<PHAsset>()
     private var thumbnailSize: CGSize {
@@ -22,6 +29,8 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     }
 
     var viewModel: ComposeViewModel?
+    
+    // UI Properties
     
     private let informationView = ComposeInformationView()
     private let placeHoderLabel = UILabel(
@@ -64,12 +73,29 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupHierarchy()
+        setupProperties()
         setupFirstCell()
         setupNotification()
         setupNavigationBar()
         setupConstraints()
         createKeyboardDownButton()
+    }
+    
+    // Initializer
+    
+    init(reactor: ComposeViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: ComposeViewReactor) {
+        
     }
     
     private func setupFirstCell() {
@@ -88,118 +114,118 @@ final class ComposeViewController: UIViewController, ViewModelBindable {
         viewModel?.updateReceiptData(addImage.pngData(), isFirstReceipt: true)
     }
     
-    func bindViewModel() {
-        bindViewModeltoUI()
-        bindUItoViewModel()
-    }
+//    func bindViewModel() {
+//        bindViewModeltoUI()
+//        bindUItoViewModel()
+//    }
     
-    private func bindViewModeltoUI() {
-        guard let viewModel = viewModel else { return }
-        
-        // ViewModel Data를 UI 바인딩
-        viewModel.title
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.dateRelay
-            .asDriver(onErrorJustReturn: Date())
-            .drive(informationView.datePicker.rx.date)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.storeRelay
-            .asDriver(onErrorJustReturn: "")
-            .drive(informationView.storeTextField.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.productRelay
-            .asDriver(onErrorJustReturn: "")
-            .drive(informationView.productNameTextField.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.priceRelay
-            .asDriver(onErrorJustReturn: "")
-            .map { price in
-                let priceText = NumberFormatter.numberDecimal(from: price)
-                return priceText
-            }
-            .drive(informationView.priceTextField.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.payRelay
-            .asDriver(onErrorJustReturn: .zero)
-            .drive(informationView.payTypeSegmented.rx.selectedSegmentIndex)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.memoRelay
-            .asDriver(onErrorJustReturn: "")
-            .do(onNext: { [weak self] text in
-                self?.placeHoderLabel.isHidden = !text.isEmpty
-            })
-            .drive(memoTextView.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.receiptDataRelay
-            .asDriver()
-            .map { datas in
-                return ConstantText.receiptImage.localize() + " \(datas.count - 1)/5"
-            }
-            .drive(countLabel.rx.text)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.receiptDataRelay
-            .asDriver()
-            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-            ) { indexPath, data, cell in
-                if indexPath == .zero { cell.hiddenButton() }
-                cell.delegate = self
-                cell.setupReceiptImage(data)
-            }
-            .disposed(by: rx.disposeBag)
-    }
-    
-    private func bindUItoViewModel() {
-        guard let viewModel = viewModel else { return }
-        
-        // UI의 Data를 ViewModel에 바인딩
-        informationView.datePicker.rx.date
-            .bind(to: viewModel.dateRelay)
-            .disposed(by: rx.disposeBag)
-        
-        informationView.storeTextField.rx.text.orEmpty
-            .bind(to: viewModel.storeRelay)
-            .disposed(by: rx.disposeBag)
-        
-        informationView.productNameTextField.rx.text.orEmpty
-            .bind(to: viewModel.productRelay)
-            .disposed(by: rx.disposeBag)
-        
-        informationView.priceTextField.rx.text.orEmpty
-            .map { price in
-                let input = price.replacingOccurrences(of: ",", with: "")
-                return input
-            }
-            .bind(to: viewModel.priceRelay)
-            .disposed(by: rx.disposeBag)
-            
-        informationView.payTypeSegmented.rx.selectedSegmentIndex
-            .bind(to: viewModel.payRelay)
-            .disposed(by: rx.disposeBag)
-        
-        memoTextView.rx.text.orEmpty
-            .bind(to: viewModel.memoRelay)
-            .disposed(by: rx.disposeBag)
-        
-        collectionView.rx.itemSelected
-            .withUnretained(self)
-            .bind { (owner, indexPath) in
-                let count = owner.viewModel?.receiptDataRelay.value.count ?? .zero
-                
-                if indexPath.row == .zero && count < 6 {
-                    owner.showAccessAlbumAlert(true)
-                }
-            }
-            .disposed(by: rx.disposeBag)
-    }
+//    private func bindViewModeltoUI() {
+//        guard let viewModel = viewModel else { return }
+//
+//        // ViewModel Data를 UI 바인딩
+//        viewModel.title
+//            .drive(navigationItem.rx.title)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.dateRelay
+//            .asDriver(onErrorJustReturn: Date())
+//            .drive(informationView.datePicker.rx.date)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.storeRelay
+//            .asDriver(onErrorJustReturn: "")
+//            .drive(informationView.storeTextField.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.productRelay
+//            .asDriver(onErrorJustReturn: "")
+//            .drive(informationView.productNameTextField.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.priceRelay
+//            .asDriver(onErrorJustReturn: "")
+//            .map { price in
+//                let priceText = NumberFormatter.numberDecimal(from: price)
+//                return priceText
+//            }
+//            .drive(informationView.priceTextField.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.payRelay
+//            .asDriver(onErrorJustReturn: .zero)
+//            .drive(informationView.payTypeSegmented.rx.selectedSegmentIndex)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.memoRelay
+//            .asDriver(onErrorJustReturn: "")
+//            .do(onNext: { [weak self] text in
+//                self?.placeHoderLabel.isHidden = !text.isEmpty
+//            })
+//            .drive(memoTextView.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.receiptDataRelay
+//            .asDriver()
+//            .map { datas in
+//                return ConstantText.receiptImage.localize() + " \(datas.count - 1)/5"
+//            }
+//            .drive(countLabel.rx.text)
+//            .disposed(by: rx.disposeBag)
+//
+//        viewModel.receiptDataRelay
+//            .asDriver()
+//            .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+//            ) { indexPath, data, cell in
+//                if indexPath == .zero { cell.hiddenButton() }
+//                cell.delegate = self
+//                cell.setupReceiptImage(data)
+//            }
+//            .disposed(by: rx.disposeBag)
+//    }
+//
+//    private func bindUItoViewModel() {
+//        guard let viewModel = viewModel else { return }
+//
+//        // UI의 Data를 ViewModel에 바인딩
+//        informationView.datePicker.rx.date
+//            .bind(to: viewModel.dateRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        informationView.storeTextField.rx.text.orEmpty
+//            .bind(to: viewModel.storeRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        informationView.productNameTextField.rx.text.orEmpty
+//            .bind(to: viewModel.productRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        informationView.priceTextField.rx.text.orEmpty
+//            .map { price in
+//                let input = price.replacingOccurrences(of: ",", with: "")
+//                return input
+//            }
+//            .bind(to: viewModel.priceRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        informationView.payTypeSegmented.rx.selectedSegmentIndex
+//            .bind(to: viewModel.payRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        memoTextView.rx.text.orEmpty
+//            .bind(to: viewModel.memoRelay)
+//            .disposed(by: rx.disposeBag)
+//
+//        collectionView.rx.itemSelected
+//            .withUnretained(self)
+//            .bind { (owner, indexPath) in
+//                let count = owner.viewModel?.receiptDataRelay.value.count ?? .zero
+//
+//                if indexPath.row == .zero && count < 6 {
+//                    owner.showAccessAlbumAlert(true)
+//                }
+//            }
+//            .disposed(by: rx.disposeBag)
+//    }
 }
 
 // MARK: - Action
@@ -481,15 +507,17 @@ extension ComposeViewController {
         navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
-    private func setupView() {
+    private func setupHierarchy() {
+        [informationView, countLabel, collectionView, memoTextView, placeHoderLabel]
+            .forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
         
         [informationView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        [informationView, countLabel, collectionView, memoTextView, placeHoderLabel]
-            .forEach(view.addSubview(_:))
 
         placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self

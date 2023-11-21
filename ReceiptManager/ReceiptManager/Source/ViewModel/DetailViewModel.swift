@@ -39,21 +39,21 @@ final class DetailViewModel: CommonViewModel {
             .disposed(by: disposeBag)
     }
     
-    func makeEditAction() {
-        let receipt = (try? receipt.value()) ?? Receipt()
-        
-        let composeViewModel = ComposeViewModel(
-            title: ConstantText.edit.localize(),
-            sceneCoordinator: sceneCoordinator,
-            storage: storage,
-            receipt: receipt,
-            delegate: self,
-            ocrExtractor: OCRTextExtractor()
-        )
-        
-        let composeScene = Scene.compose(composeViewModel)
-        sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
-    }
+//    func makeEditAction() {
+//        let receipt = (try? receipt.value()) ?? Receipt()
+//
+//        let composeViewModel = ComposeViewModel(
+//            title: ConstantText.edit.localize(),
+//            sceneCoordinator: sceneCoordinator,
+//            storage: storage,
+//            receipt: receipt,
+//            delegate: self,
+//            ocrExtractor: OCRTextExtractor()
+//        )
+//
+//        let composeScene = Scene.compose(composeViewModel)
+//        sceneCoordinator.transition(to: composeScene, using: .push, animated: true)
+//    }
 }
 
 extension DetailViewModel: ComposeDataUpdatable {
