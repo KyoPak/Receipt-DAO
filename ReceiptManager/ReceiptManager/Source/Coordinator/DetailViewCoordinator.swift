@@ -40,6 +40,7 @@ final class DetailViewCoordinator: Coordinator {
     
     func presentComposeView(expense: Receipt?) {
         let composeViewCoordinator = ComposeViewCoordinator(
+            transitionType: .push,
             navigationController: navigationController,
             storage: storage,
             expense: expense
@@ -47,6 +48,6 @@ final class DetailViewCoordinator: Coordinator {
         childCoordinators.append(composeViewCoordinator)
         composeViewCoordinator.parentCoordinator = self
         
-        composeViewCoordinator.startWithPush()
+        composeViewCoordinator.start()
     }
 }

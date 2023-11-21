@@ -49,6 +49,7 @@ final class MainTabBarCoordinator: Coordinator {
     
     func showRegister() {
         let coordinator = ComposeViewCoordinator(
+            transitionType: .modal,
             navigationController: navigationController,
             storage: storage,
             expense: nil

@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum TransitionType {
+    case modal
+    case push
+}
+
 final class ComposeViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -14,8 +19,15 @@ final class ComposeViewCoordinator: Coordinator {
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
     var expense: Receipt?
+    var transitionType: TransitionType
     
-    init(navigationController: UINavigationController?, storage: CoreDataStorage, expense: Receipt?) {
+    init(
+        transitionType: TransitionType,
+        navigationController: UINavigationController?,
+        storage: CoreDataStorage,
+        expense: Receipt?
+    ) {
+        self.transitionType = transitionType
         self.navigationController = navigationController
         self.storage = storage
         self.expense = expense
@@ -23,20 +35,17 @@ final class ComposeViewCoordinator: Coordinator {
     
     func start() {
         let composeViewReactor = ComposeViewReactor(storage: storage, expense: expense)
-        
         let composeViewController = ComposeViewController(reactor: composeViewReactor)
         composeViewController.coordinator = self
         
-        let innerNavigationController = UINavigationController(rootViewController: composeViewController)
-        innerNavigationController.modalPresentationStyle = .fullScreen
-        
-        navigationController?.present(innerNavigationController, animated: true)
-    }
-    
-    func startWithPush() {
-        let composeViewReactor = ComposeViewReactor(storage: storage, expense: expense)
-        let composeViewController = ComposeViewController(reactor: composeViewReactor)
-        
-        navigationController?.pushViewController(composeViewController, animated: true)
+        switch transitionType {
+        case .modal:
+            let innerNavigationController = UINavigationController(rootViewController: composeViewController)
+            innerNavigationController.modalPresentationStyle = .fullScreen
+            navigationController?.present(innerNavigationController, animated: true)
+            
+        case .push:
+            navigationController?.pushViewController(composeViewController, animated: true)
+        }
     }
 }
