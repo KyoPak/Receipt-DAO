@@ -15,6 +15,7 @@ final class ComposeViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
+//        case saveButtonTapped
     }
     
     enum Mutation {
@@ -22,7 +23,10 @@ final class ComposeViewReactor: Reactor {
     }
     
     struct State {
+        var title: String
+        var transitionType: TransitionType
         var expense: Receipt?
+        var priceText: String?
     }
     
     let initialState: State
@@ -33,9 +37,17 @@ final class ComposeViewReactor: Reactor {
     
     // Initializer
     
-    init(storage: CoreDataStorage, expense: Receipt? = nil) {
+    init(storage: CoreDataStorage, expense: Receipt? = nil, transisionType: TransitionType) {
         self.storage = storage
-        initialState = State(expense: expense)
+        
+        let titleText = transisionType == .modal ?
+            ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
+        
+        initialState = State(
+            title: titleText,
+            transitionType: transisionType,
+            expense: expense
+        )
     }
     
     // Reactor Method

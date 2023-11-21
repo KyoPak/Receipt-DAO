@@ -34,7 +34,11 @@ final class ComposeViewCoordinator: Coordinator {
     }
     
     func start() {
-        let composeViewReactor = ComposeViewReactor(storage: storage, expense: expense)
+        let composeViewReactor = ComposeViewReactor(
+            storage: storage,
+            expense: expense,
+            transisionType: transitionType
+        )
         let composeViewController = ComposeViewController(reactor: composeViewReactor)
         composeViewController.coordinator = self
         

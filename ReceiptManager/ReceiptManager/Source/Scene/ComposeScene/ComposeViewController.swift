@@ -78,7 +78,6 @@ final class ComposeViewController: UIViewController, View {
         setupProperties()
         setupFirstCell()
         setupNotification()
-        setupNavigationBar()
         setupConstraints()
         createKeyboardDownButton()
     }
@@ -96,7 +95,9 @@ final class ComposeViewController: UIViewController, View {
     }
     
     func bind(reactor: ComposeViewReactor) {
-        
+        bindView()
+        bindAction(reactor)
+        bindState(reactor)
     }
     
     private func setupFirstCell() {
@@ -124,15 +125,6 @@ final class ComposeViewController: UIViewController, View {
 //        guard let viewModel = viewModel else { return }
 //
 //        // ViewModel Data를 UI 바인딩
-//        viewModel.title
-//            .drive(navigationItem.rx.title)
-//            .disposed(by: rx.disposeBag)
-//
-//        viewModel.dateRelay
-//            .asDriver(onErrorJustReturn: Date())
-//            .drive(informationView.datePicker.rx.date)
-//            .disposed(by: rx.disposeBag)
-//
 //        viewModel.storeRelay
 //            .asDriver(onErrorJustReturn: "")
 //            .drive(informationView.storeTextField.rx.text)
@@ -185,8 +177,6 @@ final class ComposeViewController: UIViewController, View {
 //    }
 //
 //    private func bindUItoViewModel() {
-//        guard let viewModel = viewModel else { return }
-//
 //        // UI의 Data를 ViewModel에 바인딩
 //        informationView.datePicker.rx.date
 //            .bind(to: viewModel.dateRelay)
@@ -227,6 +217,46 @@ final class ComposeViewController: UIViewController, View {
 //            }
 //            .disposed(by: rx.disposeBag)
 //    }
+}
+
+// MARK: - Reactor Bind
+extension ComposeViewController {
+    private func bindView() {
+        
+    }
+    
+    private func bindAction(_ reactor: ComposeViewReactor) {
+        rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindState(_ reactor: ComposeViewReactor) {
+        reactor.state.map { $0.transitionType }
+            .bind { type in
+                switch type {
+                case .push:     self.setupNavigationBar()
+                case .modal:    self.setupModalNavigationBar()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.title }
+            .bind(to: rx.title)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.expense }
+            .compactMap { $0 }
+            .bind(onNext: { expense in
+                self.informationView.datePicker.date = expense.receiptDate
+                self.informationView.storeTextField.text = expense.store
+                self.informationView.productNameTextField.text = expense.product
+                self.informationView.payTypeSegmented.selectedSegmentIndex = expense.paymentType
+                self.informationView.priceTextField.text = expense.priceText
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Action
@@ -483,7 +513,6 @@ extension ComposeViewController: CellDeletable {
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupNavigationBar() {
-        print(navigationController)
         navigationController?.setNavigationBarHidden(false, animated: false)
         
         let appearance = UINavigationBarAppearance()
@@ -494,12 +523,6 @@ extension ComposeViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: ConstantText.cancle.localize(),
-            style: .plain,
-            target: self,
-            action: #selector(tapCancleButton)
-        )
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: ConstantText.save.localize(),
@@ -507,8 +530,21 @@ extension ComposeViewController {
             target: self,
             action: #selector(tapSaveButton)
         )
-        navigationItem.leftBarButtonItem?.tintColor = .label
+        
         navigationItem.rightBarButtonItem?.tintColor = .label
+    }
+    
+    private func setupModalNavigationBar() {
+        setupNavigationBar()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: ConstantText.cancle.localize(),
+            style: .plain,
+            target: self,
+            action: #selector(tapCancleButton)
+        )
+        
+        navigationItem.leftBarButtonItem?.tintColor = .label
     }
     
     private func setupHierarchy() {
