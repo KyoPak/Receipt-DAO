@@ -169,9 +169,7 @@ extension ComposeViewController {
         
         reactor.state.map { $0.priceText }
             .asDriver(onErrorJustReturn: "")
-            .drive { text in
-                self.informationView.priceTextField.text = text
-            }
+            .drive { self.informationView.priceTextField.text = $0 }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.imageAppendEnable }
@@ -191,15 +189,18 @@ extension ComposeViewController {
                 cell.setupCountLabel(reactor.currentState.registerdImageDatas.count)
                 cell.setupHidden(isFirstCell: indexPath == .zero)
                 
-                if indexPath == .zero {
-                    cell.hiddenDeleteButton()
-                }
-                
-                if indexPath != .zero {
-                    cell.setupReceiptImage(data)
-                }
+                if indexPath == .zero { cell.hiddenDeleteButton() }
+                if indexPath != .zero { cell.setupReceiptImage(data) }
             }
             .disposed(by: rx.disposeBag)
+        
+        reactor.state.map { $0.successExpenseRegister }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { _ in
+                self.coordinator?.close(self)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func convertSaveExpense() -> Reactor.SaveExpense {
@@ -218,11 +219,7 @@ extension ComposeViewController {
     @objc dynamic func appendExpenseImage(_ data: Data?) { }
     
     @objc private func tapCancleButton() {
-        coordinator?.close(navigationController ?? UINavigationController())
-    }
-    
-    @objc private func tapSaveButton() {
-        viewModel?.saveAction()
+        coordinator?.close(self)
     }
 }
 

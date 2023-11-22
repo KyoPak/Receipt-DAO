@@ -27,7 +27,7 @@ final class ComposeViewReactor: Reactor {
         case chagePriceText(String)
         case imageDataAppend([Data])
         case imageDataDelete([Data])
-        case saveExpense(Receipt)
+        case saveExpense(Void?)
         case imageButtonEnable(Bool?)
     }
     
@@ -38,6 +38,7 @@ final class ComposeViewReactor: Reactor {
         var priceText: String
         var registerdImageDatas: [Data]
         var imageAppendEnable: Bool?
+        var successExpenseRegister: Void?
     }
     
     // Custom Type
@@ -103,7 +104,11 @@ final class ComposeViewReactor: Reactor {
             
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            return Observable.just(Mutation.saveExpense(newExpense))
+            storage.upsert(receipt: newExpense)
+            return Observable.concat([
+                Observable.just(Mutation.saveExpense(Void())),
+                Observable.just(Mutation.saveExpense(nil))
+            ])
             
         case .imageAppendButtonTapped(let indexPath):
             let result = indexPath.row == .zero && currentState.registerdImageDatas.count < 6
@@ -127,8 +132,8 @@ final class ComposeViewReactor: Reactor {
         case .imageDataAppend(let datas), .imageDataDelete(let datas):
             newState.registerdImageDatas = datas
             
-        case .saveExpense(let data):
-            storage.upsert(receipt: data)
+        case .saveExpense(let result):
+            newState.successExpenseRegister = result
             
         case .imageButtonEnable(let enable):
             newState.imageAppendEnable = enable
