@@ -30,15 +30,16 @@ final class ComposeViewReactor: Reactor {
     struct State {
         var title: String
         var transitionType: TransitionType
-        var expense: Receipt?
+        var expense: Receipt
         var priceText: String
         var registerdImageDatas: [Data]
     }
     
+    // Custom Type
+    
     struct SaveExpense {
         var date: Date
         var store: String?
-        var price: String?
         var product: String?
         var paymentType: Int
         var memo: String?
@@ -68,7 +69,7 @@ final class ComposeViewReactor: Reactor {
         initialState = State(
             title: titleText,
             transitionType: transisionType,
-            expense: expense,
+            expense: expense ?? Receipt(),
             priceText: NumberFormatter.numberDecimal(from: expense?.priceText ?? ""),
             registerdImageDatas: imageDatas
         )
@@ -81,17 +82,17 @@ final class ComposeViewReactor: Reactor {
         case .viewWillAppear:
             return Observable.just(Mutation.loadData)
         case .imageAppend(let data):
-            var currentDatas = controlImageData(controlType: .append(data))
+            let currentDatas = controlImageData(controlType: .append(data))
             return Observable.just(Mutation.imageDataAppend(currentDatas))
         
         case .imageDelete(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
-            var currentDatas = controlImageData(controlType: .delete(indexPath.row))
+            let currentDatas = controlImageData(controlType: .delete(indexPath.row))
             
             return Observable.just(Mutation.imageDataDelete(currentDatas))
             
         case .registerButtonTapped(let saveExpense):
-            let newExpense = convertExpense(saveExpense)
+            let newExpense = convertExpense(expense: currentState.expense, saveExpense)
             return Observable.just(Mutation.saveExpense(newExpense))
         }
     }
@@ -127,14 +128,18 @@ extension ComposeViewReactor {
         return currentDatas
     }
     
-    private func convertExpense(_ data: SaveExpense) -> Receipt {
-        var imageDatas = controlImageData(controlType: .delete(.zero))
+    private func convertExpense(expense: Receipt, _ data: SaveExpense) -> Receipt {
+        let imageDatas = controlImageData(controlType: .delete(.zero))
         
-        return Receipt(
-            store: data.store ?? "", priceText: data.price ?? "",
-            product: data.product ?? "", receiptDate: data.date,
-            paymentType: data.paymentType, receiptData: imageDatas,
-            memo: data.memo ?? "", isFavorite: false
-        )
+        var expense = expense
+        expense.store = data.store ?? ""
+        expense.priceText = currentState.priceText.replacingOccurrences(of: ",", with: "")
+        expense.product = data.product ?? ""
+        expense.receiptDate = data.date
+        expense.paymentType = data.paymentType
+        expense.receiptData = imageDatas
+        expense.memo = data.memo ?? ""
+        
+        return expense
     }
 }
