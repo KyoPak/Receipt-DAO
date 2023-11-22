@@ -140,15 +140,9 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .withUnretained(self)
-            .bind { (owner, indexPath) in
-                let count = reactor.currentState.registerdImageDatas.count
-                
-                if indexPath.row == .zero && count < 6 {
-                    owner.showAccessAlbumAlert(true)
-                }
-            }
-            .disposed(by: rx.disposeBag)
+            .map { Reactor.Action.imageAppendButtonTapped($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
             
     private func bindState(_ reactor: ComposeViewReactor) {
@@ -177,6 +171,15 @@ extension ComposeViewController {
             .asDriver(onErrorJustReturn: "")
             .drive { text in
                 self.informationView.priceTextField.text = text
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.imageAppendEnable }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .filter { $0 }
+            .drive { _ in
+                self.showAccessAlbumAlert()
             }
             .disposed(by: disposeBag)
         

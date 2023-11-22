@@ -19,6 +19,7 @@ final class ComposeViewReactor: Reactor {
         case imageAppend(Data)
         case imageDelete(IndexPath?)
         case registerButtonTapped(SaveExpense)
+        case imageAppendButtonTapped(IndexPath)
     }
     
     enum Mutation {
@@ -27,6 +28,7 @@ final class ComposeViewReactor: Reactor {
         case imageDataAppend([Data])
         case imageDataDelete([Data])
         case saveExpense(Receipt)
+        case imageButtonEnable(Bool?)
     }
     
     struct State {
@@ -35,6 +37,7 @@ final class ComposeViewReactor: Reactor {
         var expense: Receipt
         var priceText: String
         var registerdImageDatas: [Data]
+        var imageAppendEnable: Bool?
     }
     
     // Custom Type
@@ -73,7 +76,8 @@ final class ComposeViewReactor: Reactor {
             transitionType: transisionType,
             expense: expense ?? Receipt(),
             priceText: NumberFormatter.numberDecimal(from: expense?.priceText ?? ""),
-            registerdImageDatas: imageDatas
+            registerdImageDatas: imageDatas,
+            imageAppendEnable: nil
         )
     }
     
@@ -100,6 +104,13 @@ final class ComposeViewReactor: Reactor {
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
             return Observable.just(Mutation.saveExpense(newExpense))
+            
+        case .imageAppendButtonTapped(let indexPath):
+            let result = indexPath.row == .zero && currentState.registerdImageDatas.count < 6
+            return Observable.concat([
+                Observable.just(Mutation.imageButtonEnable(result)),
+                Observable.just(Mutation.imageButtonEnable(nil))
+            ])
         }
     }
     
@@ -118,6 +129,9 @@ final class ComposeViewReactor: Reactor {
             
         case .saveExpense(let data):
             storage.upsert(receipt: data)
+            
+        case .imageButtonEnable(let enable):
+            newState.imageAppendEnable = enable
         }
         
         return newState
