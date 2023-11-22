@@ -241,6 +241,43 @@ extension ComposeViewController {
     }
 }
 
+// MARK: - UploadImageCell and Confirm Auth
+extension ComposeViewController: CameraAlbumAccessAlertPresentable {
+    func openAlbum() {
+        requestPHPhotoLibraryAuthorization { authorizationStatus in
+            switch authorizationStatus {
+            case .authorized:
+                var configuration = PHPickerConfiguration()
+                configuration.selectionLimit = 1
+                configuration.filter = .any(of: [.images, .livePhotos])
+                
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                
+                self.present(picker, animated: true, completion: nil)
+            case .limited:
+                PHPhotoLibrary.shared().register(self)
+                self.getCanAccessImages()
+            default:
+                self.showPermissionAlert(text: ConstantText.album.localize())
+            }
+        }
+    }
+    
+    func openCamera() {
+        requestCameraAuthorization { isAuth in
+            if !isAuth {
+                self.showPermissionAlert(text: ConstantText.camera.localize())
+            } else {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.sourceType = .camera
+                self.present(picker, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
 // MARK: - PHPickerViewControllerDelegate, UIImagePickerController
 extension ComposeViewController: UINavigationControllerDelegate,
                                  UIImagePickerControllerDelegate,
@@ -249,15 +286,13 @@ extension ComposeViewController: UINavigationControllerDelegate,
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         
-        for result in results {
-            let itemProvider = result.itemProvider
-            
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { images, error in
-                    DispatchQueue.main.async {
-                        if let image = images as? UIImage {
-                            self.moveMantis(image: image)
-                        }
+        let itemProvider = results.first?.itemProvider
+        
+        if (itemProvider?.canLoadObject(ofClass: UIImage.self)) ?? false {
+            itemProvider?.loadObject(ofClass: UIImage.self) { images, error in
+                DispatchQueue.main.async {
+                    if let image = images as? UIImage {
+                        self.moveMantis(image: image)
                     }
                 }
             }
@@ -349,43 +384,6 @@ extension ComposeViewController: PHPhotoLibraryChangeObserver {
         
         DispatchQueue.main.async {
 //            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
-        }
-    }
-}
-
-// MARK: - UploadImageCell and Confirm Auth
-extension ComposeViewController: CameraAlbumAccessAlertPresentable {
-    func openAlbum() {
-        requestPHPhotoLibraryAuthorization { authorizationStatus in
-            switch authorizationStatus {
-            case .authorized:
-                var configuration = PHPickerConfiguration()
-                configuration.selectionLimit = 1
-                configuration.filter = .any(of: [.images, .livePhotos])
-                
-                let picker = PHPickerViewController(configuration: configuration)
-                picker.delegate = self
-                
-                self.present(picker, animated: true, completion: nil)
-            case .limited:
-                PHPhotoLibrary.shared().register(self)
-                self.getCanAccessImages()
-            default:
-                self.showPermissionAlert(text: ConstantText.album.localize())
-            }
-        }
-    }
-    
-    func openCamera() {
-        requestCameraAuthorization { isAuth in
-            if !isAuth {
-                self.showPermissionAlert(text: ConstantText.camera.localize())
-            } else {
-                let picker = UIImagePickerController()
-                picker.delegate = self
-                picker.sourceType = .camera
-                self.present(picker, animated: true, completion: nil)
-            }
         }
     }
 }

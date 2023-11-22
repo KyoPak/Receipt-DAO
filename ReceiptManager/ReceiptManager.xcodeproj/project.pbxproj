@@ -392,10 +392,9 @@
 			isa = PBXGroup;
 			children = (
 				3C05E0972B0C76AB0062C3F7 /* Reactor */,
+				3CA536662B0E04D100EA77AA /* PickerScene */,
 				3C9AA3582A0130310014807B /* ComposeViewController.swift */,
 				3CC893BA2A0CCCDB00055872 /* ImageCell.swift */,
-				3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */,
-				3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */,
 				3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */,
 				3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */,
 			);
@@ -410,6 +409,15 @@
 				3CAF8AF12A162444002251DD /* LargeImageViewController.swift */,
 			);
 			path = DetailScene;
+			sourceTree = "<group>";
+		};
+		3CA536662B0E04D100EA77AA /* PickerScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */,
+				3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */,
+			);
+			path = PickerScene;
 			sourceTree = "<group>";
 		};
 		3CA722382B05173C005347AB /* Reactor */ = {
