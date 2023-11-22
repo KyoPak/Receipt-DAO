@@ -44,6 +44,11 @@ final class ComposeViewReactor: Reactor {
         var memo: String?
     }
     
+    enum ControlType {
+        case append(Data)
+        case delete(Int)
+    }
+    
     let initialState: State
     
     // Properties
@@ -76,15 +81,13 @@ final class ComposeViewReactor: Reactor {
         case .viewWillAppear:
             return Observable.just(Mutation.loadData)
         case .imageAppend(let data):
-            var currentDatas = currentState.registerdImageDatas
-            currentDatas.append(data)
+            var currentDatas = controlImageData(controlType: .append(data))
             return Observable.just(Mutation.imageDataAppend(currentDatas))
         
         case .imageDelete(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
+            var currentDatas = controlImageData(controlType: .delete(indexPath.row))
             
-            var currentDatas = currentState.registerdImageDatas
-            currentDatas.remove(at: indexPath.row)
             return Observable.just(Mutation.imageDataDelete(currentDatas))
             
         case .registerButtonTapped(let saveExpense):
@@ -111,9 +114,21 @@ final class ComposeViewReactor: Reactor {
 }
 
 extension ComposeViewReactor {
+    private func controlImageData(controlType: ControlType) -> [Data] {
+        var currentDatas = currentState.registerdImageDatas
+        
+        switch controlType {
+        case .append(let data):
+            currentDatas.append(data)
+        case .delete(let index):
+            currentDatas.remove(at: index)
+        }
+        
+        return currentDatas
+    }
+    
     private func convertExpense(_ data: SaveExpense) -> Receipt {
-        var imageDatas = currentState.registerdImageDatas
-        imageDatas.removeFirst()
+        var imageDatas = controlImageData(controlType: .delete(.zero))
         
         return Receipt(
             store: data.store ?? "", priceText: data.price ?? "",
