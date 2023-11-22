@@ -63,6 +63,7 @@
 		3C9AA3632A0130FA0014807B /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3622A0130FA0014807B /* Scene.swift */; };
 		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
 		3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */; };
+		3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */; };
 		3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA722392B051749005347AB /* ListViewReactor.swift */; };
 		3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF12A162444002251DD /* LargeImageViewController.swift */; };
 		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
@@ -149,6 +150,7 @@
 		3C9AA3622A0130FA0014807B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
 		3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCellView.swift; sourceTree = "<group>"; };
+		3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		3CA722392B051749005347AB /* ListViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewReactor.swift; sourceTree = "<group>"; };
 		3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ReceiptManager v2.xcdatamodel"; sourceTree = "<group>"; };
 		3CAF8AF12A162444002251DD /* LargeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewController.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
 				3C1C1B362A16072900A3D0A0 /* ConstantText.swift */,
 				3C1B368F2A3441D300749774 /* ConstantImage.swift */,
+				3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
 				3CD8B9352B0664FA00968A7E /* DetailViewCoordinator.swift in Sources */,
 				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
+				3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */,
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */,

@@ -22,6 +22,7 @@ final class ComposeViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     weak var coordinator: ComposeViewCoordinator?
     private let deleteEventSubject = PublishSubject<IndexPath?>()
+    private var keyboardHandler: KeyboardHandler?
     
     private var canAccessImagesData: [Data] = []
     private var fetchResult = PHFetchResult<PHAsset>()
@@ -79,8 +80,9 @@ final class ComposeViewController: UIViewController, View {
         super.viewDidLoad()
         setupHierarchy()
         setupProperties()
-        setupNotification()
         setupConstraints()
+        
+        keyboardHandler = KeyboardHandler(targetView: memoTextView, view: view)
     }
     
     // Initializer
@@ -387,46 +389,6 @@ extension ComposeViewController: UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
-    }
-}
-
-// MARK: - KeyBoard Response Notification, About KeyBoard
-extension ComposeViewController {
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        keyboardWillHide()
-        if let keyboardFrame: NSValue = notification.userInfo?[
-            UIResponder.keyboardFrameEndUserInfoKey
-        ] as? NSValue, memoTextView.isFirstResponder {
-            
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            UIView.animate(withDuration: 0.5) {
-                self.view.frame.origin.y -= keyboardHeight
-            }
-        }
-    }
-    
-    @objc private func keyboardWillHide() {
-        if view.frame.origin.y != .zero {
-            UIView.animate(withDuration: 0.5) {
-                self.view.frame.origin.y = .zero
-            }
-        }
     }
 }
 
