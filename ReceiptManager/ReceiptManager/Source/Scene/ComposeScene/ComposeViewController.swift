@@ -29,12 +29,10 @@ final class ComposeViewController: UIViewController, View {
         let scale = UIScreen.main.scale
         return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
     }
-
-    var viewModel: ComposeViewModel?
     
     // UI Properties
     
-    private let informationView = ComposeInformationView()
+    private let infoView = ComposeInformationView()
     private let placeHoderLabel = UILabel(
         text: ConstantText.memo.localize(),
         font: .preferredFont(forTextStyle: .body)
@@ -83,7 +81,6 @@ final class ComposeViewController: UIViewController, View {
         setupProperties()
         setupNotification()
         setupConstraints()
-        createKeyboardDownButton()
     }
     
     // Initializer
@@ -124,7 +121,7 @@ extension ComposeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        informationView.priceTextField.rx.text
+        infoView.priceTextField.rx.text
             .skip(1)
             .map { Reactor.Action.priceTextChanged($0) }
             .bind(to: reactor.action)
@@ -169,7 +166,7 @@ extension ComposeViewController {
         
         reactor.state.map { $0.priceText }
             .asDriver(onErrorJustReturn: "")
-            .drive { self.informationView.priceTextField.text = $0 }
+            .drive { self.infoView.priceTextField.text = $0 }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.imageAppendEnable }
@@ -205,10 +202,10 @@ extension ComposeViewController {
     
     private func convertSaveExpense() -> Reactor.SaveExpense {
         return Reactor.SaveExpense(
-            date: informationView.datePicker.date,
-            store: informationView.storeTextField.text,
-            product: informationView.productNameTextField.text,
-            paymentType: informationView.payTypeSegmented.selectedSegmentIndex,
+            date: infoView.datePicker.date,
+            store: infoView.storeTextField.text,
+            product: infoView.productNameTextField.text,
+            paymentType: infoView.payTypeSegmented.selectedSegmentIndex,
             memo: memoTextView.text
         )
     }
@@ -298,9 +295,9 @@ extension ComposeViewController: CropViewControllerDelegate {
 
 extension ComposeViewController: SelectPickerDelegate {
     func selectPicker() {
-        viewModel?.cancelAction(completion: {
-            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-        })
+//        viewModel?.cancelAction(completion: {
+//            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+//        })
     }
 }
 
@@ -333,7 +330,7 @@ extension ComposeViewController: PHPhotoLibraryChangeObserver {
         })
         
         DispatchQueue.main.async {
-            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
+//            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
         }
     }
 }
@@ -395,28 +392,6 @@ extension ComposeViewController: UITextViewDelegate {
 
 // MARK: - KeyBoard Response Notification, About KeyBoard
 extension ComposeViewController {
-    private func createKeyboardDownButton() {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(
-            image: UIImage(systemName: ConstantImage.keyboardDown),
-            style: .done,
-            target: self,
-            action: #selector(keyboardDone)
-        )
-        
-        doneButton.tintColor = .label
-        
-        toolbar.setItems([flexSpace, doneButton], animated: false)
-        memoTextView.inputAccessoryView = toolbar
-    }
-    
-    @objc func keyboardDone() {
-        view.endEditing(true)
-    }
-    
     private func setupNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -465,10 +440,10 @@ extension ComposeViewController: CellDeletable {
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupData(item: Receipt) {
-        informationView.datePicker.date = item.receiptDate
-        informationView.storeTextField.text = item.store
-        informationView.productNameTextField.text = item.product
-        informationView.payTypeSegmented.selectedSegmentIndex = item.paymentType
+        infoView.datePicker.date = item.receiptDate
+        infoView.storeTextField.text = item.store
+        infoView.productNameTextField.text = item.product
+        infoView.payTypeSegmented.selectedSegmentIndex = item.paymentType
         memoTextView.text = item.memo
     }
     
@@ -500,16 +475,20 @@ extension ComposeViewController {
     }
     
     private func setupHierarchy() {
-        [informationView, collectionView, memoTextView, placeHoderLabel].forEach(view.addSubview(_:))
+        [infoView, collectionView, memoTextView, placeHoderLabel].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
-        
-        [informationView, memoTextView, collectionView].forEach {
+    
+        [infoView, memoTextView, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-
+        
+        [infoView.storeTextField, infoView.productNameTextField, infoView.priceTextField]
+            .forEach { self.createKeyboardToolBar(textView: $0) }
+        createKeyboardToolBar(textView: memoTextView)
+        
         placeHoderLabel.textColor = .lightGray
         memoTextView.delegate = self
     }
@@ -518,12 +497,12 @@ extension ComposeViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            informationView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            informationView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            informationView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            informationView.heightAnchor.constraint(equalToConstant: 200),
+            infoView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            infoView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            infoView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            infoView.heightAnchor.constraint(equalToConstant: 200),
             
-            collectionView.topAnchor.constraint(equalTo: informationView.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalToConstant: 140),
