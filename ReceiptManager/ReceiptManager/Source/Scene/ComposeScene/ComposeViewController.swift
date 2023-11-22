@@ -40,6 +40,14 @@ final class ComposeViewController: UIViewController, View {
         font: .preferredFont(forTextStyle: .body)
     )
     
+    private let registerButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.title = ConstantText.save.localize()
+        button.style = .done
+        button.tintColor = .label
+        return button
+    }()
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -100,7 +108,6 @@ final class ComposeViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension ComposeViewController {
     private func bindView() {
-        
     }
     
     private func bindAction(_ reactor: ComposeViewReactor) {
@@ -131,8 +138,13 @@ extension ComposeViewController {
                 }
             }
             .disposed(by: rx.disposeBag)
+        
+        registerButton.rx.tap
+            .map { Reactor.Action.registerButtonTapped(self.convertSaveExpense()) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
-    
+            
     private func bindState(_ reactor: ComposeViewReactor) {
         reactor.state.map { $0.transitionType }
             .bind { type in
@@ -178,6 +190,14 @@ extension ComposeViewController {
                 }
             }
             .disposed(by: rx.disposeBag)
+    }
+    
+    private func convertSaveExpense() -> Reactor.SaveExpense {
+        return Reactor.SaveExpense(
+            date: informationView.datePicker.date, store: informationView.storeTextField.text,
+            price: informationView.priceTextField.text, product: informationView.productNameTextField.text,
+            paymentType: informationView.payTypeSegmented.selectedSegmentIndex, memo: memoTextView.text
+        )
     }
 }
 
@@ -453,17 +473,9 @@ extension ComposeViewController {
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.save.localize(),
-            style: .done,
-            target: self,
-            action: #selector(tapSaveButton)
-        )
-        
-        navigationItem.rightBarButtonItem?.tintColor = .label
+                
+        navigationItem.rightBarButtonItem = registerButton
     }
     
     private func setupModalNavigationBar() {

@@ -17,12 +17,14 @@ final class ComposeViewReactor: Reactor {
         case viewWillAppear
         case imageAppend(Data)
         case imageDelete(IndexPath?)
+        case registerButtonTapped(SaveExpense)
     }
     
     enum Mutation {
         case loadData
         case imageDataAppend([Data])
         case imageDataDelete([Data])
+        case saveExpense(Receipt)
     }
     
     struct State {
@@ -31,6 +33,15 @@ final class ComposeViewReactor: Reactor {
         var expense: Receipt?
         var priceText: String
         var registerdImageDatas: [Data]
+    }
+    
+    struct SaveExpense {
+        var date: Date
+        var store: String?
+        var price: String?
+        var product: String?
+        var paymentType: Int
+        var memo: String?
     }
     
     let initialState: State
@@ -68,12 +79,17 @@ final class ComposeViewReactor: Reactor {
             var currentDatas = currentState.registerdImageDatas
             currentDatas.append(data)
             return Observable.just(Mutation.imageDataAppend(currentDatas))
+        
         case .imageDelete(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             
             var currentDatas = currentState.registerdImageDatas
             currentDatas.remove(at: indexPath.row)
             return Observable.just(Mutation.imageDataDelete(currentDatas))
+            
+        case .registerButtonTapped(let saveExpense):
+            let newExpense = convertExpense(saveExpense)
+            return Observable.just(Mutation.saveExpense(newExpense))
         }
     }
     
@@ -85,8 +101,25 @@ final class ComposeViewReactor: Reactor {
             break
         case .imageDataAppend(let datas), .imageDataDelete(let datas):
             newState.registerdImageDatas = datas
+            
+        case .saveExpense(let data):
+            storage.upsert(receipt: data)
         }
         
         return newState
+    }
+}
+
+extension ComposeViewReactor {
+    private func convertExpense(_ data: SaveExpense) -> Receipt {
+        var imageDatas = currentState.registerdImageDatas
+        imageDatas.removeFirst()
+        
+        return Receipt(
+            store: data.store ?? "", priceText: data.price ?? "",
+            product: data.product ?? "", receiptDate: data.date,
+            paymentType: data.paymentType, receiptData: imageDatas,
+            memo: data.memo ?? "", isFavorite: false
+        )
     }
 }
