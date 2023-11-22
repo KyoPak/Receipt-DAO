@@ -16,7 +16,7 @@ extension Scene {
     func instantiate() -> UIViewController {
         switch self {
         case .selectImage(let selectImageViewModel):
-            let viewController = SelectImageViewController()
+            let viewController = LimitAlbumViewController()
             viewController.bind(viewModel: selectImageViewModel)
             
             return viewController

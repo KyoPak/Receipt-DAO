@@ -6,14 +6,12 @@
 //
 
 import UIKit
+import PhotosUI
 
+import Mantis
 import ReactorKit
 import RxSwift
 import RxCocoa
-import NSObject_Rx
-import AVFoundation
-import PhotosUI
-import Mantis
 
 final class ComposeViewController: UIViewController, View {
     
@@ -23,13 +21,6 @@ final class ComposeViewController: UIViewController, View {
     weak var coordinator: ComposeViewCoordinator?
     private let deleteEventSubject = PublishSubject<IndexPath?>()
     private var keyboardHandler: KeyboardHandler?
-    
-    private var canAccessImagesData: [Data] = []
-    private var fetchResult = PHFetchResult<PHAsset>()
-    private var thumbnailSize: CGSize {
-        let scale = UIScreen.main.scale
-        return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
-    }
     
     // UI Properties
     
@@ -257,7 +248,7 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
                 self.present(picker, animated: true, completion: nil)
             case .limited:
                 PHPhotoLibrary.shared().register(self)
-                self.getCanAccessImages()
+//                self.getCanAccessImages()
             default:
                 self.showPermissionAlert(text: ConstantText.album.localize())
             }
@@ -357,9 +348,11 @@ extension ComposeViewController: SelectPickerDelegate {
 // MARK: - PHPhotoLibraryChangeObserver
 extension ComposeViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        getCanAccessImages()
+        // 코디네이터로 보내야할듯;;
+        //getCanAccessImages()
     }
     
+    /*
     private func getCanAccessImages() {
         canAccessImagesData = []
         let fetchOptions = PHFetchOptions()
@@ -386,6 +379,7 @@ extension ComposeViewController: PHPhotoLibraryChangeObserver {
 //            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
         }
     }
+     */
 }
 
 // MARK: - UIConstraint

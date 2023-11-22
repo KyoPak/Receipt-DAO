@@ -1,11 +1,13 @@
 //
-//  SelectImageViewController.swift
+//  LimitAlbumViewController.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/05/22.
 //
 
 import UIKit
+import Photos
+
 import RxSwift
 import RxCocoa
 
@@ -13,9 +15,20 @@ protocol SelectPickerDelegate: AnyObject {
     func selectPicker()
 }
 
-class SelectImageViewController: UIViewController, ViewModelBindable, UICollectionViewDelegate {
-    var viewModel: SelectImageViewModel?
+final class LimitAlbumViewController: UIViewController, UICollectionViewDelegate {
+    
+    // Properties
+    
     private weak var delegate: SelectPickerDelegate?
+    
+    private var canAccessImagesData: [Data] = []
+    private var fetchResult = PHFetchResult<PHAsset>()
+    private var thumbnailSize: CGSize {
+        let scale = UIScreen.main.scale
+        return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
+    }
+    
+    // UI Properties
     
     private var addSelectButton: UIButton = {
         let button = UIButton()
@@ -43,11 +56,13 @@ class SelectImageViewController: UIViewController, ViewModelBindable, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupHierarchy()
+        setupProperties()
         setupNavigationBar()
-        setupConstraint()
+        setupConstraints()
     }
     
+    /*
     func bindViewModel() {
         viewModel?.title
             .drive(navigationItem.rx.title)
@@ -103,29 +118,34 @@ class SelectImageViewController: UIViewController, ViewModelBindable, UICollecti
         collectionView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
     }
+     */
 }
 
-extension SelectImageViewController: UICollectionViewDelegateFlowLayout {
+extension LimitAlbumViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let viewModel = viewModel else { return false }
-        return viewModel.selectMaxCount > .zero
+        return true
+//        guard let viewModel = viewModel else { return false }
+//        return viewModel.selectMaxCount > .zero
     }
 }
 
-extension SelectImageViewController {
+extension LimitAlbumViewController {
     @objc private func tapCancleButton() {
-        viewModel?.closeView()
+//        viewModel?.closeView()
     }
     
     @objc private func tapSaveButton() {
-        viewModel?.selectComplete()
+//        viewModel?.selectComplete()
     }
 }
 
-extension SelectImageViewController {
-    private func setupView() {
-        delegate = viewModel?.pickerDelegate
+extension LimitAlbumViewController {
+    
+    private func setupHierarchy() {
         [addSelectButton, collectionView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
         view.backgroundColor = ConstantColor.cellColor
     }
     
@@ -155,8 +175,9 @@ extension SelectImageViewController {
         navigationItem.rightBarButtonItem?.tintColor = .label
     }
     
-    private func setupConstraint() {
+    private func setupConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
             addSelectButton.topAnchor.constraint(equalTo: safeArea.topAnchor),
             addSelectButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),

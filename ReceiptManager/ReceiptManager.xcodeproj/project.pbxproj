@@ -47,7 +47,7 @@
 		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
 		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
-		3C86FB882A1B407A000CC99B /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */; };
+		3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */; };
 		3C86FB8A2A1B40BD000CC99B /* SelectImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */; };
 		3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */; };
 		3C9AA3422A00EF9B0014807B /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */; };
@@ -64,6 +64,7 @@
 		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
 		3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */; };
 		3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */; };
+		3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */; };
 		3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA722392B051749005347AB /* ListViewReactor.swift */; };
 		3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAF8AF12A162444002251DD /* LargeImageViewController.swift */; };
 		3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF3D2A13486600E9CBAB /* DateFormatter+Extension.swift */; };
@@ -134,7 +135,7 @@
 		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
-		3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
+		3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewController.swift; sourceTree = "<group>"; };
 		3C86FB892A1B40BD000CC99B /* SelectImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectImageViewModel.swift; sourceTree = "<group>"; };
 		3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
 		3C9AA3412A00EF9B0014807B /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
 		3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCellView.swift; sourceTree = "<group>"; };
 		3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewReactor.swift; sourceTree = "<group>"; };
 		3CA722392B051749005347AB /* ListViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewReactor.swift; sourceTree = "<group>"; };
 		3CAB95782AE8EB4500BD0839 /* ReceiptManager v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ReceiptManager v2.xcdatamodel"; sourceTree = "<group>"; };
 		3CAF8AF12A162444002251DD /* LargeImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageViewController.swift; sourceTree = "<group>"; };
@@ -414,10 +416,19 @@
 		3CA536662B0E04D100EA77AA /* PickerScene */ = {
 			isa = PBXGroup;
 			children = (
-				3C86FB872A1B407A000CC99B /* SelectImageViewController.swift */,
+				3CA536682B0E083800EA77AA /* Reactor */,
+				3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */,
 				3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */,
 			);
 			path = PickerScene;
+			sourceTree = "<group>";
+		};
+		3CA536682B0E083800EA77AA /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		3CA722382B05173C005347AB /* Reactor */ = {
@@ -710,6 +721,7 @@
 				3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */,
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3C86FB8A2A1B40BD000CC99B /* SelectImageViewModel.swift in Sources */,
+				3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */,
 				3C6C06FB2A013FC100974AD3 /* SceneCoordinator.swift in Sources */,
 				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
@@ -736,7 +748,7 @@
 				3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */,
 				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C9AA3632A0130FA0014807B /* Scene.swift in Sources */,
-				3C86FB882A1B407A000CC99B /* SelectImageViewController.swift in Sources */,
+				3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */,
 				3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
 				3CD8B9352B0664FA00968A7E /* DetailViewCoordinator.swift in Sources */,
