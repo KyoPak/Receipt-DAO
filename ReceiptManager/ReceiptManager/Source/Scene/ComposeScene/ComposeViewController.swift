@@ -107,6 +107,18 @@ final class ComposeViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension ComposeViewController {
     private func bindView() {
+        rx.methodInvoked(#selector(touchesBegan))
+            .asDriver(onErrorJustReturn: [])
+            .drive { _ in
+                self.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
+            
+        memoTextView.rx.text
+            .asDriver(onErrorJustReturn: "")
+            .map { return $0 != "" }
+            .drive { self.placeHoderLabel.isHidden = $0 }
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: ComposeViewReactor) {
@@ -213,6 +225,13 @@ extension ComposeViewController {
     }
 }
 
+// MARK: - Cell Delegate
+extension ComposeViewController: CellDeletable {
+    func deleteCell(in cell: ImageCell) {
+        deleteEventSubject.onNext(collectionView.indexPath(for: cell))
+    }
+}
+
 // MARK: - Action
 extension ComposeViewController {
     @objc dynamic func appendExpenseImage(_ data: Data?) { }
@@ -276,10 +295,7 @@ extension ComposeViewController: CropViewControllerDelegate {
         cropViewController.dismiss(animated: true)
     }
     
-    func cropViewControllerDidCancel(
-        _ cropViewController: Mantis.CropViewController,
-        original: UIImage
-    ) {
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
         cropViewController.dismiss(animated: true)
     }
     
@@ -374,31 +390,6 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
     }
 }
 
-// MARK: - TextViewDelagate
-extension ComposeViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        placeHoderLabel.isHidden = true
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            placeHoderLabel.isHidden = false
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
-    }
-}
-
-// MARK: - Cell Delegate
-extension ComposeViewController: CellDeletable {
-    func deleteCell(in cell: ImageCell) {
-        deleteEventSubject.onNext(collectionView.indexPath(for: cell))
-    }
-}
-
 // MARK: - UIConstraint
 extension ComposeViewController {
     private func setupData(item: Receipt) {
@@ -452,7 +443,6 @@ extension ComposeViewController {
         createKeyboardToolBar(textView: memoTextView)
         
         placeHoderLabel.textColor = .lightGray
-        memoTextView.delegate = self
     }
     
     private func setupConstraints() {
