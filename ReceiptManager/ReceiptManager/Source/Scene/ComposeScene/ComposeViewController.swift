@@ -21,6 +21,7 @@ final class ComposeViewController: UIViewController, View {
     
     var disposeBag = DisposeBag()
     weak var coordinator: ComposeViewCoordinator?
+    private let deleteEventSubject = PublishSubject<IndexPath?>()
     
     private var canAccessImagesData: [Data] = []
     private var fetchResult = PHFetchResult<PHAsset>()
@@ -113,6 +114,10 @@ extension ComposeViewController {
                 let data = data.first as? Data ?? Data()
                 return Reactor.Action.imageAppend(data)
             }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        deleteEventSubject.map { Reactor.Action.imageDelete($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -424,8 +429,7 @@ extension ComposeViewController {
 // MARK: - Cell Delegate
 extension ComposeViewController: CellDeletable {
     func deleteCell(in cell: ImageCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        viewModel?.deleteReceiptData(indexPath: indexPath)
+        deleteEventSubject.onNext(collectionView.indexPath(for: cell))
     }
 }
 

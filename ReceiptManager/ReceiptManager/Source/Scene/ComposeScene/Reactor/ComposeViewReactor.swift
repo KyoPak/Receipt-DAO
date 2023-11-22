@@ -16,11 +16,13 @@ final class ComposeViewReactor: Reactor {
     enum Action {
         case viewWillAppear
         case imageAppend(Data)
+        case imageDelete(IndexPath?)
     }
     
     enum Mutation {
         case loadData
         case imageDataAppend([Data])
+        case imageDataDelete([Data])
     }
     
     struct State {
@@ -66,8 +68,13 @@ final class ComposeViewReactor: Reactor {
             var currentDatas = currentState.registerdImageDatas
             currentDatas.append(data)
             return Observable.just(Mutation.imageDataAppend(currentDatas))
+        case .imageDelete(let indexPath):
+            guard let indexPath = indexPath else { return Observable.empty() }
+            
+            var currentDatas = currentState.registerdImageDatas
+            currentDatas.remove(at: indexPath.row)
+            return Observable.just(Mutation.imageDataDelete(currentDatas))
         }
-        
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
@@ -76,7 +83,7 @@ final class ComposeViewReactor: Reactor {
         switch mutation {
         case .loadData:
             break
-        case .imageDataAppend(let datas):
+        case .imageDataAppend(let datas), .imageDataDelete(let datas):
             newState.registerdImageDatas = datas
         }
         
