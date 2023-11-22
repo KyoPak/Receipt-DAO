@@ -52,4 +52,16 @@ final class ComposeViewCoordinator: Coordinator {
             navigationController?.pushViewController(composeViewController, animated: true)
         }
     }
+    
+    func close(_ controller: UIViewController) {
+        removeChild(self)
+        
+        switch transitionType {
+        case .modal:
+            controller.navigationController?.dismiss(animated: true)
+        
+        case .push:
+            navigationController?.popViewController(animated: true)
+        }
+    }
 }
