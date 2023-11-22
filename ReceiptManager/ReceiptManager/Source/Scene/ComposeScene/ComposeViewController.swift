@@ -124,7 +124,18 @@ extension ComposeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        informationView.priceTextField.rx.text
+            .skip(1)
+            .map { Reactor.Action.priceTextChanged($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         deleteEventSubject.map { Reactor.Action.imageDelete($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        registerButton.rx.tap
+            .map { Reactor.Action.registerButtonTapped(self.convertSaveExpense()) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -138,11 +149,6 @@ extension ComposeViewController {
                 }
             }
             .disposed(by: rx.disposeBag)
-        
-        registerButton.rx.tap
-            .map { Reactor.Action.registerButtonTapped(self.convertSaveExpense()) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
     }
             
     private func bindState(_ reactor: ComposeViewReactor) {
@@ -160,6 +166,7 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense }
+            .take(1)
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .do { self.placeHoderLabel.isHidden = !$0.memo.isEmpty }
@@ -194,9 +201,11 @@ extension ComposeViewController {
     
     private func convertSaveExpense() -> Reactor.SaveExpense {
         return Reactor.SaveExpense(
-            date: informationView.datePicker.date, store: informationView.storeTextField.text,
-            price: informationView.priceTextField.text, product: informationView.productNameTextField.text,
-            paymentType: informationView.payTypeSegmented.selectedSegmentIndex, memo: memoTextView.text
+            date: informationView.datePicker.date,
+            store: informationView.storeTextField.text,
+            product: informationView.productNameTextField.text,
+            paymentType: informationView.payTypeSegmented.selectedSegmentIndex,
+            memo: memoTextView.text
         )
     }
 }
@@ -460,7 +469,6 @@ extension ComposeViewController {
         informationView.storeTextField.text = item.store
         informationView.productNameTextField.text = item.product
         informationView.payTypeSegmented.selectedSegmentIndex = item.paymentType
-        informationView.priceTextField.text = item.priceText
         memoTextView.text = item.memo
     }
     

@@ -15,6 +15,7 @@ final class ComposeViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
+        case priceTextChanged(String?)
         case imageAppend(Data)
         case imageDelete(IndexPath?)
         case registerButtonTapped(SaveExpense)
@@ -22,6 +23,7 @@ final class ComposeViewReactor: Reactor {
     
     enum Mutation {
         case loadData
+        case chagePriceText(String)
         case imageDataAppend([Data])
         case imageDataDelete([Data])
         case saveExpense(Receipt)
@@ -81,6 +83,10 @@ final class ComposeViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return Observable.just(Mutation.loadData)
+            
+        case .priceTextChanged(let text):
+            return Observable.just(Mutation.chagePriceText(NumberFormatter.numberDecimal(from: text ?? "")))
+            
         case .imageAppend(let data):
             let currentDatas = controlImageData(controlType: .append(data))
             return Observable.just(Mutation.imageDataAppend(currentDatas))
@@ -103,6 +109,10 @@ final class ComposeViewReactor: Reactor {
         switch mutation {
         case .loadData:
             break
+            
+        case .chagePriceText(let text):
+            newState.priceText = text
+            
         case .imageDataAppend(let datas), .imageDataDelete(let datas):
             newState.registerdImageDatas = datas
             
