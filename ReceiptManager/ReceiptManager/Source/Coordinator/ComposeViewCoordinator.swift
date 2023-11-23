@@ -17,6 +17,7 @@ final class ComposeViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
+    var innerNavigationController: UINavigationController
     var storage: CoreDataStorage
     var expense: Receipt?
     var transitionType: TransitionType
@@ -31,6 +32,7 @@ final class ComposeViewCoordinator: Coordinator {
         self.navigationController = navigationController
         self.storage = storage
         self.expense = expense
+        self.innerNavigationController = UINavigationController()
     }
     
     func start() {
@@ -44,7 +46,7 @@ final class ComposeViewCoordinator: Coordinator {
         
         switch transitionType {
         case .modal:
-            let innerNavigationController = UINavigationController(rootViewController: composeViewController)
+            innerNavigationController.setViewControllers([composeViewController], animated: true)
             innerNavigationController.modalPresentationStyle = .fullScreen
             navigationController?.present(innerNavigationController, animated: true)
             
@@ -63,5 +65,27 @@ final class ComposeViewCoordinator: Coordinator {
         case .push:
             navigationController?.popViewController(animated: true)
         }
+    }
+    
+    func presentLimitAlbumView() {
+        let limitAlbumViewCoordinator: LimitAlbumViewCoordinator
+        
+        switch transitionType {
+        case .modal:
+            limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
+                navigationController: innerNavigationController,
+                storage: storage
+            )
+        case .push:
+            limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
+                navigationController: navigationController,
+                storage: storage
+            )
+        }
+        
+        limitAlbumViewCoordinator.parentCoordinator = self
+        childCoordinators.append(limitAlbumViewCoordinator)
+        
+        limitAlbumViewCoordinator.start()
     }
 }

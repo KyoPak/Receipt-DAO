@@ -24,7 +24,9 @@ final class LimitAlbumViewCoordinator: Coordinator {
         let limitAlbumViewController = LimitAlbumViewController(reactor: limitAlbumReactor)
         limitAlbumViewController.coordinator = self
         
-        limitAlbumViewController.modalPresentationStyle = .fullScreen
-        navigationController?.present(limitAlbumViewController, animated: true)
+        let innerNavigationController = UINavigationController(rootViewController: limitAlbumViewController)
+        innerNavigationController.modalPresentationStyle = .fullScreen
+        
+        navigationController?.present(innerNavigationController, animated: true)
     }
 }
