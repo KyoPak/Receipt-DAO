@@ -27,7 +27,6 @@
 		3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C02B049F240005BA4C /* MainViewReactor.swift */; };
 		3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C32B049F920005BA4C /* SearchViewReactor.swift */; };
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
-		3C4EBB552A519282004E6C93 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EBB542A519282004E6C93 /* SearchViewModel.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
@@ -54,8 +53,6 @@
 		3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3522A012FE60014807B /* BookMarkViewController.swift */; };
 		3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3562A01301F0014807B /* DetailViewController.swift */; };
 		3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3582A0130310014807B /* ComposeViewController.swift */; };
-		3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA35E2A0130620014807B /* ComposeViewModel.swift */; };
-		3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3642A0135110014807B /* ViewModelBindable.swift */; };
 		3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */; };
 		3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */; };
 		3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */; };
@@ -110,7 +107,6 @@
 		3C4405C02B049F240005BA4C /* MainViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewReactor.swift; sourceTree = "<group>"; };
 		3C4405C32B049F920005BA4C /* SearchViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewReactor.swift; sourceTree = "<group>"; };
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
-		3C4EBB542A519282004E6C93 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -137,8 +133,6 @@
 		3C9AA3522A012FE60014807B /* BookMarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewController.swift; sourceTree = "<group>"; };
 		3C9AA3562A01301F0014807B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3C9AA3582A0130310014807B /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
-		3C9AA35E2A0130620014807B /* ComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewModel.swift; sourceTree = "<group>"; };
-		3C9AA3642A0135110014807B /* ViewModelBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBindable.swift; sourceTree = "<group>"; };
 		3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCellView.swift; sourceTree = "<group>"; };
 		3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewReactor.swift; sourceTree = "<group>"; };
@@ -453,7 +447,6 @@
 				3C74A37E2B04CDFE00377A73 /* Coordinator */,
 				3CDCDC4929FC006500C2BEF6 /* Application */,
 				3CDCDC4A29FC007400C2BEF6 /* Scene */,
-				3CFD22FA29FE4C9000AE59C7 /* ViewModel */,
 				3CDCDC4C29FC00A300C2BEF6 /* Model */,
 				3CDCDC5129FC03C400C2BEF6 /* Service */,
 			);
@@ -489,7 +482,6 @@
 				3C4EBB532A519261004E6C93 /* SearchScene */,
 				3C9AA3542A012FF80014807B /* ComposeScene */,
 				3C9AA3552A01300F0014807B /* DetailScene */,
-				3C9AA3642A0135110014807B /* ViewModelBindable.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -533,15 +525,6 @@
 				3CF106B62A4DBD250056874B /* InfoPlist.strings */,
 			);
 			path = Localizing;
-			sourceTree = "<group>";
-		};
-		3CFD22FA29FE4C9000AE59C7 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				3C9AA35E2A0130620014807B /* ComposeViewModel.swift */,
-				3C4EBB542A519282004E6C93 /* SearchViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		509C9D2BD38C0C0C30B6576A /* Pods */ = {
@@ -712,7 +695,6 @@
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
-				3C4EBB552A519282004E6C93 /* SearchViewModel.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* MainViewController.swift in Sources */,
 				3C74A3842B04F66F00377A73 /* MainViewCoordinator.swift in Sources */,
 				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,
@@ -729,7 +711,6 @@
 				3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */,
 				3C74A38B2B050DD200377A73 /* BookMarkViewReactor.swift in Sources */,
 				3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */,
-				3C9AA3652A0135110014807B /* ViewModelBindable.swift in Sources */,
 				3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */,
 				3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
@@ -745,7 +726,6 @@
 				3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
-				3C9AA35F2A0130620014807B /* ComposeViewModel.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,
 				3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */,

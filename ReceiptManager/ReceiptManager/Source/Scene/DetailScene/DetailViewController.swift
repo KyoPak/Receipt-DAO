@@ -161,7 +161,7 @@ extension DetailViewController {
             .subscribe(onNext: { [weak self] in
                 self?.coordinator?.presentLargeImage(image: $0)
             })
-            .disposed(by: rx.disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: DetailViewReactor) {
@@ -232,7 +232,7 @@ extension DetailViewController {
                 cell.hiddenDeleteButton()
                 cell.setupReceiptImage(data)
             }
-            .disposed(by: rx.disposeBag)
+            .disposed(by: disposeBag)
         
         reactor.state.map { $0.shareExpense }
             .compactMap { $0 }

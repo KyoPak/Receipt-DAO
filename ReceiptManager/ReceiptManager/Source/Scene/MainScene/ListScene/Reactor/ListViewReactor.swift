@@ -6,8 +6,6 @@
 //
 
 import ReactorKit
-import RxSwift
-import RxCocoa
 
 final class ListViewReactor: Reactor {
     

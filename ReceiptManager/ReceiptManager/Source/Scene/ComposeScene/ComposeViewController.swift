@@ -194,7 +194,7 @@ extension ComposeViewController {
                 if indexPath == .zero { cell.hiddenDeleteButton() }
                 if indexPath != .zero { cell.setupReceiptImage(data) }
             }
-            .disposed(by: rx.disposeBag)
+            .disposed(by: disposeBag)
         
         reactor.state.map { $0.successExpenseRegister }
             .asDriver(onErrorJustReturn: nil)

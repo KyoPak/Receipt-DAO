@@ -11,6 +11,9 @@ import RxSwift
 
 final class LargeImageViewController: UIViewController {
     
+    // Properties
+    private var disposeBag = DisposeBag()
+    
     // UI Properties
     
     private let imageView: UIImageView = {
@@ -52,7 +55,7 @@ final class LargeImageViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 self?.dismiss(animated: false)
             })
-            .disposed(by: rx.disposeBag)
+            .disposed(by: disposeBag)
     }
 }
 

@@ -6,8 +6,6 @@
 //
 
 import ReactorKit
-import RxSwift
-import RxCocoa
 
 protocol SelectPickerImageDelegate: AnyObject {
     func selectImagePicker(datas: [Data])
