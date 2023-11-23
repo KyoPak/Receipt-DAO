@@ -9,6 +9,10 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
+protocol SelectPickerImageDelegate: AnyObject {
+    func selectImagePicker(datas: [Data])
+}
+
 final class LimitAlbumViewReactor: Reactor {
     
     // Reactor Properties
@@ -17,27 +21,32 @@ final class LimitAlbumViewReactor: Reactor {
         case loadImageData(Data?)
         case imageSelected(IndexPath)
         case imageDeselected(IndexPath)
+        case selectCompleteButtonTapped
     }
     
     enum Mutation {
         case appendLimitedImageData([Data])
         case handleSelectedImageData([Data], IndexPath)
+        case sendSelectImageDatas(Void?)
     }
     
     struct State {
         var limitedImagesData: [Data]
         var selectedImageData: [Data]
         var handleIndex: IndexPath?
+        var sendData: Void?
     }
     
-    let initialState = State(limitedImagesData: [], selectedImageData: [], handleIndex: nil)
+    let initialState = State(limitedImagesData: [], selectedImageData: [], handleIndex: nil, sendData: nil)
     
     // Properties
     
+    private weak var delegate: SelectPickerImageDelegate?
+    
     // Initializer
     
-    init() {
-        
+    init(delegate: SelectPickerImageDelegate) {
+        self.delegate = delegate
     }
     
     // Reactor Method
@@ -67,6 +76,10 @@ final class LimitAlbumViewReactor: Reactor {
             currentDatas.remove(at: removeIndex)
 
             return Observable.just(Mutation.handleSelectedImageData(currentDatas, indexPath))
+            
+        case .selectCompleteButtonTapped:
+            delegate?.selectImagePicker(datas: currentState.selectedImageData)
+            return Observable.just(Mutation.sendSelectImageDatas(Void()))
         }
     }
     
@@ -80,6 +93,9 @@ final class LimitAlbumViewReactor: Reactor {
         case .handleSelectedImageData(let datas, let indexPath):
             newState.selectedImageData = datas
             newState.handleIndex = indexPath
+            
+        case .sendSelectImageDatas(let void):
+            newState.sendData = void
         }
         
         return newState

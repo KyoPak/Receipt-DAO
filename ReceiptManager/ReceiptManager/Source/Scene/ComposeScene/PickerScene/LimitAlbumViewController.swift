@@ -12,15 +12,10 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-protocol SelectPickerDelegate: AnyObject {
-    func selectPicker()
-}
-
 final class LimitAlbumViewController: UIViewController, View {
     
     // Properties
     
-    private weak var delegate: SelectPickerDelegate?
     weak var coordinator: LimitAlbumViewCoordinator?
     var disposeBag = DisposeBag()
     
@@ -31,7 +26,7 @@ final class LimitAlbumViewController: UIViewController, View {
     
     // UI Properties
     
-    private var addSelectButton: UIButton = {
+    private let addSelectButton: UIButton = {
         let button = UIButton()
         button.setTitle(ConstantText.selectButton.localize(), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +34,7 @@ final class LimitAlbumViewController: UIViewController, View {
         return button
     }()
 
-    private var collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionCellWidth = UIScreen.main.bounds.width / 3 - 3
         layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
@@ -53,6 +48,22 @@ final class LimitAlbumViewController: UIViewController, View {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
+    }()
+    
+    private let cancelButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.title = ConstantText.cancle.localize()
+        button.style = .plain
+        button.target = nil
+        return button
+    }()
+    
+    private let completeButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.title = ConstantText.complete.localize()
+        button.style = .done
+        button.target = nil
+        return button
     }()
     
     override func viewDidLoad() {
@@ -108,6 +119,10 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
     private func bindView() {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        cancelButton.rx.tap
+            .bind { self.coordinator?.close(self.navigationController ?? UINavigationController()) }
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: LimitAlbumViewReactor) {
@@ -118,6 +133,11 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
         
         collectionView.rx.itemDeselected
             .map { Reactor.Action.imageDeselected($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        completeButton.rx.tap
+            .map { Reactor.Action.selectCompleteButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -142,16 +162,14 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
                 cell?.setSelected()
             }
             .disposed(by: disposeBag)
-    }
-}
-
-extension LimitAlbumViewController {
-    @objc private func tapCancleButton() {
-//        viewModel?.closeView()
-    }
-    
-    @objc private func tapSaveButton() {
-//        viewModel?.selectComplete()
+        
+        reactor.state.map { $0.sendData }
+            .compactMap { $0 }
+            .asDriver(onErrorJustReturn: Void())
+            .drive { _ in
+                self.coordinator?.close(self.navigationController ?? UINavigationController())
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -172,21 +190,11 @@ extension LimitAlbumViewController {
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.label]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: ConstantText.cancle.localize(),
-            style: .plain,
-            target: self,
-            action: #selector(tapCancleButton)
-        )
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: ConstantText.complete.localize(),
-            style: .done,
-            target: self,
-            action: #selector(tapSaveButton)
-        )
+        navigationItem.leftBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItem = completeButton
+        
         navigationItem.leftBarButtonItem?.tintColor = .label
         navigationItem.rightBarButtonItem?.tintColor = .label
     }
