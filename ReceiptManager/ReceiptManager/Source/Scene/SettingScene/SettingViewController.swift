@@ -15,6 +15,7 @@ import RxCocoa
 final class SettingViewController: UIViewController, View {
 
     // Properties
+    
     typealias TableViewDataSource = RxTableViewSectionedReloadDataSource<SettingSection>
     
     private let dataSource: TableViewDataSource = {
@@ -86,11 +87,22 @@ extension SettingViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .map { Reactor.Action.cellSelect($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: SettingViewReactor) {
         reactor.state.map { $0.settingMenu }
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.url }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { UIApplication.shared.open($0) }
             .disposed(by: disposeBag)
     }
 }

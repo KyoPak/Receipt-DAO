@@ -18,14 +18,12 @@ final class SettingViewReactor: Reactor {
     
     enum Mutation {
         case loadData([SettingSection])
-        case sendMail(String?)
-        case rankApp(String?)
+        case moveURL(URL?)
     }
     
     struct State {
         var settingMenu: [SettingSection]
-        var mailURL: String?
-        var appStoreURL: String?
+        var url: URL?
     }
     
     let initialState: State
@@ -35,7 +33,7 @@ final class SettingViewReactor: Reactor {
     // Initializer
     
     init() {
-        initialState = State(settingMenu: [], mailURL: nil, appStoreURL: nil)
+        initialState = State(settingMenu: [], url: nil)
     }
     
     // Reactor Method
@@ -58,11 +56,8 @@ final class SettingViewReactor: Reactor {
         case .loadData(let menu):
             newState.settingMenu = menu
             
-        case .sendMail(let url):
-            newState.mailURL = url
-            
-        case .rankApp(let url):
-            newState.appStoreURL = url
+        case .moveURL(let url):
+            newState.url = url
         }
         
         return newState
@@ -76,31 +71,28 @@ extension SettingViewReactor {
             return Observable.empty()
         case .mail:
             return Observable.concat([
-                Observable.just(Mutation.sendMail(
-                    createEmailUrl(
-                        subject: ConstantText.mailSubject.localize(),
-                        body: ConstantText.mailBody.localize()
-                    )
-                )),
-                Observable.just(Mutation.sendMail(nil))
+                Observable.just(Mutation.moveURL(createEmailUrl())),
+                Observable.just(Mutation.moveURL(nil))
             ])
         case .appStore:
             return Observable.concat([
-                Observable.just(Mutation.rankApp(createAppStoreURL())),
-                Observable.just(Mutation.rankApp(nil))
+                Observable.just(Mutation.moveURL(createAppStoreURL())),
+                Observable.just(Mutation.moveURL(nil))
             ])
         }
     }
     
-    private func createEmailUrl(subject: String, body: String) -> String {
+    private func createEmailUrl() -> URL? {
+        let subject = ConstantText.mailSubject.localize()
+        let body = ConstantText.mailBody.localize()
         let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let defaultUrl = "mailto:\(ConstantText.myEmail)?subject=\(subjectEncoded)&body=\(bodyEncoded)"
         
-        return defaultUrl
+        return URL(string: defaultUrl)
     }
     
-    private func createAppStoreURL() -> String {
-        return "itms-apps://itunes.apple.com/app/" + ConstantText.appID
+    private func createAppStoreURL() -> URL? {
+        return URL(string: "itms-apps://itunes.apple.com/app/" + ConstantText.appID)
     }
 }
