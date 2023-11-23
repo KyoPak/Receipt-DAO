@@ -79,7 +79,8 @@ final class SettingViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension SettingViewController {
     private func bindView() {
-        
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: SettingViewReactor) {
@@ -89,6 +90,7 @@ extension SettingViewController {
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
+            .do { self.tableView.deselectRow(at: $0, animated: false) }
             .map { Reactor.Action.cellSelect($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -107,9 +109,29 @@ extension SettingViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
+        guard let datas = reactor?.currentState.settingMenu else { return nil }
+        let data = datas[section]
+        let sectionTitle = data.title
+        
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .label
+        label.text = sectionTitle
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+        
+        headerView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+        
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
