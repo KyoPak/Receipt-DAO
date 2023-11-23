@@ -94,14 +94,9 @@ final class LimitAlbumViewReactor: Reactor {
             return Observable.just(Mutation.sendSelectImageDatas(Void()))
             
         case .initialData:
-            let state = State(
-                limitedImagesData: [],
-                selectedImageData: [],
-                currentImageCount: currentState.currentImageCount,
-                isInitial: Void()
-            )
+            let newState = configureInitialState()
             return Observable.concat([
-                Observable.just(Mutation.initialState(state)),
+                Observable.just(Mutation.initialState(newState)),
                 Observable.just(Mutation.initialState(nil))
             ])
         }
@@ -126,10 +121,20 @@ final class LimitAlbumViewReactor: Reactor {
                 newState.isInitial = nil
                 return newState
             }
-            
             newState = initialState
         }
         
         return newState
+    }
+}
+
+extension LimitAlbumViewReactor {
+    private func configureInitialState() -> State {
+        return State(
+            limitedImagesData: [],
+            selectedImageData: [],
+            currentImageCount: currentState.currentImageCount,
+            isInitial: Void()
+        )
     }
 }
