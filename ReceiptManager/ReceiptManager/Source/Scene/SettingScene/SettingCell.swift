@@ -9,7 +9,7 @@ import UIKit
 
 final class SettingCell: UITableViewCell {
     private let optionLabel = UILabel(font: .preferredFont(forTextStyle: .body))
-    weak var delegate: SegmentDelegate?
+//    weak var delegate: SegmentDelegate?
     
     let currencySegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: [ConstantText.krw, ConstantText.usd, ConstantText.jpy])
@@ -37,7 +37,7 @@ final class SettingCell: UITableViewCell {
 // MARK: - SegmentController Action
 extension SettingCell {
     @objc private func changedCurrency() {
-        delegate?.changedValue(index: currencySegmented.selectedSegmentIndex)
+
     }
 }
 

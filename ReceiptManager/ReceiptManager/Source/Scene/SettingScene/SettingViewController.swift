@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-final class SettingViewController: UIViewController, ViewModelBindable {
-    var viewModel: SettingViewModel?
+final class SettingViewController: UIViewController {
+
     private let navigationBar = CustomNavigationBar(title: ConstantText.setting.localize())
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
@@ -27,58 +27,11 @@ final class SettingViewController: UIViewController, ViewModelBindable {
         setupConstraints()
     }
     
-    func bindViewModel() {
-        guard let viewModel = viewModel else { return }
-        viewModel.title
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.menuDatas
-            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-            .disposed(by: rx.disposeBag)
-        
-        Observable.zip(tableView.rx.modelSelected(SettingOption.self), tableView.rx.itemSelected)
-            .withUnretained(self)
-            .do { (owner, data) in
-                owner.tableView.deselectRow(at: data.1, animated: true)
-            }
-            .map { $1.0 }
-            .subscribe { [weak self] in
-                self?.viewModel?.menuSelectAction(menu: $0)
-            }
-            .disposed(by: rx.disposeBag)
-        
-        tableView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
-    }
 }
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let datas = try? viewModel?.menuDatas.value() else {
-            return nil
-        }
-        
-        let data = datas[section]
-        
-        let sectionTitle = data.title
-        
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .label
-        label.text = sectionTitle
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-
-        headerView.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-        ])
-        
-        return headerView
+        return UIView()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -88,7 +41,7 @@ extension SettingViewController: UITableViewDelegate {
 
 extension SettingViewController {
     @objc private func tapCloseButton() {
-        viewModel?.cancelAction()
+//        viewModel?.cancelAction()
     }
 }
 
