@@ -8,14 +8,34 @@
 import UIKit
 
 import ReactorKit
+import RxDataSources
 import RxSwift
 import RxCocoa
-import NSObject_Rx
 
 final class SettingViewController: UIViewController, View {
 
     // Properties
+    typealias TableViewDataSource = RxTableViewSectionedReloadDataSource<SettingSection>
     
+    private let dataSource: TableViewDataSource = {
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, item in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: SettingCell.identifier,
+                for: indexPath
+            ) as? SettingCell else {
+                return UITableViewCell()
+            }
+            
+            if indexPath.section == .zero {
+                cell.showSegment(index: UserDefaults.standard.integer(forKey: ConstantText.currencyKey))
+            }
+            
+            cell.setupData(text: item.title)
+            return cell
+        }
+        
+        return dataSource
+    }()
     var disposeBag = DisposeBag()
     weak var coordinator: SettingViewCoordinator?
     
@@ -23,7 +43,6 @@ final class SettingViewController: UIViewController, View {
     
     private let navigationBar = CustomNavigationBar(title: ConstantText.setting.localize())
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -63,14 +82,18 @@ extension SettingViewController {
     }
     
     private func bindAction(_ reactor: SettingViewReactor) {
-        
+        rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: SettingViewReactor) {
-        
+        reactor.state.map { $0.settingMenu }
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
 }
-
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -79,12 +102,6 @@ extension SettingViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
-    }
-}
-
-extension SettingViewController {
-    @objc private func tapCloseButton() {
-//        viewModel?.cancelAction()
     }
 }
 
@@ -113,7 +130,7 @@ extension SettingViewController {
             navigationBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             navigationBar.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            navigationBar.heightAnchor.constraint(equalToConstant: 70),
+            navigationBar.heightAnchor.constraint(equalToConstant: 60),
             
             tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
