@@ -17,6 +17,7 @@ final class SettingViewController: UIViewController, View {
     // Properties
     
     var disposeBag = DisposeBag()
+    weak var coordinator: SettingViewCoordinator?
     
     // UI Properties
     

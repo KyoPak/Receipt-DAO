@@ -42,6 +42,7 @@
 		3C74A3882B050D8800377A73 /* BookMarkViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */; };
 		3C74A38B2B050DD200377A73 /* BookMarkViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */; };
 		3C765AE92B0F58B300EB7A6C /* SettingViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C765AE82B0F58B300EB7A6C /* SettingViewReactor.swift */; };
+		3C765AEB2B0F598600EB7A6C /* SettingViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */; };
 		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
 		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
@@ -124,6 +125,7 @@
 		3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewCoordinator.swift; sourceTree = "<group>"; };
 		3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewReactor.swift; sourceTree = "<group>"; };
 		3C765AE82B0F58B300EB7A6C /* SettingViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReactor.swift; sourceTree = "<group>"; };
+		3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewCoordinator.swift; sourceTree = "<group>"; };
 		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				3CD8B9342B0664FA00968A7E /* DetailViewCoordinator.swift */,
 				3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */,
 				3CA5366B2B0E0B2600EA77AA /* LimitAlbumViewCoordinator.swift */,
+				3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */,
 				3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */,
 				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
+				3C765AEB2B0F598600EB7A6C /* SettingViewCoordinator.swift in Sources */,
 				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
