@@ -181,7 +181,7 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
 // MARK: - PHPhotoLibraryChangeObserver
 extension LimitAlbumViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
+        reactor?.action.onNext(Reactor.Action.initialData)
         accessLimitedImages()
     }
 }

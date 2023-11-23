@@ -22,12 +22,14 @@ final class LimitAlbumViewReactor: Reactor {
         case imageSelected(IndexPath)
         case imageDeselected(IndexPath)
         case selectCompleteButtonTapped
+        case initialData
     }
     
     enum Mutation {
         case appendLimitedImageData([Data])
         case handleSelectedImageData([Data], IndexPath)
         case sendSelectImageDatas(Void?)
+        case initialState(State)
     }
     
     struct State {
@@ -88,6 +90,14 @@ final class LimitAlbumViewReactor: Reactor {
         case .selectCompleteButtonTapped:
             delegate?.selectImagePicker(datas: currentState.selectedImageData)
             return Observable.just(Mutation.sendSelectImageDatas(Void()))
+            
+        case .initialData:
+            let state = State(
+                limitedImagesData: [],
+                selectedImageData: [],
+                currentImageCount: currentState.currentImageCount
+            )
+            return Observable.just(Mutation.initialState(state))
         }
     }
     
@@ -104,6 +114,9 @@ final class LimitAlbumViewReactor: Reactor {
             
         case .sendSelectImageDatas(let void):
             newState.sendData = void
+            
+        case .initialState(let initialState):
+            newState = initialState
         }
         
         return newState
