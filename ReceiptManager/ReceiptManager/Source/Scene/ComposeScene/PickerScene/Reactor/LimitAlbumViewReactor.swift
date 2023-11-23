@@ -31,7 +31,7 @@ final class LimitAlbumViewReactor: Reactor {
     
     // Initializer
     
-    init(title: String) {
+    init() {
         
     }
     

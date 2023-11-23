@@ -8,6 +8,7 @@
 import UIKit
 import Photos
 
+import ReactorKit
 import RxSwift
 import RxCocoa
 
@@ -15,14 +16,16 @@ protocol SelectPickerDelegate: AnyObject {
     func selectPicker()
 }
 
-final class LimitAlbumViewController: UIViewController, UICollectionViewDelegate {
+final class LimitAlbumViewController: UIViewController, View {
     
     // Properties
     
     private weak var delegate: SelectPickerDelegate?
+    weak var coordinator: LimitAlbumViewCoordinator?
+    var disposeBag = DisposeBag()
     
-    private var canAccessImagesData: [Data] = []
-    private var fetchResult = PHFetchResult<PHAsset>()
+    private var limitedImagesData: [Data] = []
+    private var fetchImageResult = PHFetchResult<PHAsset>()
     private var thumbnailSize: CGSize {
         let scale = UIScreen.main.scale
         return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
@@ -60,6 +63,46 @@ final class LimitAlbumViewController: UIViewController, UICollectionViewDelegate
         setupProperties()
         setupNavigationBar()
         setupConstraints()
+    }
+    
+    // Initializer
+    
+    init(reactor: LimitAlbumViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+        accessLimitedImages()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func accessLimitedImages() {
+        limitedImagesData = []
+        
+        let fetchOptions = PHFetchOptions()
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        
+        fetchImageResult = PHAsset.fetchAssets(with: fetchOptions)
+        
+        fetchImageResult.enumerateObjects({ asset, _, _ in
+            PHImageManager().requestImage(
+                for: asset,
+                targetSize: self.thumbnailSize,
+                contentMode: .aspectFill,
+                options: requestOptions
+            ) { (image, info) in
+                
+                guard let image = image else { return }
+                self.limitedImagesData.append(image.pngData() ?? Data())
+            }
+        })
+    }
+    
+    func bind(reactor: LimitAlbumViewReactor) {
+        
     }
     
     /*
@@ -139,8 +182,9 @@ extension LimitAlbumViewController {
     }
 }
 
+
+// MARK: - UI Constraints
 extension LimitAlbumViewController {
-    
     private func setupHierarchy() {
         [addSelectButton, collectionView].forEach(view.addSubview(_:))
     }
