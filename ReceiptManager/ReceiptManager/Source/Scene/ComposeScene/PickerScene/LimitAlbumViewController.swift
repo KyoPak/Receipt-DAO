@@ -131,6 +131,11 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
     }
     
     private func bindAction(_ reactor: LimitAlbumViewReactor) {
+        rx.methodInvoked(#selector(photoLibraryDidChange))
+            .map { _ in Reactor.Action.initialData }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .map { Reactor.Action.imageSelected($0) }
             .bind(to: reactor.action)
@@ -175,15 +180,20 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
                 self.coordinator?.close(self.navigationController ?? UINavigationController())
             }
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isInitial }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { _ in
+                self.accessLimitedImages()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
 // MARK: - PHPhotoLibraryChangeObserver
 extension LimitAlbumViewController: PHPhotoLibraryChangeObserver {
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        reactor?.action.onNext(Reactor.Action.initialData)
-        accessLimitedImages()
-    }
+    func photoLibraryDidChange(_ changeInstance: PHChange) { }
 }
 
 // MARK: - UI Constraints

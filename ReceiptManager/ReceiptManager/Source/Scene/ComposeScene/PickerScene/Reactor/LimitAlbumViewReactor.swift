@@ -29,7 +29,7 @@ final class LimitAlbumViewReactor: Reactor {
         case appendLimitedImageData([Data])
         case handleSelectedImageData([Data], IndexPath)
         case sendSelectImageDatas(Void?)
-        case initialState(State)
+        case initialState(State?)
     }
     
     struct State {
@@ -38,6 +38,7 @@ final class LimitAlbumViewReactor: Reactor {
         var handleIndex: IndexPath?
         var sendData: Void?
         var currentImageCount: Int
+        var isInitial: Void?
     }
     
     let initialState: State
@@ -55,7 +56,8 @@ final class LimitAlbumViewReactor: Reactor {
             selectedImageData: [],
             handleIndex: nil,
             sendData: nil,
-            currentImageCount: imageCount
+            currentImageCount: imageCount,
+            isInitial: nil
         )
     }
     
@@ -95,9 +97,13 @@ final class LimitAlbumViewReactor: Reactor {
             let state = State(
                 limitedImagesData: [],
                 selectedImageData: [],
-                currentImageCount: currentState.currentImageCount
+                currentImageCount: currentState.currentImageCount,
+                isInitial: Void()
             )
-            return Observable.just(Mutation.initialState(state))
+            return Observable.concat([
+                Observable.just(Mutation.initialState(state)),
+                Observable.just(Mutation.initialState(nil))
+            ])
         }
     }
     
@@ -116,6 +122,11 @@ final class LimitAlbumViewReactor: Reactor {
             newState.sendData = void
             
         case .initialState(let initialState):
+            guard let initialState = initialState else {
+                newState.isInitial = nil
+                return newState
+            }
+            
             newState = initialState
         }
         
