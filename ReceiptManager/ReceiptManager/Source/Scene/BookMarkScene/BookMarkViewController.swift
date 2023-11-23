@@ -18,7 +18,7 @@ final class BookMarkViewController: UIViewController, View {
     
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
-    let dataSource: TableViewDataSource = {
+    private let dataSource: TableViewDataSource = {
         let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
         
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in

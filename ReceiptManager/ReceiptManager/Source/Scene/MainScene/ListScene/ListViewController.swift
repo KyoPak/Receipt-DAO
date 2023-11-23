@@ -19,7 +19,7 @@ final class ListViewController: UIViewController, View {
     // Properties
     
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
-    let dataSource: TableViewDataSource = {
+    private let dataSource: TableViewDataSource = {
         let currencyIndex = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
         
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
@@ -120,7 +120,7 @@ extension ListViewController {
             .subscribe(onNext: { [weak self] in
                 self?.coordinator?.presentDetailView(expense: $0)
             })
-            .disposed(by: rx.disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: ListViewReactor) {
