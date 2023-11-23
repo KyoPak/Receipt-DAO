@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Photos
+import PhotosUI
 
 import ReactorKit
 import RxSwift
@@ -78,6 +78,7 @@ final class LimitAlbumViewController: UIViewController, View {
     
     init(reactor: LimitAlbumViewReactor) {
         super.init(nibName: nil, bundle: nil)
+        PHPhotoLibrary.shared().register(self)
         self.reactor = reactor
         accessLimitedImages()
     }
@@ -122,6 +123,10 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
         
         cancelButton.rx.tap
             .bind { self.coordinator?.close(self.navigationController ?? UINavigationController()) }
+            .disposed(by: disposeBag)
+        
+        addSelectButton.rx.tap
+            .bind { PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) }
             .disposed(by: disposeBag)
     }
     
@@ -170,6 +175,14 @@ extension LimitAlbumViewController: UICollectionViewDelegate {
                 self.coordinator?.close(self.navigationController ?? UINavigationController())
             }
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - PHPhotoLibraryChangeObserver
+extension LimitAlbumViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        
+        accessLimitedImages()
     }
 }
 

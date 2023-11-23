@@ -248,7 +248,6 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
                 self.present(picker, animated: true, completion: nil)
             
             case .limited:
-                PHPhotoLibrary.shared().register(self)
                 self.coordinator?.presentLimitAlbumView(
                     delegate: self,
                     imageCount: (self.reactor?.currentState.registerdImageDatas.count ?? .zero) - 1
@@ -339,16 +338,6 @@ extension ComposeViewController: CropViewControllerDelegate {
         imageCropViewController.delegate = self
         
         present(imageCropViewController, animated: true)
-    }
-}
-
-// MARK: - PHPhotoLibraryChangeObserver
-extension ComposeViewController: PHPhotoLibraryChangeObserver {
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        coordinator?.presentLimitAlbumView(
-            delegate: self,
-            imageCount: (self.reactor?.currentState.registerdImageDatas.count ?? .zero) - 1
-        )
     }
 }
 
