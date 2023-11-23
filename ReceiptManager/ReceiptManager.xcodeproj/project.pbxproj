@@ -41,6 +41,7 @@
 		3C74A3842B04F66F00377A73 /* MainViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */; };
 		3C74A3882B050D8800377A73 /* BookMarkViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */; };
 		3C74A38B2B050DD200377A73 /* BookMarkViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */; };
+		3C765AE92B0F58B300EB7A6C /* SettingViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C765AE82B0F58B300EB7A6C /* SettingViewReactor.swift */; };
 		3C7D424D2A51281E00304A8C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D424C2A51281E00304A8C /* Currency.swift */; };
 		3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */; };
 		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
@@ -122,6 +123,7 @@
 		3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewCoordinator.swift; sourceTree = "<group>"; };
 		3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewReactor.swift; sourceTree = "<group>"; };
+		3C765AE82B0F58B300EB7A6C /* SettingViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReactor.swift; sourceTree = "<group>"; };
 		3C7D424C2A51281E00304A8C /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		3C0894C12A4E6ABB00C6E7CD /* SettingScene */ = {
 			isa = PBXGroup;
 			children = (
+				3C765AE72B0F589F00EB7A6C /* Reactor */,
 				3C0894C22A4E6AF900C6E7CD /* SettingViewController.swift */,
 				3C0894C72A4E87F600C6E7CD /* SettingCell.swift */,
 			);
@@ -294,6 +297,14 @@
 			isa = PBXGroup;
 			children = (
 				3C74A38A2B050DD200377A73 /* BookMarkViewReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3C765AE72B0F589F00EB7A6C /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3C765AE82B0F58B300EB7A6C /* SettingViewReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -724,6 +735,7 @@
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */,
+				3C765AE92B0F58B300EB7A6C /* SettingViewReactor.swift in Sources */,
 				3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */,
