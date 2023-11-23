@@ -75,8 +75,8 @@ extension CustomTabBarController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            customTabBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            customTabBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            customTabBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            customTabBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             customTabBar.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             customTabBar.heightAnchor.constraint(equalToConstant: 60)
         ])

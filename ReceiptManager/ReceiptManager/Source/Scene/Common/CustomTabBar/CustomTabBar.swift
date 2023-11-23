@@ -26,9 +26,9 @@ final class CustomTabBar: UIStackView {
     
     private let mainItem = CustomItemView(with: .main, index: 0)
     private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
-//    private let settingItem = CustomItemView(with: .setting, index: 2)
+    private let settingItem = CustomItemView(with: .setting, index: 2)
     
-    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem]
+    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem, settingItem]
     
     private let registerItem: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "plus.circle.fill")?.withTintColor(ConstantColor.registerColor, renderingMode: .alwaysOriginal))
@@ -52,7 +52,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem, bookmarkItem, registerItem].forEach { self.addArrangedSubview($0) }
+        [mainItem, bookmarkItem, registerItem, settingItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -107,15 +107,15 @@ final class CustomTabBar: UIStackView {
                 self.registerButtonSubject.onNext(Void())
             }
             .disposed(by: disposeBag)
-//
-//        settingItem.rx.tapGesture()
-//            .when(.recognized)
-//            .bind { [weak self] _ in
-//                guard let self = self else { return }
-//                self.settingItem.animateClick {
-//                    self.selectItem(index: self.settingItem.index)
-//                }
-//            }
-//            .disposed(by: disposeBag)
+
+        settingItem.rx.tapGesture()
+            .when(.recognized)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                self.settingItem.animateClick {
+                    self.selectItem(index: self.settingItem.index)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

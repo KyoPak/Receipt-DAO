@@ -10,7 +10,7 @@ import UIKit
 enum CustomTabItem: String, CaseIterable {
     case main
     case bookmark
-//    case setting
+    case setting
 }
  
 extension CustomTabItem {
@@ -20,8 +20,8 @@ extension CustomTabItem {
             return ConstantText.list.localize()
         case .bookmark:
             return ConstantText.bookMark.localize()
-//        case .setting:
-//            return ConstantText.setting.localize()
+        case .setting:
+            return ConstantText.setting.localize()
         }
     }
     
@@ -33,9 +33,9 @@ extension CustomTabItem {
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMark)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
-//        case .setting:
-//            return UIImage(systemName: ConstantImage.gear)?
-//                .withTintColor(.white.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+        case .setting:
+            return UIImage(systemName: ConstantImage.gear)?
+                .withTintColor(.white.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         }
     }
     
@@ -47,9 +47,9 @@ extension CustomTabItem {
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMarkFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
-//        case .setting:
-//            return UIImage(systemName: ConstantImage.gearFill)?
-//                .withTintColor(.white, renderingMode: .alwaysOriginal)
+        case .setting:
+            return UIImage(systemName: ConstantImage.gearFill)?
+                .withTintColor(.white, renderingMode: .alwaysOriginal)
         }
     }
     
@@ -65,14 +65,20 @@ extension CustomTabItem {
                 navigationController: navigationController,
                 storage: storage
             )
+        
         case .bookmark:
             return BookMarkViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
                 storage: storage
             )
-//        case .setting:
-//            return
+            
+        case .setting:
+            return SettingViewCoordinator(
+                outerNavigationController: outerNavigationController,
+                navigationController: navigationController,
+                storage: storage
+            )
         }
     }
 }
