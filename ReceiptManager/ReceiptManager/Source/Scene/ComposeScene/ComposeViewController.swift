@@ -249,7 +249,7 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
             
             case .limited:
                 PHPhotoLibrary.shared().register(self)
-                self.coordinator?.presentLimitAlbumView()
+                self.coordinator?.presentLimitAlbumView(delegate: self)
 
             default:
                 self.showPermissionAlert(text: ConstantText.album.localize())
@@ -339,18 +339,19 @@ extension ComposeViewController: CropViewControllerDelegate {
     }
 }
 
-extension ComposeViewController: SelectPickerDelegate {
-    func selectPicker() {
-//        viewModel?.cancelAction(completion: {
-//            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
-//        })
-    }
-}
-
 // MARK: - PHPhotoLibraryChangeObserver
 extension ComposeViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        coordinator?.presentLimitAlbumView()
+        coordinator?.presentLimitAlbumView(delegate: self)
+    }
+}
+
+// MARK: - SelectPickerImageDelegate
+extension ComposeViewController: SelectPickerImageDelegate {
+    func selectImagePicker(datas: [Data]) {
+        datas.forEach { data in
+            self.reactor?.action.onNext(Reactor.Action.imageAppend(data))
+        }
     }
 }
 

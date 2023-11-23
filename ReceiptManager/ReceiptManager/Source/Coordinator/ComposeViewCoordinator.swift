@@ -67,19 +67,21 @@ final class ComposeViewCoordinator: Coordinator {
         }
     }
     
-    func presentLimitAlbumView() {
+    func presentLimitAlbumView(delegate: SelectPickerImageDelegate) {
         let limitAlbumViewCoordinator: LimitAlbumViewCoordinator
         
         switch transitionType {
         case .modal:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: innerNavigationController,
-                storage: storage
+                storage: storage,
+                delegate: delegate
             )
         case .push:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: navigationController,
-                storage: storage
+                storage: storage,
+                delegate: delegate
             )
         }
         
