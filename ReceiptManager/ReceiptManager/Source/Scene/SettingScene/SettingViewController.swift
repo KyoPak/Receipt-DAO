@@ -18,7 +18,7 @@ final class SettingViewController: UIViewController, View {
     
     typealias TableViewDataSource = RxTableViewSectionedReloadDataSource<SettingSection>
     
-    private let dataSource: TableViewDataSource = {
+    private lazy var dataSource: TableViewDataSource = {
         let dataSource = TableViewDataSource { dataSource, tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SettingCell.identifier,
@@ -28,7 +28,8 @@ final class SettingViewController: UIViewController, View {
             }
             
             if indexPath.section == .zero {
-                cell.showSegment(index: UserDefaults.standard.integer(forKey: ConstantText.currencyKey))
+                cell.setupSegment(index: self.reactor?.currentState.currencyIndex ?? .zero)
+                cell.delegate = self
             }
             
             cell.setupData(text: item.title)
@@ -89,6 +90,12 @@ extension SettingViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        rx.methodInvoked(#selector(segmentDelegate))
+            .compactMap { $0.first as? Int }
+            .map { Reactor.Action.segmentValueChanged($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         tableView.rx.itemSelected
             .do { self.tableView.deselectRow(at: $0, animated: false) }
             .map { Reactor.Action.cellSelect($0) }
@@ -107,6 +114,10 @@ extension SettingViewController {
             .drive { UIApplication.shared.open($0) }
             .disposed(by: disposeBag)
     }
+}
+
+extension SettingViewController: SegmentDelegate {
+    @objc dynamic func segmentDelegate(index: Int) { }
 }
 
 // MARK: - UITableViewDelegate

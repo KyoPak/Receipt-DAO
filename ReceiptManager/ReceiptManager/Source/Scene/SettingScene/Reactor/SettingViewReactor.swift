@@ -14,16 +14,19 @@ final class SettingViewReactor: Reactor {
     enum Action {
         case viewWillAppear
         case cellSelect(IndexPath)
+        case segmentValueChanged(Int)
     }
     
     enum Mutation {
         case loadData([SettingSection])
         case moveURL(URL?)
+        case userdefaultCurrencyChange(Int)
     }
     
     struct State {
         var settingMenu: [SettingSection]
         var url: URL?
+        var currencyIndex: Int
     }
     
     let initialState: State
@@ -33,7 +36,11 @@ final class SettingViewReactor: Reactor {
     // Initializer
     
     init() {
-        initialState = State(settingMenu: [], url: nil)
+        initialState = State(
+            settingMenu: [],
+            url: nil,
+            currencyIndex: UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
+        )
     }
     
     // Reactor Method
@@ -43,9 +50,14 @@ final class SettingViewReactor: Reactor {
         case .viewWillAppear:
             let settingMenu = SettingSection.configureSettings()
             return Observable.just(Mutation.loadData(settingMenu))
+        
         case .cellSelect(let indexPath):
             let settingType = currentState.settingMenu[indexPath.section].items[indexPath.row].type
             return classifySettingType(settingType)
+            
+        case .segmentValueChanged(let index):
+            UserDefaults.standard.set(index, forKey: ConstantText.currencyKey)
+            return Observable.just(Mutation.userdefaultCurrencyChange(index))
         }
     }
     
@@ -58,6 +70,9 @@ final class SettingViewReactor: Reactor {
             
         case .moveURL(let url):
             newState.url = url
+            
+        case .userdefaultCurrencyChange(let index):
+            newState.currencyIndex = index
         }
         
         return newState

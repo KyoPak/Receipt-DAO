@@ -43,6 +43,7 @@ final class SettingCell: UITableViewCell {
         setupHierarchy()
         setupProperties()
         setupConstraints()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -82,7 +83,6 @@ extension SettingCell {
     func setupSegment(index: Int) {
         currencySegmented.isHidden = false
         currencySegmented.selectedSegmentIndex = index
-        bind()
         setupSegmentConstraints()
     }
     
