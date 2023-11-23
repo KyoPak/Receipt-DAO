@@ -8,7 +8,18 @@
 import UIKit
 
 final class ImagePickerCell: UICollectionViewCell {
-    let imageView: UIImageView = {
+    
+    // Properties
+    
+    override var isSelected: Bool {
+        willSet {
+            setSelected(newValue)
+        }
+    }
+    
+    // UI Properties
+    
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -17,10 +28,16 @@ final class ImagePickerCell: UICollectionViewCell {
         return imageView
     }()
     
-    override var isSelected: Bool {
-        willSet {
-            setSelected(newValue)
-        }
+    // Initializer
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupHierarchy()
+        setupConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setSelected(_ selected: Bool) {
@@ -29,18 +46,18 @@ final class ImagePickerCell: UICollectionViewCell {
         contentView.layer.borderColor = selected ? ConstantColor.registerColor.cgColor : UIColor.clear.cgColor
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
+    func setupData(_ data: Data) {
+        imageView.image = UIImage(data: data)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupView() {
+}
+
+// MARK: - UIConstraint
+extension ImagePickerCell {
+    private func setupHierarchy() {
         contentView.addSubview(imageView)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
