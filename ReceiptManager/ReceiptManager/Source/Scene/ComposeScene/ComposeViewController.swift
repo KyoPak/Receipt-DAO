@@ -246,9 +246,11 @@ extension ComposeViewController: CameraAlbumAccessAlertPresentable {
                 picker.delegate = self
                 
                 self.present(picker, animated: true, completion: nil)
+            
             case .limited:
                 PHPhotoLibrary.shared().register(self)
-//                self.getCanAccessImages()
+                self.coordinator?.presentLimitAlbumView()
+
             default:
                 self.showPermissionAlert(text: ConstantText.album.localize())
             }
@@ -348,38 +350,8 @@ extension ComposeViewController: SelectPickerDelegate {
 // MARK: - PHPhotoLibraryChangeObserver
 extension ComposeViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        // 코디네이터로 보내야할듯;;
-        //getCanAccessImages()
+        coordinator?.presentLimitAlbumView()
     }
-    
-    /*
-    private func getCanAccessImages() {
-        canAccessImagesData = []
-        let fetchOptions = PHFetchOptions()
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        
-        fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        
-        fetchResult.enumerateObjects({ asset, _, _ in
-            PHImageManager().requestImage(
-                for: asset,
-                targetSize: self.thumbnailSize,
-                contentMode: .aspectFill,
-                options: requestOptions
-            ) { (image, info) in
-                
-                guard let image = image else { return }
-                self.canAccessImagesData.append(image.pngData() ?? Data())
-            }
-        })
-        
-        DispatchQueue.main.async {
-//            self.viewModel?.selectImageAction(selectDatas: self.canAccessImagesData, delegate: self)
-        }
-    }
-     */
 }
 
 // MARK: - UIConstraint
