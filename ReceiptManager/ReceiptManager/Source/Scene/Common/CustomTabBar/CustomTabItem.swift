@@ -35,7 +35,7 @@ extension CustomTabItem {
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         case .setting:
             return UIImage(systemName: ConstantImage.gear)?
-                .withTintColor(.white.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+                .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         }
     }
     
@@ -49,7 +49,7 @@ extension CustomTabItem {
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
         case .setting:
             return UIImage(systemName: ConstantImage.gearFill)?
-                .withTintColor(.white, renderingMode: .alwaysOriginal)
+                .withTintColor(.label, renderingMode: .alwaysOriginal)
         }
     }
     

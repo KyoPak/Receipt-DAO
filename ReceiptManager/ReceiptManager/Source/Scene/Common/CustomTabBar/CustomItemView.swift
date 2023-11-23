@@ -44,24 +44,24 @@ final class CustomItemView: UIView {
 // MARK: - Animation
 extension CustomItemView {
     func animateClick(completion: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.15) {
+        UIView.animate(withDuration: 0.1) {
             self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         } completion: { _ in
-            UIView.animate(withDuration: 0.15) {
+            UIView.animate(withDuration: 0.1) {
                 self.transform = CGAffineTransform.identity
             } completion: { _ in completion() }
         }
     }
     
     private func animateItems() {
-        UIView.animate(withDuration: 0.4) { [weak self] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self = self else { return }
             self.nameLabel.alpha = self.isSelected ? 0.0 : 1.0
             self.underlineView.alpha = self.isSelected ? 1.0 : 0.0
         }
         UIView.transition(
             with: iconImageView,
-            duration: 0.4,
+            duration: 0.3,
             options: .transitionCrossDissolve
         ) { [weak self] in
             guard let self = self else { return }
