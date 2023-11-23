@@ -32,6 +32,13 @@ final class ImagePickerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.alpha = 1.0
+        contentView.layer.borderWidth = .zero
+        contentView.layer.borderColor = UIColor.clear.cgColor
+    }
+    
     func setSelected() {
         imageView.alpha = isSelected ? 0.5 : 1.0
         contentView.layer.borderWidth = isSelected ? 3 : .zero
