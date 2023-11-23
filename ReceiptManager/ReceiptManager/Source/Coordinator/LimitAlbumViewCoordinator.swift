@@ -15,18 +15,21 @@ final class LimitAlbumViewCoordinator: Coordinator {
     var storage: CoreDataStorage
     
     var delegate: SelectPickerImageDelegate
+    var imageCount: Int
     
     init(navigationController: UINavigationController?,
          storage: CoreDataStorage,
-         delegate: SelectPickerImageDelegate
+         delegate: SelectPickerImageDelegate,
+         imageCount: Int
     ) {
         self.navigationController = navigationController
         self.storage = storage
         self.delegate = delegate
+        self.imageCount = imageCount
     }
     
     func start() {
-        let limitAlbumReactor = LimitAlbumViewReactor(delegate: delegate)
+        let limitAlbumReactor = LimitAlbumViewReactor(delegate: delegate, imageCount: imageCount)
         let limitAlbumViewController = LimitAlbumViewController(reactor: limitAlbumReactor)
         limitAlbumViewController.coordinator = self
         

@@ -35,9 +35,10 @@ final class LimitAlbumViewReactor: Reactor {
         var selectedImageData: [Data]
         var handleIndex: IndexPath?
         var sendData: Void?
+        var currentImageCount: Int
     }
     
-    let initialState = State(limitedImagesData: [], selectedImageData: [], handleIndex: nil, sendData: nil)
+    let initialState: State
     
     // Properties
     
@@ -45,8 +46,15 @@ final class LimitAlbumViewReactor: Reactor {
     
     // Initializer
     
-    init(delegate: SelectPickerImageDelegate) {
+    init(delegate: SelectPickerImageDelegate, imageCount: Int) {
         self.delegate = delegate
+        initialState = State(
+            limitedImagesData: [],
+            selectedImageData: [],
+            handleIndex: nil,
+            sendData: nil,
+            currentImageCount: imageCount
+        )
     }
     
     // Reactor Method
@@ -60,7 +68,7 @@ final class LimitAlbumViewReactor: Reactor {
             
         case .imageSelected(let indexPath):
             var currentDatas = currentState.selectedImageData
-            if currentDatas.count >= 5 {
+            if currentDatas.count >= 5 - currentState.currentImageCount {
                 return Observable.empty()
             }
             currentDatas.append(currentState.limitedImagesData[indexPath.item])
