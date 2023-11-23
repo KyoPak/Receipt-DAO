@@ -24,8 +24,6 @@ final class LimitAlbumViewController: UIViewController, View {
     weak var coordinator: LimitAlbumViewCoordinator?
     var disposeBag = DisposeBag()
     
-    private var limitedImagesData: [Data] = []
-    private var fetchImageResult = PHFetchResult<PHAsset>()
     private var thumbnailSize: CGSize {
         let scale = UIScreen.main.scale
         return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
@@ -78,14 +76,11 @@ final class LimitAlbumViewController: UIViewController, View {
     }
     
     private func accessLimitedImages() {
-        limitedImagesData = []
-        
         let fetchOptions = PHFetchOptions()
+        var fetchImageResult = PHAsset.fetchAssets(with: fetchOptions)
         
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
-        
-        fetchImageResult = PHAsset.fetchAssets(with: fetchOptions)
         
         fetchImageResult.enumerateObjects({ asset, _, _ in
             PHImageManager().requestImage(
@@ -94,74 +89,39 @@ final class LimitAlbumViewController: UIViewController, View {
                 contentMode: .aspectFill,
                 options: requestOptions
             ) { (image, info) in
-                
                 guard let image = image else { return }
-                self.limitedImagesData.append(image.pngData() ?? Data())
+                self.reactor?.action
+                    .onNext(Reactor.Action.loadImageData(image.pngData()))
             }
         })
     }
     
     func bind(reactor: LimitAlbumViewReactor) {
+        bindView()
+        bindAction(reactor)
+        bindState(reactor)
+    }
+}
+
+// MARK: - Reactor Bind
+extension LimitAlbumViewController {
+    private func bindView() {
         
     }
     
-    /*
-    func bindViewModel() {
-        viewModel?.title
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
+    private func bindAction(_ reactor: LimitAlbumViewReactor) {
         
-        viewModel?.selectData
-            .asDriver(onErrorJustReturn: [])
-            .drive(
-                collectionView.rx.items(
-                    cellIdentifier: ImagePickerCell.identifier, cellType: ImagePickerCell.self
-                )
-            ) { indexPath, data, cell in
-                cell.imageView.image = UIImage(data: data)
-            }
-            .disposed(by: rx.disposeBag)
-        
-        collectionView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe { (owner, indexPath) in
-                if let viewModel = owner.viewModel, viewModel.selectMaxCount > .zero {
-                    viewModel.selectMaxCount -= 1
-                    let data = try? viewModel.selectData.value()[indexPath.item]
-                    viewModel.add(data: data)
-                }
-            }
-            .disposed(by: rx.disposeBag)
-        
-        collectionView.rx.itemDeselected
-            .withUnretained(self)
-            .subscribe { (owner, indexPath) in
-                let cell = owner.collectionView.cellForItem(at: indexPath) as? ImagePickerCell
-
-                if cell?.isSelected == true {
-                    cell?.isSelected = false
-                }
-                
-                guard let viewModel = owner.viewModel else { return }
-                
-                viewModel.selectMaxCount += 1
-                let data = try? viewModel.selectData.value()[indexPath.item]
-                viewModel.remove(data: data)
-            }
-            .disposed(by: rx.disposeBag)
-        
-        addSelectButton.rx.tap
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.delegate?.selectPicker()
-            }
-            .disposed(by: rx.disposeBag)
-        
-        collectionView.rx.setDelegate(self)
-            .disposed(by: rx.disposeBag)
     }
-     */
+            
+    private func bindState(_ reactor: LimitAlbumViewReactor) {
+        reactor.state.map { $0.limitedImagesData }
+            .asDriver(onErrorJustReturn: [])
+            .drive(collectionView.rx.items(cellIdentifier: ImagePickerCell.identifier, cellType: ImagePickerCell.self)
+            ) { indexPath, data, cell in
+                cell.setupData(data)
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 extension LimitAlbumViewController: UICollectionViewDelegateFlowLayout {
@@ -181,7 +141,6 @@ extension LimitAlbumViewController {
 //        viewModel?.selectComplete()
     }
 }
-
 
 // MARK: - UI Constraints
 extension LimitAlbumViewController {
