@@ -15,17 +15,22 @@ final class LimitAlbumViewReactor: Reactor {
     
     enum Action {
         case loadImageData(Data?)
+        case imageSelected(IndexPath)
+        case imageDeselected(IndexPath)
     }
     
     enum Mutation {
-        case appendLimitedImageData(Data)
+        case appendLimitedImageData([Data])
+        case handleSelectedImageData([Data], IndexPath)
     }
     
     struct State {
         var limitedImagesData: [Data]
+        var selectedImageData: [Data]
+        var handleIndex: IndexPath?
     }
     
-    let initialState = State(limitedImagesData: [])
+    let initialState = State(limitedImagesData: [], selectedImageData: [], handleIndex: nil)
     
     // Properties
     
@@ -40,7 +45,28 @@ final class LimitAlbumViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadImageData(let data):
-            return Observable.just(Mutation.appendLimitedImageData(data ?? Data()))
+            var currentDatas = currentState.limitedImagesData
+            currentDatas.append(data ?? Data())
+            return Observable.just(Mutation.appendLimitedImageData(currentDatas))
+            
+        case .imageSelected(let indexPath):
+            var currentDatas = currentState.selectedImageData
+            if currentDatas.count >= 5 {
+                return Observable.empty()
+            }
+            currentDatas.append(currentState.limitedImagesData[indexPath.item])
+            
+            return Observable.just(Mutation.handleSelectedImageData(currentDatas, indexPath))
+            
+        case .imageDeselected(let indexPath):
+            let removeData = currentState.limitedImagesData[indexPath.item]
+            guard let removeIndex = currentState.selectedImageData.firstIndex(of: removeData) else {
+                return Observable.empty()
+            }
+            var currentDatas = currentState.selectedImageData
+            currentDatas.remove(at: removeIndex)
+
+            return Observable.just(Mutation.handleSelectedImageData(currentDatas, indexPath))
         }
     }
     
@@ -48,8 +74,12 @@ final class LimitAlbumViewReactor: Reactor {
         var newState = state
         
         switch mutation {
-        case .appendLimitedImageData(let data):
-            newState.limitedImagesData.append(data)
+        case .appendLimitedImageData(let datas):
+            newState.limitedImagesData = datas
+            
+        case .handleSelectedImageData(let datas, let indexPath):
+            newState.selectedImageData = datas
+            newState.handleIndex = indexPath
         }
         
         return newState

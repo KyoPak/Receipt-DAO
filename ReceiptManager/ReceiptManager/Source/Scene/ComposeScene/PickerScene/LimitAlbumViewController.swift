@@ -77,7 +77,7 @@ final class LimitAlbumViewController: UIViewController, View {
     
     private func accessLimitedImages() {
         let fetchOptions = PHFetchOptions()
-        var fetchImageResult = PHAsset.fetchAssets(with: fetchOptions)
+        let fetchImageResult = PHAsset.fetchAssets(with: fetchOptions)
         
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
@@ -104,31 +104,44 @@ final class LimitAlbumViewController: UIViewController, View {
 }
 
 // MARK: - Reactor Bind
-extension LimitAlbumViewController {
+extension LimitAlbumViewController: UICollectionViewDelegate {
     private func bindView() {
-        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: LimitAlbumViewReactor) {
+        collectionView.rx.itemSelected
+            .map { Reactor.Action.imageSelected($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        collectionView.rx.itemDeselected
+            .map { Reactor.Action.imageDeselected($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
             
     private func bindState(_ reactor: LimitAlbumViewReactor) {
         reactor.state.map { $0.limitedImagesData }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
-            .drive(collectionView.rx.items(cellIdentifier: ImagePickerCell.identifier, cellType: ImagePickerCell.self)
-            ) { indexPath, data, cell in
+            .drive(collectionView.rx.items(
+                cellIdentifier: ImagePickerCell.identifier,
+                cellType: ImagePickerCell.self
+            )) { indexPath, data, cell in
                 cell.setupData(data)
             }
             .disposed(by: disposeBag)
-    }
-}
-
-extension LimitAlbumViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-//        guard let viewModel = viewModel else { return false }
-//        return viewModel.selectMaxCount > .zero
+        
+        reactor.state.map { $0.handleIndex }
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive { indexPath in
+                let cell = self.collectionView.cellForItem(at: indexPath) as? ImagePickerCell
+                cell?.setSelected()
+            }
+            .disposed(by: disposeBag)
     }
 }
 

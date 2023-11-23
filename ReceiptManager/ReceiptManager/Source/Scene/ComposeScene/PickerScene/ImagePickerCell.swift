@@ -9,14 +9,6 @@ import UIKit
 
 final class ImagePickerCell: UICollectionViewCell {
     
-    // Properties
-    
-    override var isSelected: Bool {
-        willSet {
-            setSelected(newValue)
-        }
-    }
-    
     // UI Properties
     
     private let imageView: UIImageView = {
@@ -40,10 +32,11 @@ final class ImagePickerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setSelected(_ selected: Bool) {
-        imageView.alpha = selected ? 0.5 : 1.0
-        contentView.layer.borderWidth = selected ? 3 : .zero
-        contentView.layer.borderColor = selected ? ConstantColor.registerColor.cgColor : UIColor.clear.cgColor
+    func setSelected() {
+        imageView.alpha = isSelected ? 0.5 : 1.0
+        contentView.layer.borderWidth = isSelected ? 3 : .zero
+        contentView.layer.borderColor = isSelected ?
+            ConstantColor.registerColor.cgColor : UIColor.clear.cgColor
     }
     
     func setupData(_ data: Data) {
