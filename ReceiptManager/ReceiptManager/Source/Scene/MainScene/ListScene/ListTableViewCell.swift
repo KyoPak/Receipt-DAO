@@ -19,8 +19,7 @@ final class ListTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let productNameLabel = UILabel(font: .systemFont(ofSize: 13))
-    private let storeLabel = UILabel(font: .systemFont(ofSize: 16, weight: .semibold))
+    private let storeLabel = UILabel(font: .systemFont(ofSize: 15, weight: .medium))
     private let priceLabel = UILabel(font: .systemFont(ofSize: 15, weight: .semibold))
     
     private let detailButton: UIButton = {
@@ -29,14 +28,6 @@ final class ListTableViewCell: UITableViewCell {
         
         return button
     }()
-    
-    private lazy var mainInfoStackView = UIStackView(
-        subViews: [storeLabel, productNameLabel],
-        axis: .vertical,
-        alignment: .fill,
-        distribution: .fill,
-        spacing: 7
-    )
 
     private lazy var subInfoStackView = UIStackView(
         subViews: [priceLabel, detailButton],
@@ -66,8 +57,6 @@ final class ListTableViewCell: UITableViewCell {
     
     func setupData(data: Receipt, currencyIndex: Int) {
         let currency = Currency(rawValue: currencyIndex) ?? .KRW
-        
-        productNameLabel.text = data.product
         storeLabel.text = data.store
         
         if data.isFavorite {
@@ -99,7 +88,7 @@ extension ListTableViewCell {
         layer.borderWidth = 1
         layer.cornerRadius = 5
         
-        [payImageView, mainInfoStackView, subInfoStackView].forEach(contentView.addSubview(_:))
+        [payImageView, storeLabel, subInfoStackView].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
@@ -107,17 +96,16 @@ extension ListTableViewCell {
         
         NSLayoutConstraint.activate([
             
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             
             payImageView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             payImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            payImageView.widthAnchor.constraint(equalToConstant: 50),
-            payImageView.heightAnchor.constraint(equalToConstant: 50),
+            payImageView.widthAnchor.constraint(equalToConstant: 30),
+            payImageView.heightAnchor.constraint(equalToConstant: 30),
             
-            mainInfoStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            mainInfoStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
-            mainInfoStackView.leadingAnchor.constraint(equalTo: payImageView.trailingAnchor, constant: 10),
-            mainInfoStackView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.5),
+            storeLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            storeLabel.leadingAnchor.constraint(equalTo: payImageView.trailingAnchor, constant: 10),
+            storeLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.5),
             
             subInfoStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
             subInfoStackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
