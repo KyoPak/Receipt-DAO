@@ -13,11 +13,13 @@ final class MainTabBarCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
     var window: UIWindow?
     
-    init(window: UIWindow?, storage: CoreDataStorage) {
+    init(window: UIWindow?, storage: CoreDataStorage, userDefaultService: UserDefaultService) {
         self.window = window
         self.storage = storage
+        self.userDefaultService = userDefaultService
         self.navigationController = UINavigationController()
     }
     
@@ -31,7 +33,9 @@ final class MainTabBarCoordinator: Coordinator {
             $0.initialCoordinator(
                 outerNavigationController: navigationController ?? UINavigationController(),
                 navigationController: UINavigationController(),
-                storage: storage)
+                storage: storage,
+                userDefaultService: userDefaultService
+            )
         }
         
         coordinators.map {

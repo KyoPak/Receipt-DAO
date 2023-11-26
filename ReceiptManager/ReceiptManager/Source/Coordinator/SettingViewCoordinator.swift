@@ -15,19 +15,22 @@ final class SettingViewCoordinator: Coordinator {
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage
+        storage: CoreDataStorage,
+        userDefaultService: UserDefaultService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
         self.storage = storage
+        self.userDefaultService = userDefaultService
     }
     
     func start() {
-        let settingViewReactor = SettingViewReactor()
+        let settingViewReactor = SettingViewReactor(userDefaultService: userDefaultService)
         let settingViewController = SettingViewController(reactor: settingViewReactor)
         
         settingViewController.coordinator = self
@@ -35,4 +38,3 @@ final class SettingViewCoordinator: Coordinator {
         navigationController?.pushViewController(settingViewController, animated: false)
     }
 }
-

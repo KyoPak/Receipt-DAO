@@ -56,28 +56,32 @@ extension CustomTabItem {
     func initialCoordinator(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage
+        storage: CoreDataStorage,
+        userDefaultService: UserDefaultService
     ) -> Coordinator {
         switch self {
         case .main:
             return MainViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage
+                storage: storage,
+                userDefaultService: userDefaultService
             )
         
         case .bookmark:
             return BookMarkViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage
+                storage: storage,
+                userDefaultService: userDefaultService
             )
             
         case .setting:
             return SettingViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage
+                storage: storage,
+                userDefaultService: userDefaultService
             )
         }
     }

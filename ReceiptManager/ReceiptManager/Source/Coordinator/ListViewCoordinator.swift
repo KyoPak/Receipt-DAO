@@ -13,14 +13,17 @@ final class ListViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
+    
     var viewController: UIViewController?
     
-    init(storage: CoreDataStorage) {
+    init(storage: CoreDataStorage, userDefaultService: UserDefaultService) {
         self.storage = storage
+        self.userDefaultService = userDefaultService
     }
     
     func start() {
-        let listViewReactor = ListViewReactor(storage: storage)
+        let listViewReactor = ListViewReactor(storage: storage, userDefaultService: userDefaultService)
         let listViewController = ListViewController(reactor: listViewReactor)
         listViewController.coordinator = self
         viewController = listViewController
