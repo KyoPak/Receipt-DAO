@@ -10,10 +10,10 @@ import RxSwift
 protocol UserDefaultService {
     var event: BehaviorSubject<Int> { get }
     
-    func updateCurrency(index: Int)
+    func updateCurrency(index: Int) -> Observable<Int>
 }
 
-final class DefaultUserDefault: UserDefaultService {
+final class DefaultUserDefaultService: UserDefaultService {
     
     private let storage = UserDefaults.standard
     
@@ -23,8 +23,9 @@ final class DefaultUserDefault: UserDefaultService {
         event = BehaviorSubject(value: storage.integer(forKey: ConstantText.currencyKey))
     }
     
-    func updateCurrency(index: Int) {
+    func updateCurrency(index: Int) -> Observable<Int> {
         storage.set(index, forKey: ConstantText.currencyKey)
         event.onNext(index)
+        return Observable.just(index)
     }
 }
