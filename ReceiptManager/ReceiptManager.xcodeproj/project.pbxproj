@@ -67,6 +67,7 @@
 		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
 		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
+		3CD62AF52B12F71000D10E54 /* UserDefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */; };
 		3CD8B9322B065E4400968A7E /* DetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */; };
 		3CD8B9352B0664FA00968A7E /* DetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8B9342B0664FA00968A7E /* DetailViewCoordinator.swift */; };
 		3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */; };
@@ -148,6 +149,7 @@
 		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultService.swift; sourceTree = "<group>"; };
 		3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewReactor.swift; sourceTree = "<group>"; };
 		3CD8B9342B0664FA00968A7E /* DetailViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCoordinator.swift; sourceTree = "<group>"; };
 		3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 			children = (
 				3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */,
 				3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */,
+				3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
 				3CD8B9352B0664FA00968A7E /* DetailViewCoordinator.swift in Sources */,
+				3CD62AF52B12F71000D10E54 /* UserDefaultService.swift in Sources */,
 				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
 				3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */,
 				3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */,
