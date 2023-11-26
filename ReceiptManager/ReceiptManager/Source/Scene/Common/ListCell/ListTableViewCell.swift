@@ -7,7 +7,15 @@
 
 import UIKit
 
-final class ListTableViewCell: UITableViewCell {
+import ReactorKit
+import RxSwift
+import RxCocoa
+
+final class ListTableViewCell: UITableViewCell, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
     
     // UI Properties
     
@@ -55,28 +63,32 @@ final class ListTableViewCell: UITableViewCell {
         detailButton.tintColor = nil
     }
     
-    func setupData(data: Receipt, currencyIndex: Int) {
-        let currency = Currency(rawValue: currencyIndex) ?? .KRW
+    func bind(reactor: ListTableViewCellReactor) {
+        bindState(reactor)
+    }
+}
+
+// MARK: - Reactor Bind
+extension ListTableViewCell {
+    private func bindState(_ reactor: ListTableViewCellReactor) {
+        reactor.state
+            .bind { self.setupData(data: $0.expense, currencyIndex: $0.currency) }
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupData(data: Receipt, currencyIndex: Int) {
+        guard let currency = Currency(rawValue: currencyIndex) else { return }
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.priceText) + currency.description
         storeLabel.text = data.store
         
-        if data.isFavorite {
-            detailButton.tintColor = .systemYellow
-            detailButton.setImage(UIImage(systemName: ConstantImage.bookMarkFill), for: .normal)
-        } else {
-            detailButton.tintColor = .lightGray
-            detailButton.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
-        }
+        let detailButtonImage = data.isFavorite ? ConstantImage.bookMarkFill : ConstantImage.chevronRight
+        detailButton.setImage(UIImage(systemName: detailButtonImage), for: .normal)
+        detailButton.tintColor = data.isFavorite ? .systemYellow : .lightGray
         
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.priceText) + currency.description
-        
-        if PayType(rawValue: data.paymentType) == .card {
-            payImageView.tintColor = ConstantColor.registerColor
-            payImageView.image = UIImage(systemName: ConstantImage.creditCard)
-            
-        } else {
-            payImageView.tintColor = ConstantColor.favoriteColor
-            payImageView.image = UIImage(systemName: currency.currencyImageText)
-        }
+        let payTypeResult = PayType(rawValue: data.paymentType) == .card
+        let paymentImageName = payTypeResult ? ConstantImage.creditCard : currency.currencyImageText
+        payImageView.tintColor = payTypeResult ? ConstantColor.registerColor : ConstantColor.favoriteColor
+        payImageView.image = UIImage(systemName: paymentImageName)
     }
 }
 
