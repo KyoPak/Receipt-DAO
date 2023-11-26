@@ -20,7 +20,7 @@ final class SettingViewReactor: Reactor {
     enum Mutation {
         case loadData([SettingSection])
         case moveURL(URL?)
-        case userdefaultCurrencyChange(Int)
+        case currencyChange(Int)
     }
     
     struct State {
@@ -33,14 +33,14 @@ final class SettingViewReactor: Reactor {
     
     // Properties
     
+    private let userDefaultService: UserDefaultService
+    
     // Initializer
     
-    init() {
-        initialState = State(
-            settingMenu: [],
-            url: nil,
-            currencyIndex: UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
-        )
+    init(userDefaultService: UserDefaultService) {
+        self.userDefaultService = userDefaultService
+        
+        initialState = State(settingMenu: [], url: nil, currencyIndex: .zero)
     }
     
     // Reactor Method
@@ -49,15 +49,18 @@ final class SettingViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             let settingMenu = SettingSection.configureSettings()
-            return Observable.just(Mutation.loadData(settingMenu))
+            return Observable.merge([
+                Observable.just(Mutation.loadData(settingMenu)),
+                userDefaultService.event.asObservable().map { Mutation.currencyChange($0) }
+            ])
         
         case .cellSelect(let indexPath):
             let settingType = currentState.settingMenu[indexPath.section].items[indexPath.row].type
             return classifySettingType(settingType)
             
         case .segmentValueChanged(let index):
-            UserDefaults.standard.set(index, forKey: ConstantText.currencyKey)
-            return Observable.just(Mutation.userdefaultCurrencyChange(index))
+            return userDefaultService.updateCurrency(index: index)
+                .flatMap { Observable.just(Mutation.currencyChange($0)) }
         }
     }
     
@@ -71,7 +74,7 @@ final class SettingViewReactor: Reactor {
         case .moveURL(let url):
             newState.url = url
             
-        case .userdefaultCurrencyChange(let index):
+        case .currencyChange(let index):
             newState.currencyIndex = index
         }
         
