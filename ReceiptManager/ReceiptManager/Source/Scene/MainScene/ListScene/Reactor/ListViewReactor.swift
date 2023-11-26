@@ -37,11 +37,13 @@ final class ListViewReactor: Reactor {
     // Properties
     
     private let storage: CoreDataStorage
+    let userDefaultEvent: BehaviorSubject<Int>
     
     // Initializer
     
-    init(storage: CoreDataStorage) {
+    init(storage: CoreDataStorage, userDefaultService: UserDefaultService) {
         self.storage = storage
+        userDefaultEvent = userDefaultService.event
     }
     
     // Reactor Method
