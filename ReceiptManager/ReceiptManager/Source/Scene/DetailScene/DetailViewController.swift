@@ -29,7 +29,7 @@ final class DetailViewController: UIViewController, View {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        let collectionCellWidth = UIScreen.main.bounds.width * 0.7
+        let collectionCellWidth = UIScreen.main.bounds.width * 0.6
         
         let spacing = ((UIScreen.main.bounds.width - collectionCellWidth) - 40) / 2
         layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
@@ -41,7 +41,7 @@ final class DetailViewController: UIViewController, View {
         collectionView.layer.cornerRadius = 10
         collectionView.isPagingEnabled = true
         collectionView.decelerationRate = .fast
-        collectionView.backgroundColor = ConstantColor.cellColor
+        collectionView.backgroundColor = ConstantColor.backGroundColor
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
         
         return collectionView
@@ -394,7 +394,7 @@ extension DetailViewController {
             mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             mainView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
             
-            collectionView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: mainView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
