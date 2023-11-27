@@ -103,6 +103,15 @@ extension BookMarkViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(unBookmarkCell))
+            .flatMap { params -> Observable<IndexPath> in
+                guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
+                return Observable.just(indexPath)
+            }
+            .map { Reactor.Action.cellUnBookMark($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: BookMarkViewReactor) {
@@ -114,23 +123,25 @@ extension BookMarkViewController {
 
 // MARK: - UITableViewDelegate
 extension BookMarkViewController: UITableViewDelegate {
-//    func tableView(
-//        _ tableView: UITableView,
-//        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-//    ) -> UISwipeActionsConfiguration? {
-//        let favoriteAction = UIContextualAction(
-//            style: .destructive,
-//            title: nil,
-//            handler: { [weak self] _, _, completion in
-//                self?.viewModel?.favoriteAction(indexPath: indexPath)
-//                completion(true)
-//            }
-//        )
-//        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkRemove)
-//
-//        return UISwipeActionsConfiguration(actions: [favoriteAction])
-//    }
-//
+    @objc dynamic func unBookmarkCell(indexPath: IndexPath) { }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: nil
+        ) { [weak self] _, _, completion in
+            
+            self?.unBookmarkCell(indexPath: indexPath)
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: ConstantImage.bookMarkSwipeSlash)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = dataSource[section]
 

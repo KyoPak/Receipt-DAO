@@ -13,7 +13,7 @@ final class BookMarkViewReactor: Reactor {
     
     enum Action {
         case viewWillAppear
-        
+        case cellUnBookMark(IndexPath)
     }
     
     enum Mutation {
@@ -46,6 +46,15 @@ final class BookMarkViewReactor: Reactor {
             return loadData().map { sectionModels in
                 return Mutation.loadData(sectionModels)
             }
+            
+        case .cellUnBookMark(let indexPath):
+            var expense = currentState.expenseByBookMark[indexPath.section].items[indexPath.row]
+            expense.isFavorite.toggle()
+            storage.upsert(receipt: expense)
+            
+            return loadData().map { sectionModels in
+                return Mutation.loadData(sectionModels)
+            }
         }
     }
 
@@ -54,7 +63,7 @@ final class BookMarkViewReactor: Reactor {
         
         switch mutation {
         case .loadData(let models):
-            newState.expenseByBookMark = models
+            newState.expenseByBookMark = filterData(for: models)
         }
         
         return newState
@@ -66,8 +75,7 @@ extension BookMarkViewReactor {
         return storage.fetch(type: .month)
     }
     
-    private func filterData(by date: Date, for data: [ReceiptSectionModel]) -> [ReceiptSectionModel] {
-        
+    private func filterData(for data: [ReceiptSectionModel]) -> [ReceiptSectionModel] {
         return data.map { model in
             let filteredItems = model.items.filter { $0.isFavorite }
             return ReceiptSectionModel(model: model.model, items: filteredItems)
