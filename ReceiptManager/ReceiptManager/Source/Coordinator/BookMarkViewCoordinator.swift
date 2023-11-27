@@ -36,4 +36,18 @@ final class BookMarkViewCoordinator: Coordinator {
         
         navigationController?.pushViewController(bookMarkViewController, animated: false)
     }
+    
+    func presentDetailView(expense: Receipt) {
+        let detailViewCoordinator = DetailViewCoordinator(
+            navigationController: outerNavigationController,
+            storage: storage,
+            userDefaultService: userDefaultService,
+            expense: expense
+        )
+        
+        detailViewCoordinator.parentCoordinator = self
+        childCoordinators.append(detailViewCoordinator)
+        
+        detailViewCoordinator.start()
+    }
 }
