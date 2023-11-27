@@ -25,12 +25,12 @@ final class DetailViewReactor: Reactor {
         case imageSwipe(String)
         case editExpense(Receipt?)
         case deleteExpense(Void?)
+        case updateExpense(Receipt)
     }
     
     struct State {
         var title: String
         var expense: Receipt
-        var dateText: String
         var priceText: String
         var imagePageText: String
         var shareExpense: [Data]?
@@ -43,29 +43,15 @@ final class DetailViewReactor: Reactor {
     // Properties
     
     private let storage: CoreDataStorage
+    private let userDefaultService: UserDefaultService
     
     // Initializer
     
-    init(title: String, storage: CoreDataStorage, item: Receipt) {
+    init(title: String, storage: CoreDataStorage, userDefaultService: UserDefaultService, item: Receipt) {
         self.storage = storage
-        
-        let userCurrency = UserDefaults.standard.integer(forKey: ConstantText.currencyKey)
-        let currency = Currency(rawValue: userCurrency)?.description ?? Currency.KRW.description
-        let dateText = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
-        let priceText = NumberFormatter.numberDecimal(from: item.priceText) + currency
-        let imagePageText = item.receiptData.count == .zero ?
-            ConstantText.noPicture.localize() : "1/\(item.receiptData.count)"
-        
-        initialState = State(
-            title: title,
-            expense: item,
-            dateText: dateText,
-            priceText: priceText,
-            imagePageText: imagePageText,
-            shareExpense: nil,
-            editExpense: nil,
-            deleteExpense: nil
-        )
+        self.userDefaultService = userDefaultService
+       
+        initialState = State(title: title, expense: item, priceText: "", imagePageText: "")
     }
     
     // Reactor Method
@@ -106,7 +92,7 @@ final class DetailViewReactor: Reactor {
         
         switch mutation {
         case .loadData:
-            break
+            newState = changeState(currentState: state, data: currentState.expense)
         
         case .shareData(let datas):
             newState.shareExpense = datas
@@ -119,13 +105,38 @@ final class DetailViewReactor: Reactor {
             
         case .deleteExpense(let void):
             newState.deleteExpense = void
+            
+        case .updateExpense(let updatedExpense):
+            newState = changeState(currentState: state, data: updatedExpense)
         }
         
         return newState
     }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let updateEvent = storage.updateEvent
+            .flatMap { Observable.just(Mutation.updateExpense($0)) }
+        
+        return Observable.merge(mutation, updateEvent)
+    }
 }
 
 extension DetailViewReactor {
+    private func changeState(currentState: State, data: Receipt) -> State {
+        let currencyIndex = userDefaultService.fetchCurrencyIndex()
+        let currency = Currency(rawValue: currencyIndex) ?? .KRW
+        
+        var newState = currentState
+        newState.expense = data
+        newState.priceText = convertPriceFormat(data.priceText, currency: currency)
+        newState.imagePageText = countPageText(total: data.receiptData.count)
+        return newState
+    }
+    
+    private func convertPriceFormat(_ price: String, currency: Currency) -> String {
+        return NumberFormatter.numberDecimal(from: price) + currency.description
+    }
+    
     private func countPageText(total: Int, current: Int = 1) -> String {
         return total == .zero ? ConstantText.noPicture.localize() : "\(current)/\(total)"
     }
