@@ -52,6 +52,7 @@ final class MainViewCoordinator: Coordinator {
         let detailViewCoordinator = DetailViewCoordinator(
             navigationController: outerNavigationController,
             storage: storage,
+            userDefaultService: userDefaultService,
             expense: expense
         )
         
