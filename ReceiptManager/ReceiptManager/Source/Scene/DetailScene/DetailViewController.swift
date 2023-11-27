@@ -217,13 +217,6 @@ extension DetailViewController {
             })
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.dateText }
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { dateText in
-                self.dateLabel.text = dateText
-            })
-            .disposed(by: disposeBag)
-        
         reactor.state.map { $0.expense.receiptData }
             .asDriver(onErrorJustReturn: [])
             .drive(
@@ -346,9 +339,10 @@ extension DetailViewController {
     private func updateUI(item: Receipt) {
         storeLabel.text = item.store
         productLabel.text = item.product
-        payTypeSegmented.selectedSegmentIndex = item.paymentType
         memoTextView.text = item.memo
+        payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
+        dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
     }
     
     private func setupHierarchy() {

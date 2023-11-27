@@ -13,18 +13,27 @@ final class DetailViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
     var expense: Receipt
     
-    init(navigationController: UINavigationController?, storage: CoreDataStorage, expense: Receipt) {
+    init(
+        navigationController: UINavigationController?,
+        storage: CoreDataStorage,
+        userDefaultService: UserDefaultService,
+        expense: Receipt
+    ) {
         self.navigationController = navigationController
         self.storage = storage
+        self.userDefaultService = userDefaultService
         self.expense = expense
+        
     }
     
     func start() {
         let detailViewReactor = DetailViewReactor(
             title: ConstantText.detail.localize(),
             storage: storage,
+            userDefaultService: userDefaultService,
             item: expense
         )
         let detailViewController = DetailViewController(reactor: detailViewReactor)
