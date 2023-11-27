@@ -213,7 +213,7 @@ extension ListViewController: UITableViewDelegate {
             }
         )
         favoriteAction.backgroundColor = .systemYellow
-        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkFill)
+        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkSwipe)
         
         return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
