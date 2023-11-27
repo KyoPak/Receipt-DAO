@@ -8,6 +8,8 @@
 import RxSwift
 
 protocol ReceiptStorage {
+    var updateEvent: PublishSubject<Receipt> { get }
+    
     func sync()
     
     @discardableResult

@@ -15,7 +15,9 @@ enum FetchType {
 }
 
 final class CoreDataStorage: ReceiptStorage {
-    // MARK: - Core Data stack
+    
+    // Core Data Stack
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -31,11 +33,15 @@ final class CoreDataStorage: ReceiptStorage {
         return persistentContainer.viewContext
     }
     
+    // Properties
+    
     private let modelName: String
     private let disposeBag = DisposeBag()
+    let updateEvent: PublishSubject<Receipt>
     
     init(modelName: String) {
         self.modelName = modelName
+        updateEvent = PublishSubject()
     }
     
     func sync() {
@@ -58,6 +64,7 @@ final class CoreDataStorage: ReceiptStorage {
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
+        updateEvent.onNext(receipt)
         do {
             try mainContext.rx.update(receipt)
             return Observable.just(receipt)
