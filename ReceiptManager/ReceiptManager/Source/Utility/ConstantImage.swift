@@ -28,6 +28,9 @@ enum ConstantImage {
     static let bookMark = "bookmark.circle"
     static let bookMarkFill = "bookmark.circle.fill"
     
+    static let bookMarkSwipe = "bookmark.fill"
+    static let bookMarkSwipeSlash = "bookmark.slash.fill"
+    
     static let bookMarkRemove = "bookmark.slash.fill"
     static let trash = "trash.fill"
     
