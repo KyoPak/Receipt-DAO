@@ -73,7 +73,10 @@ final class ComposeViewController: UIViewController, View {
         setupProperties()
         setupConstraints()
         
-        keyboardHandler = KeyboardHandler(targetView: memoTextView, view: view)
+        keyboardHandler = KeyboardHandler(
+            targetView: memoTextView,
+            view: navigationController?.view ?? UIView()
+        )
     }
     
     // Initializer
