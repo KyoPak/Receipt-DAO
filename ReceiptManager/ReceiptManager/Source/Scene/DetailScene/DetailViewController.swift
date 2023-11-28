@@ -54,8 +54,8 @@ final class DetailViewController: UIViewController, View {
         return segment
     }()
     
-    private let memoLabel: UILabel = {
-        let label = UILabel()
+    private let memoLabel: BasePaddingLabel = {
+        let label = BasePaddingLabel()
         label.layer.cornerRadius = 10
         label.textColor = .label
         label.font = .preferredFont(forTextStyle: .body)
@@ -106,7 +106,6 @@ final class DetailViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-//        scrollToFirstItem()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -216,13 +215,6 @@ extension DetailViewController: UICollectionViewDelegate {
             })
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.imagePageText }
-            .asDriver(onErrorJustReturn: "")
-            .drive { text in
-                self.countLabel.text = text
-            }
-            .disposed(by: disposeBag)
-        
         reactor.state.map { $0.editExpense }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
@@ -294,6 +286,7 @@ extension DetailViewController {
         payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
         dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
+        countLabel.text = item.receiptData.count == .zero ? "" : "등록사진 - \(item.receiptData.count)건"
         
         setupCollectionViewLayout(count: item.receiptData.count)
     }
@@ -326,6 +319,10 @@ extension DetailViewController {
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
         priceLabel.textColor = ConstantColor.registerColor
+        
+        memoLabel.backgroundColor = ConstantColor.cellColor
+        memoLabel.layer.cornerRadius = 10
+        memoLabel.clipsToBounds = true
         
         if payTypeSegmented.selectedSegmentIndex == 0 {
             payTypeSegmented.selectedSegmentTintColor = ConstantColor.favoriteColor
@@ -367,7 +364,7 @@ extension DetailViewController {
             memoLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
-            separatorView.topAnchor.constraint(equalTo: memoLabel.bottomAnchor),
+            separatorView.topAnchor.constraint(equalTo: memoLabel.bottomAnchor, constant: 5),
             separatorView.leadingAnchor.constraint(equalTo: memoLabel.leadingAnchor),
             separatorView.trailingAnchor.constraint(equalTo: memoLabel.trailingAnchor),
             separatorView.heightAnchor.constraint(equalToConstant: 1),

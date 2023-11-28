@@ -14,7 +14,6 @@ final class DetailViewReactor: Reactor {
     enum Action {
         case viewWillAppear
         case shareButtonTapped
-        case imageSwipe(CGRect)
         case edit
         case delete
     }
@@ -22,7 +21,6 @@ final class DetailViewReactor: Reactor {
     enum Mutation {
         case loadData
         case shareData([Data]?)
-        case imageSwipe(String)
         case editExpense(Receipt?)
         case deleteExpense(Void?)
         case updateExpense(Receipt)
@@ -32,7 +30,6 @@ final class DetailViewReactor: Reactor {
         var title: String
         var expense: Receipt
         var priceText: String
-        var imagePageText: String
         var shareExpense: [Data]?
         var editExpense: Receipt?
         var deleteExpense: Void?
@@ -51,7 +48,7 @@ final class DetailViewReactor: Reactor {
         self.storage = storage
         self.userDefaultService = userDefaultService
        
-        initialState = State(title: title, expense: item, priceText: "", imagePageText: "")
+        initialState = State(title: title, expense: item, priceText: "")
     }
     
     // Reactor Method
@@ -66,13 +63,7 @@ final class DetailViewReactor: Reactor {
                 Observable.just(Mutation.shareData(currentState.expense.receiptData)),
                 Observable.just(Mutation.shareData(nil))
             ])
-            
-        case .imageSwipe(let bound):
-            let currentPage = Int(bound.midX / bound.width) + 1
-            let totalPage = currentState.expense.receiptData.count
-            
-            return Observable.just(Mutation.imageSwipe(countPageText(total: totalPage, current: currentPage)))
-            
+                
         case .edit:
             return Observable.concat([
                 Observable.just(Mutation.editExpense(currentState.expense)),
@@ -96,9 +87,6 @@ final class DetailViewReactor: Reactor {
         
         case .shareData(let datas):
             newState.shareExpense = datas
-        
-        case .imageSwipe(let text):
-            newState.imagePageText = text
             
         case .editExpense(let expense):
             newState.editExpense = expense
@@ -129,15 +117,10 @@ extension DetailViewReactor {
         var newState = currentState
         newState.expense = data
         newState.priceText = convertPriceFormat(data.priceText, currency: currency)
-        newState.imagePageText = countPageText(total: data.receiptData.count)
         return newState
     }
     
     private func convertPriceFormat(_ price: String, currency: Currency) -> String {
         return NumberFormatter.numberDecimal(from: price) + currency.description
-    }
-    
-    private func countPageText(total: Int, current: Int = 1) -> String {
-        return total == .zero ? ConstantText.noPicture.localize() : "\(current)/\(total)"
     }
 }
