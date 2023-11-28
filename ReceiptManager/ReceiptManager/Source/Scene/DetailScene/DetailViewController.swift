@@ -36,10 +36,12 @@ final class DetailViewController: UIViewController, View {
     }()
     
     private let dateLabel = UILabel(font: .preferredFont(forTextStyle: .subheadline))
-    private let storeLabel = UILabel(font: .boldSystemFont(ofSize: 25))
+    private let storeLabel = UILabel(font: .boldSystemFont(ofSize: 20))
     private let productLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     private let priceLabel = UILabel(font: .boldSystemFont(ofSize: 20))
     private let countLabel = UILabel(font: .preferredFont(forTextStyle: .caption1))
+    
+    private let separatorView = UIView()
     
     private let payTypeSegmented: UISegmentedControl = {
         let segment = UISegmentedControl(items: [ConstantText.cash.localize(), ConstantText.card.localize()])
@@ -52,21 +54,20 @@ final class DetailViewController: UIViewController, View {
         return segment
     }()
     
-    private let memoTextView: UITextView = {
-        let textView = UITextView()
-        textView.isEditable = false
-        textView.layer.cornerRadius = 10
-        textView.textColor = .label
-        textView.font = .preferredFont(forTextStyle: .body)
-        textView.backgroundColor = ConstantColor.cellColor
-        
-        return textView
+    private let memoLabel: UILabel = {
+        let label = UILabel()
+        label.layer.cornerRadius = 10
+        label.textColor = .label
+        label.font = .preferredFont(forTextStyle: .body)
+        label.backgroundColor = ConstantColor.backGroundColor
+        label.numberOfLines = 5
+        return label
     }()
     
     private lazy var priceStackView = UIStackView(
-        subViews: [priceLabel, payTypeSegmented],
-        axis: .horizontal,
-        alignment: .fill,
+        subViews: [payTypeSegmented, priceLabel],
+        axis: .vertical,
+        alignment: .trailing,
         distribution: .fill,
         spacing: 10
     )
@@ -289,7 +290,7 @@ extension DetailViewController {
     private func updateUI(item: Receipt) {
         storeLabel.text = item.store
         productLabel.text = item.product
-        memoTextView.text = item.memo
+        memoLabel.text = item.memo
         payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
         dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
@@ -301,16 +302,17 @@ extension DetailViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        var collectionCellWidth = UIScreen.main.bounds.width * 0.6
+        var collectionCellWidth = view.bounds.width * 0.4
+        let collectionCellHeight = view.bounds.height * 0.35
         var spacing = ((UIScreen.main.bounds.width - collectionCellWidth)) / 2
 
-        if count > 2 {
-            collectionCellWidth = UIScreen.main.bounds.width * 0.4
+        if count > 1 {
             spacing = (UIScreen.main.bounds.width - (collectionCellWidth * 2)) / CGFloat(count + 1)
         }
         
-        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellHeight)
         layout.sectionInset = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
+        
         layout.minimumLineSpacing = spacing
 
         collectionView.setCollectionViewLayout(layout, animated: true)
@@ -318,7 +320,7 @@ extension DetailViewController {
     
     private func setupHierarchy() {
         [dateLabel, mainStackView].forEach(mainView.addSubview(_:))
-        [mainView, collectionView, countLabel, memoTextView].forEach(view.addSubview(_:))
+        [mainView, collectionView, countLabel, memoLabel, separatorView].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
@@ -334,7 +336,9 @@ extension DetailViewController {
         mainView.backgroundColor = ConstantColor.cellColor
         mainView.layer.cornerRadius = 10
         
-        [mainView, memoTextView, collectionView, memoTextView].forEach {
+        separatorView.backgroundColor = ConstantColor.cellColor
+        
+        [mainView, memoLabel, collectionView, memoLabel, separatorView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -347,7 +351,7 @@ extension DetailViewController {
             dateLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             dateLabel.heightAnchor.constraint(equalToConstant: dateLabel.intrinsicContentSize.height),
             
-            mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
+            mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 0),
             mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
             mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20),
@@ -359,18 +363,22 @@ extension DetailViewController {
             mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             mainView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
             
-            memoTextView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
-            memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            memoTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
+            memoLabel.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
+            memoLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            memoLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
-            countLabel.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 10),
+            separatorView.topAnchor.constraint(equalTo: memoLabel.bottomAnchor),
+            separatorView.leadingAnchor.constraint(equalTo: memoLabel.leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: memoLabel.trailingAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            
+            countLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 10),
             countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
             collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4)
+            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.45)
         ])
         
         priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
