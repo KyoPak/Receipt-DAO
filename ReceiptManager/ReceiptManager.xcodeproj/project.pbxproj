@@ -76,6 +76,7 @@
 		3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */; };
 		3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */; };
 		3CE07C592A4C841100C1AE73 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CE07C5B2A4C841100C1AE73 /* Localizable.strings */; };
+		3CE78EE72B15E529008743A1 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */; };
 		3CF106B42A4DBD250056874B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CF106B62A4DBD250056874B /* InfoPlist.strings */; };
 		3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */; };
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
@@ -160,6 +161,7 @@
 		3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		3CE07C5A2A4C841100C1AE73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3CE07C5C2A4C846200C1AE73 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
 		3CF106B52A4DBD250056874B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3CF106B72A4DBD2B0056874B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				3CFCB4742B1387AC0045075C /* ListCell */,
 				3C614B492B036D52009D1795 /* CustomTabBar */,
 				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
+				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
 				3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */,
+				3CE78EE72B15E529008743A1 /* BasePaddingLabel.swift in Sources */,
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
