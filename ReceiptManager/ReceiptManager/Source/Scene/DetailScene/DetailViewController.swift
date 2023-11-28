@@ -26,20 +26,8 @@ final class DetailViewController: UIViewController, View {
     // UI Properties
     
     private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
-        let collectionCellWidth = UIScreen.main.bounds.width * 0.6
-        
-        let spacing = ((UIScreen.main.bounds.width - collectionCellWidth) - 40) / 2
-        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
-        layout.minimumInteritemSpacing = spacing
-        layout.minimumLineSpacing = spacing * 2
-        layout.sectionInset = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.layer.cornerRadius = 10
-        collectionView.isPagingEnabled = true
         collectionView.decelerationRate = .fast
         collectionView.backgroundColor = ConstantColor.backGroundColor
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.identifier)
@@ -147,7 +135,7 @@ final class DetailViewController: UIViewController, View {
 }
 
 // MARK: - Reactor Bind
-extension DetailViewController {
+extension DetailViewController: UICollectionViewDelegate {
     private func bindView() {
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -185,14 +173,6 @@ extension DetailViewController {
         
         shareButton.rx.tap
             .map { Reactor.Action.shareButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        rx.methodInvoked(#selector(scrollViewDidEndDecelerating))
-            .map { scrollView in
-                let collectionView = scrollView.first as? UICollectionView ?? UICollectionView()
-                return Reactor.Action.imageSwipe(collectionView.bounds)
-            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -260,36 +240,6 @@ extension DetailViewController {
     }
 }
 
-// MARK: - UICollectionViewDelegate
-extension DetailViewController: UICollectionViewDelegate {
-    private func scrollToFirstItem() {
-        let firstIndexPath = IndexPath(item: .zero, section: .zero)
-        if collectionView.numberOfItems(inSection: .zero) > .zero {
-            collectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
-        }
-    }
-        
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { }
-
-    func scrollViewWillEndDragging(
-        _ scrollView: UIScrollView,
-        withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>
-    ) {
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        
-        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-        let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
-        
-        var tempCG: CGFloat = .zero
-        if velocity.x > .zero { tempCG = ceil(estimatedIndex) }
-        if velocity.x < .zero { tempCG = floor(estimatedIndex) }
-        if velocity.x == .zero { tempCG = round(estimatedIndex) }
-        
-        targetContentOffset.pointee = CGPoint(x: tempCG * cellWidthIncludingSpacing, y: .zero)
-    }
-}
-
 // MARK: - ComposeAlert
 extension DetailViewController {
     private func showComposeAlert() -> Observable<ComposeAlertActionType> {
@@ -343,6 +293,27 @@ extension DetailViewController {
         payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
         dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
+        
+        setupCollectionViewLayout(count: item.receiptData.count)
+    }
+    
+    private func setupCollectionViewLayout(count: Int) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        var collectionCellWidth = UIScreen.main.bounds.width * 0.6
+        var spacing = ((UIScreen.main.bounds.width - collectionCellWidth)) / 2
+
+        if count > 2 {
+            collectionCellWidth = UIScreen.main.bounds.width * 0.4
+            spacing = (UIScreen.main.bounds.width - (collectionCellWidth * 2)) / CGFloat(count + 1)
+        }
+        
+        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellWidth)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
+        layout.minimumLineSpacing = spacing
+
+        collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
     private func setupHierarchy() {
@@ -388,18 +359,18 @@ extension DetailViewController {
             mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             mainView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
             
-            collectionView.topAnchor.constraint(equalTo: mainView.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
-
-            countLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 5),
-            countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            
-            memoTextView.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
+            memoTextView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
             memoTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            memoTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
+            memoTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
+            
+            countLabel.topAnchor.constraint(equalTo: memoTextView.bottomAnchor, constant: 10),
+            countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4)
         ])
         
         priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
