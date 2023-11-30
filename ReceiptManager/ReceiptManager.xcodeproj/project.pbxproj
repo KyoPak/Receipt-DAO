@@ -47,6 +47,7 @@
 		3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */; };
 		3C852EFE2B184A9A00F48CD3 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C852EFD2B184A9A00F48CD3 /* CalendarViewController.swift */; };
 		3C852F002B184F0400F48CD3 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C852EFF2B184F0400F48CD3 /* CalendarCell.swift */; };
+		3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C852F042B185B0E00F48CD3 /* DateManageService.swift */; };
 		3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */; };
 		3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */; };
 		3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3452A0117D60014807B /* UIButton+Extension.swift */; };
@@ -132,6 +133,7 @@
 		3C7FD5022B03C1000084E650 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3C852EFD2B184A9A00F48CD3 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		3C852EFF2B184F0400F48CD3 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		3C852F042B185B0E00F48CD3 /* DateManageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManageService.swift; sourceTree = "<group>"; };
 		3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewController.swift; sourceTree = "<group>"; };
 		3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
 		3C9AA3452A0117D60014807B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 				3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */,
 				3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */,
 				3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */,
+				3C852F042B185B0E00F48CD3 /* DateManageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */,
 				3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
+				3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
