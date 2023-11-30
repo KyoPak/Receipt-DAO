@@ -61,7 +61,7 @@ enum ConstantText {
     static let cash = "cash"
     static let card = "card"
     static let memo = "memo"
-    static let noPicture = "noPicture"
+    static let imageCountText = "imageCount %@"
     
     static let album = "album"
     static let camera = "camera"

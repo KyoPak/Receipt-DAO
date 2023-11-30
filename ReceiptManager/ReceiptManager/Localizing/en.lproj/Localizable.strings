@@ -37,7 +37,7 @@
 "cash" = "Cash";
 "card" = "Card";
 "memo" = "Write a brief memo.";
-"noPicture" = "There is no registered picture.";
+"imageCount %@" = "There are %@ registered photos.";
 
 "album" = "Album";
 "camera" = "Camera";

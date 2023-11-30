@@ -286,7 +286,8 @@ extension DetailViewController {
         payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
         dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
-        countLabel.text = item.receiptData.count == .zero ? "" : "등록사진 - \(item.receiptData.count)건"
+        countLabel.text = item.receiptData.count == .zero ? 
+            "" : ConstantText.imageCountText.localized(with: String(item.receiptData.count))
         
         setupCollectionViewLayout(count: item.receiptData.count)
     }
@@ -295,7 +296,7 @@ extension DetailViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        var collectionCellWidth = view.bounds.width * 0.4
+        let collectionCellWidth = view.bounds.width * 0.4
         let collectionCellHeight = view.bounds.height * 0.35
         var spacing = ((UIScreen.main.bounds.width - collectionCellWidth)) / 2
 
