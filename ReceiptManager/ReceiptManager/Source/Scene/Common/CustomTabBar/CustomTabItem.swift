@@ -57,7 +57,8 @@ extension CustomTabItem {
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
         storage: CoreDataStorage,
-        userDefaultService: UserDefaultService
+        userDefaultService: UserDefaultService,
+        dateManageService: DateManageService
     ) -> Coordinator {
         switch self {
         case .main:
@@ -65,7 +66,8 @@ extension CustomTabItem {
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
                 storage: storage,
-                userDefaultService: userDefaultService
+                userDefaultService: userDefaultService,
+                dateManageService: dateManageService
             )
         
         case .bookmark:

@@ -15,29 +15,33 @@ final class MainViewCoordinator: Coordinator {
     var navigationController: UINavigationController?
     var storage: CoreDataStorage
     var userDefaultService: UserDefaultService
+    var dateManageService: DateManageService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
         storage: CoreDataStorage,
-        userDefaultService: UserDefaultService
+        userDefaultService: UserDefaultService,
+        dateManageService: DateManageService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
         self.storage = storage
         self.userDefaultService = userDefaultService
+        self.dateManageService = dateManageService
     }
     
     func start() {
         let listViewCoordinator = ListViewCoordinator(
             storage: storage, 
-            userDefaultService: userDefaultService
+            userDefaultService: userDefaultService,
+            dateManageService: dateManageService
         )
         listViewCoordinator.start()
         
         let child = [listViewCoordinator.viewController ?? UIViewController()]
         
-        let mainViewReactor = MainViewReactor(storage: storage)
+        let mainViewReactor = MainViewReactor(storage: storage, dateService: dateManageService)
         let mainViewController = MainViewController(reactor: mainViewReactor, childViewControllers: child)
         
         mainViewController.coordinator = self

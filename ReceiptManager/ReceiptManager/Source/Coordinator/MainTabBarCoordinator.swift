@@ -12,14 +12,22 @@ final class MainTabBarCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
-    var userDefaultService: UserDefaultService
     var window: UIWindow?
     
-    init(window: UIWindow?, storage: CoreDataStorage, userDefaultService: UserDefaultService) {
+    var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
+    var dateManageService: DateManageService
+    
+    init(
+        window: UIWindow?,
+        storage: CoreDataStorage,
+        userDefaultService: UserDefaultService,
+        dateManageService: DateManageService
+    ) {
         self.window = window
         self.storage = storage
         self.userDefaultService = userDefaultService
+        self.dateManageService = dateManageService
         self.navigationController = UINavigationController()
     }
     
@@ -34,7 +42,8 @@ final class MainTabBarCoordinator: Coordinator {
                 outerNavigationController: navigationController ?? UINavigationController(),
                 navigationController: UINavigationController(),
                 storage: storage,
-                userDefaultService: userDefaultService
+                userDefaultService: userDefaultService,
+                dateManageService: dateManageService
             )
         }
         
