@@ -72,7 +72,22 @@ final class BookMarkViewReactor: Reactor {
 
 extension BookMarkViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
-        return storage.fetch(type: .month)
+        let dayFormat = ConstantText.dateFormatMonth.localize()
+        
+        return storage.fetch()
+            .map { result in
+                let dictionary = Dictionary(
+                    grouping: result,
+                    by: { DateFormatter.string(from: $0.receiptDate, dayFormat) }
+                )
+                
+                let section = dictionary.sorted { return $0.key > $1.key }
+                    .map { (key, value) in
+                        return ReceiptSectionModel(model: key, items: value)
+                    }
+                
+                return section
+            }
     }
     
     private func filterData(for data: [ReceiptSectionModel]) -> [ReceiptSectionModel] {
