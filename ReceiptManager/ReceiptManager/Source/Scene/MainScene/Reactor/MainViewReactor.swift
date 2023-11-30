@@ -15,19 +15,24 @@ final class MainViewReactor: Reactor {
         case registerButtonTapped
         case searchButtonTapped
         case showModeButtomTapped
+        case nextMonthButtonTapped
+        case previoutMonthButtonTapped
+        case todayButtonTapped
     }
     
     enum Mutation {
         case moveRegister
         case moveSearch
         case changeShowMode
+        case updateDate(Date)
     }
     
     struct State {
         var title: String
-        var isRegister: Bool
-        var isSearch: Bool
+        var isRegister: Bool = false
+        var isSearch: Bool = false
         var showMode: ShowMode
+        var dateToShow: Date
     }
     
     enum ShowMode {
@@ -35,18 +40,23 @@ final class MainViewReactor: Reactor {
         case list
     }
     
-    let initialState = State(
-        title: ConstantText.list.localize(), isRegister: false, isSearch: false, showMode: .list
-    )
+    let initialState: State
     
     // Properties
     
     private let storage: CoreDataStorage
+    private let dateService: DateManageService
     
     // Initializer
     
-    init(storage: CoreDataStorage) {
+    init(storage: CoreDataStorage, dateService: DateManageService) {
         self.storage = storage
+        self.dateService = dateService
+        initialState = State(
+            title: ConstantText.list.localize(),
+            showMode: .list,
+            dateToShow: (try? dateService.currentDateEvent.value()) ?? Date()
+        )
     }
 
     // Reactor Method
@@ -59,6 +69,18 @@ final class MainViewReactor: Reactor {
             return .just(.moveSearch)
         case .showModeButtomTapped:
             return .just(.changeShowMode)
+        
+        case .nextMonthButtonTapped:
+            return dateService.updateDate(byAddingMonths: 1)
+                .flatMap { Observable.just(Mutation.updateDate($0)) }
+            
+        case .previoutMonthButtonTapped:
+            return dateService.updateDate(byAddingMonths: -1)
+                .flatMap { Observable.just(Mutation.updateDate($0)) }
+            
+        case .todayButtonTapped:
+            return dateService.updateToday()
+                .flatMap { Observable.just(Mutation.updateDate($0)) }
         }
     }
 
@@ -68,10 +90,15 @@ final class MainViewReactor: Reactor {
         switch mutation {
         case .moveRegister:
             newState.isRegister = true
+        
         case .moveSearch:
             newState.isSearch = true
+        
         case .changeShowMode:
             newState.showMode = (newState.showMode == .calendar) ? .list : .calendar
+            
+        case .updateDate(let updatedDate):
+            newState.dateToShow = updatedDate
         }
 
         return newState

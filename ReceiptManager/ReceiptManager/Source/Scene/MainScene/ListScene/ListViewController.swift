@@ -46,39 +46,6 @@ final class ListViewController: UIViewController, View {
     
     // UI Properties
     
-    private var headerView = UIView()
-    
-    private var monthLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .label
-        label.font = .preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
-    private var previousButton: UIButton = {
-        let button = UIButton()
-        button.tintColor = .label
-        button.setImage(UIImage(systemName: ConstantImage.chevronLeft), for: .normal)
-        return button
-    }()
-    
-    private var nextButton: UIButton = {
-        let button = UIButton()
-        button.tintColor = .label
-        button.setImage(UIImage(systemName: ConstantImage.chevronRight), for: .normal)
-        return button
-    }()
-    
-    private var currentButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(ConstantText.today.localize(), for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.setTitleColor(UIColor.label, for: .normal)
-        button.backgroundColor = ConstantColor.cellColor
-        button.layer.cornerRadius = 5
-        return button
-    }()
-    
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewDidLoad() {
@@ -125,27 +92,7 @@ extension ListViewController {
             .disposed(by: disposeBag)
     }
     
-    private func bindAction(_ reactor: ListViewReactor) {
-        rx.methodInvoked(#selector(viewWillAppear))
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        previousButton.rx.tap
-            .map { Reactor.Action.previoutMonthButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        nextButton.rx.tap
-            .map { Reactor.Action.nextMonthButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        currentButton.rx.tap
-            .map { Reactor.Action.currentMonthButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
+    private func bindAction(_ reactor: ListViewReactor) {        
         rx.methodInvoked(#selector(bookmarkCell))
             .flatMap { params -> Observable<IndexPath> in
                 guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
@@ -166,11 +113,6 @@ extension ListViewController {
     }
     
     private func bindState(_ reactor: ListViewReactor) {
-        reactor.state.map { $0.dateText }
-            .asDriver(onErrorJustReturn: "")
-            .drive(monthLabel.rx.text)
-            .disposed(by: disposeBag)
-        
         reactor.state.map { $0.expenseByMonth }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -250,16 +192,13 @@ extension ListViewController: UITableViewDelegate {
 // MARK: - UIConstraint
 extension ListViewController {
     private func setupHierarchy() {
-        [headerView, tableView].forEach(view.addSubview(_:))
-        [monthLabel, previousButton, nextButton, currentButton].forEach(headerView.addSubview(_:))
+        view.addSubview(tableView)
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
         tableView.backgroundColor = ConstantColor.backGroundColor
-        
-        [headerView, monthLabel, previousButton, nextButton, currentButton, tableView]
-            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
     }
     
@@ -267,30 +206,7 @@ extension ListViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 50),
-            
-            monthLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
-            
-            previousButton.widthAnchor.constraint(equalToConstant: 45),
-            previousButton.heightAnchor.constraint(equalToConstant: 40),
-            previousButton.trailingAnchor.constraint(equalTo: monthLabel.leadingAnchor, constant: -5),
-            previousButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
-            
-            nextButton.widthAnchor.constraint(equalToConstant: 45),
-            nextButton.heightAnchor.constraint(equalToConstant: 40),
-            nextButton.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 5),
-            nextButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
-            
-            currentButton.widthAnchor.constraint(equalToConstant: 60),
-            currentButton.heightAnchor.constraint(equalToConstant: 30),
-            currentButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -30),
-            currentButton.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
-            
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
