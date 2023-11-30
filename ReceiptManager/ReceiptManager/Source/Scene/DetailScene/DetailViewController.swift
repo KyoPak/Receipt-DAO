@@ -353,9 +353,7 @@ extension DetailViewController {
             mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
             mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20),
-            
-            productLabel.heightAnchor.constraint(equalToConstant: productLabel.intrinsicContentSize.height),
-            
+                        
             mainView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             mainView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
