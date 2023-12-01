@@ -92,7 +92,12 @@ extension ListViewController {
             .disposed(by: disposeBag)
     }
     
-    private func bindAction(_ reactor: ListViewReactor) {        
+    private func bindAction(_ reactor: ListViewReactor) {
+        rx.methodInvoked(#selector(viewDidLoad))
+            .map { _ in Reactor.Action.loadData }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         rx.methodInvoked(#selector(bookmarkCell))
             .flatMap { params -> Observable<IndexPath> in
                 guard let indexPath = params.first as? IndexPath else { return Observable.empty() }

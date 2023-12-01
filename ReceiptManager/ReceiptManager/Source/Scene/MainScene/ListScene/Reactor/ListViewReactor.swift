@@ -12,19 +12,23 @@ final class ListViewReactor: Reactor {
     // Reactor Properties
     
     enum Action {
+        case loadData
         case cellBookMark(IndexPath)
         case cellDelete(IndexPath)
     }
     
     enum Mutation {
         case updateExpenseList([ReceiptSectionModel])
+        case changeMonth(Date)
     }
     
     struct State {
         var expenseByMonth: [ReceiptSectionModel]
+        var expenseTotal: [ReceiptSectionModel]
+        var date: Date
     }
     
-    let initialState = State(expenseByMonth: [])
+    let initialState: State
     
     // Properties
     
@@ -42,6 +46,7 @@ final class ListViewReactor: Reactor {
         self.storage = storage
         userDefaultEvent = userDefaultService.event
         dateManageEvent = dateManageService.currentDateEvent
+        initialState = State(expenseByMonth: [], expenseTotal: [], date: Date())
     }
     
     // Reactor Method
@@ -49,25 +54,24 @@ final class ListViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         
         switch action {
+        case .loadData:
+            return loadData().map { models in
+                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+            }
+            
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
             storage.upsert(receipt: expense)
-            return Observable.combineLatest(
-                dateManageEvent.asObservable(),
-                Observable.just(currentState.expenseByMonth)
-            ).map { (date, models) in
-                Mutation.updateExpenseList(self.filterData(by: date, for: models))
+            return loadData().map { models in
+                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
             }
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             storage.delete(receipt: expense)
-            return Observable.combineLatest(
-                dateManageEvent.asObservable(),
-                Observable.just(currentState.expenseByMonth)
-            ).map { (date, models) in
-                Mutation.updateExpenseList(self.filterData(by: date, for: models))
+            return loadData().map { models in
+                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
             }
         }
     }
@@ -78,6 +82,9 @@ final class ListViewReactor: Reactor {
         switch mutation {
         case .updateExpenseList(let models):
             newState.expenseByMonth = models
+            
+        case .changeMonth(let date):
+            newState.date = date
         }
         
         return newState
@@ -85,12 +92,14 @@ final class ListViewReactor: Reactor {
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let dateEvent = dateManageEvent
-            .distinctUntilChanged()
             .flatMap { date in
-            return self.loadData().map { models in
-                return Mutation.updateExpenseList(self.filterData(by: date, for: models))
+                return Observable.concat(
+                    Observable.just(Mutation.changeMonth(date)),
+                    self.loadData().map { models in
+                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                    }
+                )
             }
-        }
         
         return Observable.merge(mutation, dateEvent)
     }
@@ -101,6 +110,7 @@ extension ListViewReactor {
         let dayFormat = ConstantText.dateFormatDay.localize()
         
         return storage.fetch()
+            .distinctUntilChanged()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,
