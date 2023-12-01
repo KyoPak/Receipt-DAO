@@ -5,9 +5,13 @@
 //  Created by parkhyo on 11/30/23.
 //
 
-import UIKit
+import ReactorKit
 
-final class CalendarViewController: UIViewController {
+final class CalendarViewController: UIViewController, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
     
     // UI Properties
     
@@ -31,12 +35,35 @@ final class CalendarViewController: UIViewController {
     
     // Initializer
     
-    init() {
+    init(reactor: CalendarViewReactor) {
         super.init(nibName: nil, bundle: nil)
+        
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bind(reactor: CalendarViewReactor) {
+        bindView()
+        bindAction(reactor)
+        bindState(reactor)
+    }
+}
+
+// MARK: - Reactor Bind
+extension CalendarViewController {
+    private func bindView() {
+        
+    }
+    
+    private func bindAction(_ reactor: CalendarViewReactor) {
+        
+    }
+    
+    private func bindState(_ reactor: CalendarViewReactor) {
+        
     }
 }
 
