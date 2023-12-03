@@ -24,7 +24,6 @@ final class ListViewReactor: Reactor {
     
     struct State {
         var expenseByMonth: [ReceiptSectionModel]
-        var expenseTotal: [ReceiptSectionModel]
         var date: Date
     }
     
@@ -46,13 +45,12 @@ final class ListViewReactor: Reactor {
         self.storage = storage
         userDefaultEvent = userDefaultService.event
         dateManageEvent = dateManageService.currentDateEvent
-        initialState = State(expenseByMonth: [], expenseTotal: [], date: Date())
+        initialState = State(expenseByMonth: [], date: Date())
     }
     
     // Reactor Method
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
         switch action {
         case .loadData:
             return loadData().map { models in
