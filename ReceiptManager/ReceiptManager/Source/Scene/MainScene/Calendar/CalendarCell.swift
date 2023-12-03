@@ -11,8 +11,9 @@ final class CalendarCell: UICollectionViewCell {
     
     // UI Properties
     
-    private let dayLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 12))
-    private let countLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 10))
+    private let dayLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 13))
+    private let countLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 12))
+    private let amountLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 12))
     
     // Initializer
     
@@ -27,29 +28,42 @@ final class CalendarCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    func setupData(day: String, count: Int) {
+    func setupData(day: String, count: String, amount: String) {
         dayLabel.text = day
-        countLabel.text = String(count)
+        countLabel.text = count
+        
+        if amount == "0" {
+            amountLabel.text = ""
+        } else {
+            amountLabel.text = amount
+        }
     }
 }
 
 // MARK: - UI Constraints
 extension CalendarCell {
     private func setupHierarchy() {
-        [dayLabel, countLabel].forEach(addSubview(_:))
+        [dayLabel, countLabel, amountLabel].forEach(addSubview(_:))
     }
     
     private func setupProperties() {
-        [dayLabel, countLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        layer.borderColor = ConstantColor.cellColor.cgColor
+        layer.borderWidth = 1
+        amountLabel.textColor = ConstantColor.favoriteColor
+        [dayLabel, countLabel, amountLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
     }
     
     private func setupContraints() {
+        let safeArea = contentView.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
+            dayLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            dayLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
             
-            countLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
-            countLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            countLabel.topAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3),
+            amountLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -5),
+            amountLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3)
         ])
     }
 }

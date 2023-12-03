@@ -19,12 +19,23 @@ final class CalendarViewController: UIViewController, View {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.backgroundColor = ConstantColor.cellColor
         return stackView
     }()
     
-    private let calendarCollectionView = UICollectionView(
-        frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
-    )
+    private let calendarCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionCellWidth = (UIScreen.main.bounds.width - 6) / 7
+        let collectionCellHeight = collectionCellWidth * 1.4
+        layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellHeight)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CalendarCell.self, forCellWithReuseIdentifier: CalendarCell.identifier)
+        collectionView.backgroundColor = ConstantColor.cellColor
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,17 +64,29 @@ final class CalendarViewController: UIViewController, View {
 }
 
 // MARK: - Reactor Bind
-extension CalendarViewController {
+extension CalendarViewController: UICollectionViewDelegate {
     private func bindView() {
-        
+        calendarCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: CalendarViewReactor) {
-        
+        rx.methodInvoked(#selector(viewDidLoad))
+            .map { _ in Reactor.Action.loadData }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: CalendarViewReactor) {
-        
+        reactor.state.map { $0.dayInfos }
+            .bind(
+                to: calendarCollectionView.rx.items(
+                cellIdentifier: CalendarCell.identifier, 
+                cellType: CalendarCell.self)
+            ) { indexPath, data, cell in
+                cell.setupData(day: data.days, count: data.countOfExpense, amount: data.dayAmount)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -75,7 +98,7 @@ extension CalendarViewController {
         for dayIndex in 0..<7 {
             let label = UILabel()
             label.text = dayOfTheWeek[dayIndex]
-            label.font = .systemFont(ofSize: 13, weight: .semibold)
+            label.font = .systemFont(ofSize: 15, weight: .semibold)
             label.textAlignment = .center
             self.weekStackView.addArrangedSubview(label)
             
@@ -106,16 +129,14 @@ extension CalendarViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            weekStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            weekStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 5),
-            weekStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -5),
+            weekStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
+            weekStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
+            weekStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3),
             
             calendarCollectionView.topAnchor.constraint(equalTo: weekStackView.bottomAnchor),
             calendarCollectionView.leadingAnchor.constraint(equalTo: weekStackView.leadingAnchor),
             calendarCollectionView.trailingAnchor.constraint(equalTo: weekStackView.trailingAnchor),
-            calendarCollectionView.heightAnchor.constraint(
-                equalTo: calendarCollectionView.widthAnchor, multiplier: 1.5
-            )
+            calendarCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
 }
