@@ -50,6 +50,10 @@ extension CalendarCell {
         layer.borderColor = ConstantColor.cellColor.cgColor
         layer.borderWidth = 1
         amountLabel.textColor = ConstantColor.favoriteColor
+        amountLabel.numberOfLines = 1 // 한 줄로 표시되도록 1로 설정
+        amountLabel.adjustsFontSizeToFitWidth = true
+        amountLabel.minimumScaleFactor = 0.1
+        
         [dayLabel, countLabel, amountLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
     }
     
@@ -62,6 +66,8 @@ extension CalendarCell {
             
             countLabel.topAnchor.constraint(equalTo: safeArea.centerYAnchor),
             countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3),
+            
+            amountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
             amountLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -5),
             amountLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3)
         ])
