@@ -26,14 +26,14 @@ final class CalendarViewController: UIViewController, View {
     private let calendarCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionCellWidth = (UIScreen.main.bounds.width - 6) / 7
-        let collectionCellHeight = collectionCellWidth * 1.4
+        let collectionCellHeight = (UIScreen.main.bounds.height - 300) / 6
         layout.itemSize = CGSize(width: collectionCellWidth, height: collectionCellHeight)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CalendarCell.self, forCellWithReuseIdentifier: CalendarCell.identifier)
         collectionView.backgroundColor = ConstantColor.cellColor
+        collectionView.register(CalendarCell.self, forCellWithReuseIdentifier: CalendarCell.identifier)
         return collectionView
     }()
     
@@ -68,6 +68,9 @@ extension CalendarViewController: UICollectionViewDelegate {
     private func bindView() {
         calendarCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        // Select 구현 필요
+        
     }
     
     private func bindAction(_ reactor: CalendarViewReactor) {
@@ -84,10 +87,11 @@ extension CalendarViewController: UICollectionViewDelegate {
                 cellIdentifier: CalendarCell.identifier, 
                 cellType: CalendarCell.self)
             ) { indexPath, data, cell in
+                cell.setupWeekendColor(indexPath: indexPath)
                 cell.reactor = CalendarCellReactor(
                     day: data.days,
                     count: data.countOfExpense,
-                    amount: data.dayAmount,
+                    amount: data.amountOfExpense,
                     userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
                 )
             }
@@ -127,7 +131,6 @@ extension CalendarViewController {
         [weekStackView, calendarCollectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        calendarCollectionView.register(CalendarCell.self, forCellWithReuseIdentifier: CalendarCell.identifier)
     }
     
     private func setupConstraints() {

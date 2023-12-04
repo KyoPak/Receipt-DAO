@@ -35,6 +35,11 @@ final class CalendarCell: UICollectionViewCell, View {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dayLabel.textColor = .label
+    }
 
     func bind(reactor: CalendarCellReactor) {
         bindState(reactor)
@@ -64,6 +69,11 @@ extension CalendarCell {
             amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).description
         }
     }
+    
+    func setupWeekendColor(indexPath: Int) {
+        if indexPath % 7 == 0 { dayLabel.textColor = ConstantColor.favoriteColor }
+        if (indexPath + 1) % 7 == 0 { dayLabel.textColor = ConstantColor.registerColor }
+    }
 }
 
 // MARK: - UI Constraints
@@ -80,6 +90,7 @@ extension CalendarCell {
         amountLabel.textAlignment = .right
         amountLabel.adjustsFontSizeToFitWidth = true
         amountLabel.minimumScaleFactor = 0.1
+        dayLabel.textAlignment = .left
         
         [dayLabel, countLabel, amountLabel].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
     }
@@ -89,9 +100,10 @@ extension CalendarCell {
         
         NSLayoutConstraint.activate([
             dayLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            dayLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),
+            dayLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 1),
+            dayLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -4),
             
-            countLabel.topAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            countLabel.bottomAnchor.constraint(equalTo: amountLabel.topAnchor, constant: 3),
             countLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -3),
             
             amountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 3),

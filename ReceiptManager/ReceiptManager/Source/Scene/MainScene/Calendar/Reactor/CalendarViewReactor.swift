@@ -23,7 +23,7 @@ final class CalendarViewReactor: Reactor {
     struct State {
         var expenseByMonth: [ReceiptSectionModel]
         var date: Date
-        var dayInfos: [DayInfo]  // CollectionView에 뿌려줄 데이터
+        var dayInfos: [DayInfo]
     }
     
     let initialState: State
@@ -33,7 +33,8 @@ final class CalendarViewReactor: Reactor {
     struct DayInfo {
         var days: String
         var countOfExpense: String
-        var dayAmount: String
+        var amountOfExpense: String
+        var expenses: [Receipt]
     }
     
     private let calendar: Calendar
@@ -101,7 +102,6 @@ final class CalendarViewReactor: Reactor {
 extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatDay.localize()
-        let currentDate = DateFormatter.string(from: date ?? Date())
         
         return storage.fetch()
             .map { result in
@@ -156,34 +156,41 @@ extension CalendarViewReactor {
         
         for day in 0..<totalDays {
             if day < startDayOfTheWeek {
-                newDays.append(DayInfo(days: "", countOfExpense: "", dayAmount: ""))
+                newDays.append(DayInfo(days: "", countOfExpense: "", amountOfExpense: "", expenses: []))
                 continue
             }
             
             let realDay = day - startDayOfTheWeek + 1
             let mainInfo = String(realDay)
-            let subInfo = updateDaySubInfo(day: mainInfo, model: model)
-            newDays.append(DayInfo(days: mainInfo, countOfExpense: subInfo.0, dayAmount: subInfo.1))
+            let dayInfo = updateDaySubInfo(day: mainInfo, model: model)
+            newDays.append(dayInfo)
         }
         
         return newDays
     }
     
-    private func updateDaySubInfo(day: String, model: [ReceiptSectionModel]) -> (String, String) {
+    private func updateDaySubInfo(day: String, model: [ReceiptSectionModel]) -> DayInfo {
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "d"
         
-        var dayAmount: Double = .zero
-        var dayCount = 0
+        var totalAmount: Double = .zero
+        var totalCount = 0
+        var expenses: [Receipt] = []
         
         for expenseOfDay in model {
             for expense in expenseOfDay.items where dayFormatter.string(from: expense.receiptDate) == day {
-                dayAmount += Double(expense.priceText) ?? .zero
-                dayCount += 1
+                totalCount += 1
+                totalAmount += Double(expense.priceText) ?? .zero
+                expenses.append(expense)
             }
         }
         
-        return (convertCount(dayCount), convertAmount(dayAmount))
+        return DayInfo(
+            days: day,
+            countOfExpense: convertCount(totalCount),
+            amountOfExpense: convertAmount(totalAmount),
+            expenses: expenses
+        )
     }
     
     private func convertCount(_ count: Int) -> String {
