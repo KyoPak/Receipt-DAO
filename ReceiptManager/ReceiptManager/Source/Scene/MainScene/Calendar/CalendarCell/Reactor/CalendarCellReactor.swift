@@ -21,6 +21,7 @@ final class CalendarCellReactor: Reactor {
         var day: String
         var count: String
         var amount: String
+        var isToday: Bool
         var currencyIndex: Int
     }
     
@@ -32,11 +33,12 @@ final class CalendarCellReactor: Reactor {
         
     // Initializer
     
-    init(day: String, count: String, amount: String, userDefaultEvent: BehaviorSubject<Int>) {
+    init(day: String, count: String, amount: String, isToday: Bool, userDefaultEvent: BehaviorSubject<Int>) {
         initialState = State(
             day: day,
             count: count,
             amount: NumberFormatter.numberDecimal(from: amount),
+            isToday: isToday,
             currencyIndex: (try? userDefaultEvent.value()) ?? .zero
         )
         self.userDefaultEvent = userDefaultEvent

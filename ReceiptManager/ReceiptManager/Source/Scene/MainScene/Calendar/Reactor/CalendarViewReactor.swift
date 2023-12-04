@@ -35,6 +35,7 @@ final class CalendarViewReactor: Reactor {
         var countOfExpense: String
         var amountOfExpense: String
         var expenses: [Receipt]
+        var isToday: Bool = false
     }
     
     private let calendar: Calendar
@@ -189,10 +190,14 @@ extension CalendarViewReactor {
             days: day,
             countOfExpense: convertCount(totalCount),
             amountOfExpense: convertAmount(totalAmount),
-            expenses: expenses
+            expenses: expenses,
+            isToday: checkToday(day: day)
         )
     }
-    
+}
+
+// MARK: - About DayInfo Data
+extension CalendarViewReactor {
     private func convertCount(_ count: Int) -> String {
         return count == .zero ? "" : String(count)
     }
@@ -208,5 +213,14 @@ extension CalendarViewReactor {
         } else {
             return String(amount)
         }
+    }
+    
+    private func checkToday(day: String) -> Bool {
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        let components = calendar.dateComponents([.year, .month, .day], from: currentState.date)
+        
+        return todayComponents.year == components.year &&
+            todayComponents.month == components.month && 
+            todayComponents.day == Int(day) ?? .zero
     }
 }

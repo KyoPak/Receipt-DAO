@@ -92,6 +92,7 @@ extension CalendarViewController: UICollectionViewDelegate {
                     day: data.days,
                     count: data.countOfExpense,
                     amount: data.amountOfExpense,
+                    isToday: data.isToday,
                     userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
                 )
             }
