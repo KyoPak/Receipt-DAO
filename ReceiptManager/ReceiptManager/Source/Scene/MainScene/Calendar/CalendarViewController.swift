@@ -84,7 +84,12 @@ extension CalendarViewController: UICollectionViewDelegate {
                 cellIdentifier: CalendarCell.identifier, 
                 cellType: CalendarCell.self)
             ) { indexPath, data, cell in
-                cell.setupData(day: data.days, count: data.countOfExpense, amount: data.dayAmount)
+                cell.reactor = CalendarCellReactor(
+                    day: data.days,
+                    count: data.countOfExpense,
+                    amount: data.dayAmount,
+                    userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+                )
             }
             .disposed(by: disposeBag)
     }

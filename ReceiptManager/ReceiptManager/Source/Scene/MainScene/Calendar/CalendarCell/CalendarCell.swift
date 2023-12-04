@@ -7,13 +7,21 @@
 
 import UIKit
 
-final class CalendarCell: UICollectionViewCell {
+import ReactorKit
+import RxCocoa
+import RxSwift
+
+final class CalendarCell: UICollectionViewCell, View {
+    
+    // Properties
+    
+    var disposeBag = DisposeBag()
     
     // UI Properties
     
-    private let dayLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 13))
-    private let countLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 12))
-    private let amountLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 12))
+    private let dayLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 15))
+    private let countLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 13))
+    private let amountLabel = UILabel(text: "", font: .boldSystemFont(ofSize: 13))
     
     // Initializer
     
@@ -25,17 +33,35 @@ final class CalendarCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func bind(reactor: CalendarCellReactor) {
+        bindState(reactor)
+    }
+}
+
+// MARK: - Reactor Bind
+extension CalendarCell {
+    private func bindState(_ reactor: CalendarCellReactor) {
+        reactor.state
+            .bind { self.setupData(
+                day: $0.day,
+                count: $0.count,
+                amount: $0.amount,
+                currencyIndex: $0.currencyIndex
+            )}
+            .disposed(by: disposeBag)
     }
     
-    func setupData(day: String, count: String, amount: String) {
+    func setupData(day: String, count: String, amount: String, currencyIndex: Int) {
         dayLabel.text = day
         countLabel.text = count
         
-        if amount == "0" {
+        if amount == "" {
             amountLabel.text = ""
         } else {
-            amountLabel.text = amount
+            amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).description
         }
     }
 }
@@ -50,7 +76,8 @@ extension CalendarCell {
         layer.borderColor = ConstantColor.cellColor.cgColor
         layer.borderWidth = 1
         amountLabel.textColor = ConstantColor.favoriteColor
-        amountLabel.numberOfLines = 1 // 한 줄로 표시되도록 1로 설정
+        amountLabel.numberOfLines = 1
+        amountLabel.textAlignment = .right
         amountLabel.adjustsFontSizeToFitWidth = true
         amountLabel.minimumScaleFactor = 0.1
         

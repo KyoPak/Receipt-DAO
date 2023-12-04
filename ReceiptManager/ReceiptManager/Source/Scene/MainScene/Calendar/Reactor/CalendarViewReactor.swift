@@ -97,6 +97,7 @@ final class CalendarViewReactor: Reactor {
     }
 }
 
+// MARK: - About Data
 extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatDay.localize()
@@ -131,6 +132,7 @@ extension CalendarViewReactor {
     }
 }
 
+// MARK: - Aboud Calendar
 extension CalendarViewReactor {
     private func dateConvert(date: Date) -> Date {
         let component = calendar.dateComponents([.year, .month], from: date)
@@ -181,12 +183,23 @@ extension CalendarViewReactor {
             }
         }
         
-        let dayCountText = dayCount == .zero ? "" : String(dayCount)
-        
-        if Double(Int(dayAmount)) == dayAmount {
-            return (dayCountText, String(Int(dayAmount)))
+        return (convertCount(dayCount), convertAmount(dayAmount))
+    }
+    
+    private func convertCount(_ count: Int) -> String {
+        return count == .zero ? "" : String(count)
+    }
+    
+    private func convertAmount(_ amount: Double) -> String {
+        if amount == .zero {
+            return ""
         }
         
-        return (dayCountText, String(dayAmount))
+        if Double(Int(amount)) == amount {
+            let newAmount = String(Int(amount))
+            return newAmount
+        } else {
+            return String(amount)
+        }
     }
 }
