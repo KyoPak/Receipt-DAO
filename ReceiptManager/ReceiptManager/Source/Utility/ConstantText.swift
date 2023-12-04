@@ -22,7 +22,6 @@ enum ConstantText {
     static let myEmail = "hyosing92@gmail.com"
     static let mailSubject = "mailSubject"
     static let mailBody = "mailBody"
-    
     static let appID = "6449433216"
     
     // View Title
@@ -88,4 +87,6 @@ enum ConstantText {
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
+    
+    static let caseText = "case"
 }

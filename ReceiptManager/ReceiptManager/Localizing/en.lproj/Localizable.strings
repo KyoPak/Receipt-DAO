@@ -66,3 +66,5 @@
 
 "mailSubject" = "[Give Me A Receipt] Opinion";
 "mailBody" = "Hello. \nThank you for using My App. \nWe always value users' opinions. \nWe would appreciate it if you could select the appropriate item from the list below or write your opinion freely. \n1. Opinion:\n[Please write your comments.]\n2. Error:\n[Please write the error]\n3. ETC:\n[Please write what you want]\n\n\nThank You.";
+
+"case" = "case";

@@ -56,7 +56,7 @@ extension CalendarCell {
     
     func setupData(day: String, count: String, amount: String, currencyIndex: Int) {
         dayLabel.text = day
-        countLabel.text = count
+        countLabel.text = count == "" ? "" : count + ConstantText.caseText.localize()
         
         if amount == "" {
             amountLabel.text = ""
