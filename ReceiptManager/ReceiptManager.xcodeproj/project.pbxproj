@@ -25,6 +25,7 @@
 		3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */; };
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
 		3C3F55482B1CCE3C00A6EAB5 /* CalendarCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3F55472B1CCE3C00A6EAB5 /* CalendarCellReactor.swift */; };
+		3C3F7ADC2B1EDB22003DCA85 /* CalendarViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3F7ADB2B1EDB22003DCA85 /* CalendarViewCoordinator.swift */; };
 		3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C02B049F240005BA4C /* MainViewReactor.swift */; };
 		3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C32B049F920005BA4C /* SearchViewReactor.swift */; };
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
@@ -113,6 +114,7 @@
 		3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewCoordinator.swift; sourceTree = "<group>"; };
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3C3F55472B1CCE3C00A6EAB5 /* CalendarCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellReactor.swift; sourceTree = "<group>"; };
+		3C3F7ADB2B1EDB22003DCA85 /* CalendarViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewCoordinator.swift; sourceTree = "<group>"; };
 		3C4405C02B049F240005BA4C /* MainViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewReactor.swift; sourceTree = "<group>"; };
 		3C4405C32B049F920005BA4C /* SearchViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewReactor.swift; sourceTree = "<group>"; };
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */,
 				3C74A3832B04F66F00377A73 /* MainViewCoordinator.swift */,
 				3C33883E2B051CFD00A9613B /* ListViewCoordinator.swift */,
+				3C3F7ADB2B1EDB22003DCA85 /* CalendarViewCoordinator.swift */,
 				3C74A3872B050D8800377A73 /* BookMarkViewCoordinator.swift */,
 				3CD8B9342B0664FA00968A7E /* DetailViewCoordinator.swift */,
 				3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */,
@@ -818,6 +821,7 @@
 				3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
 				3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */,
+				3C3F7ADC2B1EDB22003DCA85 /* CalendarViewCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
