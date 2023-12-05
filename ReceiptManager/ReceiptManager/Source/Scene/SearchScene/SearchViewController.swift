@@ -83,6 +83,12 @@ final class SearchViewController: UIViewController, View {
         setupConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
+    }
+    
     // Initializer
     
     init(reactor: SearchViewReactor) {
@@ -116,7 +122,18 @@ extension SearchViewController {
             .disposed(by: disposeBag)
         
         searchBarBackButton.rx.tap
-            .bind { self.coordinator?.close(self) }
+            .bind { self.coordinator?.close(self.navigationController ?? UINavigationController()) }
+            .disposed(by: disposeBag)
+        
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (owner, data) in
+                owner.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.coordinator?.presentDetailView(expense: $0)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -212,8 +229,8 @@ extension SearchViewController {
         
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
-            searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
+            searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
 
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),

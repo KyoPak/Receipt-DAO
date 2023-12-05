@@ -12,6 +12,7 @@ final class SearchViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
+    var innerNavigationController: UINavigationController
     var storage: CoreDataStorage
     var userDefaultService: UserDefaultService
     
@@ -23,6 +24,7 @@ final class SearchViewCoordinator: Coordinator {
         self.navigationController = navigationController
         self.storage = storage
         self.userDefaultService = userDefaultService
+        self.innerNavigationController = UINavigationController()
     }
     
     func start() {
@@ -32,10 +34,25 @@ final class SearchViewCoordinator: Coordinator {
             
         )
         let searchViewController = SearchViewController(reactor: searchViewReactor)
+        innerNavigationController.setViewControllers([searchViewController], animated: true)
         searchViewController.coordinator = self
             
-        searchViewController.modalPresentationStyle = .fullScreen
-        navigationController?.present(searchViewController, animated: true)
+        innerNavigationController.modalPresentationStyle = .fullScreen
+        navigationController?.present(innerNavigationController, animated: true)
+    }
+    
+    func presentDetailView(expense: Receipt) {
+        let detailViewCoordinator = DetailViewCoordinator(
+            navigationController: innerNavigationController,
+            storage: storage,
+            userDefaultService: userDefaultService,
+            expense: expense
+        )
+        
+        detailViewCoordinator.parentCoordinator = self
+        childCoordinators.append(detailViewCoordinator)
+        
+        detailViewCoordinator.start()
     }
     
     func close(_ controller: UIViewController) {
