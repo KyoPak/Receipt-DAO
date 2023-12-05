@@ -37,9 +37,21 @@ final class MainViewCoordinator: Coordinator {
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
         )
+        
         listViewCoordinator.start()
         
-        let child = [listViewCoordinator.viewController ?? UIViewController()]
+        let calendarCoordinator = CalendarViewCoordinator(
+            storage: storage,
+            userDefaultService: userDefaultService,
+            dateManageService: dateManageService
+        )
+        
+        calendarCoordinator.start()
+        
+        let child = [
+            listViewCoordinator.viewController ?? UIViewController(),
+            calendarCoordinator.viewController ?? UIViewController()
+        ]
         
         let mainViewReactor = MainViewReactor(storage: storage, dateService: dateManageService)
         let mainViewController = MainViewController(reactor: mainViewReactor, childViewControllers: child)
@@ -47,7 +59,10 @@ final class MainViewCoordinator: Coordinator {
         mainViewController.coordinator = self
         
         childCoordinators.append(listViewCoordinator)
+        childCoordinators.append(calendarCoordinator)
+        
         listViewCoordinator.parentCoordinator = self
+        calendarCoordinator.parentCoordinator = self
         
         navigationController?.pushViewController(mainViewController, animated: false)
     }
