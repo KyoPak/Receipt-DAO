@@ -85,6 +85,7 @@ final class MainViewController: UIViewController, View {
     }
     
     func bind(reactor: MainViewReactor) {
+        bindView()
         bindAction(reactor)
         bindState(reactor)
     }
@@ -92,12 +93,14 @@ final class MainViewController: UIViewController, View {
 
 // MARK: - Reactor Bind
 extension MainViewController {
-    private func bindAction(_ reactor: MainViewReactor) {
+    private func bindView() {
         navigationBar.searchButton.rx.tap
-            .map { Reactor.Action.searchButtonTapped }
-            .bind(to: reactor.action)
+            .throttle(.milliseconds(300), latest: false, scheduler: MainScheduler.instance)
+            .bind { self.coordinator?.moveSearchView() }
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func bindAction(_ reactor: MainViewReactor) {
         navigationBar.showModeButton.rx.tap
             .map { Reactor.Action.showModeButtonTapped }
             .bind(to: reactor.action)
@@ -120,10 +123,6 @@ extension MainViewController {
     }
     
     private func bindState(_ reactor: MainViewReactor) {
-        reactor.state.map { $0.isSearch }
-            .bind { }
-            .disposed(by: disposeBag)
-        
         reactor.state.map { $0.showMode }
             .distinctUntilChanged()
             .bind { mode in

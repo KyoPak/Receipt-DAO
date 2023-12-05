@@ -17,7 +17,6 @@ final class MainViewReactor: Reactor {
     // Reactor Properties
     
     enum Action {
-        case searchButtonTapped
         case showModeButtonTapped
         case nextMonthButtonTapped
         case previoutMonthButtonTapped
@@ -25,14 +24,12 @@ final class MainViewReactor: Reactor {
     }
     
     enum Mutation {
-        case moveSearch
         case changeShowMode(ShowMode)
         case updateDate(Date)
     }
     
     struct State {
         var title: String
-        var isSearch: Bool = false
         var showMode: ShowMode
         var dateToShow: Date
     }
@@ -60,9 +57,6 @@ final class MainViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .searchButtonTapped:
-            return .just(.moveSearch)
-        
         case .showModeButtonTapped:
             let newMode = currentState.showMode == .list ? ShowMode.calendar : ShowMode.list
             return .just(.changeShowMode(newMode))
@@ -85,9 +79,6 @@ final class MainViewReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .moveSearch:
-            newState.isSearch = true
-        
         case .changeShowMode(let newMode):
             newState.showMode = newMode
             
