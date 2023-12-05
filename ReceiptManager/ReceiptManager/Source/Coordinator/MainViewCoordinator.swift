@@ -80,4 +80,17 @@ final class MainViewCoordinator: Coordinator {
         
         detailViewCoordinator.start()
     }
+    
+    func moveSearchView() {
+        let searchViewCoordinator = SearchViewCoordinator(
+            navigationController: outerNavigationController,
+            storage: storage,
+            userDefaultService: userDefaultService
+        )
+        
+        searchViewCoordinator.parentCoordinator = self
+        childCoordinators.append(searchViewCoordinator)
+        
+        searchViewCoordinator.start()
+    }
 }

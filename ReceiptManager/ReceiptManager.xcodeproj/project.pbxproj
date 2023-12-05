@@ -26,6 +26,7 @@
 		3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */; };
 		3C3F55482B1CCE3C00A6EAB5 /* CalendarCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3F55472B1CCE3C00A6EAB5 /* CalendarCellReactor.swift */; };
 		3C3F7ADC2B1EDB22003DCA85 /* CalendarViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3F7ADB2B1EDB22003DCA85 /* CalendarViewCoordinator.swift */; };
+		3C3F7ADE2B1EFA8F003DCA85 /* SearchViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */; };
 		3C4405C12B049F240005BA4C /* MainViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C02B049F240005BA4C /* MainViewReactor.swift */; };
 		3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4405C32B049F920005BA4C /* SearchViewReactor.swift */; };
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
@@ -115,6 +116,7 @@
 		3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extension.swift"; sourceTree = "<group>"; };
 		3C3F55472B1CCE3C00A6EAB5 /* CalendarCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellReactor.swift; sourceTree = "<group>"; };
 		3C3F7ADB2B1EDB22003DCA85 /* CalendarViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewCoordinator.swift; sourceTree = "<group>"; };
+		3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCoordinator.swift; sourceTree = "<group>"; };
 		3C4405C02B049F240005BA4C /* MainViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewReactor.swift; sourceTree = "<group>"; };
 		3C4405C32B049F920005BA4C /* SearchViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewReactor.swift; sourceTree = "<group>"; };
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */,
 				3CA5366B2B0E0B2600EA77AA /* LimitAlbumViewCoordinator.swift */,
 				3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */,
+				3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3C8175F92B19B1F4000E5761 /* CalendarViewReactor.swift in Sources */,
 				3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */,
+				3C3F7ADE2B1EFA8F003DCA85 /* SearchViewCoordinator.swift in Sources */,
 				3C614B482B036AC1009D1795 /* CustomItemView.swift in Sources */,
 				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
 				3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */,
