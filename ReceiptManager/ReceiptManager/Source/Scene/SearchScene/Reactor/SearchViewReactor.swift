@@ -8,6 +8,9 @@
 import ReactorKit
 
 final class SearchViewReactor: Reactor {
+    
+    // Reactor Properties
+    
     enum Action {
         case searchExpense(String)       // 검색
 //        case expenseCellSelect(IndexPath)
@@ -15,8 +18,7 @@ final class SearchViewReactor: Reactor {
     }
     
     enum Mutation {
-        case updateSearchResult([ReceiptSectionModel])
-        
+        case updateSearchResult(String, [ReceiptSectionModel])
     }
     
     struct State {
@@ -25,19 +27,28 @@ final class SearchViewReactor: Reactor {
         var searchResult: [ReceiptSectionModel]
     }
     
-    let initialState = State(title: ConstantText.searchBar.localize(), searchText: "", searchResult: [])
-    private let storage: CoreDataStorage
+    let initialState: State
     
-    init(storage: CoreDataStorage) {
+    // Properties
+    
+    private let storage: CoreDataStorage
+    let userDefaultEvent: BehaviorSubject<Int>
+    
+    // Initializer
+    
+    init(storage: CoreDataStorage, userDefaultService: UserDefaultService) {
         self.storage = storage
+        userDefaultEvent = userDefaultService.event
+        initialState = State(title: ConstantText.searchBar.localize(), searchText: "", searchResult: [])
     }
+    
+    // Reactor Method
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .searchExpense(let text):
             return search(text)
-                .map { Mutation.updateSearchResult($0) }
-        
+                .map { Mutation.updateSearchResult(text, $0) }
         }
     }
     
@@ -45,26 +56,49 @@ final class SearchViewReactor: Reactor {
         var newState = state
         
         switch mutation {
-        case let .updateSearchResult(searchResult):
+        case .updateSearchResult(let text, let searchResult):
+            newState.searchText = text
             newState.searchResult = searchResult
         }
         
         return newState
     }
-    
+}
+
+extension SearchViewReactor {
     private func search(_ text: String) -> Observable<[ReceiptSectionModel]> {
-        return Observable.combineLatest(storage.fetch(type: .month), Observable<String>.just(text))
-            .map { receiptSectionModels, text in
-                return receiptSectionModels.map { model in
-                    let searchItems = model.items.filter { receipt in
-                        guard text != "" else { return false }
-                        return receipt.store.contains(text) ||
-                        receipt.priceText.contains(text) ||
-                        receipt.memo.contains(text)
+        return loadData().map { models in
+            self.filterData(for: models, by: text)
+        }
+    }
+    
+    private func loadData() -> Observable<[ReceiptSectionModel]> {
+        let dayFormat = ConstantText.dateFormatMonth.localize()
+        
+        return storage.fetch()
+            .map { result in
+                let dictionary = Dictionary(
+                    grouping: result,
+                    by: { DateFormatter.string(from: $0.receiptDate, dayFormat) }
+                )
+                
+                let section = dictionary.sorted { return $0.key > $1.key }
+                    .map { (key, value) in
+                        return ReceiptSectionModel(model: key, items: value)
                     }
-                    return ReceiptSectionModel(model: model.model, items: searchItems)
-                }
-                .filter { $0.items.count != .zero }
+                
+                return section
             }
+    }
+    
+    private func filterData(for data: [ReceiptSectionModel], by text: String) -> [ReceiptSectionModel] {
+        return data.map { model in
+            let filteredItems = model.items.filter {
+                return $0.store.contains(text) || $0.product.contains(text) ||
+                $0.priceText.contains(text) || $0.memo.contains(text)
+            }
+            return ReceiptSectionModel(model: model.model, items: filteredItems)
+        }
+        .filter { !$0.items.isEmpty }
     }
 }

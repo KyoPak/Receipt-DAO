@@ -8,11 +8,40 @@
 import UIKit
 
 import ReactorKit
+import RxDataSources
 import RxCocoa
 import RxSwift
 
-final class SearchViewController: UIViewController, View{
+final class SearchViewController: UIViewController, View {
+    
+    // Properties
+    
+    typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
+    
+    private lazy var dataSource: TableViewDataSource = {
+        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListTableViewCell.identifier, for: indexPath
+            ) as? ListTableViewCell else {
+                let cell = UITableViewCell()
+                return cell
+            }
+            
+            cell.reactor = ListTableViewCellReactor(
+                expense: receipt,
+                userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+            )
+            return cell
+        }
+        
+        dataSource.canEditRowAtIndexPath = { _, _ in return true }
+        
+        return dataSource
+    }()
+    
     var disposeBag = DisposeBag()
+    
+    // UI Properties
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -47,19 +76,10 @@ final class SearchViewController: UIViewController, View{
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     //    func bindViewModel() {
-    //        guard let viewModel = viewModel else { return }
-    //
     //        searchBar.rx.textDidEndEditing
     //            .withUnretained(self)
     //            .bind { (owner, _) in
     //                owner.searchBar.resignFirstResponder()
-    //            }
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        searchBar.rx.searchButtonClicked
-    //            .withUnretained(self)
-    //            .bind { (owner, _) in
-    //                owner.searchBar.endEditing(true)
     //            }
     //            .disposed(by: rx.disposeBag)
     //
@@ -68,22 +88,6 @@ final class SearchViewController: UIViewController, View{
     //            .bind { (owner, _) in
     //                owner.viewModel?.cancelAction()
     //            }
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        searchBar.rx.text.orEmpty
-    //            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
-    //            .distinctUntilChanged()
-    //            .bind(to: viewModel.searchText)
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        viewModel.searchResultList
-    //            .do(onNext: { [weak self] datas in
-    //                datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
-    //            })
-    //            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        searchBar.rx.setDelegate(self)
     //            .disposed(by: rx.disposeBag)
     //
     //        tableView.rx.setDelegate(self)
@@ -104,6 +108,15 @@ final class SearchViewController: UIViewController, View{
     //        .disposed(by: rx.disposeBag)
     //    }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupHierarchy()
+        setupProperties()
+        setupConstraints()
+    }
+    
+    // Initializer
+    
     init(reactor: SearchViewReactor) {
         super.init(nibName: nil, bundle: nil)
         
@@ -112,13 +125,6 @@ final class SearchViewController: UIViewController, View{
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupHierarchy()
-        setupProperties()
-        setupConstraints()
     }
     
     func bind(reactor: SearchViewReactor) {
@@ -130,15 +136,33 @@ final class SearchViewController: UIViewController, View{
 // MARK: - Reactor Bind
 extension SearchViewController {
     private func bindView(_ reactor: SearchViewReactor) {
+        searchBar.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
+        searchBar.rx.searchButtonClicked
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.searchBar.endEditing(true)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: SearchViewReactor) {
-        
+        searchBar.rx.text.orEmpty
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .map { Reactor.Action.searchExpense($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: SearchViewReactor) {
-        
+        reactor.state.map { $0.searchResult }
+            .do(onNext: { [weak self] datas in
+                datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
+            })
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
 }
 
@@ -177,28 +201,28 @@ extension SearchViewController {
 }
 
 extension SearchViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let data = viewModel?.dataSource[section]
-//
-//        let string = data?.identity
-//
-//        let label = UILabel()
-//        label.font = .boldSystemFont(ofSize: 15)
-//        label.textColor = .label
-//        label.text = string
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
-//
-//        headerView.addSubview(label)
-//
-//        NSLayoutConstraint.activate([
-//            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
-//            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
-//        ])
-//        
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let data = dataSource[section]
+
+        let headerText = data.identity
+
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .label
+        label.text = headerText
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
+
+        headerView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: headerView.contentView.leadingAnchor, constant: 15),
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor)
+        ])
+
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
