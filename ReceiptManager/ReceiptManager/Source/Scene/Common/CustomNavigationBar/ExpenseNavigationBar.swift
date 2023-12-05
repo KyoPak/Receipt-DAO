@@ -8,6 +8,18 @@
 import UIKit
 
 final class ExpenseNavigationBar: CustomNavigationBar {
+    
+    // UI Properties
+    
+    let showModeButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .label
+        let image = UIImage(systemName: ConstantImage.calendar)
+        button.setImage(image, for: .normal)
+        
+        return button
+    }()
+    
     let searchButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
@@ -16,6 +28,8 @@ final class ExpenseNavigationBar: CustomNavigationBar {
         
         return button
     }()
+    
+    // Initializer
     
     override init(title: String) {
         super.init(title: title)
@@ -31,13 +45,13 @@ final class ExpenseNavigationBar: CustomNavigationBar {
     
     override func setupHierarchy() {
         super.setupHierarchy()
-        [searchButton].forEach(addSubview(_:))
+        [showModeButton, searchButton].forEach(addSubview(_:))
     }
     
     override func setupProperties(title: String) {
         super.setupProperties(title: title)
                 
-        [searchButton].forEach {
+        [showModeButton, searchButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -47,8 +61,21 @@ final class ExpenseNavigationBar: CustomNavigationBar {
         let safeArea = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
+            showModeButton.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -20),
+            showModeButton.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            
             searchButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             searchButton.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
+    }
+    
+    func changShowModeButton(_ mode: ShowMode) {
+        switch mode {
+        case .list:
+            showModeButton.setImage(UIImage(systemName: ConstantImage.calendar), for: .normal)
+        
+        case .calendar:
+            showModeButton.setImage(UIImage(systemName: ConstantImage.list), for: .normal)
+        }
     }
 }
