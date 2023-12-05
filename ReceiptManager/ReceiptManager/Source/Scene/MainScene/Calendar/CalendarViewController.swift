@@ -12,6 +12,7 @@ final class CalendarViewController: UIViewController, View {
     // Properties
     
     var disposeBag = DisposeBag()
+    weak var coordinator: CalendarViewCoordinator?
     
     // UI Properties
     

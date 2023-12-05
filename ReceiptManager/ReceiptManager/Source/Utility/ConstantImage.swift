@@ -9,6 +9,7 @@ import Foundation
 
 enum ConstantImage {
     static let list = "list.bullet"
+    static let calendar = "calendar"
     static let listCircle = "list.bullet.circle"
     static let listCircleFill = "list.bullet.circle.fill"
     static let share = "square.and.arrow.up"
