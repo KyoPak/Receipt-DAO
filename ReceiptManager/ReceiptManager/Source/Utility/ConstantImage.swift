@@ -13,8 +13,10 @@ enum ConstantImage {
     static let listCircle = "list.bullet.circle"
     static let listCircleFill = "list.bullet.circle.fill"
     static let share = "square.and.arrow.up"
+    
     static let compose = "ellipsis.circle"
     static let plus = "plus"
+    static let plusCircle = "plus.circle.fill"
     static let gear = "gearshape.circle"
     static let gearFill = "gearshape.circle.fill"
     static let xmark = "xmark"

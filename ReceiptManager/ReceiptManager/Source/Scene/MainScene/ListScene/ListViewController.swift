@@ -176,7 +176,6 @@ extension ListViewController: UITableViewDelegate {
         label.text = headerText
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        // 해당 방법은 HeaderView라는 식별자를 가진 View를 새로 만든다.
         let headerView = UITableViewHeaderFooterView(reuseIdentifier: "HeaderView")
         
         headerView.addSubview(label)
@@ -214,7 +213,7 @@ extension ListViewController {
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
         ])
     }
 }

@@ -31,7 +31,10 @@ final class CustomTabBar: UIStackView {
     private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem, settingItem]
     
     private let registerItem: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "plus.circle.fill")?.withTintColor(ConstantColor.registerColor, renderingMode: .alwaysOriginal))
+        let imageView = UIImageView(image: UIImage(systemName: ConstantImage.plusCircle)?.withTintColor(
+            ConstantColor.registerColor,
+            renderingMode: .alwaysOriginal)
+        )
         return imageView
     }()
         
@@ -79,7 +82,6 @@ final class CustomTabBar: UIStackView {
         itemTappedSubject.onNext(index)
     }
     
-    //MARK: - Bindings
     private func bind() {
         mainItem.rx.tapGesture()
             .when(.recognized)
