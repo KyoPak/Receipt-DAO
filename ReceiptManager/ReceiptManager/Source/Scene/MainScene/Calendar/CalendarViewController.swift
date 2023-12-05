@@ -58,7 +58,7 @@ final class CalendarViewController: UIViewController, View {
     }
     
     func bind(reactor: CalendarViewReactor) {
-        bindView()
+        bindView(reactor)
         bindAction(reactor)
         bindState(reactor)
     }
@@ -66,11 +66,19 @@ final class CalendarViewController: UIViewController, View {
 
 // MARK: - Reactor Bind
 extension CalendarViewController: UICollectionViewDelegate {
-    private func bindView() {
+    private func bindView(_ reactor: CalendarViewReactor) {
         calendarCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        // Select 구현 필요
+        calendarCollectionView.rx.itemSelected
+            .bind { indexPath in
+                let dayInfo = reactor.currentState.dayInfos[indexPath.item]
+                
+                if dayInfo.days != "" {
+                    // Coordinator Method Call
+                }
+            }
+            .disposed(by: disposeBag)
         
     }
     

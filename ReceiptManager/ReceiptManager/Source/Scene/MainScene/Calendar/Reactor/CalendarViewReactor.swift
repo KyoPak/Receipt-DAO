@@ -34,7 +34,6 @@ final class CalendarViewReactor: Reactor {
         var days: String
         var countOfExpense: String
         var amountOfExpense: String
-        var expenses: [Receipt]
         var isToday: Bool = false
     }
     
@@ -157,7 +156,7 @@ extension CalendarViewReactor {
         
         for day in 0..<totalDays {
             if day < startDayOfTheWeek {
-                newDays.append(DayInfo(days: "", countOfExpense: "", amountOfExpense: "", expenses: []))
+                newDays.append(DayInfo(days: "", countOfExpense: "", amountOfExpense: ""))
                 continue
             }
             
@@ -176,13 +175,11 @@ extension CalendarViewReactor {
         
         var totalAmount: Double = .zero
         var totalCount = 0
-        var expenses: [Receipt] = []
         
         for expenseOfDay in model {
             for expense in expenseOfDay.items where dayFormatter.string(from: expense.receiptDate) == day {
                 totalCount += 1
                 totalAmount += Double(expense.priceText) ?? .zero
-                expenses.append(expense)
             }
         }
         
@@ -190,7 +187,6 @@ extension CalendarViewReactor {
             days: day,
             countOfExpense: convertCount(totalCount),
             amountOfExpense: convertAmount(totalAmount),
-            expenses: expenses,
             isToday: checkToday(day: day)
         )
     }
