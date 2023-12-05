@@ -31,6 +31,11 @@ final class CalendarListViewController: UIViewController, View {
         setupContraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // Initializer
     
     init(reactor: CalendarListReactor) {
@@ -56,11 +61,16 @@ extension CalendarListViewController {
     }
     
     private func bindAction(_ reactor: CalendarListReactor) {
-        
+        rx.methodInvoked(#selector(viewDidLoad))
+            .map { _ in Reactor.Action.loadView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: CalendarListReactor) {
-        
+        reactor.state.map { $0.dateTitle }
+            .bind(to: dateLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -71,6 +81,8 @@ extension CalendarListViewController {
     }
     
     func setupProperties() {
+        view.backgroundColor = ConstantColor.backGroundColor
+        tableView.backgroundColor = ConstantColor.backGroundColor
         [dateLabel, weekDayLabel, totalAmountLabel, tableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

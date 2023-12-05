@@ -12,17 +12,20 @@ final class CalendarListReactor: Reactor {
     // Reactor Properties
     
     enum Action { 
-
+        case loadView
+//        case cellBookMark(IndexPath)
+//        case cellDelete(IndexPath)
     }
     
     enum Mutation {
-        
+        case updateDateTitle(String)
+        case updateExpenseList([ReceiptSectionModel])
     }
     
     struct State {
         var dateTitle: String
         var day: String
-        var expenses: [Receipt]
+        var expenseByDay: [ReceiptSectionModel]
     }
     
     let initialState: State
@@ -45,16 +48,45 @@ final class CalendarListReactor: Reactor {
         self.userDefaultEvent = userDefaultService.event
         self.dateManageService = dateManageService
         
-        initialState = State(dateTitle: "", day: day, expenses: [])
+        initialState = State(dateTitle: "", day: day, expenseByDay: [])
     }
     
     // Reactor Method
     
-    func mutate(action: Action) -> Observable<Mutation> { }
+    func mutate(action: Action) -> Observable<Mutation> { 
+        switch action {
+        case .loadView:
+            return Observable.just(Mutation.updateDateTitle(updateDateTitle()))
+        }
+    }
     
     func reduce(state: State, mutation: Mutation) -> State {
         
+        var newState = state
+        switch mutation {
+        case .updateDateTitle(let title):
+            newState.dateTitle = title
         
+        case .updateExpenseList(let array):
+            break
+        }
         
+        return newState
+    }
+}
+
+extension CalendarListReactor {
+    private func updateDateTitle() -> String {
+        let day = currentState.day
+        let date = (try? dateManageService.currentDateEvent.value()) ?? Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월"
+            
+        let yearMonthFormat = dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "dd일"
+        let dayFormat = dateFormatter.string(from: dateFormatter.date(from: day) ?? Date())
+            
+        return "\(yearMonthFormat) \(dayFormat)"
     }
 }
