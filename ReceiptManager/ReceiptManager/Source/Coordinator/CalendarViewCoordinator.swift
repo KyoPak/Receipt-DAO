@@ -19,10 +19,12 @@ final class CalendarViewCoordinator: Coordinator {
     var viewController: UIViewController?
     
     init(
+        navigationController: UINavigationController?,
         storage: CoreDataStorage,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
+        self.navigationController = navigationController
         self.storage = storage
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
@@ -44,9 +46,19 @@ final class CalendarViewCoordinator: Coordinator {
         parentViewController.addChild(calendarViewContoller)
     }
     
-    func presentDetailView(expense: Receipt) {
-        let mainViewCoordinator = parentCoordinator as? MainViewCoordinator
+    func presentCalendarList(day: String, index: Int) {
+        let calendarListViewCoordinator = CalendarListViewCoordinator(
+            navigationController: navigationController,
+            storage: storage,
+            userDefaultService: userDefaultService,
+            dateManageService: dateManageService,
+            day: day,
+            index: index
+        )
         
-        mainViewCoordinator?.moveDetailView(expense: expense)
+        calendarListViewCoordinator.parentCoordinator = self
+        childCoordinators.append(calendarListViewCoordinator)
+        
+        calendarListViewCoordinator.start()
     }
 }

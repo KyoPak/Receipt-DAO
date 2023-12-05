@@ -75,7 +75,7 @@ extension CalendarViewController: UICollectionViewDelegate {
                 let dayInfo = reactor.currentState.dayInfos[indexPath.item]
                 
                 if dayInfo.days != "" {
-                    // Coordinator Method Call
+                    self.coordinator?.presentCalendarList(day: dayInfo.days, index: indexPath.item)
                 }
             }
             .disposed(by: disposeBag)

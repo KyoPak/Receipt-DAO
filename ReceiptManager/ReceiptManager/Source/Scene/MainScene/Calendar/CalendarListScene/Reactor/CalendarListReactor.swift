@@ -20,17 +20,32 @@ final class CalendarListReactor: Reactor {
     }
     
     struct State {
-        
+        var dateTitle: String
+        var day: String
+        var expenses: [Receipt]
     }
     
     let initialState: State
     
     // Properties
-        
+    
+    private let storage: CoreDataStorage
+    private let dateManageService: DateManageService
+    let userDefaultEvent: BehaviorSubject<Int>
+    
     // Initializer
     
-    init() {
-        initialState = State()
+    init(
+        storage: CoreDataStorage,
+        userDefaultService: UserDefaultService,
+        dateManageService: DateManageService,
+        day: String
+    ) {
+        self.storage = storage
+        self.userDefaultEvent = userDefaultService.event
+        self.dateManageService = dateManageService
+        
+        initialState = State(dateTitle: "", day: day, expenses: [])
     }
     
     // Reactor Method

@@ -41,6 +41,7 @@ final class MainViewCoordinator: Coordinator {
         listViewCoordinator.start()
         
         let calendarCoordinator = CalendarViewCoordinator(
+            navigationController: outerNavigationController,
             storage: storage,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
