@@ -7,37 +7,34 @@
 
 import ReactorKit
 
+enum ShowMode {
+    case list
+    case calendar
+}
+
 final class MainViewReactor: Reactor {
     
     // Reactor Properties
     
     enum Action {
-        case registerButtonTapped
         case searchButtonTapped
-        case showModeButtomTapped
+        case showModeButtonTapped
         case nextMonthButtonTapped
         case previoutMonthButtonTapped
         case todayButtonTapped
     }
     
     enum Mutation {
-        case moveRegister
         case moveSearch
-        case changeShowMode
+        case changeShowMode(ShowMode)
         case updateDate(Date)
     }
     
     struct State {
         var title: String
-        var isRegister: Bool = false
         var isSearch: Bool = false
         var showMode: ShowMode
         var dateToShow: Date
-    }
-    
-    enum ShowMode {
-        case calendar
-        case list
     }
     
     let initialState: State
@@ -63,12 +60,12 @@ final class MainViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .registerButtonTapped:
-            return .just(.moveRegister)
         case .searchButtonTapped:
             return .just(.moveSearch)
-        case .showModeButtomTapped:
-            return .just(.changeShowMode)
+        
+        case .showModeButtonTapped:
+            let newMode = currentState.showMode == .list ? ShowMode.calendar : ShowMode.list
+            return .just(.changeShowMode(newMode))
         
         case .nextMonthButtonTapped:
             return dateService.updateDate(byAddingMonths: 1)
@@ -88,14 +85,11 @@ final class MainViewReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .moveRegister:
-            newState.isRegister = true
-        
         case .moveSearch:
             newState.isSearch = true
         
-        case .changeShowMode:
-            newState.showMode = (newState.showMode == .calendar) ? .list : .calendar
+        case .changeShowMode(let newMode):
+            newState.showMode = newMode
             
         case .updateDate(let updatedDate):
             newState.dateToShow = updatedDate

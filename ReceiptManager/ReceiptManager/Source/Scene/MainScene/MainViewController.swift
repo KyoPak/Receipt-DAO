@@ -92,13 +92,14 @@ final class MainViewController: UIViewController, View {
 
 // MARK: - Reactor Bind
 extension MainViewController {
-    private func bindView(_ reactor: MainViewReactor) {
-        
-    }
-    
     private func bindAction(_ reactor: MainViewReactor) {
         navigationBar.searchButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        navigationBar.showModeButton.rx.tap
+            .map { Reactor.Action.showModeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -119,12 +120,24 @@ extension MainViewController {
     }
     
     private func bindState(_ reactor: MainViewReactor) {
-        reactor.state.map { $0.isRegister }
-            .bind { print("TAP REGISTER", $0) }
+        reactor.state.map { $0.isSearch }
+            .bind { }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.isSearch }
-            .bind { print("TAP SEARCH", $0) }
+        reactor.state.map { $0.showMode }
+            .distinctUntilChanged()
+            .bind { mode in
+                self.navigationBar.changShowModeButton(mode)
+                
+                switch mode {
+                case .list:
+                    self.childViewController = self.children[0]
+                case .calendar:
+                    self.childViewController = self.children[1]
+                }
+                
+                self.setupChildViewController()
+            }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dateToShow }
@@ -138,6 +151,13 @@ extension MainViewController {
 
 // MARK: - UIConstraints
 extension MainViewController {
+    private func setupChildViewController() {
+        childViewController.view.removeFromSuperview()
+        view.addSubview(self.childViewController.view)
+        childViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        setupContraints()
+    }
+    
     private func setupChildView(_ child: [UIViewController]) {
         child.forEach { addChild($0) }
     }
