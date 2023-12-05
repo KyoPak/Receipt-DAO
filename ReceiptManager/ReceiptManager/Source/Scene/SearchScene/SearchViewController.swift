@@ -40,6 +40,7 @@ final class SearchViewController: UIViewController, View {
     }()
     
     var disposeBag = DisposeBag()
+    weak var coordinator: SearchViewCoordinator?
     
     // UI Properties
     
@@ -75,39 +76,6 @@ final class SearchViewController: UIViewController, View {
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
-    //    func bindViewModel() {
-    //        searchBar.rx.textDidEndEditing
-    //            .withUnretained(self)
-    //            .bind { (owner, _) in
-    //                owner.searchBar.resignFirstResponder()
-    //            }
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        searchBarBackButton.rx.tap
-    //            .withUnretained(self)
-    //            .bind { (owner, _) in
-    //                owner.viewModel?.cancelAction()
-    //            }
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        tableView.rx.setDelegate(self)
-    //            .disposed(by: rx.disposeBag)
-    //
-    //        Observable.zip(
-    //            tableView.rx.modelSelected(Receipt.self),
-    //            tableView.rx.itemSelected
-    //        )
-    //        .withUnretained(self)
-    //        .do { (owner, data) in
-    //            owner.tableView.deselectRow(at: data.1, animated: true)
-    //        }
-    //        .map { $1.0 }
-    //        .subscribe { [weak self] in
-    //            self?.viewModel?.moveDetailAction(receipt: $0)
-    //        }
-    //        .disposed(by: rx.disposeBag)
-    //    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
@@ -128,6 +96,7 @@ final class SearchViewController: UIViewController, View {
     }
     
     func bind(reactor: SearchViewReactor) {
+        bindView()
         bindAction(reactor)
         bindState(reactor)
     }
@@ -135,15 +104,19 @@ final class SearchViewController: UIViewController, View {
 
 // MARK: - Reactor Bind
 extension SearchViewController {
-    private func bindView(_ reactor: SearchViewReactor) {
+    private func bindView() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         searchBar.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
         searchBar.rx.searchButtonClicked
-            .withUnretained(self)
-            .bind { (owner, _) in
-                owner.searchBar.endEditing(true)
-            }
+            .bind { self.searchBar.endEditing(true) }
+            .disposed(by: disposeBag)
+        
+        searchBarBackButton.rx.tap
+            .bind { self.coordinator?.close(self) }
             .disposed(by: disposeBag)
     }
     
@@ -166,46 +139,12 @@ extension SearchViewController {
     }
 }
 
-
-// MARK: - UIConstraints
-extension SearchViewController {
-    private func setupHierarchy() {
-        [searchBar, tableView].forEach(view.addSubview(_:))
-    }
-    
-    private func setupProperties() {
-        view.backgroundColor = ConstantColor.backGroundColor
-        
-        searchBar.becomeFirstResponder()
-        searchBar.searchTextField.leftView = searchBarBackButton
-        
-        tableView.backgroundColor = ConstantColor.backGroundColor
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
-        [searchBar, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-    }
-    
-    private func setupConstraints() {
-        let safeArea = view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
-            searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
-
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
-    }
-}
-
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let data = dataSource[section]
 
         let headerText = data.identity
-
+        
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .label
@@ -248,5 +187,38 @@ extension SearchViewController: UISearchBarDelegate {
     
     private func hideEmptyResultMessage() {
         tableView.backgroundView = nil
+    }
+}
+
+// MARK: - UIConstraints
+extension SearchViewController {
+    private func setupHierarchy() {
+        [searchBar, tableView].forEach(view.addSubview(_:))
+    }
+    
+    private func setupProperties() {
+        view.backgroundColor = ConstantColor.backGroundColor
+        
+        searchBar.becomeFirstResponder()
+        searchBar.searchTextField.leftView = searchBarBackButton
+        
+        tableView.backgroundColor = ConstantColor.backGroundColor
+        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
+        [searchBar, tableView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+    }
+    
+    private func setupConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
+            searchBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
+            searchBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
+
+            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
 }
