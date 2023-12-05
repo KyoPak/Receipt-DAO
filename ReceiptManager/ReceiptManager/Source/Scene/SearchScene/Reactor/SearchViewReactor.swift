@@ -12,9 +12,7 @@ final class SearchViewReactor: Reactor {
     // Reactor Properties
     
     enum Action {
-        case searchExpense(String)       // 검색
-//        case expenseCellSelect(IndexPath)
-//        case expenseCellBookmark(IndexPath)
+        case searchExpense(String)
     }
     
     enum Mutation {
