@@ -46,10 +46,16 @@ final class CalendarListViewCoordinator: Coordinator {
         
         let calendarListViewController = CalendarListViewController(reactor: calendarListViewReactor)
         
-        let innerNavigationController = UINavigationController()
-        innerNavigationController.setViewControllers([calendarListViewController], animated: true)
+        let bottomSheetViewController = BottomSheetViewController(
+            controller: calendarListViewController,
+            bottomHeightRatio: 0.7
+        )
         
-        innerNavigationController.modalPresentationStyle = .formSheet
+        let innerNavigationController = UINavigationController()
+        innerNavigationController.setViewControllers([bottomSheetViewController], animated: true)
+        
+        innerNavigationController.modalPresentationStyle = .overFullScreen
+        
         navigationController?.present(innerNavigationController, animated: true)
     }
 }
