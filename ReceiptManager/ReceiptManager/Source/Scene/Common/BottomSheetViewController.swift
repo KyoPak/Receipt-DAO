@@ -37,13 +37,10 @@ final class BottomSheetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupHierarchy()
+        setupProperties()
         setupContraints()
-        
-        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss))
-        transparentView.addGestureRecognizer(dismissTap)
-        transparentView.isUserInteractionEnabled = true
+        setupGesture()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,6 +69,18 @@ final class BottomSheetViewController: UIViewController {
     }
 }
 
+extension BottomSheetViewController: UIGestureRecognizerDelegate {
+    private func setupGesture() {
+        let dismissTap = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss))
+        let dismissSwipe = UISwipeGestureRecognizer(target: self, action: #selector(didTapDismiss))
+        dismissSwipe.direction = .down
+        dismissSwipe.delegate = self
+        
+        transparentView.addGestureRecognizer(dismissTap)
+        bottomContainerView.addGestureRecognizer(dismissSwipe)
+    }
+}
+
 extension BottomSheetViewController {
     private func showBottomSheet() {
         let height = view.frame.height * bottomHeightRatio
@@ -88,17 +97,19 @@ extension BottomSheetViewController {
 // MARK: - UIConstraints
 extension BottomSheetViewController {
     private func setupHierarchy() {
-        transparentView.alpha = .zero
         addChild(childController)
-        [transparentView, bottomContainerView].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
         bottomContainerView.addSubview(childController.view)
         [transparentView, bottomContainerView].forEach(view.addSubview(_:))
     }
     
+    func setupProperties() {
+        transparentView.alpha = .zero
+        [transparentView, bottomContainerView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
     private func setupContraints() {
-
         bottomContainerViewHeightConstraint = bottomContainerView.heightAnchor.constraint(equalToConstant: 0)
         guard let bottomContainerViewHeightConstraint = bottomContainerViewHeightConstraint else { return }
         
