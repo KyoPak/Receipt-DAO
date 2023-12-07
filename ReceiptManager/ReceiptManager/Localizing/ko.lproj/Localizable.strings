@@ -68,3 +68,19 @@
 "mailSubject" = "[영수증 다오] 의견 글";
 "mailBody" = "안녕하세요.\n 영수증 다오를 이용해주셔서 감사합니다. \n항상 사용자의 의견을 소중히 생각하고 있습니다.\n아래의 항목 중 해당하는 내용을 선택하시거나 자유롭게 의견을 작성해주시면 감사하겠습니다.\n\n 1. 의견:\n[사용자 의견을 작성해주세요]\n2. 오류:\n[오류 내용을 작성해주세요]\n3. 그 외:\n[원하시는 내용을 작성해주세요]\n\n\n감사합니다.";
 "case" = "건";
+
+"sunDayModel" = "일";
+"monDayModel" = "월";
+"tuesDayModel" = "화";
+"wednesDayModel" = "수";
+"thursDayModel" = "목";
+"friDayModel" = "금";
+"saturDayModel" = "토";
+
+"sunDay" = "일요일";
+"monDay" = "월요일";
+"tuesDay" = "화요일";
+"wednesDay" = "수요일";
+"thursDay" = "목요일";
+"friDay" = "금요일";
+"saturDay" = "토요일";

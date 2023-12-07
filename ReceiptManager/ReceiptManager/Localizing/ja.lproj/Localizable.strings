@@ -68,3 +68,19 @@
 "mailSubject" = "[Give Me A Receipt] ユーザーの意見";
 "mailBody" = "こんにちは. \nアプリをご利用いただきありがとうございます。 \n私たちは常にユーザーの意見を重視します。 \n以下のリストから該当する項目を選択していただくか、ご自由にご意見をお書きいただければ幸いです。 \n1. コメント:\n[コメントをお書きください。]\n2. エラー:\n[エラーを書いてください]\n3. 等:\n[欲しいものを書いてください]\n\n\nありがとう。";
 "case" = "件";
+
+"sunDayModel" = "日";
+"monDayModel" = "月";
+"tuesDayModel" = "火";
+"wednesDayModel" = "水";
+"thursDayModel" = "木";
+"friDayModel" = "金";
+"saturDayModel" = "土";
+
+"sunDay" = "日曜日";
+"monDay" = "月曜日";
+"tuesDay" = "火曜日";
+"wednesDay" = "水曜日";
+"thursDay" = "木曜日";
+"friDay" = "金曜日";
+"saturDay" = "土曜日";

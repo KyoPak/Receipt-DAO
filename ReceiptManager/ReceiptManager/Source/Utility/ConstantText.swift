@@ -91,4 +91,9 @@ enum ConstantText {
     static let opinion = "opinion"
     
     static let caseText = "case"
+    
+    // MARK: - Day Of Week
+    static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel", 
+                               "wednesDayModel", "thursDayModel", "friDayModel", "saturDayModel"]
+    static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
 }
