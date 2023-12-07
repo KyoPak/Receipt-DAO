@@ -21,7 +21,7 @@ final class CalendarListViewController: UIViewController, View {
     
     private let dateLabel = UILabel(font: .systemFont(ofSize: 25, weight: .bold))
     private let weekDayLabel = UILabel(font: .systemFont(ofSize: 20, weight: .bold))
-    private let totalAmountLabel = UILabel(font: .systemFont(ofSize: 20))
+    private let totalAmountLabel = UILabel(font: .systemFont(ofSize: 15))
     private var tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
@@ -63,7 +63,7 @@ extension CalendarListViewController {
     
     private func bindAction(_ reactor: CalendarListReactor) {
         rx.methodInvoked(#selector(viewDidLoad))
-            .map { _ in Reactor.Action.loadView }
+            .map { _ in Reactor.Action.loadData }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -94,6 +94,14 @@ extension CalendarListViewController {
         reactor.state.map { $0.weekIndex }
             .map { ConstantText.weekDay[$0].localize() }
             .bind(to: weekDayLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.amountByDay }
+            .map { amount in
+                if amount == "" { return "" }
+                return ConstantText.amountByDay.localized(with: amount)
+            }
+            .bind(to: totalAmountLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expenseByDay }
@@ -165,6 +173,7 @@ extension CalendarListViewController {
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.separatorStyle = .none
+        totalAmountLabel.textColor = ConstantColor.favoriteColor
 
         [dateLabel, weekDayLabel, totalAmountLabel, tableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -183,7 +192,7 @@ extension CalendarListViewController {
             totalAmountLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
             totalAmountLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor),
             
-            tableView.topAnchor.constraint(equalTo: weekDayLabel.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: totalAmountLabel.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20)

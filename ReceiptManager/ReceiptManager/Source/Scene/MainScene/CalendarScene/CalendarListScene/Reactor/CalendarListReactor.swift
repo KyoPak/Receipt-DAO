@@ -12,7 +12,7 @@ final class CalendarListReactor: Reactor {
     // Reactor Properties
     
     enum Action { 
-        case loadView
+        case loadData
         case cellBookMark(IndexPath)
         case cellDelete(IndexPath)
     }
@@ -20,6 +20,7 @@ final class CalendarListReactor: Reactor {
     enum Mutation {
         case updateDateTitle(String)
         case updateExpenseList([Receipt])
+        case updateAmount(String)
     }
     
     struct State {
@@ -27,6 +28,7 @@ final class CalendarListReactor: Reactor {
         var day: String
         var weekIndex: Int
         var expenseByDay: [Receipt]
+        var amountByDay: String
     }
     
     let initialState: State
@@ -50,18 +52,27 @@ final class CalendarListReactor: Reactor {
         self.userDefaultEvent = userDefaultService.event
         self.dateManageService = dateManageService
         
-        initialState = State(dateTitle: "", day: day, weekIndex: weekIndex % 7, expenseByDay: [])
+        initialState = State(
+            dateTitle: "",
+            day: day,
+            weekIndex: weekIndex % 7,
+            expenseByDay: [], 
+            amountByDay: ""
+        )
     }
     
     // Reactor Method
     
     func mutate(action: Action) -> Observable<Mutation> { 
         switch action {
-        case .loadView:
+        case .loadData:
             return Observable.concat([
                 Observable.just(Mutation.updateDateTitle(updateDate())),
-                loadData().map({ models in
-                    Mutation.updateExpenseList(models)
+                loadData().flatMap({ models in
+                    return Observable.concat([
+                        Observable.just(Mutation.updateExpenseList(models)),
+                        Observable.just(Mutation.updateAmount(self.updateAmount(models)))
+                    ])
                 })
             ])
             
@@ -69,16 +80,12 @@ final class CalendarListReactor: Reactor {
             var expense = currentState.expenseByDay[indexPath.row]
             expense.isFavorite.toggle()
             storage.upsert(receipt: expense)
-            return loadData().map { models in
-                Mutation.updateExpenseList(models)
-            }
+            return Observable.empty()
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByDay[indexPath.row]
             storage.delete(receipt: expense)
-            return loadData().map { models in
-                Mutation.updateExpenseList(models)
-            }
+            return Observable.empty()
         }
     }
     
@@ -90,6 +97,9 @@ final class CalendarListReactor: Reactor {
         
         case .updateExpenseList(let models):
             newState.expenseByDay = models
+            
+        case .updateAmount(let amount):
+            newState.amountByDay = amount
         }
         
         return newState
@@ -125,5 +135,28 @@ extension CalendarListReactor {
         let dayFormat = dateFormatter.string(from: dateFormatter.date(from: day) ?? Date())
             
         return "\(yearMonthFormat) \(dayFormat)"
+    }
+    
+    private func updateAmount(_ expenses: [Receipt]) -> String {
+        var totalAmount: Double = .zero
+        
+        for expense in expenses {
+            totalAmount += Double(expense.priceText) ?? .zero
+        }
+        
+        return NumberFormatter.numberDecimal(from: convertAmount(totalAmount))
+    }
+    
+    private func convertAmount(_ amount: Double) -> String {
+        if amount == .zero {
+            return ""
+        }
+        
+        if Double(Int(amount)) == amount {
+            let newAmount = String(Int(amount))
+            return newAmount
+        } else {
+            return String(amount)
+        }
     }
 }
