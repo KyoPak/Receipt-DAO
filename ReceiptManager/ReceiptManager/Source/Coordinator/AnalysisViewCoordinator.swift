@@ -29,7 +29,10 @@ final class AnalysisViewCoordinator: Coordinator {
     }
     
     func start() {
-        let analysisViewReactor = AnalysisViewReactor()
+        let analysisViewReactor = AnalysisViewReactor(
+            storage: storage,
+            userDefaultService: userDefaultService,
+            dateService: DefaultDateManageService())
         let analysisViewController = AnalysisViewController(reactor: analysisViewReactor)
         
         analysisViewController.coordinator = self
