@@ -81,10 +81,10 @@ extension CalendarListReactor {
         let date = (try? dateManageService.currentDateEvent.value()) ?? Date()
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월"
+        dateFormatter.dateFormat = ConstantText.dateFormatMonth.localize()
             
         let yearMonthFormat = dateFormatter.string(from: date)
-        dateFormatter.dateFormat = "dd일"
+        dateFormatter.dateFormat = ConstantText.dateFormatDay.localize()
         let dayFormat = dateFormatter.string(from: dateFormatter.date(from: day) ?? Date())
             
         return "\(yearMonthFormat) \(dayFormat)"

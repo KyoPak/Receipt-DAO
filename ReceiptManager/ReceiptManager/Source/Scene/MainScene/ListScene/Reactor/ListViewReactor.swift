@@ -105,7 +105,7 @@ final class ListViewReactor: Reactor {
 
 extension ListViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
-        let dayFormat = ConstantText.dateFormatDay.localize()
+        let dayFormat = ConstantText.dateFormatFull.localize()
         
         return storage.fetch()
             .distinctUntilChanged()

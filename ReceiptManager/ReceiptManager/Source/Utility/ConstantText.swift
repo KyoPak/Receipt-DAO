@@ -78,8 +78,10 @@ enum ConstantText {
     static let receiptImage = "receiptImage"
     
     static let dateFormatMonth = "dateFormatMonth"
+    static let dateFormatFull = "dateFormatFull"
     static let dateFormatDay = "dateFormatDay"
     static let mainReceiptCount = "mainReceiptCount %d"
+    
     static let setting = "setting"
     
     static let currencySettingSection = "currencySettingSection"

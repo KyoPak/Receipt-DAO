@@ -54,7 +54,8 @@
 "need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
 "receiptImage" = "領収書画像";
 "dateFormatMonth" = "MM.yyyy";
-"dateFormatDay" = "MM dd, yyyy";
+"dateFormatFull" = "MM dd, yyyy";
+"dateFormatDay" = "dd";
 "mainReceiptCount %d" = "%d 件の登録領収書";
 
 "setting" = "設定";

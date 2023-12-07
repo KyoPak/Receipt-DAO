@@ -54,7 +54,8 @@
 "need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 "receiptImage" = "Receipt Image";
 "dateFormatMonth" = "MMM.yyyy";
-"dateFormatDay" = "MMMM dd, yyyy";
+"dateFormatFull" = "MMMM dd, yyyy";
+"dateFormatDay" = "dd";
 "mainReceiptCount %d" = "Registered %d Receipt";
 
 "setting" = "Settings";

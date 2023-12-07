@@ -101,7 +101,7 @@ final class CalendarViewReactor: Reactor {
 // MARK: - About Data
 extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
-        let dayFormat = ConstantText.dateFormatDay.localize()
+        let dayFormat = ConstantText.dateFormatFull.localize()
         
         return storage.fetch()
             .map { result in

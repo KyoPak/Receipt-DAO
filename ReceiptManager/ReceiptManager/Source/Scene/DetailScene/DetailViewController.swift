@@ -285,8 +285,8 @@ extension DetailViewController {
         memoLabel.text = item.memo
         payTypeSegmented.selectedSegmentIndex = item.paymentType
         shareButton.isEnabled = item.receiptData.count != .zero
-        dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatDay.localize())
-        countLabel.text = item.receiptData.count == .zero ? 
+        dateLabel.text = DateFormatter.string(from: item.receiptDate, ConstantText.dateFormatFull.localize())
+        countLabel.text = item.receiptData.count == .zero ?
             "" : ConstantText.imageCountText.localized(with: String(item.receiptData.count))
         
         setupCollectionViewLayout(count: item.receiptData.count)
