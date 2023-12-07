@@ -16,6 +16,7 @@ final class CalendarListViewController: UIViewController, View {
     // Properties
     
     var disposeBag = DisposeBag()
+    weak var coordinator: CalendarListViewCoordinator?
     
     // UI Properties
     
@@ -58,6 +59,17 @@ final class CalendarListViewController: UIViewController, View {
 extension CalendarListViewController {
     private func bindView() {
         tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        Observable.zip(tableView.rx.modelSelected(Receipt.self), tableView.rx.itemSelected)
+            .withUnretained(self)
+            .do(onNext: { (owner, data) in
+                owner.tableView.deselectRow(at: data.1, animated: true)
+            })
+            .map { $1.0 }
+            .subscribe(onNext: { [weak self] in
+                self?.coordinator?.presentDetailView(expense: $0)
+            })
             .disposed(by: disposeBag)
     }
     
