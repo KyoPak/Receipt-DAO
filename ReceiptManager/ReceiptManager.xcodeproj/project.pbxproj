@@ -78,6 +78,7 @@
 		3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */; };
 		3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */; };
 		3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563FA2A287C39008A6CD0 /* OCRResult.swift */; };
+		3CBABE412B21D2830001BA4F /* MonthControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBABE402B21D2830001BA4F /* MonthControlView.swift */; };
 		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
 		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
@@ -176,6 +177,7 @@
 		3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRTextExtractable.swift; sourceTree = "<group>"; };
 		3CB563FA2A287C39008A6CD0 /* OCRResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRResult.swift; sourceTree = "<group>"; };
+		3CBABE402B21D2830001BA4F /* MonthControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlView.swift; sourceTree = "<group>"; };
 		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
 				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 				3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */,
+				3CBABE402B21D2830001BA4F /* MonthControlView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CBABE412B21D2830001BA4F /* MonthControlView.swift in Sources */,
 				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
 				3C8175F92B19B1F4000E5761 /* CalendarViewReactor.swift in Sources */,
 				3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */,
