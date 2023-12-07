@@ -104,7 +104,7 @@ extension BottomSheetViewController {
     
     func setupProperties() {
         transparentView.alpha = .zero
-        [transparentView, bottomContainerView].forEach {
+        [transparentView, bottomContainerView, childController.view].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
