@@ -96,4 +96,6 @@ enum ConstantText {
     static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel", 
                                "wednesDayModel", "thursDayModel", "friDayModel", "saturDayModel"]
     static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
+    
+    static let amountByDay = "amountByDay %@"
 }

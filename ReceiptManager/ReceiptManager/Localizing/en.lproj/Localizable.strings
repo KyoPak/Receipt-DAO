@@ -85,3 +85,5 @@
 "thursDay" = "Thursday";
 "friDay" = "Friday";
 "saturDay" = "Saturday";
+
+"amountByDay %@" = "Daily Expenditure - %@";

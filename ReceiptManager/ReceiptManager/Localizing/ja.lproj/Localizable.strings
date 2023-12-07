@@ -84,3 +84,5 @@
 "thursDay" = "木曜日";
 "friDay" = "金曜日";
 "saturDay" = "土曜日";
+
+"amountByDay %@" = "1日の支出 - %@";
