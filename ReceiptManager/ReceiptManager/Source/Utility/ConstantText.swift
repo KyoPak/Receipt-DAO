@@ -24,7 +24,6 @@ enum ConstantText {
     static let mailBody = "mailBody"
     static let appID = "6449433216"
     
-    // View Title
     static let detail = "detail"
     
     // MARK: - UserDefault Key
@@ -35,11 +34,11 @@ enum ConstantText {
     
     static let list = "list"
     static let bookMark = "bookMark"
-    static let clearBookMark = "clearBookMark"
     static let registerTitle = "registerTitle"
     static let editTitle = "editTitle"
-    static let input = "input"
+    static let analysisTitle = "analysisTitle"
     
+    static let input = "input"
     static let selectImage = "selectImage"
     static let selectButton = "selectButton"
     static let save = "save"
@@ -51,7 +50,6 @@ enum ConstantText {
     static let edit = "edit"
     static let date = "date"
     
-    static let home = "home"
     static let store = "store"
     static let product = "product"
     static let price = "price"
@@ -68,6 +66,7 @@ enum ConstantText {
     static let searchText = "searchText"
     static let searchFail = "searchFail"
     
+    // About Camera, Album
     static let selectReceipt = "selectReceipt"
     static let selectReceiptText = "selectReceiptText"
     static let shooting = "shooting"
@@ -77,6 +76,7 @@ enum ConstantText {
     static let needAccessAuthText = "need %@ AccessAuthText"
     static let receiptImage = "receiptImage"
     
+    // About DateFormat
     static let dateFormatMonth = "dateFormatMonth"
     static let dateFormatFull = "dateFormatFull"
     static let dateFormatDay = "dateFormatDay"

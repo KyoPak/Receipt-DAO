@@ -10,11 +10,11 @@
 
 "list" = "My Expense";
 "bookMark" = "BookMark";
-"clearBookMark" = "Unimportant";
 "registerTitle" = "Register";
 "editTitle" = "Edit";
-"input" = "Fill";
+"analysisTitle" = "Monthly";
 
+"input" = "Fill";
 "detail" = "Detail";
 
 "selectImage" = "Selected image";
@@ -28,7 +28,6 @@
 "edit" = "Edit";
 "date" = "Date";
 
-"home" = "Home";
 "store" = "Store";
 "product" = "Product";
 "price" = "Price";

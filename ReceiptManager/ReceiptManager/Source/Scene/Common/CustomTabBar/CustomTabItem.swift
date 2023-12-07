@@ -20,7 +20,7 @@ extension CustomTabItem {
         case .main:
             return ConstantText.list.localize()
         case .analysis:
-            return "월별 지출"
+            return ConstantText.analysisTitle.localize()
         case .bookmark:
             return ConstantText.bookMark.localize()
         case .setting:
@@ -34,7 +34,7 @@ extension CustomTabItem {
             return UIImage(systemName: ConstantImage.listCircle)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
         case .analysis:
-            return UIImage(systemName: "chart.line.uptrend.xyaxis.circle")?
+            return UIImage(systemName: ConstantImage.chartUp)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
             
         case .bookmark:
@@ -53,7 +53,7 @@ extension CustomTabItem {
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
             
         case .analysis:
-            return UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")?
+            return UIImage(systemName: ConstantImage.chartUpFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
             
         case .bookmark:

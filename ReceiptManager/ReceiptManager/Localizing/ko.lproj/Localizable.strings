@@ -10,11 +10,11 @@
 
 "list" = "나의 지출";
 "bookMark" = "즐겨찾기";
-"clearBookMark" = "즐겨찾기 해제";
 "registerTitle" = "등록하기";
 "editTitle" = "수정하기";
-"input" = "입력";
+"analysisTitle" = "월별 지출";
 
+"input" = "입력";
 "detail" = "지출 상세";
 
 "selectImage" = "선택한 이미지";
@@ -28,7 +28,6 @@
 "edit" = "편집";
 "date" = "날짜";
 
-"home" = "홈";
 "store" = "상호명";
 "product" = "내역";
 "price" = "가격";

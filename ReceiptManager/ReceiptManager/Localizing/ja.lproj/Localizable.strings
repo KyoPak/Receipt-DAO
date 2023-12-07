@@ -10,11 +10,11 @@
 
 "list" = "私の経費";
 "bookMark" = "重要";
-"clearBookMark" = "重要ではない";
 "registerTitle" = "登録する";
 "editTitle" = "編集";
-"input" = "入力";
+"analysisTitle" = "月別支出";
 
+"input" = "入力";
 "detail" = "詳細";
 
 "selectImage" = "選択した画像";
@@ -28,7 +28,6 @@
 "edit" = "編集";
 "date" = "日付";
 
-"home" = "ホーム";
 "store" = "相互名";
 "product" = "履歴";
 "price" = "価格";
