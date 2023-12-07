@@ -71,6 +71,11 @@ extension CalendarListViewController {
         reactor.state.map { $0.dateTitle }
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.weekIndex }
+            .map { ConstantText.weekDay[$0].localize() }
+            .bind(to: weekDayLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
 

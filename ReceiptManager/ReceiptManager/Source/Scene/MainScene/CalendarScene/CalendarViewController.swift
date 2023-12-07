@@ -112,11 +112,9 @@ extension CalendarViewController: UICollectionViewDelegate {
 // MARK: - UIConstraint
 extension CalendarViewController {
     private func configureWeekLabel() {
-        let dayOfTheWeek = ["일", "월", "화", "수", "목", "금", "토"]
-        
         for dayIndex in 0..<7 {
             let label = UILabel()
-            label.text = dayOfTheWeek[dayIndex]
+            label.text = ConstantText.weekDayModel[dayIndex].localize()
             label.font = .systemFont(ofSize: 15, weight: .semibold)
             label.textAlignment = .center
             self.weekStackView.addArrangedSubview(label)

@@ -25,6 +25,7 @@ final class CalendarListReactor: Reactor {
     struct State {
         var dateTitle: String
         var day: String
+        var weekIndex: Int
         var expenseByDay: [ReceiptSectionModel]
     }
     
@@ -42,13 +43,14 @@ final class CalendarListReactor: Reactor {
         storage: CoreDataStorage,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService,
-        day: String
+        day: String,
+        weekIndex: Int
     ) {
         self.storage = storage
         self.userDefaultEvent = userDefaultService.event
         self.dateManageService = dateManageService
         
-        initialState = State(dateTitle: "", day: day, expenseByDay: [])
+        initialState = State(dateTitle: "", day: day, weekIndex: weekIndex % 7, expenseByDay: [])
     }
     
     // Reactor Method

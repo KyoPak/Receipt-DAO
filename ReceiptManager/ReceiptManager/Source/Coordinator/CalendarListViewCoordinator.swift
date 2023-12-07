@@ -41,7 +41,8 @@ final class CalendarListViewCoordinator: Coordinator {
             storage: storage,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService,
-            day: day
+            day: day,
+            weekIndex: weekIndex
         )
         
         let calendarListViewController = CalendarListViewController(reactor: calendarListViewReactor)
