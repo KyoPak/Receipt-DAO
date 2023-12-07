@@ -25,10 +25,11 @@ final class CustomTabBar: UIStackView {
     // UI Properties
     
     private let mainItem = CustomItemView(with: .main, index: 0)
-    private let bookmarkItem = CustomItemView(with: .bookmark, index: 1)
-    private let settingItem = CustomItemView(with: .setting, index: 2)
+    private let analysisItem = CustomItemView(with: .analysis, index: 1)
+    private let bookmarkItem = CustomItemView(with: .bookmark, index: 2)
+    private let settingItem = CustomItemView(with: .setting, index: 3)
     
-    private lazy var customItemViews: [CustomItemView] = [mainItem, bookmarkItem, settingItem]
+    private lazy var customItemViews: [CustomItemView] = [mainItem, analysisItem, bookmarkItem, settingItem]
     
     private let registerItem: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: ConstantImage.plusCircle)?.withTintColor(
@@ -55,7 +56,7 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem, bookmarkItem, registerItem, settingItem].forEach { self.addArrangedSubview($0) }
+        [mainItem, analysisItem, registerItem, bookmarkItem, settingItem].forEach { self.addArrangedSubview($0) }
     }
     
     private func setupProperties() {
@@ -93,6 +94,23 @@ final class CustomTabBar: UIStackView {
             }
             .disposed(by: disposeBag)
         
+        analysisItem.rx.tapGesture()
+            .when(.recognized)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                self.analysisItem.animateClick {
+                    self.selectItem(index: self.analysisItem.index)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        registerItem.rx.tapGesture()
+            .when(.recognized)
+            .bind { _ in
+                self.registerButtonSubject.onNext(Void())
+            }
+            .disposed(by: disposeBag)
+        
         bookmarkItem.rx.tapGesture()
             .when(.recognized)
             .bind { [weak self] _ in
@@ -100,13 +118,6 @@ final class CustomTabBar: UIStackView {
                 self.bookmarkItem.animateClick {
                     self.selectItem(index: self.bookmarkItem.index)
                 }
-            }
-            .disposed(by: disposeBag)
-  
-        registerItem.rx.tapGesture()
-            .when(.recognized)
-            .bind { _ in
-                self.registerButtonSubject.onNext(Void())
             }
             .disposed(by: disposeBag)
 

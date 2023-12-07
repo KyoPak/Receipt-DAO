@@ -9,6 +9,7 @@ import UIKit
 
 enum CustomTabItem: String, CaseIterable {
     case main
+    case analysis
     case bookmark
     case setting
 }
@@ -18,6 +19,8 @@ extension CustomTabItem {
         switch self {
         case .main:
             return ConstantText.list.localize()
+        case .analysis:
+            return "월별 지출"
         case .bookmark:
             return ConstantText.bookMark.localize()
         case .setting:
@@ -30,6 +33,10 @@ extension CustomTabItem {
         case .main:
             return UIImage(systemName: ConstantImage.listCircle)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+        case .analysis:
+            return UIImage(systemName: "chart.line.uptrend.xyaxis.circle")?
+                .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+            
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMark)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
@@ -44,6 +51,11 @@ extension CustomTabItem {
         case .main:
             return UIImage(systemName: ConstantImage.listCircleFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
+            
+        case .analysis:
+            return UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")?
+                .withTintColor(.label, renderingMode: .alwaysOriginal)
+            
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMarkFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
@@ -68,6 +80,14 @@ extension CustomTabItem {
                 storage: storage,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
+            )
+            
+        case .analysis:
+            return AnalysisViewCoordinator(
+                outerNavigationController: outerNavigationController,
+                navigationController: navigationController,
+                storage: storage,
+                userDefaultService: userDefaultService
             )
         
         case .bookmark:
