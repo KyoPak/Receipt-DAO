@@ -563,7 +563,7 @@
 			children = (
 				3C7FD5042B047A5D0084E650 /* Common */,
 				3C0894C12A4E6ABB00C6E7CD /* SettingScene */,
-				3CDCDC4B29FC008700C2BEF6 /* MainScene */,
+				3CDCDC4B29FC008700C2BEF6 /* ExpenseScene */,
 				3C9AA3512A012FD10014807B /* BookMarkScene */,
 				3C4EBB532A519261004E6C93 /* SearchScene */,
 				3C9AA3542A012FF80014807B /* ComposeScene */,
@@ -572,7 +572,7 @@
 			path = Scene;
 			sourceTree = "<group>";
 		};
-		3CDCDC4B29FC008700C2BEF6 /* MainScene */ = {
+		3CDCDC4B29FC008700C2BEF6 /* ExpenseScene */ = {
 			isa = PBXGroup;
 			children = (
 				3C852EFC2B184A5700F48CD3 /* CalendarScene */,
@@ -580,7 +580,7 @@
 				3C4405BF2B049F140005BA4C /* Reactor */,
 				3C2E18D929FBCC5F00E8E9C6 /* MainViewController.swift */,
 			);
-			path = MainScene;
+			path = ExpenseScene;
 			sourceTree = "<group>";
 		};
 		3CDCDC4C29FC00A300C2BEF6 /* Model */ = {
