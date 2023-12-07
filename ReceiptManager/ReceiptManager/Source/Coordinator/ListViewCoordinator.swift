@@ -45,8 +45,8 @@ final class ListViewCoordinator: Coordinator {
     }
     
     func presentDetailView(expense: Receipt) {
-        let mainViewCoordinator = parentCoordinator as? MainViewCoordinator
+        let expenseViewCoordinator = parentCoordinator as? ExpenseViewCoordinator
         
-        mainViewCoordinator?.moveDetailView(expense: expense)
+        expenseViewCoordinator?.moveDetailView(expense: expense)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  MainViewReactor.swift
+//  ExpenseViewReactor.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/11/15.
@@ -12,7 +12,7 @@ enum ShowMode {
     case calendar
 }
 
-final class MainViewReactor: Reactor {
+final class ExpenseViewReactor: Reactor {
     
     // Reactor Properties
     

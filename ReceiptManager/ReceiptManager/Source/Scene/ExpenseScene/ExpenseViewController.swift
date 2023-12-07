@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  ExpenseViewController.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/04/28.
@@ -11,12 +11,12 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final class MainViewController: UIViewController, View {
+final class ExpenseViewController: UIViewController, View {
     
     // Properties
     
     var disposeBag = DisposeBag()
-    weak var coordinator: MainViewCoordinator?
+    weak var coordinator: ExpenseViewCoordinator?
     
     // UI Properties
     
@@ -70,7 +70,7 @@ final class MainViewController: UIViewController, View {
     
     // Initializer
     
-    init(reactor: MainViewReactor, childViewControllers: [UIViewController]) {
+    init(reactor: ExpenseViewReactor, childViewControllers: [UIViewController]) {
         // 추후, 상태값에 따라서 초기 설정해줘야함.
         childViewController = childViewControllers[0]
         
@@ -84,7 +84,7 @@ final class MainViewController: UIViewController, View {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(reactor: MainViewReactor) {
+    func bind(reactor: ExpenseViewReactor) {
         bindView()
         bindAction(reactor)
         bindState(reactor)
@@ -92,7 +92,7 @@ final class MainViewController: UIViewController, View {
 }
 
 // MARK: - Reactor Bind
-extension MainViewController {
+extension ExpenseViewController {
     private func bindView() {
         navigationBar.searchButton.rx.tap
             .throttle(.milliseconds(300), latest: false, scheduler: MainScheduler.instance)
@@ -100,7 +100,7 @@ extension MainViewController {
             .disposed(by: disposeBag)
     }
     
-    private func bindAction(_ reactor: MainViewReactor) {
+    private func bindAction(_ reactor: ExpenseViewReactor) {
         navigationBar.showModeButton.rx.tap
             .map { Reactor.Action.showModeButtonTapped }
             .bind(to: reactor.action)
@@ -122,7 +122,7 @@ extension MainViewController {
             .disposed(by: disposeBag)
     }
     
-    private func bindState(_ reactor: MainViewReactor) {
+    private func bindState(_ reactor: ExpenseViewReactor) {
         reactor.state.map { $0.showMode }
             .distinctUntilChanged()
             .bind { mode in
@@ -149,7 +149,7 @@ extension MainViewController {
 }
 
 // MARK: - UIConstraints
-extension MainViewController {
+extension ExpenseViewController {
     private func setupChildViewController() {
         childViewController.view.removeFromSuperview()
         view.addSubview(self.childViewController.view)

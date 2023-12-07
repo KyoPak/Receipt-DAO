@@ -62,7 +62,7 @@ extension CustomTabItem {
     ) -> Coordinator {
         switch self {
         case .main:
-            return MainViewCoordinator(
+            return ExpenseViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
                 storage: storage,

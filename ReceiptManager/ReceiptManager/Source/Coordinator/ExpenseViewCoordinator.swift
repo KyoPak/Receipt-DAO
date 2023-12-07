@@ -1,5 +1,5 @@
 //
-//  MainViewCoordinator.swift
+//  ExpenseViewCoordinator.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/11/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewCoordinator: Coordinator {
+final class ExpenseViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
@@ -54,10 +54,10 @@ final class MainViewCoordinator: Coordinator {
             calendarCoordinator.viewController ?? UIViewController()
         ]
         
-        let mainViewReactor = MainViewReactor(storage: storage, dateService: dateManageService)
-        let mainViewController = MainViewController(reactor: mainViewReactor, childViewControllers: child)
+        let expenseViewReactor = ExpenseViewReactor(storage: storage, dateService: dateManageService)
+        let expenseViewController = ExpenseViewController(reactor: expenseViewReactor, childViewControllers: child)
         
-        mainViewController.coordinator = self
+        expenseViewController.coordinator = self
         
         childCoordinators.append(listViewCoordinator)
         childCoordinators.append(calendarCoordinator)
@@ -65,7 +65,7 @@ final class MainViewCoordinator: Coordinator {
         listViewCoordinator.parentCoordinator = self
         calendarCoordinator.parentCoordinator = self
         
-        navigationController?.pushViewController(mainViewController, animated: false)
+        navigationController?.pushViewController(expenseViewController, animated: false)
     }
     
     func moveDetailView(expense: Receipt) {
