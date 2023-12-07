@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 
 final class CalendarListViewController: UIViewController, View {
-
+    
     // Properties
     
     var disposeBag = DisposeBag()
@@ -22,7 +22,7 @@ final class CalendarListViewController: UIViewController, View {
     private let dateLabel = UILabel(font: .systemFont(ofSize: 25, weight: .bold))
     private let weekDayLabel = UILabel(font: .systemFont(ofSize: 20, weight: .bold))
     private let totalAmountLabel = UILabel(font: .systemFont(ofSize: 20))
-    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private var tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,12 +57,31 @@ final class CalendarListViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension CalendarListViewController {
     private func bindView() {
-        
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: CalendarListReactor) {
         rx.methodInvoked(#selector(viewDidLoad))
             .map { _ in Reactor.Action.loadView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(bookmarkCell))
+            .flatMap { params -> Observable<IndexPath> in
+                guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
+                return Observable.just(indexPath)
+            }
+            .map { Reactor.Action.cellBookMark($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.methodInvoked(#selector(deleteCell))
+            .flatMap { params -> Observable<IndexPath> in
+                guard let indexPath = params.first as? IndexPath else { return Observable.empty() }
+                return Observable.just(indexPath)
+            }
+            .map { Reactor.Action.cellDelete($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -76,6 +95,60 @@ extension CalendarListViewController {
             .map { ConstantText.weekDay[$0].localize() }
             .bind(to: weekDayLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.expenseByDay }
+            .bind(to: tableView.rx.items(
+                cellIdentifier: ListTableViewCell.identifier,
+                cellType: ListTableViewCell.self)
+            ) { indexPath, data, cell in
+                cell.reactor = ListTableViewCellReactor(
+                    expense: data,
+                    userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject(value: .zero)
+                )
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension CalendarListViewController: UITableViewDelegate {
+    @objc dynamic func bookmarkCell(indexPath: IndexPath) { }
+    @objc dynamic func deleteCell(indexPath: IndexPath) { }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: nil
+        ) { [weak self] _, _, completion in
+            
+            self?.deleteCell(indexPath: indexPath)
+            completion(true)
+        }
+        deleteAction.image = UIImage(systemName: ConstantImage.trash)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let favoriteAction = UIContextualAction(
+            style: .normal,
+            title: nil,
+            handler: { [weak self] _, _, completion in
+                
+                self?.bookmarkCell(indexPath: indexPath)
+                completion(true)
+            }
+        )
+        favoriteAction.backgroundColor = .systemYellow
+        favoriteAction.image = UIImage(systemName: ConstantImage.bookMarkSwipe)
+        
+        return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
 }
 
@@ -87,7 +160,12 @@ extension CalendarListViewController {
     
     func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
+        
+        weekDayLabel.textAlignment = .left
+        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         tableView.backgroundColor = ConstantColor.backGroundColor
+        tableView.separatorStyle = .none
+
         [dateLabel, weekDayLabel, totalAmountLabel, tableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -100,15 +178,15 @@ extension CalendarListViewController {
             dateLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             dateLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             weekDayLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 10),
-            weekDayLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor),
+            weekDayLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor),
             
             totalAmountLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
             totalAmountLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor),
             
-            tableView.topAnchor.constraint(equalTo: totalAmountLabel.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: weekDayLabel.bottomAnchor, constant: 20),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -20)
         ])
     }
 }
