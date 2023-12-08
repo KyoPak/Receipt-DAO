@@ -79,6 +79,7 @@
 		3CB563F92A286D22008A6CD0 /* OCRTextExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */; };
 		3CB563FB2A287C39008A6CD0 /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563FA2A287C39008A6CD0 /* OCRResult.swift */; };
 		3CBABE412B21D2830001BA4F /* MonthControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBABE402B21D2830001BA4F /* MonthControlView.swift */; };
+		3CC335842B22D2C5005982AA /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC335832B22D2C5005982AA /* Double+Extension.swift */; };
 		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
 		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
@@ -178,6 +179,7 @@
 		3CB563F82A286D22008A6CD0 /* OCRTextExtractable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRTextExtractable.swift; sourceTree = "<group>"; };
 		3CB563FA2A287C39008A6CD0 /* OCRResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRResult.swift; sourceTree = "<group>"; };
 		3CBABE402B21D2830001BA4F /* MonthControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlView.swift; sourceTree = "<group>"; };
+		3CC335832B22D2C5005982AA /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				3C3E95642A14BAB80020A0FE /* NumberFormatter+Extension.swift */,
 				3C7DBD712A2211A400DA0EF8 /* UIViewController+Extension.swift */,
 				3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */,
+				3CC335832B22D2C5005982AA /* Double+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */,
 				3C2E18E029FBCC5F00E8E9C6 /* ReceiptManager.xcdatamodeld in Sources */,
 				3CD8B9352B0664FA00968A7E /* DetailViewCoordinator.swift in Sources */,
+				3CC335842B22D2C5005982AA /* Double+Extension.swift in Sources */,
 				3CD62AF52B12F71000D10E54 /* UserDefaultService.swift in Sources */,
 				3CB4CF3E2A13486600E9CBAB /* DateFormatter+Extension.swift in Sources */,
 				3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */,

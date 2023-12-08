@@ -144,19 +144,6 @@ extension CalendarListReactor {
             totalAmount += Double(expense.priceText) ?? .zero
         }
         
-        return NumberFormatter.numberDecimal(from: convertAmount(totalAmount))
-    }
-    
-    private func convertAmount(_ amount: Double) -> String {
-        if amount == .zero {
-            return ""
-        }
-        
-        if Double(Int(amount)) == amount {
-            let newAmount = String(Int(amount))
-            return newAmount
-        } else {
-            return String(amount)
-        }
+        return NumberFormatter.numberDecimal(from: totalAmount.convertString())
     }
 }

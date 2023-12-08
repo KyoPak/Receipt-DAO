@@ -186,7 +186,7 @@ extension CalendarViewReactor {
         return DayInfo(
             days: day,
             countOfExpense: convertCount(totalCount),
-            amountOfExpense: convertAmount(totalAmount),
+            amountOfExpense: totalAmount.convertString(),
             isToday: checkToday(day: day)
         )
     }
@@ -196,19 +196,6 @@ extension CalendarViewReactor {
 extension CalendarViewReactor {
     private func convertCount(_ count: Int) -> String {
         return count == .zero ? "" : String(count)
-    }
-    
-    private func convertAmount(_ amount: Double) -> String {
-        if amount == .zero {
-            return ""
-        }
-        
-        if Double(Int(amount)) == amount {
-            let newAmount = String(Int(amount))
-            return newAmount
-        } else {
-            return String(amount)
-        }
     }
     
     private func checkToday(day: String) -> Bool {
