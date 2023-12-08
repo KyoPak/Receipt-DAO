@@ -116,7 +116,6 @@ extension CalendarListReactor {
             .map { result in
                 return result.filter { expense in
                     let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
-                    print(expenseDate, currentDate)
                     return expenseDate == currentDate
                 }
             }

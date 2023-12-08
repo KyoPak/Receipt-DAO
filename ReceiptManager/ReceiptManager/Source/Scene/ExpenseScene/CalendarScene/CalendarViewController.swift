@@ -120,9 +120,9 @@ extension CalendarViewController {
             self.weekStackView.addArrangedSubview(label)
             
             if dayIndex == 0 {
-                label.textColor = ConstantColor.favoriteColor
+                label.textColor = ConstantColor.mainColor
             } else if dayIndex == 6 {
-                label.textColor = ConstantColor.registerColor
+                label.textColor = ConstantColor.subColor
             }
         }
     }

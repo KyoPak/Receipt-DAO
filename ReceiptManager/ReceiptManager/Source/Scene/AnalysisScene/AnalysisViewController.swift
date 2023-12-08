@@ -110,10 +110,10 @@ extension AnalysisViewController {
             .bind { rate in
                 switch rate {
                 case .increase(_):
-                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.favoriteColor)
+                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.mainColor)
                     
                 case .decrease(_):
-                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.registerColor)
+                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.subColor)
                     
                 case .equal:
                     self.ratingLabel.text = ConstantText.ratingEqual.localize()
@@ -155,7 +155,7 @@ extension AnalysisViewController {
         view.backgroundColor = ConstantColor.backGroundColor
         monthInfoView.backgroundColor = ConstantColor.cellColor
         monthInfoView.layer.cornerRadius = 10
-        monthInfoAmountLabel.textColor = ConstantColor.favoriteColor
+        monthInfoAmountLabel.textColor = ConstantColor.mainColor
         
         ratingInfoView.backgroundColor = ConstantColor.backGroundColor
         ratingLabel.numberOfLines = 0

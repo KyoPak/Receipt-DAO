@@ -33,7 +33,7 @@ final class CustomTabBar: UIStackView {
     
     private let registerItem: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: ConstantImage.plusCircle)?.withTintColor(
-            ConstantColor.registerColor,
+            ConstantColor.subColor,
             renderingMode: .alwaysOriginal)
         )
         return imageView

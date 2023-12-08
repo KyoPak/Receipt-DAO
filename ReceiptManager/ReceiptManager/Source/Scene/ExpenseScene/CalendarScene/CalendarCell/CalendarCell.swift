@@ -78,8 +78,8 @@ extension CalendarCell {
     }
     
     func setupWeekendColor(indexPath: Int) {
-        if indexPath % 7 == 0 { dayLabel.textColor = ConstantColor.favoriteColor }
-        if (indexPath + 1) % 7 == 0 { dayLabel.textColor = ConstantColor.registerColor }
+        if indexPath % 7 == 0 { dayLabel.textColor = ConstantColor.mainColor }
+        if (indexPath + 1) % 7 == 0 { dayLabel.textColor = ConstantColor.subColor }
     }
     
     func setupTodayColor(_ isToday: Bool) {
@@ -102,7 +102,7 @@ extension CalendarCell {
     private func setupProperties() {
         layer.borderColor = ConstantColor.cellColor.cgColor
         layer.borderWidth = 1
-        amountLabel.textColor = ConstantColor.favoriteColor
+        amountLabel.textColor = ConstantColor.mainColor
         amountLabel.numberOfLines = 1
         amountLabel.textAlignment = .left
         amountLabel.adjustsFontSizeToFitWidth = true

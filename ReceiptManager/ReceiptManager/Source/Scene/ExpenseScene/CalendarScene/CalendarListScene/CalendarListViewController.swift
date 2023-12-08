@@ -185,7 +185,7 @@ extension CalendarListViewController {
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         tableView.backgroundColor = ConstantColor.backGroundColor
         tableView.separatorStyle = .none
-        totalAmountLabel.textColor = ConstantColor.favoriteColor
+        totalAmountLabel.textColor = ConstantColor.mainColor
 
         [dateLabel, weekDayLabel, totalAmountLabel, tableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
