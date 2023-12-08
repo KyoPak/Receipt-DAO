@@ -15,9 +15,9 @@ enum ConstantText {
     static let usd = "USD ＄"
     static let jpy = "JPY ¥"
     
-    static let won = " ￦"
-    static let dollar = " ＄"
-    static let yen = " ¥"
+    static let won = "￦"
+    static let dollar = "＄"
+    static let yen = "¥"
     
     static let myEmail = "hyosing92@gmail.com"
     static let mailSubject = "mailSubject"
@@ -58,15 +58,18 @@ enum ConstantText {
     static let cash = "cash"
     static let card = "card"
     static let memo = "memo"
-    static let imageCountText = "imageCount %@"
-    
     static let album = "album"
     static let camera = "camera"
+    
+    // About Detail Scene
+    static let imageCountText = "imageCount %@"
+    
+    // About Search Scene
     static let searchBar = "searchBar"
     static let searchText = "searchText"
     static let searchFail = "searchFail"
     
-    // About Camera, Album
+    // About Camera, Album Scene
     static let selectReceipt = "selectReceipt"
     static let selectReceiptText = "selectReceiptText"
     static let shooting = "shooting"
@@ -76,24 +79,29 @@ enum ConstantText {
     static let needAccessAuthText = "need %@ AccessAuthText"
     static let receiptImage = "receiptImage"
     
-    // About DateFormat
-    static let dateFormatMonth = "dateFormatMonth"
-    static let dateFormatFull = "dateFormatFull"
-    static let dateFormatOnlyMonth = "dateFormatOnlyMonth"
-    static let mainReceiptCount = "mainReceiptCount %d"
-    
-    static let setting = "setting"
-    
+    // About Setting Scene
     static let currencySettingSection = "currencySettingSection"
     static let currencySettingText = "currencySettingText"
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
-    
     static let caseText = "case"
     
-    // MARK: - Day Of Week
-    static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel", 
+    // About Analysis Scene
+    static let monthExpenseText = "monthExpenseText %@"
+    static let totalCountText = "totalCountText %@"
+    
+    // About DateFormat
+    static let dateFormatMonth = "dateFormatMonth"
+    static let dateFormatFull = "dateFormatFull"
+    static let dateFormatOnlyMonth = "dateFormatOnlyMonth"
+    
+    static let mainReceiptCount = "mainReceiptCount %d"
+    
+    static let setting = "setting"
+    
+    // About Day Of Week
+    static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel",
                                "wednesDayModel", "thursDayModel", "friDayModel", "saturDayModel"]
     static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
     

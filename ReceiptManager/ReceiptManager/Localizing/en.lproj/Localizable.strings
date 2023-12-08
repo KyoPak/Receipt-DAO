@@ -87,3 +87,5 @@
 "saturDay" = "Saturday";
 
 "amountByDay %@" = "Daily Expenditure - %@";
+"monthExpenseText %@" = "Expenditure for %@";
+"totalCountText %@" = "There are %@ expenditures.";

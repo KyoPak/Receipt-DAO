@@ -86,3 +86,5 @@
 "saturDay" = "土曜日";
 
 "amountByDay %@" = "1日の支出 - %@";
+"monthExpenseText %@" = "%@の支出額";
+"totalCountText %@" = "%@件の支出があります。";

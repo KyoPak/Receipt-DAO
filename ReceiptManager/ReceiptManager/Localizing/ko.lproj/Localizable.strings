@@ -86,3 +86,5 @@
 "saturDay" = "토요일";
 
 "amountByDay %@" = "일일 지출 - %@";
+"monthExpenseText %@" = "%@ 지출금액";
+"totalCountText %@" = "총 %@건의 지출이 있습니다.";

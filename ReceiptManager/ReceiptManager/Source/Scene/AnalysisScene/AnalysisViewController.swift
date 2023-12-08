@@ -24,8 +24,9 @@ final class AnalysisViewController: UIViewController, View {
     private let monthControlView = MonthControlView()
     
     private let monthInfoView = UIView()
-    private let monthAmountLabel = UILabel(font: .systemFont(ofSize: 15, weight: .bold))
-    private let monthAmountCountLabel = UILabel(font: .systemFont(ofSize: 15, weight: .bold))
+    private let monthInfoLable = UILabel(font: .systemFont(ofSize: 20, weight: .medium))
+    private let monthInfoAmountLabel = UILabel(font: .systemFont(ofSize: 25, weight: .bold))
+    private let monthInfoCountLabel = UILabel(font: .systemFont(ofSize: 20, weight: .medium))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +83,25 @@ extension AnalysisViewController {
             .map { DateFormatter.string(from: $0) }
             .bind(to: monthControlView.monthLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.dateToShow }
+            .map { DateFormatter.string(from: $0, ConstantText.dateFormatOnlyMonth.localize()) }
+            .map { ConstantText.monthExpenseText.localized(with: $0) }
+            .bind(to: monthInfoLable.rx.text)
+            .disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            reactor.state.map { $0.totalAmount },
+            reactor.state.map { (Currency(rawValue: $0.currency) ?? .KRW).description }
+        )
+        .map { $0 + $1 }
+        .bind(to: monthInfoAmountLabel.rx.text)
+        .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.totalCount }
+            .map { ConstantText.totalCountText.localized(with: $0) }
+            .bind(to: monthInfoCountLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -93,11 +113,14 @@ extension AnalysisViewController {
     
     private func setupHierarchy() {
         [navigationBar, monthControlView, monthInfoView].forEach(view.addSubview(_:))
-        [monthAmountLabel, monthAmountCountLabel].forEach(monthInfoView.addSubview(_:))
+        [monthInfoLable, monthInfoAmountLabel, monthInfoCountLabel].forEach(monthInfoView.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
+        monthInfoView.backgroundColor = ConstantColor.cellColor
+        monthInfoView.layer.cornerRadius = 10
+        monthInfoAmountLabel.textColor = ConstantColor.favoriteColor
         [navigationBar, monthControlView, monthInfoView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -120,7 +143,17 @@ extension AnalysisViewController {
             monthInfoView.topAnchor.constraint(equalTo: monthControlView.bottomAnchor, constant: 10),
             monthInfoView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             monthInfoView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            monthInfoView.heightAnchor.constraint(equalToConstant: 50),
+            monthInfoView.heightAnchor.constraint(equalToConstant: 130),
+            
+            monthInfoLable.topAnchor.constraint(equalTo: monthInfoView.topAnchor, constant: 15),
+            monthInfoLable.leadingAnchor.constraint(equalTo: monthInfoView.leadingAnchor, constant: 15),
+            
+            monthInfoAmountLabel.topAnchor.constraint(equalTo: monthInfoLable.topAnchor, constant: 30),
+            monthInfoAmountLabel.leadingAnchor.constraint(equalTo: monthInfoLable.leadingAnchor),
+            
+            monthInfoCountLabel.leadingAnchor.constraint(equalTo: monthInfoLable.leadingAnchor),
+            monthInfoCountLabel.bottomAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: -10)
+            
         ])
     }
 }
