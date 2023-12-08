@@ -29,6 +29,7 @@ final class AnalysisViewReactor: Reactor {
         var totalCount: String = ""
         var cardCount: String = ""
         var cashCount: String = ""
+        var rate: RateOfAmount
         var currency: Int
     }
     
@@ -45,6 +46,7 @@ final class AnalysisViewReactor: Reactor {
         var totalCount: String
         var cardCount: String
         var cashCount: String
+        var rate: RateOfAmount
     }
     
     // Initializer
@@ -55,6 +57,7 @@ final class AnalysisViewReactor: Reactor {
         self.dateService = dateService
         initialState = State(
             dateToShow: (try? dateService.currentDateEvent.value()) ?? Date(),
+            rate: .noData,
             currency: (try? userDefaultService.event.value()) ?? .zero
         )
     }
@@ -89,6 +92,7 @@ final class AnalysisViewReactor: Reactor {
             newState.totalCount = result.totalCount
             newState.cardCount = result.cardCount
             newState.cashCount = result.cashCount
+            newState.rate = result.rate
             
         case .updateCurrency(let index):
             newState.currency = index
@@ -115,42 +119,97 @@ final class AnalysisViewReactor: Reactor {
 }
 
 extension AnalysisViewReactor {
-    private func loadData(by date: Date) -> Observable<[Receipt]> {
+    private func loadData(by date: Date) -> Observable<(current: [Receipt], previous: [Receipt])> {
+        let previousDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: date)
+        
         return storage.fetch()
             .map { models in
-                models.filter { model in
-                    let expenseDate = DateFormatter.string(from: model.receiptDate)
-                    
-                    return expenseDate == DateFormatter.string(from: date)
+                let groupedModels = Dictionary(grouping: models) { model in
+                    DateFormatter.string(from: model.receiptDate)
                 }
+                
+                let currentMonthKey = DateFormatter.string(from: date)
+                let previousMonthKey = DateFormatter.string(from: previousDate ?? Date())
+                
+                let currentMonthModels = groupedModels[currentMonthKey] ?? []
+                let previousMonthModels = groupedModels[previousMonthKey] ?? []
+                
+                return (currentMonthModels, previousMonthModels)
             }
     }
-    
-    private func analysisExpenses(datas: [Receipt]) -> AnalysisResult {
-        var amount: Double = .zero
-        var cardCount: Int = .zero
-        var cashCount: Int = .zero
+}
+
+// MARK: - About Analysis
+extension AnalysisViewReactor {
+    enum RateOfAmount {
+        case increase(String)
+        case decrease(String)
+        case equal
+        case noData
         
-        for data in datas {
-            amount += Double(data.priceText) ?? .zero
+        var rateText: String {
+            switch self {
+            case .increase(let rating):
+                ConstantText.ratingUp.localized(with: rating + "%")
+                
+            case .decrease(let rating):
+                ConstantText.ratingDown.localized(with: rating + "%")
             
-            switch PayType(rawValue: data.paymentType) ?? .cash {
-            case .cash:
-                cashCount += 1
+            case .equal:
+                ConstantText.ratingEqual
             
-            case .card:
-                cardCount += 1
+            case .noData:
+                ""
             }
         }
+    }
+    
+    private func analysisExpenses(datas: (current: [Receipt], previous: [Receipt])) -> AnalysisResult {
+
+        // Amount, Count Analysis
         
-        let amountText = NumberFormatter.numberDecimal(from: amount.convertString()) == "" ?
-                "0" : NumberFormatter.numberDecimal(from: amount.convertString())
+        let currentAmount = datas.current.reduce(0.0) { $0 + (Double($1.priceText) ?? 0.0) }
+        let previousAmount = datas.previous.reduce(0.0) { $0 + (Double($1.priceText) ?? 0.0) }
+            
+        let cardCount = datas.current.filter { $0.paymentType == PayType.card.rawValue }.count
+        let cashCount = datas.current.filter { $0.paymentType == PayType.cash.rawValue }.count
+        
+        // Rate Analysis
+        
+        let rate = analysisRate(currentAmount: currentAmount, previousAmount: previousAmount)
+        let amountText = NumberFormatter.numberDecimal(from: currentAmount.convertString()) == "" ?
+                "0" : NumberFormatter.numberDecimal(from: currentAmount.convertString())
         
         return AnalysisResult(
             totalAmount: amountText,
             totalCount: (cashCount + cardCount).description,
             cardCount: cardCount.description,
-            cashCount: cashCount.description
+            cashCount: cashCount.description,
+            rate: rate
         )
+    }
+    
+    private func analysisRate(currentAmount: Double, previousAmount: Double) -> RateOfAmount {
+        if currentAmount == .zero || previousAmount == .zero { return .noData }
+        
+        if currentAmount > previousAmount {
+            return .increase(calculateIncreaseRate(bigger: currentAmount, smaller: previousAmount))
+        }
+        
+        if currentAmount < previousAmount {
+            return .decrease(calculateDecreaseRate(bigger: previousAmount, smaller: currentAmount))
+        }
+        
+        return .equal
+    }
+    
+    private func calculateIncreaseRate(bigger: Double, smaller: Double) -> String {
+        let result = (((bigger - smaller) / smaller) * 100)
+        return ceil(result).convertString()
+    }
+    
+    private func calculateDecreaseRate(bigger: Double, smaller: Double) -> String {
+        let result = (((bigger - smaller) / bigger) * 100)
+        return ceil(result).convertString()
     }
 }
