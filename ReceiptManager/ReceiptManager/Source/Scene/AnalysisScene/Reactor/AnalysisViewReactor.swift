@@ -205,11 +205,11 @@ extension AnalysisViewReactor {
     
     private func calculateIncreaseRate(bigger: Double, smaller: Double) -> String {
         let result = (((bigger - smaller) / smaller) * 100)
-        return ceil(result).convertString()
+        return (Double(String(format: "%.2f", result)) ?? .zero).convertString()
     }
     
     private func calculateDecreaseRate(bigger: Double, smaller: Double) -> String {
         let result = (((bigger - smaller) / bigger) * 100)
-        return ceil(result).convertString()
+        return (Double(String(format: "%.2f", result)) ?? .zero).convertString()
     }
 }
