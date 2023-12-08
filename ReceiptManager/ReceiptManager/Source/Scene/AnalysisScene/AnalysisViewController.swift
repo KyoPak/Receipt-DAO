@@ -129,6 +129,11 @@ extension AnalysisViewController {
 extension AnalysisViewController {
     private func updateRatingLabel(with target: String, color: UIColor?) {
         ratingLabel.text = ConstantText.ratingFullText.localized(with: target)
+        ratingLabel.setMutableFontColor(
+            target: target,
+            font: .systemFont(ofSize: 20, weight: .bold),
+            color: color
+        )
     }
 }
 
