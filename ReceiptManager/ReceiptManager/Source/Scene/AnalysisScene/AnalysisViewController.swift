@@ -28,6 +28,9 @@ final class AnalysisViewController: UIViewController, View {
     private let monthInfoAmountLabel = UILabel(font: .systemFont(ofSize: 25, weight: .bold))
     private let monthInfoCountLabel = UILabel(font: .systemFont(ofSize: 20, weight: .medium))
     
+    private let ratingInfoView = UIView()
+    private let ratingLabel = UILabel(font: .systemFont(ofSize: 20, weight: .medium))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
@@ -102,6 +105,30 @@ extension AnalysisViewController {
             .map { ConstantText.totalCountText.localized(with: $0) }
             .bind(to: monthInfoCountLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.rate }
+            .bind { rate in
+                switch rate {
+                case .increase(_):
+                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.favoriteColor)
+                    
+                case .decrease(_):
+                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.registerColor)
+                    
+                case .equal:
+                    self.ratingLabel.text = ConstantText.ratingEqual.localize()
+                    
+                case .noData:
+                    self.ratingLabel.text = ""
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
+extension AnalysisViewController {
+    private func updateRatingLabel(with target: String, color: UIColor?) {
+        ratingLabel.text = ConstantText.ratingFullText.localized(with: target)
     }
 }
 
@@ -112,8 +139,11 @@ extension AnalysisViewController {
     }
     
     private func setupHierarchy() {
-        [navigationBar, monthControlView, monthInfoView].forEach(view.addSubview(_:))
-        [monthInfoLable, monthInfoAmountLabel, monthInfoCountLabel].forEach(monthInfoView.addSubview(_:))
+        [monthInfoLable, monthInfoAmountLabel, monthInfoCountLabel]
+            .forEach(monthInfoView.addSubview(_:))
+        ratingInfoView.addSubview(ratingLabel)
+        
+        [navigationBar, monthControlView, monthInfoView, ratingInfoView].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
@@ -121,7 +151,10 @@ extension AnalysisViewController {
         monthInfoView.backgroundColor = ConstantColor.cellColor
         monthInfoView.layer.cornerRadius = 10
         monthInfoAmountLabel.textColor = ConstantColor.favoriteColor
-        [navigationBar, monthControlView, monthInfoView].forEach {
+        
+        ratingInfoView.backgroundColor = ConstantColor.backGroundColor
+        ratingLabel.numberOfLines = 0
+        [navigationBar, monthControlView, monthInfoView, ratingInfoView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -152,8 +185,16 @@ extension AnalysisViewController {
             monthInfoAmountLabel.leadingAnchor.constraint(equalTo: monthInfoLable.leadingAnchor),
             
             monthInfoCountLabel.leadingAnchor.constraint(equalTo: monthInfoLable.leadingAnchor),
-            monthInfoCountLabel.bottomAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: -10)
+            monthInfoCountLabel.bottomAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: -10),
             
+            ratingInfoView.topAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: 20),
+            ratingInfoView.leadingAnchor.constraint(equalTo: monthInfoView.leadingAnchor),
+            ratingInfoView.trailingAnchor.constraint(equalTo: monthInfoView.trailingAnchor),
+            
+            ratingLabel.topAnchor.constraint(equalTo: ratingInfoView.topAnchor, constant: 15),
+            ratingLabel.leadingAnchor.constraint(equalTo: ratingInfoView.leadingAnchor, constant: 15),
+            ratingLabel.trailingAnchor.constraint(equalTo: ratingInfoView.trailingAnchor, constant: -15),
+            ratingLabel.bottomAnchor.constraint(equalTo: ratingInfoView.bottomAnchor, constant: -15)
         ])
     }
 }

@@ -89,3 +89,8 @@
 "amountByDay %@" = "Daily Expenditure - %@";
 "monthExpenseText %@" = "Expenditure for %@";
 "totalCountText %@" = "There are %@ expenditures.";
+
+"ratingUp %@" = "up %@ ";
+"ratingDown %@" = "down %@ ";
+"ratingEqual" = "This month's spending is\nthe same as last month.";
+"ratingFullText %@" = "This month's spending is\n%@ compared to last month.";

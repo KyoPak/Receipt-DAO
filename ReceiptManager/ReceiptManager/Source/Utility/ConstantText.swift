@@ -90,6 +90,10 @@ enum ConstantText {
     // About Analysis Scene
     static let monthExpenseText = "monthExpenseText %@"
     static let totalCountText = "totalCountText %@"
+    static let ratingUp = "ratingUp %@"
+    static let ratingDown = "ratingDown %@"
+    static let ratingEqual = "ratingEqual"
+    static let ratingFullText = "ratingFullText %@"
     
     // About DateFormat
     static let dateFormatMonth = "dateFormatMonth"

@@ -88,3 +88,8 @@
 "amountByDay %@" = "1日の支出 - %@";
 "monthExpenseText %@" = "%@の支出額";
 "totalCountText %@" = "%@件の支出があります。";
+
+"ratingUp %@" = "%@ 増加";
+"ratingDown %@" = "%@ 減少";
+"ratingEqual" = "今月の支出は先月と同じです。";
+"ratingFullText %@" = "今月の支出は先月比\n%@しました";

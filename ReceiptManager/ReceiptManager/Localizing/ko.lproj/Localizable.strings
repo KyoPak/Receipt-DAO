@@ -88,3 +88,8 @@
 "amountByDay %@" = "일일 지출 - %@";
 "monthExpenseText %@" = "%@ 지출금액";
 "totalCountText %@" = "총 %@건의 지출이 있습니다.";
+
+"ratingUp %@" = "%@ 증가";
+"ratingDown %@" = "%@ 감소";
+"ratingEqual" = "이번 달의 지출은 지난 달과 동일합니다.";
+"ratingFullText %@" = "이번 달의 지출은\n지난 달 대비 %@하였습니다.";
