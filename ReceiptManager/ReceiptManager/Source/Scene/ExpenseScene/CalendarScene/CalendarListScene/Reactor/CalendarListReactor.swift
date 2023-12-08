@@ -116,6 +116,7 @@ extension CalendarListReactor {
             .map { result in
                 return result.filter { expense in
                     let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
+                    print(expenseDate, currentDate)
                     return expenseDate == currentDate
                 }
             }
@@ -124,17 +125,24 @@ extension CalendarListReactor {
 
 extension CalendarListReactor {
     private func updateDate() -> String {
-        let day = currentState.day
         let date = (try? dateManageService.currentDateEvent.value()) ?? Date()
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = ConstantText.dateFormatMonth.localize()
-            
-        let yearMonthFormat = dateFormatter.string(from: date)
-        dateFormatter.dateFormat = ConstantText.dateFormatDay.localize()
-        let dayFormat = dateFormatter.string(from: dateFormatter.date(from: day) ?? Date())
-            
-        return "\(yearMonthFormat) \(dayFormat)"
+        let day = currentState.day
+        let month = DateFormatter.month(from: date)
+        let year = DateFormatter.year(from: date)
+        
+        let newDate = createDateFromComponents(year: year, month: month, day: Int(day))
+        return DateFormatter.string(from: newDate ?? Date(), ConstantText.dateFormatFull.localize())
+    }
+    
+    private func createDateFromComponents(year: Int?, month: Int?, day: Int?) -> Date? {
+        var dateComponents = DateComponents()
+        dateComponents.year = year
+        dateComponents.month = month
+        dateComponents.day = day
+
+        let calendar = Calendar.current
+        return calendar.date(from: dateComponents)
     }
     
     private func updateAmount(_ expenses: [Receipt]) -> String {

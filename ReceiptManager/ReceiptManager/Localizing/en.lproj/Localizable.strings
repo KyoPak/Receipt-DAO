@@ -54,7 +54,8 @@
 "receiptImage" = "Receipt Image";
 "dateFormatMonth" = "MMM.yyyy";
 "dateFormatFull" = "MMMM dd, yyyy";
-"dateFormatDay" = "dd";
+"dateFormatOnlyMonth" = "MM";
+
 "mainReceiptCount %d" = "Registered %d Receipt";
 
 "setting" = "Settings";

@@ -54,7 +54,8 @@
 "receiptImage" = "영수증 사진";
 "dateFormatMonth" = "yyyy년 MM월";
 "dateFormatFull" = "yyyy년 MM월 dd일";
-"dateFormatDay" = "dd일";
+"dateFormatOnlyMonth" = "MM월";
+
 "mainReceiptCount %d" = "영수증은 %d건 입니다.";
 
 "setting" = "설정";

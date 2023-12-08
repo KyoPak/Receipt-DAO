@@ -79,7 +79,7 @@ enum ConstantText {
     // About DateFormat
     static let dateFormatMonth = "dateFormatMonth"
     static let dateFormatFull = "dateFormatFull"
-    static let dateFormatDay = "dateFormatDay"
+    static let dateFormatOnlyMonth = "dateFormatOnlyMonth"
     static let mainReceiptCount = "mainReceiptCount %d"
     
     static let setting = "setting"
