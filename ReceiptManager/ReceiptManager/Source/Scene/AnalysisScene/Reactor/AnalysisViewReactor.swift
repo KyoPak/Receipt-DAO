@@ -26,9 +26,9 @@ final class AnalysisViewReactor: Reactor {
     struct State {
         var dateToShow: Date
         var totalAmount: String = ""
-        var totalCount: String = ""
-        var cardCount: String = ""
-        var cashCount: String = ""
+        var totalCount: Int = .zero
+        var cardCount: Int = .zero
+        var cashCount: Int = .zero
         var rate: RateOfAmount
         var currency: Int
     }
@@ -43,9 +43,9 @@ final class AnalysisViewReactor: Reactor {
     
     struct AnalysisResult {
         var totalAmount: String
-        var totalCount: String
-        var cardCount: String
-        var cashCount: String
+        var totalCount: Int
+        var cardCount: Int
+        var cashCount: Int
         var rate: RateOfAmount
     }
     
@@ -182,9 +182,9 @@ extension AnalysisViewReactor {
         
         return AnalysisResult(
             totalAmount: amountText,
-            totalCount: (cashCount + cardCount).description,
-            cardCount: cardCount.description,
-            cashCount: cashCount.description,
+            totalCount: cashCount + cardCount,
+            cardCount: cardCount,
+            cashCount: cashCount,
             rate: rate
         )
     }
