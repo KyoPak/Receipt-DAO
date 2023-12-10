@@ -31,6 +31,8 @@ final class AnalysisViewController: UIViewController, View {
     private let ratingInfoView = UIView()
     private let ratingLabel = UILabel(font: .systemFont(ofSize: 20, weight: .medium))
     
+    private let payTypeRatingView = PayTypeRatingView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
@@ -52,7 +54,6 @@ final class AnalysisViewController: UIViewController, View {
     }
     
     func bind(reactor: AnalysisViewReactor) {
-        bindView()
         bindAction(reactor)
         bindState(reactor)
     }
@@ -60,10 +61,6 @@ final class AnalysisViewController: UIViewController, View {
 
 // MARK: - Reactor Bind
 extension AnalysisViewController {
-    private func bindView() {
-        
-    }
-    
     private func bindAction(_ reactor: AnalysisViewReactor) {
         monthControlView.previousButton.rx.tap
             .map { Reactor.Action.previoutMonthButtonTapped }
@@ -102,6 +99,7 @@ extension AnalysisViewController {
         .disposed(by: disposeBag)
         
         reactor.state.map { $0.totalCount }
+            .map { String($0) }
             .map { ConstantText.totalCountText.localized(with: $0) }
             .bind(to: monthInfoCountLabel.rx.text)
             .disposed(by: disposeBag)
@@ -123,6 +121,20 @@ extension AnalysisViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            reactor.state.map { $0.cashCount },
+            reactor.state.map { $0.cardCount }
+        )
+        .do(onNext: { cashCount, cardCount in
+            self.payTypeRatingView.isHidden = cashCount + cardCount == .zero
+        })
+        .bind { cashCount, cardCount in
+            self.payTypeRatingView.caseValues = [cashCount, cardCount]
+            self.payTypeRatingView.setNeedsDisplay()
+        }
+        .disposed(by: disposeBag)
+
     }
 }
 
@@ -148,18 +160,25 @@ extension AnalysisViewController {
             .forEach(monthInfoView.addSubview(_:))
         ratingInfoView.addSubview(ratingLabel)
         
-        [navigationBar, monthControlView, monthInfoView, ratingInfoView].forEach(view.addSubview(_:))
+        [navigationBar, monthControlView, monthInfoView, ratingInfoView, payTypeRatingView]
+            .forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
+        
         monthInfoView.backgroundColor = ConstantColor.cellColor
         monthInfoView.layer.cornerRadius = 10
         monthInfoAmountLabel.textColor = ConstantColor.mainColor
         
         ratingInfoView.backgroundColor = ConstantColor.backGroundColor
         ratingLabel.numberOfLines = 0
-        [navigationBar, monthControlView, monthInfoView, ratingInfoView].forEach {
+        
+        payTypeRatingView.backgroundColor = ConstantColor.cellColor
+        payTypeRatingView.layer.cornerRadius = 10
+        payTypeRatingView.clipsToBounds = true
+        
+        [navigationBar, monthControlView, monthInfoView, ratingInfoView, payTypeRatingView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -192,14 +211,19 @@ extension AnalysisViewController {
             monthInfoCountLabel.leadingAnchor.constraint(equalTo: monthInfoLable.leadingAnchor),
             monthInfoCountLabel.bottomAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: -10),
             
-            ratingInfoView.topAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: 20),
+            ratingInfoView.topAnchor.constraint(equalTo: monthInfoView.bottomAnchor, constant: 10),
             ratingInfoView.leadingAnchor.constraint(equalTo: monthInfoView.leadingAnchor),
             ratingInfoView.trailingAnchor.constraint(equalTo: monthInfoView.trailingAnchor),
             
             ratingLabel.topAnchor.constraint(equalTo: ratingInfoView.topAnchor, constant: 15),
             ratingLabel.leadingAnchor.constraint(equalTo: ratingInfoView.leadingAnchor, constant: 15),
             ratingLabel.trailingAnchor.constraint(equalTo: ratingInfoView.trailingAnchor, constant: -15),
-            ratingLabel.bottomAnchor.constraint(equalTo: ratingInfoView.bottomAnchor, constant: -15)
+            ratingLabel.bottomAnchor.constraint(equalTo: ratingInfoView.bottomAnchor, constant: -15),
+            
+            payTypeRatingView.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 20),
+            payTypeRatingView.leadingAnchor.constraint(equalTo: monthInfoView.leadingAnchor),
+            payTypeRatingView.trailingAnchor.constraint(equalTo: monthInfoView.trailingAnchor),
+            payTypeRatingView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
 }
