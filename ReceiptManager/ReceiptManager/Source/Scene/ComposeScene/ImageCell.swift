@@ -33,6 +33,19 @@ final class ImageCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private lazy var ocrButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "text.viewfinder"), for: .normal)
+        button.contentMode = .center
+        button.backgroundColor = ConstantColor.cellColor
+        button.alpha = 0.7
+        button.tintColor = .label
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(ocrButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -53,6 +66,7 @@ final class ImageCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         deleteButton.isHidden = false
+        ocrButton.isHidden = false
         registerView.isHidden = true
         imageView.isHidden = false
     }
@@ -65,6 +79,7 @@ extension ImageCell {
     
     func hiddenDeleteButton() {
         deleteButton.isHidden = true
+        ocrButton.isHidden = true
     }
     
     func setupHidden(isFirstCell: Bool) {
@@ -76,6 +91,10 @@ extension ImageCell {
         delegate?.deleteCell(in: self)
     }
     
+    @objc private func ocrButtonTapped() {
+        
+    }
+    
     func setupCountLabel(_ count: Int) {
         registerView.setupCountLabel(count)
     }
@@ -85,7 +104,7 @@ extension ImageCell {
 extension ImageCell {
     private func setupView() {
         contentView.backgroundColor = ConstantColor.backGroundColor
-        [registerView, imageView, deleteButton].forEach(contentView.addSubview(_:))
+        [registerView, imageView, deleteButton, ocrButton].forEach(contentView.addSubview(_:))
     }
     
     private func setupConstraints() {
@@ -103,7 +122,12 @@ extension ImageCell {
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -10),
             deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
             deleteButton.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.3),
-            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
+            deleteButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor),
+            
+            ocrButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            ocrButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            ocrButton.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.3),
+            ocrButton.heightAnchor.constraint(equalTo: deleteButton.widthAnchor)
         ])
     }
 }
