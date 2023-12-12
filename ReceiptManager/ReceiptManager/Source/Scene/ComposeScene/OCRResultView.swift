@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import Toast_Swift
 
 protocol OCRViewInteractable: AnyObject {
     func closeOCRView()
@@ -116,7 +117,15 @@ extension OCRResultView {
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .regular)
         button.layer.cornerRadius = 10
         button.rx.tap
-            .bind { UIPasteboard.general.string = button.titleLabel?.text }
+            .bind {
+                let copyText = button.titleLabel?.text ?? ""
+                UIPasteboard.general.string = copyText
+                self.makeToast(
+                    "\"\(copyText)\"" + ConstantText.copySuccess.localize(),
+                    duration: 1.5,
+                    position: .bottom
+                )
+            }
             .disposed(by: disposeBag)
         
         return button

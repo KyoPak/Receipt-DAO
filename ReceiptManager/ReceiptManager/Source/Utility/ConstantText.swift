@@ -66,6 +66,7 @@ enum ConstantText {
     // About Compose Scene
     static let memoText = "memoText"
     static let copyText = "ocrTextCopy"
+    static let copySuccess = "copySuccess"
     
     // About Search Scene
     static let searchBar = "searchBar"

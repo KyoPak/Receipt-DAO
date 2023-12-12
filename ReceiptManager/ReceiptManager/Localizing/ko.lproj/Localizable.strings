@@ -37,6 +37,7 @@
 "card" = "카드";
 "memoText" = "간단한 메모를 작성해보세요.";
 "ocrTextCopy" = "아래 텍스트를 터치하여 복사하세요.";
+"copySuccess" = "복사";
 "imageCount %@" = "등록된 사진은 %@건입니다.";
 
 "album" = "앨범";

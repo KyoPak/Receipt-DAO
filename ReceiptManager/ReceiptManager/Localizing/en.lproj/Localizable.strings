@@ -37,6 +37,7 @@
 "card" = "Card";
 "memoText" = "Write a brief memo.";
 "ocrTextCopy" = "Touch and copy the text below.";
+"copySuccess" = "Copy!";
 "imageCount %@" = "There are %@ registered photos.";
 
 "album" = "Album";
