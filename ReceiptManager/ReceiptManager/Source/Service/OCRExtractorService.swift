@@ -1,5 +1,5 @@
 //
-//  OCRTextExtractable.swift
+//  OCRExtractorService.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/06/01.
@@ -11,13 +11,18 @@ import VisionKit
 
 import RxSwift
 
-protocol OCRTextExtractable {
+protocol OCRExtractorService {
     var ocrResult: PublishSubject<[String]> { get set }
     func extractText(data: Data)
 }
 
-final class OCRTextExtractor: OCRTextExtractable {
+final class DefaultOCRExtractorService: OCRExtractorService {
     var ocrResult = PublishSubject<[String]>()
+    private let currency: Currency
+    
+    init(currencyIndex: Int?) {
+        currency = Currency(rawValue: currencyIndex ?? .zero) ?? .KRW
+    }
     
     func extractText(data: Data) {
         guard let image = UIImage(data: data)?.cgImage else { return }
@@ -38,14 +43,8 @@ final class OCRTextExtractor: OCRTextExtractable {
             ocrResult.onNext(ocrText)
         }
         
-        if #available(iOS 16.0, *) {
-            request.revision = VNRecognizeTextRequestRevision3
-            request.recognitionLanguages =  ["ko-KR"]
-        } else {
-            request.revision = VNRecognizeTextRequestRevision2
-            request.recognitionLanguages =  ["en-US"]
-        }
-        
+        request.recognitionLanguages =  recognitionLanguages()
+        request.revision = revision()
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = true
         
@@ -53,6 +52,28 @@ final class OCRTextExtractor: OCRTextExtractable {
             try handler.perform([request])
         } catch {
             print(error)
+        }
+    }
+    
+    private func recognitionLanguages() -> [String] {
+        switch currency {
+        case .KRW:
+            if #available(iOS 16.0, *) {
+                return ["ko-KR"]
+            }
+            return ["en-US"]
+        case .USD:
+            return ["en-US"]
+        case .JPY:
+            return ["ja-JP"]
+        }
+    }
+    
+    private func revision() -> Int {
+        if #available(iOS 16.0, *) {
+            return VNRecognizeTextRequestRevision3
+        } else {
+            return VNRecognizeTextRequestRevision2
         }
     }
 }
