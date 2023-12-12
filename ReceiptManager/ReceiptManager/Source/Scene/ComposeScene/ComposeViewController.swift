@@ -22,6 +22,7 @@ final class ComposeViewController: UIViewController, View {
     private let deleteEventSubject = PublishSubject<IndexPath?>()
     private let ocrEventSubject = PublishSubject<IndexPath?>()
     private var keyboardHandler: KeyboardHandler?
+    private var ocrResultViewHeightConstraint: NSLayoutConstraint?
     
     // UI Properties
     
@@ -66,6 +67,12 @@ final class ComposeViewController: UIViewController, View {
         textView.layer.borderColor = ConstantColor.layerColor.cgColor
         
         return textView
+    }()
+    
+    private let ocrResultView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemTeal
+        return view
     }()
     
     override func viewDidLoad() {
@@ -136,7 +143,11 @@ extension ComposeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        deleteEventSubject.map { Reactor.Action.imageDelete($0) }
+        deleteEventSubject.map { Reactor.Action.cellDeleteButtonTapped($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        ocrEventSubject.map { Reactor.Action.cellOCRButtonTapped($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -205,6 +216,13 @@ extension ComposeViewController {
             .compactMap { $0 }
             .drive { _ in
                 self.coordinator?.close(self)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.ocrResult }
+            .compactMap { $0 }
+            .bind { texts in
+                self.setupOCRView()
             }
             .disposed(by: disposeBag)
     }
@@ -396,13 +414,13 @@ extension ComposeViewController {
     }
     
     private func setupHierarchy() {
-        [infoView, collectionView, memoTextView, placeHoderLabel].forEach(view.addSubview(_:))
+        [infoView, collectionView, memoTextView, placeHoderLabel, ocrResultView].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
     
-        [infoView, memoTextView, collectionView].forEach {
+        [infoView, memoTextView, collectionView, ocrResultView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -413,7 +431,22 @@ extension ComposeViewController {
         placeHoderLabel.textColor = .lightGray
     }
     
+    private func setupOCRView() {
+        print(#function)
+        
+        let height = memoTextView.frame.height + 50
+        
+        ocrResultViewHeightConstraint?.constant = height
+        
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     private func setupConstraints() {
+        ocrResultViewHeightConstraint = ocrResultView.heightAnchor.constraint(equalToConstant: 0)
+        guard let ocrResultViewHeightConstraint = ocrResultViewHeightConstraint else { return }
+        
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -434,7 +467,12 @@ extension ComposeViewController {
             
             placeHoderLabel.topAnchor.constraint(equalTo: memoTextView.topAnchor, constant: 10),
             placeHoderLabel.leadingAnchor.constraint(equalTo: memoTextView.leadingAnchor, constant: 5),
-            placeHoderLabel.trailingAnchor.constraint(equalTo: memoTextView.trailingAnchor)
+            placeHoderLabel.trailingAnchor.constraint(equalTo: memoTextView.trailingAnchor),
+            
+            ocrResultView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            ocrResultView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            ocrResultView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            ocrResultViewHeightConstraint
         ])
     }
 }
