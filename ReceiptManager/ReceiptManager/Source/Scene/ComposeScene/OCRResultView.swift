@@ -81,13 +81,13 @@ extension OCRResultView {
         
         for text in texts {
             let button = button(text: text)
-            let titleSize = button.titleLabel?.intrinsicContentSize ?? .zero
-            totalWidth += titleSize.width + 10
+            let buttonWidth = (button.intrinsicContentSize).width + 10
+            totalWidth += buttonWidth
             
-            if totalWidth >= UIScreen.main.bounds.width - 20 {
+            if totalWidth >= scrollView.frame.width {
                 buttonTotalStackView.addArrangedSubview(stackView)
                 stackView = horizentalStackView()
-                totalWidth = titleSize.width + 10
+                totalWidth = buttonWidth
                 stackView.addArrangedSubview(button)
                 continue
             }
