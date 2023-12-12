@@ -57,12 +57,15 @@ enum ConstantText {
     
     static let cash = "cash"
     static let card = "card"
-    static let memo = "memo"
     static let album = "album"
     static let camera = "camera"
     
     // About Detail Scene
     static let imageCountText = "imageCount %@"
+    
+    // About Compose Scene
+    static let memoText = "memoText"
+    static let copyText = "ocrTextCopy"
     
     // About Search Scene
     static let searchBar = "searchBar"

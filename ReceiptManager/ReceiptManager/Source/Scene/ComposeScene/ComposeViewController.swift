@@ -28,7 +28,7 @@ final class ComposeViewController: UIViewController, View {
     
     private let infoView = ComposeInformationView()
     private let placeHoderLabel = UILabel(
-        text: ConstantText.memo.localize(),
+        text: ConstantText.memoText.localize(),
         font: .preferredFont(forTextStyle: .body)
     )
     
@@ -69,11 +69,7 @@ final class ComposeViewController: UIViewController, View {
         return textView
     }()
     
-    private let ocrResultView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemTeal
-        return view
-    }()
+    private let ocrResultView = OCRResultView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -221,7 +217,9 @@ extension ComposeViewController {
         
         reactor.state.map { $0.ocrResult }
             .compactMap { $0 }
+            .distinctUntilChanged()
             .bind { texts in
+                self.ocrResultView.setupButton(texts: texts)
                 self.setupOCRView()
             }
             .disposed(by: disposeBag)
@@ -246,6 +244,17 @@ extension ComposeViewController: CellInteractable {
     
     func ocrCell(in cell: ImageCell) {
         ocrEventSubject.onNext(collectionView.indexPath(for: cell))
+    }
+}
+
+// MARK: - OCRView Interactable Delegate
+extension ComposeViewController: OCRViewInteractable {
+    func closeOCRView() {
+        ocrResultViewHeightConstraint?.constant = .zero
+        
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -419,7 +428,7 @@ extension ComposeViewController {
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
-    
+        ocrResultView.delegate = self
         [infoView, memoTextView, collectionView, ocrResultView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -432,8 +441,6 @@ extension ComposeViewController {
     }
     
     private func setupOCRView() {
-        print(#function)
-        
         let height = memoTextView.frame.height + 50
         
         ocrResultViewHeightConstraint?.constant = height

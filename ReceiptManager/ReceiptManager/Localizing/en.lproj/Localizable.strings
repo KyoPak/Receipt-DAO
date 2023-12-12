@@ -35,7 +35,8 @@
 
 "cash" = "Cash";
 "card" = "Card";
-"memo" = "Write a brief memo.";
+"memoText" = "Write a brief memo.";
+"ocrTextCopy" = "Touch and copy the text below.";
 "imageCount %@" = "There are %@ registered photos.";
 
 "album" = "Album";

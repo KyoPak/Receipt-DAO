@@ -23,14 +23,18 @@ final class OCRResultView: UIView {
     // UI Properties
     
     private let infoLabel = UILabel(
-        text: "아래 텍스트를 터치하여 복사하세요.",
+        text: ConstantText.copyText.localize(),
         font: .systemFont(ofSize: 15, weight: .bold)
     )
     
     private lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "x.circle.fill"), for: .normal)
-        button.contentMode = .center
+        button.setTitle(ConstantText.close.localize(), for: .normal)
+        button.backgroundColor = ConstantColor.cellColor
+        button.setTitleColor(.label, for: .normal)
+        button.layer.cornerRadius = 10
+        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        button.isHidden = true
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -61,12 +65,15 @@ final class OCRResultView: UIView {
 
 extension OCRResultView {
     @objc private func closeButtonTapped() {
+        closeButton.isHidden = true
         delegate?.closeOCRView()
     }
 }
 
+// MARK: - Add Text Button Logic
 extension OCRResultView {
     func setupButton(texts: [String]) {
+        closeButton.isHidden = false
         removeAllSubviews(from: buttonTotalStackView)
         
         var stackView = horizentalStackView()
@@ -131,11 +138,6 @@ extension OCRResultView: UITextFieldDelegate {
     }
     
     private func setupProperties() {
-        layer.borderColor = ConstantColor.cellColor.cgColor
-        layer.borderWidth = 1
-        layer.cornerRadius = 10
-        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
         backgroundColor = ConstantColor.backGroundColor
         [infoLabel, closeButton, scrollView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -146,14 +148,16 @@ extension OCRResultView: UITextFieldDelegate {
         let safeArea = safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            closeButton.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            closeButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            closeButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            infoLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 20),
             infoLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             infoLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
             
-            closeButton.topAnchor.constraint(equalTo: infoLabel.topAnchor),
-            closeButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
-            
-            scrollView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10),
+            scrollView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 15),
             scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
             scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
