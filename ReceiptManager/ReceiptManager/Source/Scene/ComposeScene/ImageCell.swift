@@ -7,12 +7,13 @@
 
 import UIKit
 
-protocol CellDeletable: AnyObject {
+protocol CellInteractable: AnyObject {
     func deleteCell(in cell: ImageCell)
+    func ocrCell(in cell: ImageCell)
 }
 
 final class ImageCell: UICollectionViewCell {
-    weak var delegate: CellDeletable?
+    weak var delegate: CellInteractable?
 
     private let registerView = ImageRegisterCellView()
     
@@ -92,7 +93,7 @@ extension ImageCell {
     }
     
     @objc private func ocrButtonTapped() {
-        
+        delegate?.ocrCell(in: self)
     }
     
     func setupCountLabel(_ count: Int) {

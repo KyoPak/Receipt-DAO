@@ -20,6 +20,7 @@ final class ComposeViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     weak var coordinator: ComposeViewCoordinator?
     private let deleteEventSubject = PublishSubject<IndexPath?>()
+    private let ocrEventSubject = PublishSubject<IndexPath?>()
     private var keyboardHandler: KeyboardHandler?
     
     // UI Properties
@@ -219,10 +220,14 @@ extension ComposeViewController {
     }
 }
 
-// MARK: - Cell Delegate
-extension ComposeViewController: CellDeletable {
+// MARK: - Cell Interactable Delegate
+extension ComposeViewController: CellInteractable {
     func deleteCell(in cell: ImageCell) {
         deleteEventSubject.onNext(collectionView.indexPath(for: cell))
+    }
+    
+    func ocrCell(in cell: ImageCell) {
+        ocrEventSubject.onNext(collectionView.indexPath(for: cell))
     }
 }
 
