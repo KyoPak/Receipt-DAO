@@ -216,8 +216,8 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.ocrResult }
-            .compactMap { $0 }
             .distinctUntilChanged()
+            .compactMap { $0 }
             .bind { texts in
                 self.ocrResultView.setupButton(texts: texts)
                 self.setupOCRView()

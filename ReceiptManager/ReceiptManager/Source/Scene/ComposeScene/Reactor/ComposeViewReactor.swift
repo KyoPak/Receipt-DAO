@@ -26,7 +26,7 @@ final class ComposeViewReactor: Reactor {
         case chagePriceText(String)
         case imageDataAppend([Data])
         case imageDataDelete([Data])
-        case imageDataOCR([String])
+        case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
     }
@@ -156,7 +156,10 @@ final class ComposeViewReactor: Reactor {
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let ocrEvent = ocrTextExtractor.ocrResult
             .flatMap { texts in
-                return Observable.just(Mutation.imageDataOCR(texts))
+                return Observable.concat([
+                    Observable.just(Mutation.imageDataOCR(texts)),
+                    Observable.just(Mutation.imageDataOCR(nil))
+                ])
             }
             
         return Observable.merge(mutation, ocrEvent)
