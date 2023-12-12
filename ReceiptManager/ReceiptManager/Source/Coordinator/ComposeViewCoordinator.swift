@@ -18,7 +18,9 @@ final class ComposeViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
+    
     var storage: CoreDataStorage
+    var userDefaultService: UserDefaultService
     var expense: Receipt?
     var transitionType: TransitionType
     
@@ -26,18 +28,23 @@ final class ComposeViewCoordinator: Coordinator {
         transitionType: TransitionType,
         navigationController: UINavigationController?,
         storage: CoreDataStorage,
+        userDefaultService: UserDefaultService,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.navigationController = navigationController
         self.storage = storage
+        self.userDefaultService = userDefaultService
         self.expense = expense
         self.innerNavigationController = UINavigationController()
     }
     
     func start() {
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
+        
         let composeViewReactor = ComposeViewReactor(
             storage: storage,
+            ocrExtractor: ocrExtractor,
             expense: expense,
             transisionType: transitionType
         )

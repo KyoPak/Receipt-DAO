@@ -52,6 +52,7 @@ final class DetailViewCoordinator: Coordinator {
             transitionType: .push,
             navigationController: navigationController,
             storage: storage,
+            userDefaultService: userDefaultService,
             expense: expense
         )
         childCoordinators.append(composeViewCoordinator)

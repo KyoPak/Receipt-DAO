@@ -65,6 +65,7 @@ final class MainTabBarCoordinator: Coordinator {
             transitionType: .modal,
             navigationController: navigationController,
             storage: storage,
+            userDefaultService: userDefaultService,
             expense: nil
         )
         

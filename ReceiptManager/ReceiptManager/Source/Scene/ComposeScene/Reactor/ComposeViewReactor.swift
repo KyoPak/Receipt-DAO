@@ -62,12 +62,18 @@ final class ComposeViewReactor: Reactor {
     // Properties
     
     private let storage: CoreDataStorage
-    private let ocrTextExtractor = OCRTextExtractor()
+    private let ocrExtractor: OCRExtractorService
     
     // Initializer
     
-    init(storage: CoreDataStorage, expense: Receipt? = nil, transisionType: TransitionType) {
+    init(
+        storage: CoreDataStorage,
+        ocrExtractor: OCRExtractorService,
+        expense: Receipt? = nil,
+        transisionType: TransitionType
+    ) {
         self.storage = storage
+        self.ocrExtractor = ocrExtractor
         
         let titleText = transisionType == .modal ?
             ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
@@ -106,7 +112,7 @@ final class ComposeViewReactor: Reactor {
         case .cellOCRButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
-            ocrTextExtractor.extractText(data: ocrTargetData)
+            ocrExtractor.extractText(data: ocrTargetData)
                  
             return Observable.empty()
 
@@ -154,7 +160,7 @@ final class ComposeViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let ocrEvent = ocrTextExtractor.ocrResult
+        let ocrEvent = ocrExtractor.ocrResult
             .flatMap { texts in
                 return Observable.concat([
                     Observable.just(Mutation.imageDataOCR(texts)),
