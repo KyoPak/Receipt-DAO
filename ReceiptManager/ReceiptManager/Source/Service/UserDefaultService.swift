@@ -31,6 +31,6 @@ final class DefaultUserDefaultService: UserDefaultService {
     func updateCurrency(index: Int) -> Observable<Int> {
         storage.set(index, forKey: ConstantText.currencyKey)
         event.onNext(index)
-        return Observable.just(index)
+        return event.asObservable()
     }
 }
