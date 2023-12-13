@@ -84,6 +84,7 @@ extension ExpenseViewController {
             .disposed(by: disposeBag)
         
         monthControlView.currentButton.rx.tap
+            .throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.todayButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
