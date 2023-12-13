@@ -74,7 +74,7 @@ extension ExpenseViewController {
             .disposed(by: disposeBag)
         
         monthControlView.previousButton.rx.tap
-            .map { Reactor.Action.previoutMonthButtonTapped }
+            .map { Reactor.Action.previousMonthButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
