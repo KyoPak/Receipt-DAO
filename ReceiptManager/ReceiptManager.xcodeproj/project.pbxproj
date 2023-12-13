@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		099FE72BBA4D0F8DA8A00B8E /* libPods-ReactorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */; };
 		3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */; };
 		3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */; };
+		3C07528E2B298E0600C58066 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C07528D2B298E0600C58066 /* ReactorTests.swift */; };
 		3C088A4A2B1F782500FFFB74 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */; };
 		3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0894C22A4E6AF900C6E7CD /* SettingViewController.swift */; };
 		3C0894C82A4E87F600C6E7CD /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0894C72A4E87F600C6E7CD /* SettingCell.swift */; };
@@ -97,14 +99,28 @@
 		3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */; };
 		3CFBF7FD2B282ED50010DC83 /* OCRResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFBF7FC2B282ED50010DC83 /* OCRResultView.swift */; };
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
-		40778D58168C62146784F787 /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */; };
+		ED3DE38DAB009749963561C1 /* libPods-ReceiptManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3C07528F2B298E0600C58066 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C2E18CA29FBCC5F00E8E9C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C2E18D129FBCC5F00E8E9C6;
+			remoteInfo = ReceiptManager;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.release.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.release.xcconfig"; sourceTree = "<group>"; };
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
 		3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactor.swift; sourceTree = "<group>"; };
 		3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewCoordinator.swift; sourceTree = "<group>"; };
+		3C07528B2B298E0600C58066 /* ReactorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C07528D2B298E0600C58066 /* ReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
+		3C07529A2B298E9B00C58066 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		3C0894BF2A4DD4B300C6E7CD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3C0894C02A4DD4B300C6E7CD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -200,15 +216,25 @@
 		3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		3CFBF7FC2B282ED50010DC83 /* OCRResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRResultView.swift; sourceTree = "<group>"; };
 		3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCellReactor.swift; sourceTree = "<group>"; };
-		8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReceiptManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3C0752882B298E0600C58066 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099FE72BBA4D0F8DA8A00B8E /* libPods-ReactorTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3C2E18CF29FBCC5F00E8E9C6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40778D58168C62146784F787 /* Pods_ReceiptManager.framework in Frameworks */,
+				ED3DE38DAB009749963561C1 /* libPods-ReceiptManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +247,14 @@
 				3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3C07528C2B298E0600C58066 /* ReactorTests */ = {
+			isa = PBXGroup;
+			children = (
+				3C07528D2B298E0600C58066 /* ReactorTests.swift */,
+			);
+			path = ReactorTests;
 			sourceTree = "<group>";
 		};
 		3C0894C12A4E6ABB00C6E7CD /* SettingScene */ = {
@@ -246,6 +280,7 @@
 			children = (
 				3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */,
 				3C2E18D429FBCC5F00E8E9C6 /* ReceiptManager */,
+				3C07528C2B298E0600C58066 /* ReactorTests */,
 				3C2E18D329FBCC5F00E8E9C6 /* Products */,
 				509C9D2BD38C0C0C30B6576A /* Pods */,
 				D6255115A5FD15DD264D6C70 /* Frameworks */,
@@ -256,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */,
+				3C07528B2B298E0600C58066 /* ReactorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -656,6 +692,8 @@
 			children = (
 				1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */,
 				0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */,
+				61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */,
+				092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -663,7 +701,9 @@
 		D6255115A5FD15DD264D6C70 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8FD09967D8B2B9436C3C7669 /* Pods_ReceiptManager.framework */,
+				3C07529A2B298E9B00C58066 /* RxSwift.framework */,
+				DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */,
+				5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -671,6 +711,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3C07528A2B298E0600C58066 /* ReactorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReactorTests" */;
+			buildPhases = (
+				A65205E824D3E7509D976379 /* [CP] Check Pods Manifest.lock */,
+				3C0752872B298E0600C58066 /* Sources */,
+				3C0752882B298E0600C58066 /* Frameworks */,
+				3C0752892B298E0600C58066 /* Resources */,
+				9AEE93AF61BAC83CAB56321D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3C0752902B298E0600C58066 /* PBXTargetDependency */,
+			);
+			name = ReactorTests;
+			productName = ReactorTests;
+			productReference = 3C07528B2B298E0600C58066 /* ReactorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3C2E18D129FBCC5F00E8E9C6 /* ReceiptManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3C2E18E929FBCC6100E8E9C6 /* Build configuration list for PBXNativeTarget "ReceiptManager" */;
@@ -679,8 +739,8 @@
 				3C2E18CE29FBCC5F00E8E9C6 /* Sources */,
 				3C2E18CF29FBCC5F00E8E9C6 /* Frameworks */,
 				3C2E18D029FBCC5F00E8E9C6 /* Resources */,
-				081FE835CC5F8409038181DE /* [CP] Embed Pods Frameworks */,
 				3CDCDC4629FBDF3D00C2BEF6 /* ShellScript */,
+				D9FB12A68B21EFEFED987421 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -698,9 +758,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					3C07528A2B298E0600C58066 = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 3C2E18D129FBCC5F00E8E9C6;
+					};
 					3C2E18D129FBCC5F00E8E9C6 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -722,11 +786,19 @@
 			projectRoot = "";
 			targets = (
 				3C2E18D129FBCC5F00E8E9C6 /* ReceiptManager */,
+				3C07528A2B298E0600C58066 /* ReactorTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3C0752892B298E0600C58066 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3C2E18D029FBCC5F00E8E9C6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -742,23 +814,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		081FE835CC5F8409038181DE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3CDCDC4629FBDF3D00C2BEF6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -775,6 +830,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
+		9AEE93AF61BAC83CAB56321D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A65205E824D3E7509D976379 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ReactorTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		D23B7D4054CEF0DACFBC39D8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -798,9 +892,34 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D9FB12A68B21EFEFED987421 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3C0752872B298E0600C58066 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C07528E2B298E0600C58066 /* ReactorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3C2E18CE29FBCC5F00E8E9C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -895,6 +1014,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3C0752902B298E0600C58066 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3C2E18D129FBCC5F00E8E9C6 /* ReceiptManager */;
+			targetProxy = 3C07528F2B298E0600C58066 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -927,6 +1054,53 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3C0752912B298E0600C58066 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReactorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReceiptManager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ReceiptManager";
+			};
+			name = Debug;
+		};
+		3C0752922B298E0600C58066 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.PakHyo.ReactorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReceiptManager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ReceiptManager";
+			};
+			name = Release;
+		};
 		3C2E18E729FBCC6100E8E9C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1124,6 +1298,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReactorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C0752912B298E0600C58066 /* Debug */,
+				3C0752922B298E0600C58066 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3C2E18CD29FBCC5F00E8E9C6 /* Build configuration list for PBXProject "ReceiptManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
