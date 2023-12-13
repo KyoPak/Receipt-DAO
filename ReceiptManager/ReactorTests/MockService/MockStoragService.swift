@@ -11,12 +11,19 @@ import RxSwift
 final class MockStoragService: StorageService {
     var updateEvent = PublishSubject<Receipt>()
     
-    private var receipts: [Receipt] = []
+    private var receipts: [Receipt] = [Receipt(), Receipt(), Receipt()]
     
     func sync() { }
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
+        for index in 0..<receipts.count {
+            if receipts[index].identity == receipt.identity {
+                receipts.remove(at: index)
+                break
+            }
+        }
+        
         updateEvent.onNext(receipt)
         receipts.append(receipt)
         return Observable.just(receipt)
