@@ -31,18 +31,18 @@ final class ListViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     let userDefaultEvent: BehaviorSubject<Int>
     let dateManageEvent: BehaviorSubject<Date>
     
     // Initializer
     
     init(
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
-        self.storage = storage
+        self.storageService = storageService
         userDefaultEvent = userDefaultService.event
         dateManageEvent = dateManageService.currentDateEvent
         initialState = State(expenseByMonth: [], date: Date())
@@ -60,14 +60,14 @@ final class ListViewReactor: Reactor {
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            storage.upsert(receipt: expense)
+            storageService.upsert(receipt: expense)
             return loadData().map { models in
                 Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
             }
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
-            storage.delete(receipt: expense)
+            storageService.delete(receipt: expense)
             return loadData().map { models in
                 Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
             }
@@ -107,7 +107,7 @@ extension ListViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return storage.fetch()
+        return storageService.fetch()
             .distinctUntilChanged()
             .map { result in
                 let dictionary = Dictionary(

@@ -38,13 +38,11 @@ final class ExpenseViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
     private let dateService: DateManageService
     
     // Initializer
     
-    init(storage: CoreDataStorage, dateService: DateManageService) {
-        self.storage = storage
+    init(dateService: DateManageService) {
         self.dateService = dateService
         initialState = State(
             title: ConstantText.list.localize(),

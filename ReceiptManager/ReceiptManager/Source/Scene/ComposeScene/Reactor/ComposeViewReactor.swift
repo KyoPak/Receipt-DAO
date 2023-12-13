@@ -61,18 +61,18 @@ final class ComposeViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     private let ocrExtractor: OCRExtractorService
     
     // Initializer
     
     init(
-        storage: CoreDataStorage,
+        storageService: StorageService,
         ocrExtractor: OCRExtractorService,
         expense: Receipt? = nil,
         transisionType: TransitionType
     ) {
-        self.storage = storage
+        self.storageService = storageService
         self.ocrExtractor = ocrExtractor
         
         let titleText = transisionType == .modal ?
@@ -118,7 +118,7 @@ final class ComposeViewReactor: Reactor {
 
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            storage.upsert(receipt: newExpense)
+            storageService.upsert(receipt: newExpense)
             return Observable.concat([
                 Observable.just(Mutation.saveExpense(Void())),
                 Observable.just(Mutation.saveExpense(nil))

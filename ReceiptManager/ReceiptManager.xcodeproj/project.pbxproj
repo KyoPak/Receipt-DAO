@@ -89,8 +89,7 @@
 		3CDCDC4529FBDF1200C2BEF6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */; };
 		3CDCDC4E29FC00C700C2BEF6 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */; };
 		3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */; };
-		3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */; };
-		3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */; };
+		3CDCDC5529FC050B00C2BEF6 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDCDC5429FC050B00C2BEF6 /* StorageService.swift */; };
 		3CE07C592A4C841100C1AE73 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CE07C5B2A4C841100C1AE73 /* Localizable.strings */; };
 		3CE78EE72B15E529008743A1 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */; };
 		3CF106B42A4DBD250056874B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CF106B62A4DBD250056874B /* InfoPlist.strings */; };
@@ -191,8 +190,7 @@
 		3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3CDCDC4D29FC00C700C2BEF6 /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayType.swift; sourceTree = "<group>"; };
-		3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptStorage.swift; sourceTree = "<group>"; };
-		3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
+		3CDCDC5429FC050B00C2BEF6 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		3CE07C5A2A4C841100C1AE73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3CE07C5C2A4C846200C1AE73 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
@@ -627,8 +625,7 @@
 		3CDCDC5129FC03C400C2BEF6 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				3CDCDC5229FC03E400C2BEF6 /* ReceiptStorage.swift */,
-				3CDCDC5429FC050B00C2BEF6 /* CoreDataStorage.swift */,
+				3CDCDC5429FC050B00C2BEF6 /* StorageService.swift */,
 				3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */,
 				3C852F042B185B0E00F48CD3 /* DateManageService.swift */,
 				3CB563F82A286D22008A6CD0 /* OCRExtractorService.swift */,
@@ -809,7 +806,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CBABE412B21D2830001BA4F /* MonthControlView.swift in Sources */,
-				3CDCDC5529FC050B00C2BEF6 /* CoreDataStorage.swift in Sources */,
+				3CDCDC5529FC050B00C2BEF6 /* StorageService.swift in Sources */,
 				3C8175F92B19B1F4000E5761 /* CalendarViewReactor.swift in Sources */,
 				3CB563F92A286D22008A6CD0 /* OCRExtractorService.swift in Sources */,
 				3C3F7ADE2B1EFA8F003DCA85 /* SearchViewCoordinator.swift in Sources */,
@@ -822,7 +819,6 @@
 				3CAF8AF22A162444002251DD /* LargeImageViewController.swift in Sources */,
 				3C765AEB2B0F598600EB7A6C /* SettingViewCoordinator.swift in Sources */,
 				3CFBF7FD2B282ED50010DC83 /* OCRResultView.swift in Sources */,
-				3CDCDC5329FC03E400C2BEF6 /* ReceiptStorage.swift in Sources */,
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,

@@ -13,27 +13,27 @@ final class ExpenseViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     var dateManageService: DateManageService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
     }
     
     func start() {
         let listViewCoordinator = ListViewCoordinator(
-            storage: storage, 
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
         )
@@ -42,7 +42,7 @@ final class ExpenseViewCoordinator: Coordinator {
         
         let calendarCoordinator = CalendarViewCoordinator(
             navigationController: outerNavigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
         )
@@ -54,7 +54,7 @@ final class ExpenseViewCoordinator: Coordinator {
             calendarCoordinator.viewController ?? UIViewController()
         ]
         
-        let expenseViewReactor = ExpenseViewReactor(storage: storage, dateService: dateManageService)
+        let expenseViewReactor = ExpenseViewReactor(dateService: dateManageService)
         let expenseViewController = ExpenseViewController(
             reactor: expenseViewReactor,
             childViewControllers: child
@@ -74,7 +74,7 @@ final class ExpenseViewCoordinator: Coordinator {
     func moveDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             navigationController: outerNavigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense
         )
@@ -88,7 +88,7 @@ final class ExpenseViewCoordinator: Coordinator {
     func moveSearchView() {
         let searchViewCoordinator = SearchViewCoordinator(
             navigationController: outerNavigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService
         )
         

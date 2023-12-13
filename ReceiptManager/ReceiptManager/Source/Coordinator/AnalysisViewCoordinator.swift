@@ -13,24 +13,24 @@ final class AnalysisViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
     }
     
     func start() {
         let analysisViewReactor = AnalysisViewReactor(
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateService: DefaultDateManageService())
         let analysisViewController = AnalysisViewController(reactor: analysisViewReactor)

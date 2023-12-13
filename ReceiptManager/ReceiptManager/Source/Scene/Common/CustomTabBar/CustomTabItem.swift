@@ -68,7 +68,7 @@ extension CustomTabItem {
     func initialCoordinator(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) -> Coordinator {
@@ -77,7 +77,7 @@ extension CustomTabItem {
             return ExpenseViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
             )
@@ -86,7 +86,7 @@ extension CustomTabItem {
             return AnalysisViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService
             )
         
@@ -94,7 +94,7 @@ extension CustomTabItem {
             return BookMarkViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService
             )
             
@@ -102,7 +102,7 @@ extension CustomTabItem {
             return SettingViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService
             )
         }

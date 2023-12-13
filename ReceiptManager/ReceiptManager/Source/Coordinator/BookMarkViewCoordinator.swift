@@ -13,24 +13,24 @@ final class BookMarkViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
     }
     
     func start() {
         let bookMarkViewReactor = BookMarkViewReactor(
-            storage: storage, 
+            storageService: storageService,
             userDefaultService: userDefaultService
         )
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
@@ -42,7 +42,7 @@ final class BookMarkViewCoordinator: Coordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             navigationController: outerNavigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense
         )

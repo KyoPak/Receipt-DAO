@@ -38,18 +38,18 @@ final class CalendarViewReactor: Reactor {
     }
     
     private let calendar: Calendar
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     let userDefaultEvent: BehaviorSubject<Int>
     let dateManageEvent: BehaviorSubject<Date>
     
     // Initializer
     
     init(
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
-        self.storage = storage
+        self.storageService = storageService
         userDefaultEvent = userDefaultService.event
         dateManageEvent = dateManageService.currentDateEvent
         
@@ -106,7 +106,7 @@ extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return storage.fetch()
+        return storageService.fetch()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

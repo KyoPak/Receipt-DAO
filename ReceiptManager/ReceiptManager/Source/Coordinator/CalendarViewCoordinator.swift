@@ -12,7 +12,7 @@ final class CalendarViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     var dateManageService: DateManageService
     
@@ -20,19 +20,19 @@ final class CalendarViewCoordinator: Coordinator {
     
     init(
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
     }
     
     func start() {
         let calendarViewReactor = CalendarViewReactor(
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
         )
@@ -49,7 +49,7 @@ final class CalendarViewCoordinator: Coordinator {
     func presentCalendarList(day: String, index: Int) {
         let calendarListViewCoordinator = CalendarListViewCoordinator(
             navigationController: navigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService,
             day: day,

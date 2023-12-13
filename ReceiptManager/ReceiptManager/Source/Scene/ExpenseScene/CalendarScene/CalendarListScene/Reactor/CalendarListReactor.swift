@@ -35,20 +35,20 @@ final class CalendarListReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     private let dateManageService: DateManageService
     let userDefaultEvent: BehaviorSubject<Int>
     
     // Initializer
     
     init(
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService,
         day: String,
         weekIndex: Int
     ) {
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultEvent = userDefaultService.event
         self.dateManageService = dateManageService
         
@@ -79,12 +79,12 @@ final class CalendarListReactor: Reactor {
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByDay[indexPath.row]
             expense.isFavorite.toggle()
-            storage.upsert(receipt: expense)
+            storageService.upsert(receipt: expense)
             return Observable.empty()
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByDay[indexPath.row]
-            storage.delete(receipt: expense)
+            storageService.delete(receipt: expense)
             return Observable.empty()
         }
     }
@@ -111,7 +111,7 @@ extension CalendarListReactor {
         let dayFormat = ConstantText.dateFormatFull.localize()
         let currentDate = updateDate()
         
-        return storage.fetch()
+        return storageService.fetch()
             .distinctUntilChanged()
             .map { result in
                 return result.filter { expense in

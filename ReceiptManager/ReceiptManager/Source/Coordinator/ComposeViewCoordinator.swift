@@ -15,11 +15,9 @@ enum TransitionType {
 final class ComposeViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
-    
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     var expense: Receipt?
     var transitionType: TransitionType
@@ -27,13 +25,13 @@ final class ComposeViewCoordinator: Coordinator {
     init(
         transitionType: TransitionType,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.expense = expense
         self.innerNavigationController = UINavigationController()
@@ -43,7 +41,7 @@ final class ComposeViewCoordinator: Coordinator {
         let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
         
         let composeViewReactor = ComposeViewReactor(
-            storage: storage,
+            storageService: storageService,
             ocrExtractor: ocrExtractor,
             expense: expense,
             transisionType: transitionType
@@ -81,14 +79,14 @@ final class ComposeViewCoordinator: Coordinator {
         case .modal:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: innerNavigationController,
-                storage: storage,
+                storageService: storageService,
                 delegate: delegate,
                 imageCount: imageCount
             )
         case .push:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 delegate: delegate,
                 imageCount: imageCount
             )

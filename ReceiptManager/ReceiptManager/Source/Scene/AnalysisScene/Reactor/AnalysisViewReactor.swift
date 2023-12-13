@@ -37,7 +37,7 @@ final class AnalysisViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     private let dateService: DateManageService
     
@@ -51,8 +51,8 @@ final class AnalysisViewReactor: Reactor {
     
     // Initializer
     
-    init(storage: CoreDataStorage, userDefaultService: UserDefaultService, dateService: DateManageService) {
-        self.storage = storage
+    init(storageService: StorageService, userDefaultService: UserDefaultService, dateService: DateManageService) {
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateService = dateService
         initialState = State(
@@ -122,7 +122,7 @@ extension AnalysisViewReactor {
     private func loadData(by date: Date) -> Observable<(current: [Receipt], previous: [Receipt])> {
         let previousDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: date)
         
-        return storage.fetch()
+        return storageService.fetch()
             .map { models in
                 let groupedModels = Dictionary(grouping: models) { model in
                     DateFormatter.string(from: model.receiptDate)

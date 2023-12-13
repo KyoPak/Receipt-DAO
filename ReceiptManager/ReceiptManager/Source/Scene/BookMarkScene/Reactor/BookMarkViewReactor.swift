@@ -28,13 +28,13 @@ final class BookMarkViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     let userDefaultEvent: BehaviorSubject<Int>
     
     // Initializer
     
-    init(storage: CoreDataStorage, userDefaultService: UserDefaultService) {
-        self.storage = storage
+    init(storageService: StorageService, userDefaultService: UserDefaultService) {
+        self.storageService = storageService
         userDefaultEvent = userDefaultService.event
     }
 
@@ -50,7 +50,7 @@ final class BookMarkViewReactor: Reactor {
         case .cellUnBookMark(let indexPath):
             var expense = currentState.expenseByBookMark[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            storage.upsert(receipt: expense)
+            storageService.upsert(receipt: expense)
             
             return loadData().map { sectionModels in
                 return Mutation.loadData(sectionModels)
@@ -74,7 +74,7 @@ extension BookMarkViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatMonth.localize()
         
-        return storage.fetch()
+        return storageService.fetch()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

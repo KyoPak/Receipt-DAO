@@ -13,25 +13,24 @@ final class SearchViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    var storage: CoreDataStorage
+    var storageService: StorageService
     var userDefaultService: UserDefaultService
     
     init(
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.innerNavigationController = UINavigationController()
     }
     
     func start() {
         let searchViewReactor = SearchViewReactor(
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService
-            
         )
         let searchViewController = SearchViewController(reactor: searchViewReactor)
         innerNavigationController.setViewControllers([searchViewController], animated: true)
@@ -44,7 +43,7 @@ final class SearchViewCoordinator: Coordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             navigationController: innerNavigationController,
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense
         )

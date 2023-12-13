@@ -1,5 +1,5 @@
 //
-//  CoreDataStorage.swift
+//  StorageService.swift
 //  ReceiptManager
 //
 //  Created by parkhyo on 2023/04/28.
@@ -10,16 +10,26 @@ import CoreData
 import RxSwift
 import RxCoreData
 
-enum FetchType {
-    case day
-    case month
+protocol StorageService {
+    var updateEvent: PublishSubject<Receipt> { get }
+    
+    func sync()
+    
+    @discardableResult
+    func upsert(receipt: Receipt) -> Observable<Receipt>
+    
+    @discardableResult
+    func fetch() -> Observable<[Receipt]>
+    
+    @discardableResult
+    func delete(receipt: Receipt) -> Observable<Receipt>
 }
 
-final class CoreDataStorage: ReceiptStorage {
+final class DefaultStorageService: StorageService {
     
     // Core Data Stack
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

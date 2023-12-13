@@ -39,13 +39,13 @@ final class DetailViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     
     // Initializer
     
-    init(title: String, storage: CoreDataStorage, userDefaultService: UserDefaultService, item: Receipt) {
-        self.storage = storage
+    init(title: String, storageService: StorageService, userDefaultService: UserDefaultService, item: Receipt) {
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
        
         initialState = State(title: title, expense: item, priceText: "")
@@ -72,7 +72,7 @@ final class DetailViewReactor: Reactor {
             
         case .delete:
             let expense = currentState.expense
-            storage.delete(receipt: expense)
+            storageService.delete(receipt: expense)
             
             return Observable.just(Mutation.deleteExpense(Void()))
         }
@@ -102,7 +102,7 @@ final class DetailViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let updateEvent = storage.updateEvent
+        let updateEvent = storageService.updateEvent
             .flatMap { Observable.just(Mutation.updateExpense($0)) }
         
         return Observable.merge(mutation, updateEvent)
