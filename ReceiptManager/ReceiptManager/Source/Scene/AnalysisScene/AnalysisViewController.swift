@@ -149,7 +149,7 @@ extension AnalysisViewController {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraint
 extension AnalysisViewController {
     private func setupNavigationBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)

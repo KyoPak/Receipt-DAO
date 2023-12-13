@@ -13,7 +13,12 @@ protocol CellInteractable: AnyObject {
 }
 
 final class ImageCell: UICollectionViewCell {
+    
+    // Properties
+    
     weak var delegate: CellInteractable?
+    
+    // UI Properties
 
     private let registerView = ImageRegisterCellView()
     
@@ -53,6 +58,8 @@ final class ImageCell: UICollectionViewCell {
         deleteButton.layer.cornerRadius = deleteButton.bounds.size.width / 2
         deleteButton.clipsToBounds = true
     }
+    
+    // Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -101,7 +108,7 @@ extension ImageCell {
     }
 }
 
-// MARK: - Constraints
+// MARK: - UI Constraints
 extension ImageCell {
     private func setupView() {
         contentView.backgroundColor = ConstantColor.backGroundColor

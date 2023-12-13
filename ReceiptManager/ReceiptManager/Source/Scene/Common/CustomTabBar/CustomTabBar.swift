@@ -56,7 +56,9 @@ final class CustomTabBar: UIStackView {
     }
     
     private func setupHierarchy() {
-        [mainItem, analysisItem, registerItem, bookmarkItem, settingItem].forEach { self.addArrangedSubview($0) }
+        [mainItem, analysisItem, registerItem, bookmarkItem, settingItem].forEach {
+            self.addArrangedSubview($0)
+        }
     }
     
     private func setupProperties() {

@@ -8,8 +8,8 @@
 import UIKit
 
 final class KeyboardHandler {
-    private var targetView: UIView
-    private var view: UIView
+    private let targetView: UIView
+    private let view: UIView
     
     init(targetView: UIView, view: UIView) {
         self.targetView = targetView

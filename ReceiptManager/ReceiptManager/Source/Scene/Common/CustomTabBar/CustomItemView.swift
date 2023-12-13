@@ -10,10 +10,8 @@ import UIKit
 import RxSwift
 
 final class CustomItemView: UIView {
-    private let nameLabel = UILabel()
-    private let iconImageView = UIImageView()
-    private let underlineView = UIView()
-    private let containerView = UIView()
+    
+    // Properties
     
     private let item: CustomTabItem
     
@@ -25,12 +23,19 @@ final class CustomItemView: UIView {
         }
     }
     
+    // UI Properties
+    
+    private let nameLabel = UILabel()
+    private let iconImageView = UIImageView()
+    private let underlineView = UIView()
+    private let containerView = UIView()
+    
+    // Initializer
+    
     init(with item: CustomTabItem, index: Int) {
         self.item = item
         self.index = index
-        
         super.init(frame: .zero)
-        
         setupHierarchy()
         setupConstraints()
         setupProperties()
@@ -70,7 +75,7 @@ extension CustomItemView {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension CustomItemView {
     private func setupHierarchy() {
         [nameLabel, iconImageView, underlineView, containerView].forEach {

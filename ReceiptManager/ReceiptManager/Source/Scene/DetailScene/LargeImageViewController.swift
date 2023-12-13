@@ -6,12 +6,14 @@
 //
 
 import UIKit
+
 import RxCocoa
 import RxSwift
 
 final class LargeImageViewController: UIViewController {
     
     // Properties
+    
     private var disposeBag = DisposeBag()
     
     // UI Properties
@@ -59,7 +61,7 @@ final class LargeImageViewController: UIViewController {
     }
 }
 
-// MARK: - UIConstrinat
+// MARK: - UI Constraints
 extension LargeImageViewController {
     private func setupProperties(data: Data) {
         imageView.image = UIImage(data: data)

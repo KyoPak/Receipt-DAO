@@ -139,7 +139,7 @@ extension OCRResultView {
     }
 }
 
-// MARK: - UI Constraint
+// MARK: - UI Constraints
 extension OCRResultView: UITextFieldDelegate {
     private func setupHierarchy() {
         scrollView.addSubview(buttonTotalStackView)

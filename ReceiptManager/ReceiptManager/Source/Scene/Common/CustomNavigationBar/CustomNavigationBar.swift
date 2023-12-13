@@ -8,6 +8,9 @@
 import UIKit
 
 class CustomNavigationBar: UIView {
+    
+    // UI Properties
+    
     let logoView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "logo"))
         imageView.contentMode = .scaleAspectFit
@@ -33,6 +36,8 @@ class CustomNavigationBar: UIView {
         
         return stackView
     }()
+    
+    // Initializer
     
     init(title: String) {
         super.init(frame: .zero)

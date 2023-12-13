@@ -51,7 +51,7 @@ final class ImagePickerCell: UICollectionViewCell {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension ImagePickerCell {
     private func setupHierarchy() {
         contentView.addSubview(imageView)

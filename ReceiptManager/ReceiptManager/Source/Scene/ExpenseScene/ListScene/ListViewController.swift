@@ -46,7 +46,7 @@ final class ListViewController: UIViewController, View {
     
     // UI Properties
     
-    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,7 +193,7 @@ extension ListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension ListViewController {
     private func setupHierarchy() {
         view.addSubview(tableView)

@@ -89,7 +89,10 @@ final class CalendarViewReactor: Reactor {
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
                     self.loadData(by: date).flatMap { models in
-                        Observable.just(Mutation.updateExpenseDayInfos(models, self.updateDays(model: models)))
+                        Observable.just(Mutation.updateExpenseDayInfos(
+                            models,
+                            self.updateDays(model: models))
+                        )
                     }
                 )
             }

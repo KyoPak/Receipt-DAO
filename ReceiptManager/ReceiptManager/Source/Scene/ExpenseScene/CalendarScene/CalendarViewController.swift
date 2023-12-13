@@ -109,7 +109,7 @@ extension CalendarViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension CalendarViewController {
     private func configureWeekLabel() {
         for dayIndex in 0..<7 {

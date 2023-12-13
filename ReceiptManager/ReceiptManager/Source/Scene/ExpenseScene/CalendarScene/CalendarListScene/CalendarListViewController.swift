@@ -23,7 +23,7 @@ final class CalendarListViewController: UIViewController, View {
     private let dateLabel = UILabel(font: .systemFont(ofSize: 25, weight: .bold))
     private let weekDayLabel = UILabel(font: .systemFont(ofSize: 20, weight: .bold))
     private let totalAmountLabel = UILabel(font: .systemFont(ofSize: 15))
-    private var tableView = UITableView(frame: .zero, style: .plain)
+    private let tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,7 +172,7 @@ extension CalendarListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UIConstraints
+// MARK: - UI Constraints
 extension CalendarListViewController {
     private func setupHierarchy() {
         [dateLabel, weekDayLabel, totalAmountLabel, tableView].forEach(view.addSubview(_:))

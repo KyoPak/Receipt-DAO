@@ -115,7 +115,7 @@ extension ExpenseViewController {
     }
 }
 
-// MARK: - UIConstraints
+// MARK: - UI Constraints
 extension ExpenseViewController {
     private func setupChildViewController() {
         childViewController.view.removeFromSuperview()

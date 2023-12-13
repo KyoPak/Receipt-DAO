@@ -94,7 +94,7 @@ extension BottomSheetViewController {
     }
 }
 
-// MARK: - UIConstraints
+// MARK: - UI Constraints
 extension BottomSheetViewController {
     private func setupHierarchy() {
         addChild(childController)

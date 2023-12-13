@@ -385,7 +385,7 @@ extension ComposeViewController: SelectPickerImageDelegate {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension ComposeViewController {
     private func setupData(item: Receipt) {
         infoView.datePicker.date = item.receiptDate

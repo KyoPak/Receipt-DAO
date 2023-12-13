@@ -29,9 +29,11 @@ final class BookMarkViewCoordinator: Coordinator {
     }
     
     func start() {
-        let bookMarkViewReactor = BookMarkViewReactor(storage: storage, userDefaultService: userDefaultService)
+        let bookMarkViewReactor = BookMarkViewReactor(
+            storage: storage, 
+            userDefaultService: userDefaultService
+        )
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
-        
         bookMarkViewController.coordinator = self
         
         navigationController?.pushViewController(bookMarkViewController, animated: false)

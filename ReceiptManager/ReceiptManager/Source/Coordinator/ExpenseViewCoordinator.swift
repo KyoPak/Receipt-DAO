@@ -55,7 +55,10 @@ final class ExpenseViewCoordinator: Coordinator {
         ]
         
         let expenseViewReactor = ExpenseViewReactor(storage: storage, dateService: dateManageService)
-        let expenseViewController = ExpenseViewController(reactor: expenseViewReactor, childViewControllers: child)
+        let expenseViewController = ExpenseViewController(
+            reactor: expenseViewReactor,
+            childViewControllers: child
+        )
         
         expenseViewController.coordinator = self
         

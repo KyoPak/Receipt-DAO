@@ -8,6 +8,9 @@
 import UIKit
 
 final class ComposeInformationView: UIView {
+    
+    // UI Properties
+    
     let datePicker = UIDatePicker()
     private let dateLabel = UILabel(
         text: ConstantText.date.localize(),
@@ -89,6 +92,8 @@ final class ComposeInformationView: UIView {
         return segment
     }()
     
+    // Initializer
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -119,7 +124,7 @@ extension ComposeInformationView {
     }
 }
 
-// MARK: - UI Constraint
+// MARK: - UI Constraints
 extension ComposeInformationView: UITextFieldDelegate {
     private func setupView() {
         backgroundColor = ConstantColor.backGroundColor
