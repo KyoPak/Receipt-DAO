@@ -10,7 +10,7 @@
 		099FE72BBA4D0F8DA8A00B8E /* libPods-ReactorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */; };
 		3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */; };
 		3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */; };
-		3C07528E2B298E0600C58066 /* ReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C07528D2B298E0600C58066 /* ReactorTests.swift */; };
+		3C07528E2B298E0600C58066 /* ExpenseViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */; };
 		3C088A4A2B1F782500FFFB74 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */; };
 		3C0894C32A4E6AF900C6E7CD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0894C22A4E6AF900C6E7CD /* SettingViewController.swift */; };
 		3C0894C82A4E87F600C6E7CD /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0894C72A4E87F600C6E7CD /* SettingCell.swift */; };
@@ -119,7 +119,7 @@
 		3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactor.swift; sourceTree = "<group>"; };
 		3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewCoordinator.swift; sourceTree = "<group>"; };
 		3C07528B2B298E0600C58066 /* ReactorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C07528D2B298E0600C58066 /* ReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactorTests.swift; sourceTree = "<group>"; };
+		3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewReactorTests.swift; sourceTree = "<group>"; };
 		3C07529A2B298E9B00C58066 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		3C0894BF2A4DD4B300C6E7CD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -252,7 +252,7 @@
 		3C07528C2B298E0600C58066 /* ReactorTests */ = {
 			isa = PBXGroup;
 			children = (
-				3C07528D2B298E0600C58066 /* ReactorTests.swift */,
+				3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */,
 			);
 			path = ReactorTests;
 			sourceTree = "<group>";
@@ -719,7 +719,6 @@
 				3C0752872B298E0600C58066 /* Sources */,
 				3C0752882B298E0600C58066 /* Frameworks */,
 				3C0752892B298E0600C58066 /* Resources */,
-				9AEE93AF61BAC83CAB56321D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -831,23 +830,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
-		9AEE93AF61BAC83CAB56321D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactorTests/Pods-ReactorTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A65205E824D3E7509D976379 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -916,7 +898,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C07528E2B298E0600C58066 /* ReactorTests.swift in Sources */,
+				3C07528E2B298E0600C58066 /* ExpenseViewReactorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1044,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZRLFU9PV5L;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
