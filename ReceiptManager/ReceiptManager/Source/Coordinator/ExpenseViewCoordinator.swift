@@ -13,9 +13,10 @@ final class ExpenseViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
     
     init(
         outerNavigationController: UINavigationController,

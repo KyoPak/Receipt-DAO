@@ -13,9 +13,10 @@ final class CalendarListViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
     
     private let day: String
     private let weekIndex: Int

@@ -13,18 +13,16 @@ final class SettingViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
+    
+    private let userDefaultService: UserDefaultService
     
     init(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
         self.outerNavigationController = outerNavigationController
         self.navigationController = navigationController
-        self.storageService = storageService
         self.userDefaultService = userDefaultService
     }
     

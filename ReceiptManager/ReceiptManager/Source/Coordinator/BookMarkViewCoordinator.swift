@@ -13,8 +13,9 @@ final class BookMarkViewCoordinator: Coordinator {
     
     var outerNavigationController: UINavigationController
     var navigationController: UINavigationController?
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
     
     init(
         outerNavigationController: UINavigationController,

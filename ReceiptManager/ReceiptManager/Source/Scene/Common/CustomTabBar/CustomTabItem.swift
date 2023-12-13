@@ -102,7 +102,6 @@ extension CustomTabItem {
             return SettingViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storageService: storageService,
                 userDefaultService: userDefaultService
             )
         }

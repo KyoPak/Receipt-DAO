@@ -12,9 +12,11 @@ final class DetailViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var expense: Receipt
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    
+    private let expense: Receipt
     
     init(
         navigationController: UINavigationController?,
@@ -26,7 +28,6 @@ final class DetailViewCoordinator: Coordinator {
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.expense = expense
-        
     }
     
     func start() {

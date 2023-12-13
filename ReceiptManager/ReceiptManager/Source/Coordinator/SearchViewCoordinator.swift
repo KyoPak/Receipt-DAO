@@ -13,8 +13,9 @@ final class SearchViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
     
     init(
         navigationController: UINavigationController?,

@@ -12,11 +12,11 @@ final class CalendarViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
-    
     var viewController: UIViewController?
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
     
     init(
         navigationController: UINavigationController?,

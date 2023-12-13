@@ -14,9 +14,9 @@ final class MainTabBarCoordinator: Coordinator {
     var navigationController: UINavigationController?
     var window: UIWindow?
     
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
     
     init(
         window: UIWindow?,
@@ -47,7 +47,7 @@ final class MainTabBarCoordinator: Coordinator {
             )
         }
         
-        coordinators.map {
+        coordinators.forEach {
             $0.start()
             $0.parentCoordinator = self
             childCoordinators.append($0)

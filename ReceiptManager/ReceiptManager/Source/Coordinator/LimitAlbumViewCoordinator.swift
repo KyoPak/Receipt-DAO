@@ -12,18 +12,15 @@ final class LimitAlbumViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storageService: StorageService
     
-    var delegate: SelectPickerImageDelegate
-    var imageCount: Int
+    private let delegate: SelectPickerImageDelegate
+    private let imageCount: Int
     
     init(navigationController: UINavigationController?,
-         storageService: StorageService,
          delegate: SelectPickerImageDelegate,
          imageCount: Int
     ) {
         self.navigationController = navigationController
-        self.storageService = storageService
         self.delegate = delegate
         self.imageCount = imageCount
     }

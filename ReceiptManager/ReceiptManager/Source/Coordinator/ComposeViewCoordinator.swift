@@ -15,12 +15,15 @@ enum TransitionType {
 final class ComposeViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
+    
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    var storageService: StorageService
-    var userDefaultService: UserDefaultService
-    var expense: Receipt?
-    var transitionType: TransitionType
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    
+    private let expense: Receipt?
+    private let transitionType: TransitionType
     
     init(
         transitionType: TransitionType,
@@ -79,14 +82,12 @@ final class ComposeViewCoordinator: Coordinator {
         case .modal:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: innerNavigationController,
-                storageService: storageService,
                 delegate: delegate,
                 imageCount: imageCount
             )
         case .push:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: navigationController,
-                storageService: storageService,
                 delegate: delegate,
                 imageCount: imageCount
             )
