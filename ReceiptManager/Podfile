@@ -13,6 +13,7 @@ end
 
 target 'ReceiptManager' do
     pod 'RxSwift', "6.2.0"
+    pod 'RxTest'
     pod 'RxCocoa'
     pod 'RxDataSources'
     pod 'RxCoreData'

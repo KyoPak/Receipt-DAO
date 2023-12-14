@@ -20,6 +20,8 @@ PODS:
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
+  - RxTest (6.2.0):
+    - RxSwift (= 6.2.0)
   - SwiftLint (0.54.0)
   - Toast-Swift (5.0.1)
   - WeakMapTable (1.2.0)
@@ -32,6 +34,7 @@ DEPENDENCIES:
   - RxDataSources
   - RxGesture
   - RxSwift (= 6.2.0)
+  - RxTest
   - SwiftLint
   - Toast-Swift (~> 5.0.1)
 
@@ -46,6 +49,7 @@ SPEC REPOS:
     - RxGesture
     - RxRelay
     - RxSwift
+    - RxTest
     - SwiftLint
     - Toast-Swift
     - WeakMapTable
@@ -60,10 +64,11 @@ SPEC CHECKSUMS:
   RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  RxTest: 0c692fa672b694373ba86d2b00033595297a2831
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 62cf74febc19fcbf53c1618c5607148214f6569e
+PODFILE CHECKSUM: 53ee28697f30c438bcc1a8aa0c84f66be741bf3b
 
 COCOAPODS: 1.11.3
