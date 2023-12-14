@@ -36,6 +36,7 @@
 		3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */; };
 		3C4B648B2B2AD1BF00895494 /* ComposeViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */; };
 		3C4B648D2B2AE2F800895494 /* MockOCRExtractorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648C2B2AE2F800895494 /* MockOCRExtractorService.swift */; };
+		3C4B648F2B2AE5EB00895494 /* AnalysisViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
@@ -159,6 +160,7 @@
 		3C485BBE2A28912D007F7229 /* ComposeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeInformationView.swift; sourceTree = "<group>"; };
 		3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactorTests.swift; sourceTree = "<group>"; };
 		3C4B648C2B2AE2F800895494 /* MockOCRExtractorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOCRExtractorService.swift; sourceTree = "<group>"; };
+		3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewReactorTests.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				3CDD52182B29BC8200C0306A /* CalendarViewReactorTests.swift */,
 				3CDD521A2B29C93100C0306A /* SearchViewReactorTests.swift */,
 				3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */,
+				3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */,
 			);
 			path = ReactorTests;
 			sourceTree = "<group>";
@@ -940,6 +943,7 @@
 				3CDD521B2B29C93100C0306A /* SearchViewReactorTests.swift in Sources */,
 				3CDD520E2B29A15F00C0306A /* MockStoragService.swift in Sources */,
 				3CDD52102B29A4E900C0306A /* MockUserDefaultService.swift in Sources */,
+				3C4B648F2B2AE5EB00895494 /* AnalysisViewReactorTests.swift in Sources */,
 				3CDD520B2B29A0D400C0306A /* ListViewReactorTests.swift in Sources */,
 				3CDD52192B29BC8200C0306A /* CalendarViewReactorTests.swift in Sources */,
 				3C4B648D2B2AE2F800895494 /* MockOCRExtractorService.swift in Sources */,
