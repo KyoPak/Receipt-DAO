@@ -13,7 +13,6 @@ end
 
 target 'ReceiptManager' do
     pod 'RxSwift', "6.2.0"
-    pod 'RxTest'
     pod 'RxCocoa'
     pod 'RxDataSources'
     pod 'RxCoreData'
@@ -25,5 +24,6 @@ target 'ReceiptManager' do
 
     target 'ReactorTests' do
         inherit! :search_paths
+	pod 'RxTest'
     end
 end
