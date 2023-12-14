@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		099FE72BBA4D0F8DA8A00B8E /* libPods-ReactorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */; };
 		3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */; };
 		3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */; };
 		3C07528E2B298E0600C58066 /* ExpenseViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */; };
@@ -109,6 +108,7 @@
 		3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */; };
 		3CFBF7FD2B282ED50010DC83 /* OCRResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFBF7FC2B282ED50010DC83 /* OCRResultView.swift */; };
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
+		D168856F0D409C7A53D8ACB1 /* libPods-ReceiptManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */; };
 		ED3DE38DAB009749963561C1 /* libPods-ReceiptManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */; };
 /* End PBXBuildFile section */
 
@@ -128,7 +128,7 @@
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
 		3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactor.swift; sourceTree = "<group>"; };
 		3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewCoordinator.swift; sourceTree = "<group>"; };
-		3C07528B2B298E0600C58066 /* ReactorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C07528B2B298E0600C58066 /* ReceiptManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReceiptManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewReactorTests.swift; sourceTree = "<group>"; };
 		3C07529A2B298E9B00C58066 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -236,9 +236,11 @@
 		3CF8BA2C2A4D6F68002A18D0 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		3CFBF7FC2B282ED50010DC83 /* OCRResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRResultView.swift; sourceTree = "<group>"; };
 		3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCellReactor.swift; sourceTree = "<group>"; };
+		5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReceiptManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReceiptManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB860201C8411B0A311EC789 /* Pods-ReceiptManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,7 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				099FE72BBA4D0F8DA8A00B8E /* libPods-ReactorTests.a in Frameworks */,
+				D168856F0D409C7A53D8ACB1 /* libPods-ReceiptManagerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,20 +271,13 @@
 			path = Reactor;
 			sourceTree = "<group>";
 		};
-		3C07528C2B298E0600C58066 /* ReactorTests */ = {
+		3C07528C2B298E0600C58066 /* ReceiptManagerTests */ = {
 			isa = PBXGroup;
 			children = (
 				3CDD520C2B29A14F00C0306A /* MockService */,
-				3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */,
-				3CDD520A2B29A0D400C0306A /* ListViewReactorTests.swift */,
-				3CDD52112B29AFDE00C0306A /* DetailViewReactorTests.swift */,
-				3CDD52162B29B8CF00C0306A /* BookMarkViewReactorTests.swift */,
-				3CDD52182B29BC8200C0306A /* CalendarViewReactorTests.swift */,
-				3CDD521A2B29C93100C0306A /* SearchViewReactorTests.swift */,
-				3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */,
-				3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */,
+				3C47538B2B2AF9D300FE9C37 /* ReactorTest */,
 			);
-			path = ReactorTests;
+			path = ReceiptManagerTests;
 			sourceTree = "<group>";
 		};
 		3C0894C12A4E6ABB00C6E7CD /* SettingScene */ = {
@@ -308,7 +303,7 @@
 			children = (
 				3CDCDC4429FBDF1200C2BEF6 /* .swiftlint.yml */,
 				3C2E18D429FBCC5F00E8E9C6 /* ReceiptManager */,
-				3C07528C2B298E0600C58066 /* ReactorTests */,
+				3C07528C2B298E0600C58066 /* ReceiptManagerTests */,
 				3C2E18D329FBCC5F00E8E9C6 /* Products */,
 				509C9D2BD38C0C0C30B6576A /* Pods */,
 				D6255115A5FD15DD264D6C70 /* Frameworks */,
@@ -319,7 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				3C2E18D229FBCC5F00E8E9C6 /* ReceiptManager.app */,
-				3C07528B2B298E0600C58066 /* ReactorTests.xctest */,
+				3C07528B2B298E0600C58066 /* ReceiptManagerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -365,6 +360,21 @@
 				3C4405C32B049F920005BA4C /* SearchViewReactor.swift */,
 			);
 			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3C47538B2B2AF9D300FE9C37 /* ReactorTest */ = {
+			isa = PBXGroup;
+			children = (
+				3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */,
+				3CDD520A2B29A0D400C0306A /* ListViewReactorTests.swift */,
+				3CDD52112B29AFDE00C0306A /* DetailViewReactorTests.swift */,
+				3CDD52162B29B8CF00C0306A /* BookMarkViewReactorTests.swift */,
+				3CDD52182B29BC8200C0306A /* CalendarViewReactorTests.swift */,
+				3CDD521A2B29C93100C0306A /* SearchViewReactorTests.swift */,
+				3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */,
+				3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */,
+			);
+			path = ReactorTest;
 			sourceTree = "<group>";
 		};
 		3C4EBB532A519261004E6C93 /* SearchScene */ = {
@@ -732,6 +742,8 @@
 				0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */,
 				61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */,
 				092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */,
+				5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */,
+				CB860201C8411B0A311EC789 /* Pods-ReceiptManagerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -740,8 +752,8 @@
 			isa = PBXGroup;
 			children = (
 				3C07529A2B298E9B00C58066 /* RxSwift.framework */,
-				DCE49F10B1EC1BD7C41BD2BD /* libPods-ReactorTests.a */,
 				5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */,
+				B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -749,9 +761,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3C07528A2B298E0600C58066 /* ReactorTests */ = {
+		3C07528A2B298E0600C58066 /* ReceiptManagerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReactorTests" */;
+			buildConfigurationList = 3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReceiptManagerTests" */;
 			buildPhases = (
 				A65205E824D3E7509D976379 /* [CP] Check Pods Manifest.lock */,
 				3C0752872B298E0600C58066 /* Sources */,
@@ -763,9 +775,9 @@
 			dependencies = (
 				3C0752902B298E0600C58066 /* PBXTargetDependency */,
 			);
-			name = ReactorTests;
+			name = ReceiptManagerTests;
 			productName = ReactorTests;
-			productReference = 3C07528B2B298E0600C58066 /* ReactorTests.xctest */;
+			productReference = 3C07528B2B298E0600C58066 /* ReceiptManagerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		3C2E18D129FBCC5F00E8E9C6 /* ReceiptManager */ = {
@@ -823,7 +835,7 @@
 			projectRoot = "";
 			targets = (
 				3C2E18D129FBCC5F00E8E9C6 /* ReceiptManager */,
-				3C07528A2B298E0600C58066 /* ReactorTests */,
+				3C07528A2B298E0600C58066 /* ReceiptManagerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -883,7 +895,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactorTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ReceiptManagerTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1086,7 +1098,7 @@
 /* Begin XCBuildConfiguration section */
 		3C0752912B298E0600C58066 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */;
+			baseConfigurationReference = 5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1111,7 +1123,7 @@
 		};
 		3C0752922B298E0600C58066 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */;
+			baseConfigurationReference = CB860201C8411B0A311EC789 /* Pods-ReceiptManagerTests.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1329,7 +1341,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReactorTests" */ = {
+		3C0752932B298E0600C58066 /* Build configuration list for PBXNativeTarget "ReceiptManagerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C0752912B298E0600C58066 /* Debug */,

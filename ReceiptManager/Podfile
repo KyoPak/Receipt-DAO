@@ -22,7 +22,7 @@ target 'ReceiptManager' do
     pod 'RxGesture'
     pod 'Toast-Swift', '~> 5.0.1'
 
-    target 'ReactorTests' do
+    target 'ReceiptManagerTests' do
         inherit! :search_paths
 	pod 'RxTest'
     end
