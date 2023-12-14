@@ -7,9 +7,11 @@
 
 import XCTest
 import RxSwift
+import RxTest
 @testable import ReceiptManager
 
 final class DetailViewReactorTests: XCTestCase {
+    private let disposeBag = DisposeBag()
     private var mockStorageService: StorageService!
     private var mockUserDefaultService: UserDefaultService!
     private var mockDateService: DateManageService!
@@ -46,6 +48,7 @@ final class DetailViewReactorTests: XCTestCase {
     
     func test_shareButtonTappedAction() {
         // Given
+        let scheduler = TestScheduler(initialClock: .zero)
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
@@ -54,15 +57,25 @@ final class DetailViewReactorTests: XCTestCase {
             item: mockExpense
         )
         
-        // When
-        reactor.action.onNext(.shareButtonTapped)
+        // When - Virtual Time 100에 이벤트 방출
+        scheduler
+            .createHotObservable([
+                .next(100, .shareButtonTapped)
+            ])
+            .subscribe(reactor.action)
+            .disposed(by: disposeBag)
         
-        // Then
-        XCTAssertEqual(reactor.currentState.shareExpense, nil)
+        // Then - Virtual Time 0에 created, subscribe 시행
+        let response = scheduler.start(created: 0, subscribed: 0, disposed: 1000) {
+            reactor.state.map { $0.shareExpense }
+        }
+        
+        XCTAssertEqual(response.events.compactMap { $0.value.element }, [nil, mockExpense.receiptData, nil])
     }
     
     func test_editAction() {
         // Given
+        let scheduler = TestScheduler(initialClock: .zero)
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
@@ -71,15 +84,25 @@ final class DetailViewReactorTests: XCTestCase {
             item: mockExpense
         )
         
-        // When
-        reactor.action.onNext(.edit)
+        // When - Virtual Time 100에 이벤트 방출
+        scheduler
+            .createHotObservable([
+                .next(100, .edit)
+            ])
+            .subscribe(reactor.action)
+            .disposed(by: disposeBag)
         
-        // Then
-        XCTAssertEqual(reactor.currentState.editExpense, nil)
+        // Then - Virtual Time 0에 created, subscribe 시행
+        let response = scheduler.start(created: 0, subscribed: 0, disposed: 1000) {
+            reactor.state.map { $0.editExpense }
+        }
+        
+        XCTAssertEqual(response.events.compactMap { $0.value.element }, [nil, mockExpense, nil])
     }
     
     func test_deleteAction() {
         // Given
+        let scheduler = TestScheduler(initialClock: .zero)
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
@@ -89,15 +112,25 @@ final class DetailViewReactorTests: XCTestCase {
         )
         
         // When
-        reactor.action.onNext(.delete)
+        /// Virtual Time 100에 이벤트 방출
+        scheduler
+            .createHotObservable([
+                .next(100, .delete)
+            ])
+            .subscribe(reactor.action)
+            .disposed(by: disposeBag)
         
-        // Then
-        XCTAssertFalse(reactor.currentState.deleteExpense == nil)
+        // Then - Virtual Time 0에 created, subscribe 시행
+        let response = scheduler.start(created: 0, subscribed: 0, disposed: 1000) {
+            reactor.state.map { $0.deleteExpense }
+        }
+        
+        XCTAssertEqual(response.events.compactMap { $0.value.element }.count, 2)
     }
 }
 
 private extension Receipt {
     static func mockExpense() -> Receipt {
-        return Receipt(store: "테스트", priceText: "100000", product: "테스트Product")
+        return Receipt(store: "테스트", priceText: "100000", product: "테스트Product", receiptData: [Data()])
     }
 }
