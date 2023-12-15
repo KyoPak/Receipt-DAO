@@ -44,7 +44,12 @@ final class DetailViewReactor: Reactor {
     
     // Initializer
     
-    init(title: String, storageService: StorageService, userDefaultService: UserDefaultService, item: Receipt) {
+    init(
+        title: String,
+        storageService: StorageService,
+        userDefaultService: UserDefaultService,
+        item: Receipt
+    ) {
         self.storageService = storageService
         self.userDefaultService = userDefaultService
        

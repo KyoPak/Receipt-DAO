@@ -40,7 +40,8 @@ final class ListViewCoordinator: Coordinator {
         listViewController.coordinator = self
         viewController = listViewController
         
-        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last else {
+        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last
+        else {
             return
         }
         parentViewController.addChild(listViewController)

@@ -56,7 +56,10 @@ final class ComposeViewCoordinator: Coordinator {
         case .modal:
             subNavigationController?.setViewControllers([composeViewController], animated: true)
             subNavigationController?.modalPresentationStyle = .fullScreen
-            mainNavigationController?.present(subNavigationController ?? UINavigationController(), animated: true)
+            mainNavigationController?.present(
+                subNavigationController ?? UINavigationController(),
+                animated: true
+            )
             
         case .push:
             mainNavigationController?.pushViewController(composeViewController, animated: true)

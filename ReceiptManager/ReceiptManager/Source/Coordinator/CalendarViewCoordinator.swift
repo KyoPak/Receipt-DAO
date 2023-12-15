@@ -42,7 +42,8 @@ final class CalendarViewCoordinator: Coordinator {
         calendarViewContoller.coordinator = self
         viewController = calendarViewContoller
         
-        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last else {
+        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last 
+        else {
             return
         }
         parentViewController.addChild(calendarViewContoller)
