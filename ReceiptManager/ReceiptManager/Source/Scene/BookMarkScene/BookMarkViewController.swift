@@ -19,7 +19,7 @@ final class BookMarkViewController: UIViewController, View {
     typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSectionModel>
     
     private lazy var dataSource: TableViewDataSource = {
-        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, receipt in
+        let dataSource = TableViewDataSource { [weak self] dataSource, tableView, indexPath, receipt in
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: ListTableViewCell.identifier, for: indexPath
             ) as? ListTableViewCell else {
@@ -29,7 +29,7 @@ final class BookMarkViewController: UIViewController, View {
             
             cell.reactor = ListTableViewCellReactor(
                 expense: receipt,
-                userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+                userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
             )
             return cell
         }
