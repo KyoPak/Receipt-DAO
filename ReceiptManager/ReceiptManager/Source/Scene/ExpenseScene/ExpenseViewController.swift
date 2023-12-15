@@ -63,7 +63,10 @@ extension ExpenseViewController {
     private func bindView() {
         navigationBar.searchButton.rx.tap
             .throttle(.milliseconds(300), latest: false, scheduler: MainScheduler.instance)
-            .bind { self.coordinator?.moveSearchView() }
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.coordinator?.moveSearchView()
+            }
             .disposed(by: disposeBag)
     }
     
@@ -93,14 +96,15 @@ extension ExpenseViewController {
     private func bindState(_ reactor: ExpenseViewReactor) {
         reactor.state.map { $0.showMode }
             .distinctUntilChanged()
-            .bind { mode in
+            .withUnretained(self)
+            .bind { (owner, mode) in
                 self.navigationBar.changShowModeButton(mode)
                 
                 switch mode {
                 case .list:
-                    self.childViewController = self.children[0]
+                    owner.childViewController = owner.children[0]
                 case .calendar:
-                    self.childViewController = self.children[1]
+                    owner.childViewController = owner.children[1]
                 }
                 
                 self.setupChildViewController()
@@ -108,10 +112,8 @@ extension ExpenseViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dateToShow }
-            .asDriver(onErrorJustReturn: Date())
-            .drive(onNext: { date in
-                self.monthControlView.monthLabel.text = DateFormatter.string(from: date)
-            })
+            .map { DateFormatter.string(from: $0) }
+            .bind(to: monthControlView.monthLabel.rx.text)
             .disposed(by: disposeBag)
     }
 }

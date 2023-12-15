@@ -54,13 +54,15 @@ final class CalendarCell: UICollectionViewCell, View {
 extension CalendarCell {
     private func bindState(_ reactor: CalendarCellReactor) {
         reactor.state
-            .bind { self.setupData(
-                day: $0.day,
-                count: $0.count,
-                amount: $0.amount,
-                isToday: $0.isToday,
-                currencyIndex: $0.currencyIndex
-            )}
+            .withUnretained(self)
+            .bind { (owner, state) in
+                owner.setupData(
+                    day: state.day,
+                    count: state.count,
+                    amount: state.amount,
+                    isToday: state.isToday,
+                    currencyIndex: state.currencyIndex
+                )}
             .disposed(by: disposeBag)
     }
     
