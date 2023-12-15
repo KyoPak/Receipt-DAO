@@ -57,8 +57,10 @@ final class SettingCell: UITableViewCell {
     
     private func bind() {
         currencySegmented.rx.selectedSegmentIndex
-            .asDriver(onErrorJustReturn: .zero)
-            .drive { self.delegate?.segmentDelegate(index: $0) }
+            .withUnretained(self)
+            .bind { (owner, index) in
+                owner.delegate?.segmentDelegate(index: index)
+            }
             .disposed(by: disposeBag)
     }
 }

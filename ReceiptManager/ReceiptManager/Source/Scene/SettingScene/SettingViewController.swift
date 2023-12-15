@@ -19,7 +19,7 @@ final class SettingViewController: UIViewController, View {
     typealias TableViewDataSource = RxTableViewSectionedReloadDataSource<SettingSection>
     
     private lazy var dataSource: TableViewDataSource = {
-        let dataSource = TableViewDataSource { dataSource, tableView, indexPath, item in
+        let dataSource = TableViewDataSource { [weak self] dataSource, tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SettingCell.identifier,
                 for: indexPath
@@ -28,7 +28,7 @@ final class SettingViewController: UIViewController, View {
             }
             
             if indexPath.section == .zero {
-                cell.setupSegment(index: self.reactor?.currentState.currencyIndex ?? .zero)
+                cell.setupSegment(index: self?.reactor?.currentState.currencyIndex ?? .zero)
                 cell.delegate = self
             }
             
@@ -97,8 +97,11 @@ extension SettingViewController {
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .do { self.tableView.deselectRow(at: $0, animated: false) }
-            .map { Reactor.Action.cellSelect($0) }
+            .withUnretained(self)
+            .do(onNext: { (owner, indexPath) in
+                owner.tableView.deselectRow(at: indexPath, animated: false)
+            })
+            .map { Reactor.Action.cellSelect($01) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
