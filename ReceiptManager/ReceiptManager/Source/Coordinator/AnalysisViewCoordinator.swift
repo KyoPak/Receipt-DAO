@@ -11,20 +11,20 @@ final class AnalysisViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var outerNavigationController: UINavigationController
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     
     init(
-        outerNavigationController: UINavigationController,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
+        subNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
-        self.outerNavigationController = outerNavigationController
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
+        self.subNavigationController = subNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
     }
@@ -38,6 +38,6 @@ final class AnalysisViewCoordinator: Coordinator {
         
         analysisViewController.coordinator = self
         
-        navigationController?.pushViewController(analysisViewController, animated: false)
+        subNavigationController?.pushViewController(analysisViewController, animated: false)
     }
 }

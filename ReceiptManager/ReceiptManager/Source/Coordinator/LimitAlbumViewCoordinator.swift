@@ -11,7 +11,8 @@ final class LimitAlbumViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let delegate: SelectPickerImageDelegate
     private let imageCount: Int
@@ -20,7 +21,7 @@ final class LimitAlbumViewCoordinator: Coordinator {
          delegate: SelectPickerImageDelegate,
          imageCount: Int
     ) {
-        self.navigationController = navigationController
+        self.mainNavigationController = navigationController
         self.delegate = delegate
         self.imageCount = imageCount
     }
@@ -33,6 +34,6 @@ final class LimitAlbumViewCoordinator: Coordinator {
         let innerNavigationController = UINavigationController(rootViewController: limitAlbumViewController)
         innerNavigationController.modalPresentationStyle = .fullScreen
         
-        navigationController?.present(innerNavigationController, animated: true)
+        mainNavigationController?.present(innerNavigationController, animated: true)
     }
 }

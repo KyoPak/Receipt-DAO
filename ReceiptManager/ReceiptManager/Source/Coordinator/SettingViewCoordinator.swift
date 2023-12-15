@@ -11,18 +11,18 @@ final class SettingViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var outerNavigationController: UINavigationController
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let userDefaultService: UserDefaultService
     
     init(
-        outerNavigationController: UINavigationController,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
+        subNavigationController: UINavigationController,
         userDefaultService: UserDefaultService
     ) {
-        self.outerNavigationController = outerNavigationController
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
+        self.subNavigationController = subNavigationController
         self.userDefaultService = userDefaultService
     }
     
@@ -32,6 +32,6 @@ final class SettingViewCoordinator: Coordinator {
         
         settingViewController.coordinator = self
         
-        navigationController?.pushViewController(settingViewController, animated: false)
+        subNavigationController?.pushViewController(settingViewController, animated: false)
     }
 }

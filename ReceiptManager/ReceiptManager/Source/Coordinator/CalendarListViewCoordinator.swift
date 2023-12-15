@@ -11,8 +11,8 @@ final class CalendarListViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
-    var innerNavigationController: UINavigationController
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
@@ -22,21 +22,21 @@ final class CalendarListViewCoordinator: Coordinator {
     private let weekIndex: Int
     
     init(
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService,
         day: String,
         index: Int
     ) {
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
         
         self.day = day
         weekIndex = index
-        innerNavigationController = UINavigationController()
+        subNavigationController = UINavigationController()
     }
     
     func start() {
@@ -56,16 +56,18 @@ final class CalendarListViewCoordinator: Coordinator {
             bottomHeightRatio: 0.7
         )
         
-        innerNavigationController.setViewControllers([bottomSheetViewController], animated: true)
+        subNavigationController?.setViewControllers([bottomSheetViewController], animated: true)
         
-        innerNavigationController.modalPresentationStyle = .overFullScreen
+        subNavigationController?.modalPresentationStyle = .overFullScreen
         
-        navigationController?.present(innerNavigationController, animated: true)
+        mainNavigationController?.present(subNavigationController ?? UINavigationController(), animated: true)
     }
-    
+}
+
+extension CalendarListViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
-            navigationController: innerNavigationController,
+            mainNavigationController: subNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense

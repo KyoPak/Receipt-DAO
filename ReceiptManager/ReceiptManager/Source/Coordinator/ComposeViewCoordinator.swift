@@ -16,8 +16,8 @@ final class ComposeViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
-    var innerNavigationController: UINavigationController
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
@@ -27,17 +27,17 @@ final class ComposeViewCoordinator: Coordinator {
     
     init(
         transitionType: TransitionType,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.expense = expense
-        self.innerNavigationController = UINavigationController()
+        self.subNavigationController = UINavigationController()
     }
     
     func start() {
@@ -54,12 +54,12 @@ final class ComposeViewCoordinator: Coordinator {
         
         switch transitionType {
         case .modal:
-            innerNavigationController.setViewControllers([composeViewController], animated: true)
-            innerNavigationController.modalPresentationStyle = .fullScreen
-            navigationController?.present(innerNavigationController, animated: true)
+            subNavigationController?.setViewControllers([composeViewController], animated: true)
+            subNavigationController?.modalPresentationStyle = .fullScreen
+            mainNavigationController?.present(subNavigationController ?? UINavigationController(), animated: true)
             
         case .push:
-            navigationController?.pushViewController(composeViewController, animated: true)
+            mainNavigationController?.pushViewController(composeViewController, animated: true)
         }
     }
     
@@ -71,23 +71,25 @@ final class ComposeViewCoordinator: Coordinator {
             controller.navigationController?.dismiss(animated: true)
         
         case .push:
-            navigationController?.popViewController(animated: true)
+            mainNavigationController?.popViewController(animated: true)
         }
     }
-    
+}
+
+extension ComposeViewCoordinator {
     func presentLimitAlbumView(delegate: SelectPickerImageDelegate, imageCount: Int) {
         let limitAlbumViewCoordinator: LimitAlbumViewCoordinator
         
         switch transitionType {
         case .modal:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
-                navigationController: innerNavigationController,
+                navigationController: subNavigationController,
                 delegate: delegate,
                 imageCount: imageCount
             )
         case .push:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
-                navigationController: navigationController,
+                navigationController: mainNavigationController,
                 delegate: delegate,
                 imageCount: imageCount
             )

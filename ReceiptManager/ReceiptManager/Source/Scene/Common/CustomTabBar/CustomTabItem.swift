@@ -66,8 +66,8 @@ extension CustomTabItem {
     }
     
     func initialCoordinator(
-        outerNavigationController: UINavigationController,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
+        subNavigationController: UINavigationController,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
@@ -75,8 +75,8 @@ extension CustomTabItem {
         switch self {
         case .main:
             return ExpenseViewCoordinator(
-                outerNavigationController: outerNavigationController,
-                navigationController: navigationController,
+                mainNavigationController: mainNavigationController,
+                subNavigationController: subNavigationController,
                 storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
@@ -84,24 +84,24 @@ extension CustomTabItem {
             
         case .analysis:
             return AnalysisViewCoordinator(
-                outerNavigationController: outerNavigationController,
-                navigationController: navigationController,
+                mainNavigationController: mainNavigationController,
+                subNavigationController: subNavigationController,
                 storageService: storageService,
                 userDefaultService: userDefaultService
             )
         
         case .bookmark:
             return BookMarkViewCoordinator(
-                outerNavigationController: outerNavigationController,
-                navigationController: navigationController,
+                mainNavigationController: mainNavigationController,
+                subNavigationController: subNavigationController,
                 storageService: storageService,
                 userDefaultService: userDefaultService
             )
             
         case .setting:
             return SettingViewCoordinator(
-                outerNavigationController: outerNavigationController,
-                navigationController: navigationController,
+                mainNavigationController: mainNavigationController,
+                subNavigationController: subNavigationController,
                 userDefaultService: userDefaultService
             )
         }

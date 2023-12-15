@@ -11,8 +11,9 @@ final class MainTabBarCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
     var window: UIWindow?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
@@ -20,6 +21,7 @@ final class MainTabBarCoordinator: Coordinator {
     
     init(
         window: UIWindow?,
+        mainNavigationController: UINavigationController,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
@@ -28,19 +30,19 @@ final class MainTabBarCoordinator: Coordinator {
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
-        self.navigationController = UINavigationController()
+        self.mainNavigationController = mainNavigationController
     }
     
     func start() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        mainNavigationController?.setNavigationBarHidden(true, animated: false)
         
         let tabBarController = CustomTabBarController()
         tabBarController.coordinator = self
         
         let coordinators = CustomTabItem.allCases.map {
             $0.initialCoordinator(
-                outerNavigationController: navigationController ?? UINavigationController(),
-                navigationController: UINavigationController(),
+                mainNavigationController: mainNavigationController,
+                subNavigationController: UINavigationController(),
                 storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
@@ -53,17 +55,19 @@ final class MainTabBarCoordinator: Coordinator {
             childCoordinators.append($0)
         }
         
-        let controllers = coordinators.map { $0.navigationController ?? UINavigationController() }
+        let controllers = coordinators.map { $0.subNavigationController ?? UINavigationController() }
         tabBarController.setViewControllers(controllers, animated: false)
         
-        navigationController?.setViewControllers([tabBarController], animated: true)
-        window?.rootViewController = navigationController
+        mainNavigationController?.setViewControllers([tabBarController], animated: true)
+        window?.rootViewController = mainNavigationController
     }
-    
+}
+
+extension MainTabBarCoordinator {
     func showRegister() {
         let coordinator = ComposeViewCoordinator(
             transitionType: .modal,
-            navigationController: navigationController,
+            mainNavigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: nil

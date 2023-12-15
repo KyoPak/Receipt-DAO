@@ -32,6 +32,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let mainTabBarCoordinator = MainTabBarCoordinator(
                 window: window,
+                mainNavigationController: UINavigationController(),
                 storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService

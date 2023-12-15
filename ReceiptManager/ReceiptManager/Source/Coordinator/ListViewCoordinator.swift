@@ -11,7 +11,9 @@ final class ListViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
+    
     var viewController: UIViewController?
     
     private let storageService: StorageService
@@ -38,12 +40,14 @@ final class ListViewCoordinator: Coordinator {
         listViewController.coordinator = self
         viewController = listViewController
         
-        guard let parentViewController = parentCoordinator?.navigationController?.viewControllers.last else {
+        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last else {
             return
         }
         parentViewController.addChild(listViewController)
     }
-    
+}
+
+extension ListViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let expenseViewCoordinator = parentCoordinator as? ExpenseViewCoordinator
         

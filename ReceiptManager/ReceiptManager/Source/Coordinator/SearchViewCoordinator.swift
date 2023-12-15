@@ -11,21 +11,21 @@ final class SearchViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
-    var innerNavigationController: UINavigationController
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     
     init(
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
-        self.innerNavigationController = UINavigationController()
+        self.subNavigationController = UINavigationController()
     }
     
     func start() {
@@ -34,16 +34,18 @@ final class SearchViewCoordinator: Coordinator {
             userDefaultService: userDefaultService
         )
         let searchViewController = SearchViewController(reactor: searchViewReactor)
-        innerNavigationController.setViewControllers([searchViewController], animated: true)
+        subNavigationController?.setViewControllers([searchViewController], animated: true)
         searchViewController.coordinator = self
             
-        innerNavigationController.modalPresentationStyle = .fullScreen
-        navigationController?.present(innerNavigationController, animated: true)
+        subNavigationController?.modalPresentationStyle = .fullScreen
+        mainNavigationController?.present(subNavigationController ?? UINavigationController(), animated: true)
     }
-    
+}
+
+extension SearchViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
-            navigationController: innerNavigationController,
+            mainNavigationController: subNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense
