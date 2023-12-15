@@ -54,9 +54,4 @@ final class SearchViewCoordinator: Coordinator {
         
         detailViewCoordinator.start()
     }
-    
-    func close(_ controller: UIViewController) {
-        removeChild(self)
-        controller.dismiss(animated: true)
-    }
 }
