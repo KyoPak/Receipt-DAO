@@ -53,11 +53,11 @@ final class CalendarListViewCoordinator: Coordinator {
         
         let bottomSheetViewController = BottomSheetViewController(
             controller: calendarListViewController,
-            bottomHeightRatio: 0.7
+            bottomHeightRatio: 0.7,
+            delegate: calendarListViewController
         )
         
         subNavigationController?.setViewControllers([bottomSheetViewController], animated: true)
-        
         subNavigationController?.modalPresentationStyle = .overFullScreen
         
         mainNavigationController?.present(subNavigationController ?? UINavigationController(), animated: true)
