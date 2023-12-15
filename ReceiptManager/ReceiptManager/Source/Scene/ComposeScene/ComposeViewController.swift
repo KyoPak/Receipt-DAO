@@ -83,6 +83,13 @@ final class ComposeViewController: UIViewController, View {
         )
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParent {
+            coordinator?.removeChild(coordinator)
+        }
+    }
+    
     // Initializer
     
     init(reactor: ComposeViewReactor) {
@@ -106,16 +113,14 @@ final class ComposeViewController: UIViewController, View {
 extension ComposeViewController {
     private func bindView() {
         rx.methodInvoked(#selector(touchesBegan))
-            .asDriver(onErrorJustReturn: [])
-            .drive { _ in
-                self.view.endEditing(true)
+            .bind { [weak self] _ in
+                self?.view.endEditing(true)
             }
             .disposed(by: disposeBag)
             
         memoTextView.rx.text
-            .asDriver(onErrorJustReturn: "")
             .map { return $0 != "" }
-            .drive { self.placeHoderLabel.isHidden = $0 }
+            .bind(to: placeHoderLabel.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
@@ -148,7 +153,10 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         registerButton.rx.tap
-            .map { Reactor.Action.registerButtonTapped(self.convertSaveExpense()) }
+            .withUnretained(self)
+            .map { (owner, _) in
+                return Reactor.Action.registerButtonTapped(owner.convertSaveExpense())
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -160,10 +168,11 @@ extension ComposeViewController {
             
     private func bindState(_ reactor: ComposeViewReactor) {
         reactor.state.map { $0.transitionType }
-            .bind { type in
+            .withUnretained(self)
+            .bind { (owner, type) in
                 switch type {
-                case .push:     self.setupNavigationBar()
-                case .modal:    self.setupModalNavigationBar()
+                case .push:     owner.setupNavigationBar()
+                case .modal:    owner.setupModalNavigationBar()
                 }
             }
             .disposed(by: disposeBag)
@@ -173,31 +182,31 @@ extension ComposeViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense }
+            .withUnretained(self)
             .take(1)
-            .asDriver(onErrorJustReturn: nil)
-            .compactMap { $0 }
-            .do { self.placeHoderLabel.isHidden = !$0.memo.isEmpty }
-            .drive { self.setupData(item: $0) }
+            .bind { (owner, expense) in
+                owner.placeHoderLabel.isHidden = !expense.memo.isEmpty
+                owner.setupData(item: expense)
+            }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.priceText }
-            .asDriver(onErrorJustReturn: "")
-            .drive { self.infoView.priceTextField.text = $0 }
+            .bind(to: infoView.priceTextField.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.imageAppendEnable }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .filter { $0 }
-            .drive { _ in
-                self.showAccessAlbumAlert()
+            .drive { [weak self] _ in
+                self?.showAccessAlbumAlert()
             }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.registerdImageDatas }
             .asDriver(onErrorJustReturn: [])
             .drive(collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
-            ) { indexPath, data, cell in
+            ) { [weak self] indexPath, data, cell in
                 cell.delegate = self
                 cell.setupCountLabel(reactor.currentState.registerdImageDatas.count)
                 cell.setupHidden(isFirstCell: indexPath == .zero)
@@ -210,7 +219,8 @@ extension ComposeViewController {
         reactor.state.map { $0.successExpenseRegister }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .drive { _ in
+            .drive { [weak self] _ in
+                guard let self = self else { return }
                 self.coordinator?.close(self)
             }
             .disposed(by: disposeBag)
@@ -218,9 +228,10 @@ extension ComposeViewController {
         reactor.state.map { $0.ocrResult }
             .distinctUntilChanged()
             .compactMap { $0 }
-            .bind { texts in
-                self.ocrResultView.setupButton(texts: texts)
-                self.setupOCRView()
+            .withUnretained(self)
+            .bind { (owner, texts) in
+                owner.ocrResultView.setupButton(texts: texts)
+                owner.setupOCRView()
             }
             .disposed(by: disposeBag)
     }
@@ -270,7 +281,9 @@ extension ComposeViewController {
 // MARK: - UploadImageCell and Confirm Auth
 extension ComposeViewController: CameraAlbumAccessAlertPresentable {
     func openAlbum() {
-        requestPHPhotoLibraryAuthorization { authorizationStatus in
+        requestPHPhotoLibraryAuthorization { [weak self] authorizationStatus in
+            guard let self = self else {return }
+            
             switch authorizationStatus {
             case .authorized:
                 var configuration = PHPickerConfiguration()
