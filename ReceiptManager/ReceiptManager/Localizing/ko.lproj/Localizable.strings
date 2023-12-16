@@ -6,15 +6,17 @@
   
 */
 
-"appName" = "영수증 다오";
+"appName" = "다오";
 
-"list" = "내 영수증";
+"list" = "나의 지출";
 "bookMark" = "즐겨찾기";
 "clearBookMark" = "즐겨찾기 해제";
-"register" = "등록하기";
+"registerTitle" = "등록하기";
+"editTitle" = "수정하기";
 "input" = "입력";
 
-"shortRegister" = "등록";
+"detail" = "지출 상세";
+
 "selectImage" = "선택한 이미지";
 "selectButton" = "더 많은 사진 선택";
 "save" = "저장";
@@ -35,7 +37,7 @@
 "cash" = "현금";
 "card" = "카드";
 "memo" = "간단한 메모를 작성해보세요.";
-"noPicture" = "등록된 사진이 없습니다.";
+"imageCount %@" = "등록된 사진은 %@건입니다.";
 
 "album" = "앨범";
 "camera" = "카메라";
@@ -52,7 +54,8 @@
 "need %@ AccessAuthText" = "%@에 접근하여 사진을 사용할 수 있도록 허용해주세요.";
 "receiptImage" = "영수증 사진";
 "dateFormatMonth" = "yyyy년 MM월";
-"dateFormatDay" = "yyyy년 MM월 dd일";
+"dateFormatFull" = "yyyy년 MM월 dd일";
+"dateFormatDay" = "dd일";
 "mainReceiptCount %d" = "영수증은 %d건 입니다.";
 
 "setting" = "설정";
@@ -64,3 +67,22 @@
 
 "mailSubject" = "[영수증 다오] 의견 글";
 "mailBody" = "안녕하세요.\n 영수증 다오를 이용해주셔서 감사합니다. \n항상 사용자의 의견을 소중히 생각하고 있습니다.\n아래의 항목 중 해당하는 내용을 선택하시거나 자유롭게 의견을 작성해주시면 감사하겠습니다.\n\n 1. 의견:\n[사용자 의견을 작성해주세요]\n2. 오류:\n[오류 내용을 작성해주세요]\n3. 그 외:\n[원하시는 내용을 작성해주세요]\n\n\n감사합니다.";
+"case" = "건";
+
+"sunDayModel" = "일";
+"monDayModel" = "월";
+"tuesDayModel" = "화";
+"wednesDayModel" = "수";
+"thursDayModel" = "목";
+"friDayModel" = "금";
+"saturDayModel" = "토";
+
+"sunDay" = "일요일";
+"monDay" = "월요일";
+"tuesDay" = "화요일";
+"wednesDay" = "수요일";
+"thursDay" = "목요일";
+"friDay" = "금요일";
+"saturDay" = "토요일";
+
+"amountByDay %@" = "일일 지출 - %@";

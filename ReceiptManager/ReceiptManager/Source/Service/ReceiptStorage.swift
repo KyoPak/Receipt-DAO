@@ -8,13 +8,15 @@
 import RxSwift
 
 protocol ReceiptStorage {
+    var updateEvent: PublishSubject<Receipt> { get }
+    
     func sync()
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt>
     
     @discardableResult
-    func fetch(type: FetchType) -> Observable<[ReceiptSectionModel]>
+    func fetch() -> Observable<[Receipt]>
     
     @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt>

@@ -22,8 +22,10 @@ enum ConstantText {
     static let myEmail = "hyosing92@gmail.com"
     static let mailSubject = "mailSubject"
     static let mailBody = "mailBody"
-    
     static let appID = "6449433216"
+    
+    // View Title
+    static let detail = "detail"
     
     // MARK: - UserDefault Key
     static let currencyKey = "CurrencyType"
@@ -34,10 +36,10 @@ enum ConstantText {
     static let list = "list"
     static let bookMark = "bookMark"
     static let clearBookMark = "clearBookMark"
-    static let register = "register"
+    static let registerTitle = "registerTitle"
+    static let editTitle = "editTitle"
     static let input = "input"
     
-    static let shortRegister = "shortRegister"
     static let selectImage = "selectImage"
     static let selectButton = "selectButton"
     static let save = "save"
@@ -58,7 +60,7 @@ enum ConstantText {
     static let cash = "cash"
     static let card = "card"
     static let memo = "memo"
-    static let noPicture = "noPicture"
+    static let imageCountText = "imageCount %@"
     
     static let album = "album"
     static let camera = "camera"
@@ -76,8 +78,10 @@ enum ConstantText {
     static let receiptImage = "receiptImage"
     
     static let dateFormatMonth = "dateFormatMonth"
+    static let dateFormatFull = "dateFormatFull"
     static let dateFormatDay = "dateFormatDay"
     static let mainReceiptCount = "mainReceiptCount %d"
+    
     static let setting = "setting"
     
     static let currencySettingSection = "currencySettingSection"
@@ -85,4 +89,13 @@ enum ConstantText {
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
+    
+    static let caseText = "case"
+    
+    // MARK: - Day Of Week
+    static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel", 
+                               "wednesDayModel", "thursDayModel", "friDayModel", "saturDayModel"]
+    static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
+    
+    static let amountByDay = "amountByDay %@"
 }

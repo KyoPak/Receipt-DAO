@@ -6,15 +6,17 @@
   
 */
 
-"appName" = "Give Me A Receipt";
+"appName" = "MoneyMemory";
 
-"list" = "My Receipt";
+"list" = "My Expense";
 "bookMark" = "BookMark";
 "clearBookMark" = "Unimportant";
-"register" = "Register";
+"registerTitle" = "Register";
+"editTitle" = "Edit";
 "input" = "Fill";
 
-"shortRegister" = "Register";
+"detail" = "Detail";
+
 "selectImage" = "Selected image";
 "selectButton" = "Select more photos";
 "save" = "Save";
@@ -35,7 +37,7 @@
 "cash" = "Cash";
 "card" = "Card";
 "memo" = "Write a brief memo.";
-"noPicture" = "There is no registered picture.";
+"imageCount %@" = "There are %@ registered photos.";
 
 "album" = "Album";
 "camera" = "Camera";
@@ -52,7 +54,8 @@
 "need %@ AccessAuthText" = "Please allow access to the %@ to use the photos.";
 "receiptImage" = "Receipt Image";
 "dateFormatMonth" = "MMM.yyyy";
-"dateFormatDay" = "MMMM dd, yyyy";
+"dateFormatFull" = "MMMM dd, yyyy";
+"dateFormatDay" = "dd";
 "mainReceiptCount %d" = "Registered %d Receipt";
 
 "setting" = "Settings";
@@ -64,3 +67,23 @@
 
 "mailSubject" = "[Give Me A Receipt] Opinion";
 "mailBody" = "Hello. \nThank you for using My App. \nWe always value users' opinions. \nWe would appreciate it if you could select the appropriate item from the list below or write your opinion freely. \n1. Opinion:\n[Please write your comments.]\n2. Error:\n[Please write the error]\n3. ETC:\n[Please write what you want]\n\n\nThank You.";
+
+"case" = "case";
+
+"sunDayModel" = "S";
+"monDayModel" = "M";
+"tuesDayModel" = "T";
+"wednesDayModel" = "W";
+"thursDayModel" = "T";
+"friDayModel" = "F";
+"saturDayModel" = "S";
+
+"sunDay" = "Sunday";
+"monDay" = "Monday";
+"tuesDay" = "Tuesday";
+"wednesDay" = "Wednesday";
+"thursDay" = "Thursday";
+"friDay" = "Friday";
+"saturDay" = "Saturday";
+
+"amountByDay %@" = "Daily Expenditure - %@";

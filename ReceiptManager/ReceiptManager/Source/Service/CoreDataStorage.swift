@@ -15,7 +15,9 @@ enum FetchType {
 }
 
 final class CoreDataStorage: ReceiptStorage {
-    // MARK: - Core Data stack
+    
+    // Core Data Stack
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -31,11 +33,15 @@ final class CoreDataStorage: ReceiptStorage {
         return persistentContainer.viewContext
     }
     
+    // Properties
+    
     private let modelName: String
     private let disposeBag = DisposeBag()
+    let updateEvent: PublishSubject<Receipt>
     
     init(modelName: String) {
         self.modelName = modelName
+        updateEvent = PublishSubject()
     }
     
     func sync() {
@@ -56,8 +62,16 @@ final class CoreDataStorage: ReceiptStorage {
         .disposed(by: disposeBag)
     }
     
+    func fetch() -> Observable<[Receipt]> {
+        return mainContext.rx.entities(
+            Receipt.self,
+            sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
+        )
+    }
+    
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
+        updateEvent.onNext(receipt)
         do {
             try mainContext.rx.update(receipt)
             return Observable.just(receipt)
@@ -66,29 +80,7 @@ final class CoreDataStorage: ReceiptStorage {
         }
     }
     
-    func fetch(type: FetchType) -> Observable<[ReceiptSectionModel]> {
-        return mainContext.rx.entities(
-            Receipt.self,
-            sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
-        )
-        .map { result in
-            var dayFormat = ConstantText.dateFormatDay.localize()
-            if type == .month { dayFormat = ConstantText.dateFormatMonth.localize() }
-            
-            let dictionary = Dictionary(
-                grouping: result,
-                by: { DateFormatter.string(from: $0.receiptDate, dayFormat) }
-            )
-            
-            let section = dictionary.sorted { return $0.key > $1.key }
-                .map { (key, value) in
-                    return ReceiptSectionModel(model: key, items: value)
-                }
-            
-            return section
-        }
-    }
-    
+    @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
         do {
             try mainContext.rx.delete(receipt)

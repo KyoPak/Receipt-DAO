@@ -11,12 +11,12 @@ import UIKit
 
 // MARK: - Camera Album Access Alert
 protocol CameraAlbumAccessAlertPresentable: CameraAlbumAccessable {
-    func showAccessAlbumAlert(_ isShowPicker: Bool)
+    func showAccessAlbumAlert()
     func showPermissionAlert(text: String)
 }
 
 extension CameraAlbumAccessAlertPresentable {
-    func showAccessAlbumAlert(_ isShowPicker: Bool) {
+    func showAccessAlbumAlert() {
         let alert = UIAlertController(
             title: ConstantText.selectReceipt.localize(),
             message: ConstantText.selectReceiptText.localize(),
