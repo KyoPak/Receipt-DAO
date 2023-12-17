@@ -87,7 +87,7 @@ extension ListTableViewCell {
         
         let payTypeResult = PayType(rawValue: data.paymentType) == .card
         let paymentImageName = payTypeResult ? ConstantImage.creditCard : currency.currencyImageText
-        payImageView.tintColor = payTypeResult ? ConstantColor.registerColor : ConstantColor.favoriteColor
+        payImageView.tintColor = payTypeResult ? ConstantColor.subColor : ConstantColor.mainColor
         payImageView.image = UIImage(systemName: paymentImageName)
     }
 }

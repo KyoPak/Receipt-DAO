@@ -25,14 +25,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .instantiateInitialViewController()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
-            let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
+            let storageService = DefaultStorageService(modelName: ConstantText.receiptManager)
             let userDefaultService = DefaultUserDefaultService()
             let dateManageService = DefaultDateManageService()
-            storage.sync()
+            storageService.sync()
             
             let mainTabBarCoordinator = MainTabBarCoordinator(
                 window: window,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
             )

@@ -1,8 +1,6 @@
 PODS:
   - Differentiator (5.0.0)
   - Mantis (2.14.1)
-  - "NSObject+Rx (5.2.2)":
-    - RxSwift (~> 6.2)
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
@@ -23,11 +21,11 @@ PODS:
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
   - SwiftLint (0.54.0)
+  - Toast-Swift (5.0.1)
   - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - Mantis (~> 2.14.1)
-  - "NSObject+Rx"
   - ReactorKit
   - RxCocoa
   - RxCoreData
@@ -35,12 +33,12 @@ DEPENDENCIES:
   - RxGesture
   - RxSwift (= 6.2.0)
   - SwiftLint
+  - Toast-Swift (~> 5.0.1)
 
 SPEC REPOS:
   trunk:
     - Differentiator
     - Mantis
-    - "NSObject+Rx"
     - ReactorKit
     - RxCocoa
     - RxCoreData
@@ -49,12 +47,12 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SwiftLint
+    - Toast-Swift
     - WeakMapTable
 
 SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Mantis: b91a7fb2b16c180c77a76bc83bb126abba105cd5
-  "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxCoreData: 4c1686b30499c05b90104eec1a879f41aa1a0a65
@@ -63,8 +61,9 @@ SPEC CHECKSUMS:
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: c04303c5497bdd05ca5308cb888a81e2e2411849
+PODFILE CHECKSUM: 50961c91a60853d21fa013a8c75d2eb53834388b
 
 COCOAPODS: 1.11.3

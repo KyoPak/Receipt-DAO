@@ -18,26 +18,34 @@ final class ComposeViewCoordinator: Coordinator {
     
     var navigationController: UINavigationController?
     var innerNavigationController: UINavigationController
-    var storage: CoreDataStorage
-    var expense: Receipt?
-    var transitionType: TransitionType
+    
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    
+    private let expense: Receipt?
+    private let transitionType: TransitionType
     
     init(
         transitionType: TransitionType,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
+        userDefaultService: UserDefaultService,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.navigationController = navigationController
-        self.storage = storage
+        self.storageService = storageService
+        self.userDefaultService = userDefaultService
         self.expense = expense
         self.innerNavigationController = UINavigationController()
     }
     
     func start() {
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
+        
         let composeViewReactor = ComposeViewReactor(
-            storage: storage,
+            storageService: storageService,
+            ocrExtractor: ocrExtractor,
             expense: expense,
             transisionType: transitionType
         )
@@ -74,14 +82,12 @@ final class ComposeViewCoordinator: Coordinator {
         case .modal:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: innerNavigationController,
-                storage: storage,
                 delegate: delegate,
                 imageCount: imageCount
             )
         case .push:
             limitAlbumViewCoordinator = LimitAlbumViewCoordinator(
                 navigationController: navigationController,
-                storage: storage,
                 delegate: delegate,
                 imageCount: imageCount
             )

@@ -10,11 +10,11 @@
 
 "list" = "My Expense";
 "bookMark" = "BookMark";
-"clearBookMark" = "Unimportant";
 "registerTitle" = "Register";
 "editTitle" = "Edit";
-"input" = "Fill";
+"analysisTitle" = "Monthly";
 
+"input" = "Fill";
 "detail" = "Detail";
 
 "selectImage" = "Selected image";
@@ -28,7 +28,6 @@
 "edit" = "Edit";
 "date" = "Date";
 
-"home" = "Home";
 "store" = "Store";
 "product" = "Product";
 "price" = "Price";
@@ -36,7 +35,9 @@
 
 "cash" = "Cash";
 "card" = "Card";
-"memo" = "Write a brief memo.";
+"memoText" = "Write a brief memo.";
+"ocrTextCopy" = "Touch and copy the text below.";
+"copySuccess" = "Copy!";
 "imageCount %@" = "There are %@ registered photos.";
 
 "album" = "Album";
@@ -55,7 +56,8 @@
 "receiptImage" = "Receipt Image";
 "dateFormatMonth" = "MMM.yyyy";
 "dateFormatFull" = "MMMM dd, yyyy";
-"dateFormatDay" = "dd";
+"dateFormatOnlyMonth" = "MM";
+
 "mainReceiptCount %d" = "Registered %d Receipt";
 
 "setting" = "Settings";
@@ -87,3 +89,10 @@
 "saturDay" = "Saturday";
 
 "amountByDay %@" = "Daily Expenditure - %@";
+"monthExpenseText %@" = "Expenditure for %@";
+"totalCountText %@" = "There are %@ expenditures.";
+
+"ratingUp %@" = "up %@ ";
+"ratingDown %@" = "down %@ ";
+"ratingEqual" = "This month's spending is\nthe same as last month.";
+"ratingFullText %@" = "This month's spending is\n%@ compared to last month.";

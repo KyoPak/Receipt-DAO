@@ -12,10 +12,7 @@ protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController? { get }
     
-    var storage: CoreDataStorage { get }
-    
     func start()
-    
     func removeChild(_ child: Coordinator?)
     func close(_ controller: UIViewController)
 }

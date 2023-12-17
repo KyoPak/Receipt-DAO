@@ -12,25 +12,25 @@ final class ListViewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController?
-    var storage: CoreDataStorage
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
-    
     var viewController: UIViewController?
     
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
+    
     init(
-        storage: CoreDataStorage,
-        userDefaultService: UserDefaultService, 
+        storageService: StorageService,
+        userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
     }
     
     func start() {
         let listViewReactor = ListViewReactor(
-            storage: storage,
+            storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
         )
@@ -45,8 +45,8 @@ final class ListViewCoordinator: Coordinator {
     }
     
     func presentDetailView(expense: Receipt) {
-        let mainViewCoordinator = parentCoordinator as? MainViewCoordinator
+        let expenseViewCoordinator = parentCoordinator as? ExpenseViewCoordinator
         
-        mainViewCoordinator?.moveDetailView(expense: expense)
+        expenseViewCoordinator?.moveDetailView(expense: expense)
     }
 }

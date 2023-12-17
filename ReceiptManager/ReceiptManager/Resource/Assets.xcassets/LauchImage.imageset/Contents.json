@@ -25,7 +25,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "LightLogo 5.png",
+      "filename" : "Group 3.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -36,7 +36,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "LightLogo 6.png",
+      "filename" : "Group 4.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -47,7 +47,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "DarkLogo 3.png",
+      "filename" : "Group 13.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -103,7 +103,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "LightLogo 4.png",
+      "filename" : "Group 5.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "2x"
@@ -115,7 +115,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "LightLogo 3.png",
+      "filename" : "Group 6.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "2x"
@@ -127,7 +127,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "DarkLogo 2.png",
+      "filename" : "Group 14.png",
       "idiom" : "universal",
       "locale" : "en",
       "scale" : "2x"
@@ -187,7 +187,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "LightLogo 7.png",
+      "filename" : "Group 9.png",
       "idiom" : "universal",
       "locale" : "ko",
       "scale" : "2x"
@@ -199,7 +199,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "LightLogo.png",
+      "filename" : "Group 10.png",
       "idiom" : "universal",
       "locale" : "ko",
       "scale" : "2x"
@@ -211,7 +211,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "DarkLogo.png",
+      "filename" : "Group 12.png",
       "idiom" : "universal",
       "locale" : "ko",
       "scale" : "2x"
@@ -271,7 +271,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "LightLogo 2.png",
+      "filename" : "Group 7.png",
       "idiom" : "universal",
       "locale" : "ja",
       "scale" : "2x"
@@ -283,7 +283,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "LightLogo 1.png",
+      "filename" : "Group 8.png",
       "idiom" : "universal",
       "locale" : "ja",
       "scale" : "2x"
@@ -295,7 +295,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "DarkLogo 1.png",
+      "filename" : "Group 11.png",
       "idiom" : "universal",
       "locale" : "ja",
       "scale" : "2x"

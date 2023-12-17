@@ -43,7 +43,7 @@ final class ImagePickerCell: UICollectionViewCell {
         imageView.alpha = isSelected ? 0.5 : 1.0
         contentView.layer.borderWidth = isSelected ? 3 : .zero
         contentView.layer.borderColor = isSelected ?
-            ConstantColor.registerColor.cgColor : UIColor.clear.cgColor
+            ConstantColor.subColor.cgColor : UIColor.clear.cgColor
     }
     
     func setupData(_ data: Data) {
@@ -51,7 +51,7 @@ final class ImagePickerCell: UICollectionViewCell {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension ImagePickerCell {
     private func setupHierarchy() {
         contentView.addSubview(imageView)

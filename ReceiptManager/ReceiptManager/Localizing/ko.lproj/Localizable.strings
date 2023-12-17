@@ -10,11 +10,11 @@
 
 "list" = "나의 지출";
 "bookMark" = "즐겨찾기";
-"clearBookMark" = "즐겨찾기 해제";
 "registerTitle" = "등록하기";
 "editTitle" = "수정하기";
-"input" = "입력";
+"analysisTitle" = "월별 지출";
 
+"input" = "입력";
 "detail" = "지출 상세";
 
 "selectImage" = "선택한 이미지";
@@ -28,7 +28,6 @@
 "edit" = "편집";
 "date" = "날짜";
 
-"home" = "홈";
 "store" = "상호명";
 "product" = "내역";
 "price" = "가격";
@@ -36,7 +35,9 @@
 
 "cash" = "현금";
 "card" = "카드";
-"memo" = "간단한 메모를 작성해보세요.";
+"memoText" = "간단한 메모를 작성해보세요.";
+"ocrTextCopy" = "아래 텍스트를 터치하여 복사하세요.";
+"copySuccess" = "복사";
 "imageCount %@" = "등록된 사진은 %@건입니다.";
 
 "album" = "앨범";
@@ -55,7 +56,8 @@
 "receiptImage" = "영수증 사진";
 "dateFormatMonth" = "yyyy년 MM월";
 "dateFormatFull" = "yyyy년 MM월 dd일";
-"dateFormatDay" = "dd일";
+"dateFormatOnlyMonth" = "MM월";
+
 "mainReceiptCount %d" = "영수증은 %d건 입니다.";
 
 "setting" = "설정";
@@ -86,3 +88,10 @@
 "saturDay" = "토요일";
 
 "amountByDay %@" = "일일 지출 - %@";
+"monthExpenseText %@" = "%@ 지출금액";
+"totalCountText %@" = "총 %@건의 지출이 있습니다.";
+
+"ratingUp %@" = "%@ 증가";
+"ratingDown %@" = "%@ 감소";
+"ratingEqual" = "이번 달의 지출은 지난 달과 동일합니다.";
+"ratingFullText %@" = "이번 달의 지출은\n지난 달 대비 %@하였습니다.";

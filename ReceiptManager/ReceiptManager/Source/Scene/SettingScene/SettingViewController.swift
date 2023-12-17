@@ -44,7 +44,7 @@ final class SettingViewController: UIViewController, View {
     // UI Properties
     
     private let navigationBar = CustomNavigationBar(title: ConstantText.setting.localize())
-    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

@@ -15,7 +15,8 @@ final class ComposeViewReactor: Reactor {
         case viewWillAppear
         case priceTextChanged(String?)
         case imageAppend(Data)
-        case imageDelete(IndexPath?)
+        case cellDeleteButtonTapped(IndexPath?)
+        case cellOCRButtonTapped(IndexPath?)
         case registerButtonTapped(SaveExpense)
         case imageAppendButtonTapped(IndexPath)
     }
@@ -25,6 +26,7 @@ final class ComposeViewReactor: Reactor {
         case chagePriceText(String)
         case imageDataAppend([Data])
         case imageDataDelete([Data])
+        case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
     }
@@ -37,6 +39,7 @@ final class ComposeViewReactor: Reactor {
         var registerdImageDatas: [Data]
         var imageAppendEnable: Bool?
         var successExpenseRegister: Void?
+        var ocrResult: [String]?
     }
     
     // Custom Type
@@ -58,12 +61,19 @@ final class ComposeViewReactor: Reactor {
     
     // Properties
     
-    private let storage: CoreDataStorage
+    private let storageService: StorageService
+    private let ocrExtractor: OCRExtractorService
     
     // Initializer
     
-    init(storage: CoreDataStorage, expense: Receipt? = nil, transisionType: TransitionType) {
-        self.storage = storage
+    init(
+        storageService: StorageService,
+        ocrExtractor: OCRExtractorService,
+        expense: Receipt? = nil,
+        transisionType: TransitionType
+    ) {
+        self.storageService = storageService
+        self.ocrExtractor = ocrExtractor
         
         let titleText = transisionType == .modal ?
             ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
@@ -75,8 +85,7 @@ final class ComposeViewReactor: Reactor {
             transitionType: transisionType,
             expense: expense ?? Receipt(),
             priceText: NumberFormatter.numberDecimal(from: expense?.priceText ?? ""),
-            registerdImageDatas: imageDatas,
-            imageAppendEnable: nil
+            registerdImageDatas: imageDatas
         )
     }
     
@@ -94,15 +103,22 @@ final class ComposeViewReactor: Reactor {
             let currentDatas = controlImageData(controlType: .append(data))
             return Observable.just(Mutation.imageDataAppend(currentDatas))
         
-        case .imageDelete(let indexPath):
+        case .cellDeleteButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let currentDatas = controlImageData(controlType: .delete(indexPath.row))
             
             return Observable.just(Mutation.imageDataDelete(currentDatas))
-            
+        
+        case .cellOCRButtonTapped(let indexPath):
+            guard let indexPath = indexPath else { return Observable.empty() }
+            let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
+            ocrExtractor.extractText(data: ocrTargetData)
+                 
+            return Observable.empty()
+
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            storage.upsert(receipt: newExpense)
+            storageService.upsert(receipt: newExpense)
             return Observable.concat([
                 Observable.just(Mutation.saveExpense(Void())),
                 Observable.just(Mutation.saveExpense(nil))
@@ -135,9 +151,24 @@ final class ComposeViewReactor: Reactor {
             
         case .imageButtonEnable(let enable):
             newState.imageAppendEnable = enable
+            
+        case .imageDataOCR(let texts):
+            newState.ocrResult = texts
         }
         
         return newState
+    }
+    
+    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let ocrEvent = ocrExtractor.ocrResult
+            .flatMap { texts in
+                return Observable.concat([
+                    Observable.just(Mutation.imageDataOCR(texts)),
+                    Observable.just(Mutation.imageDataOCR(nil))
+                ])
+            }
+            
+        return Observable.merge(mutation, ocrEvent)
     }
 }
 

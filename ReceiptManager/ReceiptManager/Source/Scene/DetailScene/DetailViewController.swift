@@ -25,7 +25,7 @@ final class DetailViewController: UIViewController, View {
     
     // UI Properties
     
-    private let collectionView: UICollectionView = {
+    private let imageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.layer.cornerRadius = 10
         collectionView.decelerationRate = .fast
@@ -40,7 +40,6 @@ final class DetailViewController: UIViewController, View {
     private let productLabel = UILabel(font: .preferredFont(forTextStyle: .body))
     private let priceLabel = UILabel(font: .boldSystemFont(ofSize: 20))
     private let countLabel = UILabel(font: .preferredFont(forTextStyle: .caption1))
-    
     private let separatorView = UIView()
     
     private let payTypeSegmented: UISegmentedControl = {
@@ -49,7 +48,7 @@ final class DetailViewController: UIViewController, View {
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-        segment.selectedSegmentTintColor = ConstantColor.registerColor
+        segment.selectedSegmentTintColor = ConstantColor.subColor
         
         return segment
     }()
@@ -80,16 +79,16 @@ final class DetailViewController: UIViewController, View {
         spacing: 5
     )
     
-    private var mainView = UIView(frame: .zero)
+    private var mainInfoView = UIView(frame: .zero)
     
-    private let shareButton = UIBarButtonItem(
+    private lazy var shareButton = UIBarButtonItem(
         image: UIImage(systemName: ConstantImage.share),
         style: .plain,
         target: self,
         action: nil
     )
     
-    let composeButton = UIBarButtonItem(
+    private lazy var composeButton = UIBarButtonItem(
         image: UIImage(systemName: ConstantImage.compose),
         style: .plain,
         target: self,
@@ -137,13 +136,13 @@ final class DetailViewController: UIViewController, View {
 // MARK: - Reactor Bind
 extension DetailViewController: UICollectionViewDelegate {
     private func bindView() {
-        collectionView.rx.setDelegate(self)
+        imageCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        Observable.zip(collectionView.rx.modelSelected(Data.self), collectionView.rx.itemSelected)
+        Observable.zip(imageCollectionView.rx.modelSelected(Data.self), imageCollectionView.rx.itemSelected)
             .withUnretained(self)
             .do(onNext: { (onwer, data) in
-                onwer.collectionView.deselectItem(at: data.1, animated: true)
+                onwer.imageCollectionView.deselectItem(at: data.1, animated: true)
             })
             .map { $1.0 }
             .subscribe(onNext: { [weak self] in
@@ -200,7 +199,7 @@ extension DetailViewController: UICollectionViewDelegate {
         reactor.state.map { $0.expense.receiptData }
             .asDriver(onErrorJustReturn: [])
             .drive(
-                collectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
+                imageCollectionView.rx.items(cellIdentifier: ImageCell.identifier, cellType: ImageCell.self)
             ) { indexPath, data, cell in
                 cell.hiddenDeleteButton()
                 cell.setupReceiptImage(data)
@@ -246,7 +245,10 @@ extension DetailViewController {
                 alert.dismiss(animated: true)
             }
 
-            let deleteAction = UIAlertAction(title: ConstantText.delete.localize(), style: .destructive) { _ in
+            let deleteAction = UIAlertAction(
+                title: ConstantText.delete.localize(),
+                style: .destructive
+            ) { _ in
                 observer.onNext(.delete)
                 observer.onCompleted()
                 alert.dismiss(animated: true)
@@ -263,7 +265,7 @@ extension DetailViewController {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension DetailViewController {
     private func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
@@ -309,34 +311,34 @@ extension DetailViewController {
         
         layout.minimumLineSpacing = spacing
 
-        collectionView.setCollectionViewLayout(layout, animated: true)
+        imageCollectionView.setCollectionViewLayout(layout, animated: true)
     }
     
     private func setupHierarchy() {
-        [dateLabel, mainStackView].forEach(mainView.addSubview(_:))
-        [mainView, collectionView, countLabel, memoLabel, separatorView].forEach(view.addSubview(_:))
+        [dateLabel, mainStackView].forEach(mainInfoView.addSubview(_:))
+        [mainInfoView, imageCollectionView, countLabel, memoLabel, separatorView].forEach(view.addSubview(_:))
     }
     
     private func setupProperties() {
         view.backgroundColor = ConstantColor.backGroundColor
-        priceLabel.textColor = ConstantColor.registerColor
+        priceLabel.textColor = ConstantColor.subColor
         
         memoLabel.backgroundColor = ConstantColor.cellColor
         memoLabel.layer.cornerRadius = 10
         memoLabel.clipsToBounds = true
         
         if payTypeSegmented.selectedSegmentIndex == 0 {
-            payTypeSegmented.selectedSegmentTintColor = ConstantColor.favoriteColor
-            priceLabel.textColor = ConstantColor.favoriteColor
+            payTypeSegmented.selectedSegmentTintColor = ConstantColor.mainColor
+            priceLabel.textColor = ConstantColor.mainColor
         }
         
         dateLabel.textColor = .systemGray
-        mainView.backgroundColor = ConstantColor.cellColor
-        mainView.layer.cornerRadius = 10
+        mainInfoView.backgroundColor = ConstantColor.cellColor
+        mainInfoView.layer.cornerRadius = 10
         
         separatorView.backgroundColor = ConstantColor.cellColor
         
-        [mainView, memoLabel, collectionView, memoLabel, separatorView].forEach {
+        [mainInfoView, memoLabel, imageCollectionView, memoLabel, separatorView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
@@ -345,21 +347,21 @@ extension DetailViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
-            dateLabel.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
+            dateLabel.topAnchor.constraint(equalTo: mainInfoView.topAnchor, constant: 20),
+            dateLabel.leadingAnchor.constraint(equalTo: mainInfoView.leadingAnchor, constant: 20),
             dateLabel.heightAnchor.constraint(equalToConstant: dateLabel.intrinsicContentSize.height),
             
             mainStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 0),
-            mainStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -20),
-            mainStackView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20),
+            mainStackView.leadingAnchor.constraint(equalTo: mainInfoView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: mainInfoView.trailingAnchor, constant: -20),
+            mainStackView.bottomAnchor.constraint(equalTo: mainInfoView.bottomAnchor, constant: -20),
                         
-            mainView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            mainView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            mainView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            mainView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
+            mainInfoView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            mainInfoView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            mainInfoView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            mainInfoView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.25),
             
-            memoLabel.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 20),
+            memoLabel.topAnchor.constraint(equalTo: mainInfoView.bottomAnchor, constant: 20),
             memoLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             memoLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
             
@@ -371,10 +373,10 @@ extension DetailViewController {
             countLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: 10),
             countLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.45)
+            imageCollectionView.topAnchor.constraint(equalTo: countLabel.bottomAnchor),
+            imageCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            imageCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            imageCollectionView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.45)
         ])
         
         priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

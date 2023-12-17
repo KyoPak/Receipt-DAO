@@ -14,18 +14,18 @@ final class MainTabBarCoordinator: Coordinator {
     var navigationController: UINavigationController?
     var window: UIWindow?
     
-    var storage: CoreDataStorage
-    var userDefaultService: UserDefaultService
-    var dateManageService: DateManageService
+    private let storageService: StorageService
+    private let userDefaultService: UserDefaultService
+    private let dateManageService: DateManageService
     
     init(
         window: UIWindow?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
         self.window = window
-        self.storage = storage
+        self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
         self.navigationController = UINavigationController()
@@ -41,13 +41,13 @@ final class MainTabBarCoordinator: Coordinator {
             $0.initialCoordinator(
                 outerNavigationController: navigationController ?? UINavigationController(),
                 navigationController: UINavigationController(),
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
             )
         }
         
-        coordinators.map {
+        coordinators.forEach {
             $0.start()
             $0.parentCoordinator = self
             childCoordinators.append($0)
@@ -64,7 +64,8 @@ final class MainTabBarCoordinator: Coordinator {
         let coordinator = ComposeViewCoordinator(
             transitionType: .modal,
             navigationController: navigationController,
-            storage: storage,
+            storageService: storageService,
+            userDefaultService: userDefaultService,
             expense: nil
         )
         

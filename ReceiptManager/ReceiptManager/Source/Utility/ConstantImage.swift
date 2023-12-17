@@ -28,6 +28,9 @@ enum ConstantImage {
     static let chevronLeft = "chevron.left"
     static let chevronRight = "chevron.right"
     
+    static let chartUp = "chart.line.uptrend.xyaxis.circle"
+    static let chartUpFill = "chart.line.uptrend.xyaxis.circle.fill"
+    
     static let bookMark = "bookmark.circle"
     static let bookMarkFill = "bookmark.circle.fill"
     

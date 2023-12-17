@@ -29,7 +29,7 @@ final class SettingCell: UITableViewCell {
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-        segment.selectedSegmentTintColor = ConstantColor.registerColor
+        segment.selectedSegmentTintColor = ConstantColor.subColor
         segment.isHidden = true
         segment.translatesAutoresizingMaskIntoConstraints = false
         

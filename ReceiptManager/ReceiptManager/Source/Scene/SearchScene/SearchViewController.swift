@@ -207,7 +207,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UIConstraints
+// MARK: - UI Constraints
 extension SearchViewController {
     private func setupHierarchy() {
         [searchBar, tableView].forEach(view.addSubview(_:))

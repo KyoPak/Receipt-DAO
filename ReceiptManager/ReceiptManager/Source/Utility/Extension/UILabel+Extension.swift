@@ -16,3 +16,13 @@ extension UILabel {
         translatesAutoresizingMaskIntoConstraints = false
     }
 }
+
+extension UILabel {
+    func setMutableFontColor(target: String, font: UIFont?, color: UIColor?) {
+        let fullText = text ?? ""
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let range = (fullText as NSString).range(of: target)
+        attributedString.addAttributes([.font: font as Any, .foregroundColor: color as Any], range: range)
+        attributedText = attributedString
+    }
+}

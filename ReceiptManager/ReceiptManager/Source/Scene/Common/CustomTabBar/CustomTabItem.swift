@@ -9,6 +9,7 @@ import UIKit
 
 enum CustomTabItem: String, CaseIterable {
     case main
+    case analysis
     case bookmark
     case setting
 }
@@ -18,6 +19,8 @@ extension CustomTabItem {
         switch self {
         case .main:
             return ConstantText.list.localize()
+        case .analysis:
+            return ConstantText.analysisTitle.localize()
         case .bookmark:
             return ConstantText.bookMark.localize()
         case .setting:
@@ -30,6 +33,10 @@ extension CustomTabItem {
         case .main:
             return UIImage(systemName: ConstantImage.listCircle)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+        case .analysis:
+            return UIImage(systemName: ConstantImage.chartUp)?
+                .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+            
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMark)?
                 .withTintColor(.label.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
@@ -44,6 +51,11 @@ extension CustomTabItem {
         case .main:
             return UIImage(systemName: ConstantImage.listCircleFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
+            
+        case .analysis:
+            return UIImage(systemName: ConstantImage.chartUpFill)?
+                .withTintColor(.label, renderingMode: .alwaysOriginal)
+            
         case .bookmark:
             return UIImage(systemName: ConstantImage.bookMarkFill)?
                 .withTintColor(.label, renderingMode: .alwaysOriginal)
@@ -56,25 +68,33 @@ extension CustomTabItem {
     func initialCoordinator(
         outerNavigationController: UINavigationController,
         navigationController: UINavigationController?,
-        storage: CoreDataStorage,
+        storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) -> Coordinator {
         switch self {
         case .main:
-            return MainViewCoordinator(
+            return ExpenseViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService,
                 dateManageService: dateManageService
+            )
+            
+        case .analysis:
+            return AnalysisViewCoordinator(
+                outerNavigationController: outerNavigationController,
+                navigationController: navigationController,
+                storageService: storageService,
+                userDefaultService: userDefaultService
             )
         
         case .bookmark:
             return BookMarkViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
+                storageService: storageService,
                 userDefaultService: userDefaultService
             )
             
@@ -82,7 +102,6 @@ extension CustomTabItem {
             return SettingViewCoordinator(
                 outerNavigationController: outerNavigationController,
                 navigationController: navigationController,
-                storage: storage,
                 userDefaultService: userDefaultService
             )
         }

@@ -45,7 +45,7 @@ final class BookMarkViewController: UIViewController, View {
     // UI Properties
     
     private let navigationBar = CustomNavigationBar(title: ConstantText.bookMark.localize())
-    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -168,7 +168,7 @@ extension BookMarkViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UIConstraint
+// MARK: - UI Constraints
 extension BookMarkViewController {
     private func setupNavigationBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)

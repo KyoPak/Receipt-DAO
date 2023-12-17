@@ -18,12 +18,12 @@ target 'ReceiptManager' do
   # Pods for ReceiptManager
 pod 'RxSwift', "6.2.0"
 pod 'RxCocoa'
-pod 'NSObject+Rx'
 pod 'RxDataSources'
 pod 'RxCoreData'
 pod 'SwiftLint'
 pod 'Mantis', '~> 2.14.1'
 pod 'ReactorKit'
 pod 'RxGesture'
+pod 'Toast-Swift', '~> 5.0.1'
 
 end

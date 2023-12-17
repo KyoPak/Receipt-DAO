@@ -10,11 +10,11 @@
 
 "list" = "私の経費";
 "bookMark" = "重要";
-"clearBookMark" = "重要ではない";
 "registerTitle" = "登録する";
 "editTitle" = "編集";
-"input" = "入力";
+"analysisTitle" = "月別支出";
 
+"input" = "入力";
 "detail" = "詳細";
 
 "selectImage" = "選択した画像";
@@ -28,7 +28,6 @@
 "edit" = "編集";
 "date" = "日付";
 
-"home" = "ホーム";
 "store" = "相互名";
 "product" = "履歴";
 "price" = "価格";
@@ -36,7 +35,9 @@
 
 "cash" = "現金";
 "card" = "カード";
-"memo" = "簡単なメモを書きます。";
+"memoText" = "簡単なメモを書きます。";
+"ocrTextCopy" = "以下のテキストをタッチしてコピーしてください。";
+"copySuccess" = "コピー!";
 "imageCount %@" = "%@ 枚の写真が登録されています。";
 
 "album" = "写真";
@@ -53,9 +54,10 @@
 
 "need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
 "receiptImage" = "領収書画像";
-"dateFormatMonth" = "MM.yyyy";
-"dateFormatFull" = "MM dd, yyyy";
-"dateFormatDay" = "dd";
+"dateFormatMonth" = "MM月 yyyy年";
+"dateFormatFull" = "MM月 dd日, yyyy年";
+"dateFormatOnlyMonth" = "MM月";
+
 "mainReceiptCount %d" = "%d 件の登録領収書";
 
 "setting" = "設定";
@@ -86,3 +88,10 @@
 "saturDay" = "土曜日";
 
 "amountByDay %@" = "1日の支出 - %@";
+"monthExpenseText %@" = "%@の支出額";
+"totalCountText %@" = "%@件の支出があります。";
+
+"ratingUp %@" = "%@ 増加";
+"ratingDown %@" = "%@ 減少";
+"ratingEqual" = "今月の支出は先月と同じです。";
+"ratingFullText %@" = "今月の支出は先月比\n%@しました";

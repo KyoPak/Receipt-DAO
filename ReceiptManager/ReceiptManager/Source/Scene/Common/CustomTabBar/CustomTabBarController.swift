@@ -59,7 +59,7 @@ final class CustomTabBarController: UITabBarController {
     }
 }
 
-// MARK: - UIConstraints
+// MARK: - UI Constraints
 extension CustomTabBarController {
     private func setupProperties() {
         tabBar.isHidden = true

@@ -8,6 +8,9 @@
 import UIKit
 
 final class ComposeInformationView: UIView {
+    
+    // UI Properties
+    
     let datePicker = UIDatePicker()
     private let dateLabel = UILabel(
         text: ConstantText.date.localize(),
@@ -29,21 +32,21 @@ final class ComposeInformationView: UIView {
     let storeTextField = UITextField(
         textColor: .label,
         placeholder: ConstantText.input.localize(),
-        tintColor: ConstantColor.registerColor,
+        tintColor: ConstantColor.subColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let productNameTextField = UITextField(
         textColor: .label,
         placeholder: ConstantText.input.localize(),
-        tintColor: ConstantColor.registerColor,
+        tintColor: ConstantColor.subColor,
         backgroundColor: ConstantColor.cellColor
     )
     
     let priceTextField = UITextField(
         textColor: .label,
         placeholder: ConstantText.input.localize(),
-        tintColor: ConstantColor.registerColor,
+        tintColor: ConstantColor.subColor,
         backgroundColor: ConstantColor.cellColor
     )
     
@@ -84,10 +87,12 @@ final class ComposeInformationView: UIView {
         segment.selectedSegmentIndex = .zero
         segment.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         segment.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-        segment.selectedSegmentTintColor = ConstantColor.registerColor
+        segment.selectedSegmentTintColor = ConstantColor.subColor
         
         return segment
     }()
+    
+    // Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -114,12 +119,12 @@ extension ComposeInformationView {
         datePicker.locale = Locale(identifier: "ko-kr")
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 10
-        datePicker.backgroundColor = ConstantColor.registerColor
+        datePicker.backgroundColor = ConstantColor.subColor
         datePicker.addTarget(self, action: #selector(datePickerWheel), for: .valueChanged)
     }
 }
 
-// MARK: - UI Constraint
+// MARK: - UI Constraints
 extension ComposeInformationView: UITextFieldDelegate {
     private func setupView() {
         backgroundColor = ConstantColor.backGroundColor

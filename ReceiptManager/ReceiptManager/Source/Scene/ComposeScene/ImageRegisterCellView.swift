@@ -8,6 +8,9 @@
 import UIKit
 
 final class ImageRegisterCellView: UIView {
+    
+    // UI Properties
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: ConstantImage.camera)?
@@ -23,6 +26,8 @@ final class ImageRegisterCellView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    // Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
