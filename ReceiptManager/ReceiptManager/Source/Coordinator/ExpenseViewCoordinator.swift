@@ -11,22 +11,22 @@ final class ExpenseViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var outerNavigationController: UINavigationController
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     private let dateManageService: DateManageService
     
     init(
-        outerNavigationController: UINavigationController,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
+        subNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
-        self.outerNavigationController = outerNavigationController
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
+        self.subNavigationController = subNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
@@ -42,7 +42,7 @@ final class ExpenseViewCoordinator: Coordinator {
         listViewCoordinator.start()
         
         let calendarCoordinator = CalendarViewCoordinator(
-            navigationController: outerNavigationController,
+            navigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService
@@ -69,12 +69,14 @@ final class ExpenseViewCoordinator: Coordinator {
         listViewCoordinator.parentCoordinator = self
         calendarCoordinator.parentCoordinator = self
         
-        navigationController?.pushViewController(expenseViewController, animated: false)
+        subNavigationController?.pushViewController(expenseViewController, animated: false)
     }
-    
+}
+
+extension ExpenseViewCoordinator {
     func moveDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
-            navigationController: outerNavigationController,
+            mainNavigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense
@@ -88,7 +90,7 @@ final class ExpenseViewCoordinator: Coordinator {
     
     func moveSearchView() {
         let searchViewCoordinator = SearchViewCoordinator(
-            navigationController: outerNavigationController,
+            mainNavigationController: subNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService
         )

@@ -120,13 +120,20 @@ extension CalendarListViewController {
             .bind(to: tableView.rx.items(
                 cellIdentifier: ListTableViewCell.identifier,
                 cellType: ListTableViewCell.self)
-            ) { indexPath, data, cell in
+            ) { [weak self] indexPath, data, cell in
                 cell.reactor = ListTableViewCellReactor(
                     expense: data,
-                    userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject(value: .zero)
+                    userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject(value: .zero)
                 )
             }
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - BottomSheetDismissable Delegate
+extension CalendarListViewController: BottomSheetDismissable {
+    func bottomSheetDismissable() {
+        coordinator?.close(self)
     }
 }
 

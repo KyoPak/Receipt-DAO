@@ -72,7 +72,10 @@ final class ListTableViewCell: UITableViewCell, View {
 extension ListTableViewCell {
     private func bindState(_ reactor: ListTableViewCellReactor) {
         reactor.state
-            .bind { self.setupData(data: $0.expense, currencyIndex: $0.currency) }
+            .withUnretained(self)
+            .bind { (owner, state) in
+                owner.setupData(data: state.expense, currencyIndex: state.currency)
+            }
             .disposed(by: disposeBag)
     }
     

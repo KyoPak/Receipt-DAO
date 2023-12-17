@@ -11,20 +11,20 @@ final class BookMarkViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var outerNavigationController: UINavigationController
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
     
     init(
-        outerNavigationController: UINavigationController,
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
+        subNavigationController: UINavigationController,
         storageService: StorageService,
         userDefaultService: UserDefaultService
     ) {
-        self.outerNavigationController = outerNavigationController
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
+        self.subNavigationController = subNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
     }
@@ -37,12 +37,14 @@ final class BookMarkViewCoordinator: Coordinator {
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
         bookMarkViewController.coordinator = self
         
-        navigationController?.pushViewController(bookMarkViewController, animated: false)
+        subNavigationController?.pushViewController(bookMarkViewController, animated: false)
     }
-    
+}
+
+extension BookMarkViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
-            navigationController: outerNavigationController,
+            mainNavigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense

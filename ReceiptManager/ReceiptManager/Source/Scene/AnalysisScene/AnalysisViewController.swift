@@ -106,19 +106,20 @@ extension AnalysisViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.rate }
-            .bind { rate in
+            .withUnretained(self)
+            .bind { (owner, rate) in
                 switch rate {
                 case .increase(_):
-                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.mainColor)
+                    owner.updateRatingLabel(with: rate.rateText, color: ConstantColor.mainColor)
                     
                 case .decrease(_):
-                    self.updateRatingLabel(with: rate.rateText, color: ConstantColor.subColor)
+                    owner.updateRatingLabel(with: rate.rateText, color: ConstantColor.subColor)
                     
                 case .equal:
-                    self.ratingLabel.text = ConstantText.ratingEqual.localize()
+                    owner.ratingLabel.text = ConstantText.ratingEqual.localize()
                     
                 case .noData:
-                    self.ratingLabel.text = ""
+                    owner.ratingLabel.text = ""
                 }
             }
             .disposed(by: disposeBag)
@@ -127,15 +128,13 @@ extension AnalysisViewController {
             reactor.state.map { $0.cashCount },
             reactor.state.map { $0.cardCount }
         )
-        .do(onNext: { cashCount, cardCount in
-            self.payTypeRatingView.isHidden = cashCount + cardCount == .zero
-        })
-        .bind { cashCount, cardCount in
-            self.payTypeRatingView.caseValues = [cashCount, cardCount]
-            self.payTypeRatingView.setNeedsDisplay()
+        .withUnretained(self)
+        .bind { (owner, counts) in
+            owner.payTypeRatingView.isHidden = counts.0 + counts.1 == .zero
+            owner.payTypeRatingView.caseValues = [counts.0, counts.1]
+            owner.payTypeRatingView.setNeedsDisplay()
         }
         .disposed(by: disposeBag)
-
     }
 }
 

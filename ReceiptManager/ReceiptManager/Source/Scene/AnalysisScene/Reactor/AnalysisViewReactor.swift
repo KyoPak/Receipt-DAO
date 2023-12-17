@@ -51,7 +51,11 @@ final class AnalysisViewReactor: Reactor {
     
     // Initializer
     
-    init(storageService: StorageService, userDefaultService: UserDefaultService, dateService: DateManageService) {
+    init(
+        storageService: StorageService,
+        userDefaultService: UserDefaultService,
+        dateService: DateManageService
+    ) {
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateService = dateService

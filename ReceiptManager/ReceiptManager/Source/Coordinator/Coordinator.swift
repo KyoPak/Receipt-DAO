@@ -10,7 +10,9 @@ import UIKit
 protocol Coordinator: AnyObject {
     var parentCoordinator: Coordinator? { get set }
     var childCoordinators: [Coordinator] { get set }
-    var navigationController: UINavigationController? { get }
+    
+    var mainNavigationController: UINavigationController? { get }
+    var subNavigationController: UINavigationController? { get }
     
     func start()
     func removeChild(_ child: Coordinator?)
@@ -25,7 +27,7 @@ extension Coordinator {
     }
     
     func close(_ controller: UIViewController) {
-        var controllers = navigationController?.viewControllers
+        var controllers = mainNavigationController?.viewControllers
         
         removeChild(self)
         
@@ -37,6 +39,6 @@ extension Coordinator {
         controllers?.removeAll(where: { $0 === controller })
         
         guard let lastController = controllers?.last else { return }
-        navigationController?.popToViewController(lastController, animated: true)
+        mainNavigationController?.popToViewController(lastController, animated: true)
     }
 }

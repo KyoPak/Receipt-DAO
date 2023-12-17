@@ -11,7 +11,8 @@ final class DetailViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
     
     private let storageService: StorageService
     private let userDefaultService: UserDefaultService
@@ -19,12 +20,12 @@ final class DetailViewCoordinator: Coordinator {
     private let expense: Receipt
     
     init(
-        navigationController: UINavigationController?,
+        mainNavigationController: UINavigationController?,
         storageService: StorageService,
         userDefaultService: UserDefaultService,
         expense: Receipt
     ) {
-        self.navigationController = navigationController
+        self.mainNavigationController = mainNavigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.expense = expense
@@ -39,19 +40,21 @@ final class DetailViewCoordinator: Coordinator {
         )
         let detailViewController = DetailViewController(reactor: detailViewReactor)
         detailViewController.coordinator = self
-        navigationController?.pushViewController(detailViewController, animated: true)
+        mainNavigationController?.pushViewController(detailViewController, animated: true)
     }
-    
+}
+
+extension DetailViewCoordinator {
     func presentLargeImage(image: Data) {
         let largeImageViewController = LargeImageViewController(data: image)
         
-        navigationController?.present(largeImageViewController, animated: true)
+        mainNavigationController?.present(largeImageViewController, animated: true)
     }
     
     func presentComposeView(expense: Receipt?) {
         let composeViewCoordinator = ComposeViewCoordinator(
             transitionType: .push,
-            navigationController: navigationController,
+            mainNavigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             expense: expense

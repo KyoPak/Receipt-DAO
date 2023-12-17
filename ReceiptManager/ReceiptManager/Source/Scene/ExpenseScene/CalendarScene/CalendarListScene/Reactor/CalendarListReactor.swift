@@ -68,10 +68,10 @@ final class CalendarListReactor: Reactor {
         case .loadData:
             return Observable.concat([
                 Observable.just(Mutation.updateDateTitle(updateDate())),
-                loadData().flatMap({ models in
+                loadData().flatMap({ [weak self] models in
                     return Observable.concat([
                         Observable.just(Mutation.updateExpenseList(models)),
-                        Observable.just(Mutation.updateAmount(self.updateAmount(models)))
+                        Observable.just(Mutation.updateAmount(self?.updateAmount(models) ?? "" ))
                     ])
                 })
             ])

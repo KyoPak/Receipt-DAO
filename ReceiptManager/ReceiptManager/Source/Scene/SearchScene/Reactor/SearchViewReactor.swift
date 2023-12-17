@@ -65,9 +65,11 @@ final class SearchViewReactor: Reactor {
 
 extension SearchViewReactor {
     private func search(_ text: String) -> Observable<[ReceiptSectionModel]> {
-        return loadData().map { models in
-            self.filterData(for: models, by: text)
-        }
+        return loadData()
+            .withUnretained(self)
+            .map { (owner, models) in
+                owner.filterData(for: models, by: text)
+            }
     }
     
     private func loadData() -> Observable<[ReceiptSectionModel]> {

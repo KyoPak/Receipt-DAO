@@ -1,6 +1,6 @@
 excluded:
 - Pods
-- ReactorTests
+- ReceiptManagerTests
 
 disabled_rules:
 - trailing_whitespace

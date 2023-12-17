@@ -141,19 +141,22 @@ extension DetailViewController: UICollectionViewDelegate {
         
         Observable.zip(imageCollectionView.rx.modelSelected(Data.self), imageCollectionView.rx.itemSelected)
             .withUnretained(self)
-            .do(onNext: { (onwer, data) in
+            .do { (onwer, data) in
                 onwer.imageCollectionView.deselectItem(at: data.1, animated: true)
-            })
+            }
             .map { $1.0 }
-            .subscribe(onNext: { [weak self] in
+            .subscribe { [weak self] in
                 self?.coordinator?.presentLargeImage(image: $0)
-            })
+            }
             .disposed(by: disposeBag)
     }
     
     private func bindAction(_ reactor: DetailViewReactor) {
         composeButton.rx.tap
-            .flatMap { self.showComposeAlert() }
+            .withUnretained(self)
+            .flatMap { (owner, _) in
+                owner.showComposeAlert()
+            }
             .map { actionType in
                 switch actionType {
                 case .edit:
@@ -178,22 +181,18 @@ extension DetailViewController: UICollectionViewDelegate {
     
     private func bindState(_ reactor: DetailViewReactor) {
         reactor.state.map { $0.title }
-            .asDriver(onErrorJustReturn: "")
-            .drive { self.title = $0 }
+            .bind(to: rx.title)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense }
-            .asDriver(onErrorJustReturn: Receipt())
-            .drive(onNext: { item in
-                self.updateUI(item: item)
-            })
+            .withUnretained(self)
+            .bind { (owner, item) in
+                owner.updateUI(item: item)
+            }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.priceText }
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { priceText in
-                self.priceLabel.text = priceText
-            })
+            .bind(to: priceLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense.receiptData }
@@ -208,25 +207,25 @@ extension DetailViewController: UICollectionViewDelegate {
         
         reactor.state.map { $0.shareExpense }
             .compactMap { $0 }
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { datas in
-                self.presentActivityView(datas: datas)
-            })
+            .withUnretained(self)
+            .bind { (owner, datas) in
+                owner.presentActivityView(datas: datas)
+            }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.editExpense }
-            .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .drive { expense in
-                self.coordinator?.presentComposeView(expense: expense)
+            .withUnretained(self)
+            .bind { (owner, expense) in
+                owner.coordinator?.presentComposeView(expense: expense)
             }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.deleteExpense }
-            .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .drive { _ in
-                self.coordinator?.close(self)
+            .withUnretained(self)
+            .bind { (owner, _) in
+                owner.coordinator?.close(owner)
             }
             .disposed(by: disposeBag)
     }

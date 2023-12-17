@@ -9,12 +9,17 @@ import UIKit
 
 import RxSwift
 
+protocol BottomSheetDismissable: AnyObject {
+    func bottomSheetDismissable()
+}
+
 final class BottomSheetViewController: UIViewController {
     
     // Properties
     
     private let bottomHeightRatio: Double
     private var bottomContainerViewHeightConstraint: NSLayoutConstraint?
+    private weak var delegate: BottomSheetDismissable?
     
     // UI Properties
     
@@ -45,15 +50,15 @@ final class BottomSheetViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         showBottomSheet()
     }
     
     // Initializer
     
-    init(controller: UIViewController, bottomHeightRatio: Double) {
+    init(controller: UIViewController, bottomHeightRatio: Double, delegate: BottomSheetDismissable) {
         self.childController = controller
         self.bottomHeightRatio = bottomHeightRatio
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -64,7 +69,7 @@ final class BottomSheetViewController: UIViewController {
     @objc private func didTapDismiss() {
         transparentView.alpha = 1
         transparentView.backgroundColor = .clear
-        
+        delegate?.bottomSheetDismissable()
         dismiss(animated: true)
     }
 }

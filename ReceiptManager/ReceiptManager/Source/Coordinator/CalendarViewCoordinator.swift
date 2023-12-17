@@ -11,7 +11,9 @@ final class CalendarViewCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     
-    var navigationController: UINavigationController?
+    var mainNavigationController: UINavigationController?
+    var subNavigationController: UINavigationController?
+    
     var viewController: UIViewController?
     
     private let storageService: StorageService
@@ -24,7 +26,7 @@ final class CalendarViewCoordinator: Coordinator {
         userDefaultService: UserDefaultService,
         dateManageService: DateManageService
     ) {
-        self.navigationController = navigationController
+        self.mainNavigationController = navigationController
         self.storageService = storageService
         self.userDefaultService = userDefaultService
         self.dateManageService = dateManageService
@@ -40,15 +42,18 @@ final class CalendarViewCoordinator: Coordinator {
         calendarViewContoller.coordinator = self
         viewController = calendarViewContoller
         
-        guard let parentViewController = parentCoordinator?.navigationController?.viewControllers.last else {
+        guard let parentViewController = parentCoordinator?.mainNavigationController?.viewControllers.last 
+        else {
             return
         }
         parentViewController.addChild(calendarViewContoller)
     }
-    
+}
+
+extension CalendarViewCoordinator {
     func presentCalendarList(day: String, index: Int) {
         let calendarListViewCoordinator = CalendarListViewCoordinator(
-            navigationController: navigationController,
+            mainNavigationController: mainNavigationController,
             storageService: storageService,
             userDefaultService: userDefaultService,
             dateManageService: dateManageService,
