@@ -19,7 +19,7 @@ final class ExpenseViewReactor: Reactor {
     enum Action {
         case showModeButtonTapped
         case nextMonthButtonTapped
-        case previoutMonthButtonTapped
+        case previousMonthButtonTapped
         case todayButtonTapped
     }
     
@@ -63,7 +63,7 @@ final class ExpenseViewReactor: Reactor {
             return dateService.updateDate(byAddingMonths: 1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             
-        case .previoutMonthButtonTapped:
+        case .previousMonthButtonTapped:
             return dateService.updateDate(byAddingMonths: -1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             

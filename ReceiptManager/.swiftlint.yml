@@ -1,5 +1,6 @@
 excluded:
 - Pods
+- ReactorTests
 
 disabled_rules:
 - trailing_whitespace

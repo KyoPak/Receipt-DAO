@@ -23,6 +23,7 @@ extension NumberFormatter {
         }
         
         if texts.count == 2 {
+            guard let pointInteger = Int(texts[1]) else { return integerText }
             return integerText + "." + String(texts[1])
         }
         
