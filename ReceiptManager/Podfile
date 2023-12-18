@@ -21,6 +21,9 @@ target 'ReceiptManager' do
     pod 'ReactorKit'
     pod 'RxGesture'
     pod 'Toast-Swift', '~> 5.0.1'
+    pod 'Firebase/Crashlytics'
+    pod 'Firebase/Analytics'
+    use_frameworks! :linkage => :static
 
     target 'ReceiptManagerTests' do
         inherit! :search_paths
