@@ -45,6 +45,8 @@
 		3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4C2B03759B009D1795 /* CustomTabBar.swift */; };
 		3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
+		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
+		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
 		3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A37F2B04CE1000377A73 /* Coordinator.swift */; };
 		3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */; };
 		3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */; };
@@ -173,6 +175,8 @@
 		3C614B4C2B03759B009D1795 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
+		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
+		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
 		3C74A37F2B04CE1000377A73 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewCoordinator.swift; sourceTree = "<group>"; };
@@ -484,6 +488,7 @@
 				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 				3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */,
 				3CBABE402B21D2830001BA4F /* MonthControlView.swift */,
+				3C6AD2342B318553000D93A0 /* CustomAlertController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
 				3C685F682A5009650064EE2A /* SettingSection.swift */,
 				3C7D424C2A51281E00304A8C /* Currency.swift */,
+				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1040,6 +1046,7 @@
 				3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */,
 				3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */,
 				3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */,
+				3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */,
 				3C852EFE2B184A9A00F48CD3 /* CalendarViewController.swift in Sources */,
 				3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */,
 				3C852F002B184F0400F48CD3 /* CalendarCell.swift in Sources */,
@@ -1077,6 +1084,7 @@
 				3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */,
 				3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */,
 				3C0894C82A4E87F600C6E7CD /* SettingCell.swift in Sources */,
+				3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */,
 				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
 				3C685F692A5009650064EE2A /* SettingSection.swift in Sources */,
 				3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */,
