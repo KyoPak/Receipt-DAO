@@ -54,4 +54,10 @@ extension ListViewCoordinator {
         
         expenseViewCoordinator?.moveDetailView(expense: expense)
     }
+    
+    func presentAlert(error: Error) {
+        let expenseViewCoordinator = parentCoordinator as? ExpenseViewCoordinator
+        
+        expenseViewCoordinator?.moveAlertView(error: error)
+    }
 }

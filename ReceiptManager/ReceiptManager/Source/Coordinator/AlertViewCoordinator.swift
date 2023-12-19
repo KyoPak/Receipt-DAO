@@ -16,21 +16,26 @@ final class AlertViewCoordinator: Coordinator {
     
     var error: Error
     
-    init(
-        mainNavigationController: UINavigationController?,
-        subNavigationController: UINavigationController?,
-        error: Error
-    ) {
+    init(mainNavigationController: UINavigationController?, error: Error) {
         self.mainNavigationController = mainNavigationController
-        self.subNavigationController = subNavigationController
+        self.subNavigationController = UINavigationController()
         self.error = error
     }
     
     func start() {
         let alertViewController = CustomAlertViewController(error: error)
         alertViewController.coordinator = self
-        alertViewController.modalPresentationStyle = .overFullScreen
         
-        subNavigationController?.pushViewController(alertViewController, animated: false)
+        subNavigationController?.modalPresentationStyle = .overFullScreen
+        subNavigationController?.setViewControllers([alertViewController], animated: true)
+        mainNavigationController?.present(
+            subNavigationController ?? UINavigationController(),
+            animated: false
+        )
+    }
+    
+    func close(_ controller: UIViewController) {
+        removeChild(self)
+        controller.dismiss(animated: false)
     }
 }
