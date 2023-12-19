@@ -47,6 +47,7 @@
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
 		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
+		3C6AD2392B31947B000D93A0 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2382B31947B000D93A0 /* AlertView.swift */; };
 		3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A37F2B04CE1000377A73 /* Coordinator.swift */; };
 		3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */; };
 		3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */; };
@@ -177,6 +178,7 @@
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
+		3C6AD2382B31947B000D93A0 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		3C74A37F2B04CE1000377A73 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewCoordinator.swift; sourceTree = "<group>"; };
@@ -416,6 +418,15 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		3C6AD23A2B3195C9000D93A0 /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				3C6AD2342B318553000D93A0 /* CustomAlertController.swift */,
+				3C6AD2382B31947B000D93A0 /* AlertView.swift */,
+			);
+			path = CustomAlert;
+			sourceTree = "<group>";
+		};
 		3C74A37E2B04CDFE00377A73 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,10 +496,10 @@
 				3CFCB4742B1387AC0045075C /* ListCell */,
 				3C614B492B036D52009D1795 /* CustomTabBar */,
 				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
+				3C6AD23A2B3195C9000D93A0 /* CustomAlert */,
 				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 				3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */,
 				3CBABE402B21D2830001BA4F /* MonthControlView.swift */,
-				3C6AD2342B318553000D93A0 /* CustomAlertController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1065,6 +1076,7 @@
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3CA95B082B1F108D0041394C /* CalendarListReactor.swift in Sources */,
 				3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */,
+				3C6AD2392B31947B000D93A0 /* AlertView.swift in Sources */,
 				3C765AE92B0F58B300EB7A6C /* SettingViewReactor.swift in Sources */,
 				3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
