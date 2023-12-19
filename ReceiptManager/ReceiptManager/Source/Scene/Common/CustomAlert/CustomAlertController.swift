@@ -14,6 +14,7 @@ final class CustomAlertViewController: UIViewController {
     
     // Property
     
+    weak var coordinator: AlertViewCoordinator?
     private let disposeBag = DisposeBag()
     private let dismissTap = UITapGestureRecognizer()
     private let alertTitle: BehaviorSubject<String>
@@ -68,8 +69,9 @@ private extension CustomAlertViewController {
             dismissTap.rx.event.asObservable().map { _ in },
             alertView.didTapCancelButton.asObservable().map { _ in }
         ])
-        .bind { _ in
-            self.dismiss(animated: false)
+        .bind { [weak self] _ in
+            guard let self = self else { return }
+            self.coordinator?.close(self)
         }
         .disposed(by: disposeBag)
         

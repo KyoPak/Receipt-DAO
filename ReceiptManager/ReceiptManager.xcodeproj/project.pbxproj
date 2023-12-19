@@ -48,6 +48,7 @@
 		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
 		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
 		3C6AD2392B31947B000D93A0 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2382B31947B000D93A0 /* AlertView.swift */; };
+		3C6AD23C2B31978D000D93A0 /* AlertViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */; };
 		3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A37F2B04CE1000377A73 /* Coordinator.swift */; };
 		3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */; };
 		3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */; };
@@ -179,6 +180,7 @@
 		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
 		3C6AD2382B31947B000D93A0 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewCoordinator.swift; sourceTree = "<group>"; };
 		3C74A37F2B04CE1000377A73 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewCoordinator.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */,
 				3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */,
 				3C78C8CD2B21BFF0007FF68A /* AnalysisViewCoordinator.swift */,
+				3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1102,6 +1105,7 @@
 				3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */,
 				3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */,
 				3CD8B9322B065E4400968A7E /* DetailViewReactor.swift in Sources */,
+				3C6AD23C2B31978D000D93A0 /* AlertViewCoordinator.swift in Sources */,
 				3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */,
 				3C78C8C92B21BBAD007FF68A /* AnalysisViewController.swift in Sources */,
 				3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */,
