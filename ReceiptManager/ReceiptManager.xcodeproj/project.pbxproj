@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29D5B38FE3172F907C09A4E3 /* Pods_ReceiptManagerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C4E4C574199E1F0A5875CC /* Pods_ReceiptManagerTests.framework */; };
 		3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */; };
 		3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */; };
 		3C07528E2B298E0600C58066 /* ExpenseViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C07528D2B298E0600C58066 /* ExpenseViewReactorTests.swift */; };
@@ -83,6 +84,7 @@
 		3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */; };
 		3CB563F92A286D22008A6CD0 /* OCRExtractorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB563F82A286D22008A6CD0 /* OCRExtractorService.swift */; };
 		3CBABE412B21D2830001BA4F /* MonthControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBABE402B21D2830001BA4F /* MonthControlView.swift */; };
+		3CBD9FAF2B2FF16E009E66E8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CBD9FAE2B2FF16E009E66E8 /* GoogleService-Info.plist */; };
 		3CC335842B22D2C5005982AA /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC335832B22D2C5005982AA /* Double+Extension.swift */; };
 		3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B62A0CC06900055872 /* UILabel+Extension.swift */; };
 		3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893B82A0CC07400055872 /* UITextField+Extension.swift */; };
@@ -110,8 +112,7 @@
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
 		3CFD89572B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */; };
 		3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */; };
-		D168856F0D409C7A53D8ACB1 /* libPods-ReceiptManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */; };
-		ED3DE38DAB009749963561C1 /* libPods-ReceiptManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */; };
+		7963589C5E5A90D4159DB45D /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE16A352E7493CA7F7B41A8 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,7 @@
 		092C0F5279C9E5DFB5AA2CAA /* Pods-ReactorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.release.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.release.xcconfig"; sourceTree = "<group>"; };
 		0DEC07D71F2903D2A0731BC0 /* Pods-ReceiptManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.release.xcconfig"; sourceTree = "<group>"; };
 		1A63657D9626345E468AA028 /* Pods-ReceiptManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManager.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManager/Pods-ReceiptManager.debug.xcconfig"; sourceTree = "<group>"; };
+		2AE16A352E7493CA7F7B41A8 /* Pods_ReceiptManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C05E0982B0C76BA0062C3F7 /* ComposeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactor.swift; sourceTree = "<group>"; };
 		3C05E09C2B0C80F30062C3F7 /* ComposeViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewCoordinator.swift; sourceTree = "<group>"; };
 		3C07528B2B298E0600C58066 /* ReceiptManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReceiptManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -211,6 +213,7 @@
 		3CB4CF412A13D78000E9CBAB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		3CB563F82A286D22008A6CD0 /* OCRExtractorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractorService.swift; sourceTree = "<group>"; };
 		3CBABE402B21D2830001BA4F /* MonthControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthControlView.swift; sourceTree = "<group>"; };
+		3CBD9FAE2B2FF16E009E66E8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3CC335832B22D2C5005982AA /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B62A0CC06900055872 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		3CC893B82A0CC07400055872 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -241,9 +244,8 @@
 		3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtensionTests.swift; sourceTree = "<group>"; };
 		3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
 		5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReceiptManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		51C4E4C574199E1F0A5875CC /* Pods_ReceiptManagerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManagerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReceiptManagerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB860201C8411B0A311EC789 /* Pods-ReceiptManagerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.release.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,7 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D168856F0D409C7A53D8ACB1 /* libPods-ReceiptManagerTests.a in Frameworks */,
+				29D5B38FE3172F907C09A4E3 /* Pods_ReceiptManagerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED3DE38DAB009749963561C1 /* libPods-ReceiptManager.a in Frameworks */,
+				7963589C5E5A90D4159DB45D /* Pods_ReceiptManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +651,7 @@
 				3C2E18E129FBCC6100E8E9C6 /* Assets.xcassets */,
 				3C2E18E329FBCC6100E8E9C6 /* LaunchScreen.storyboard */,
 				3C2E18E629FBCC6100E8E9C6 /* Info.plist */,
+				3CBD9FAE2B2FF16E009E66E8 /* GoogleService-Info.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -766,8 +769,8 @@
 			isa = PBXGroup;
 			children = (
 				3C07529A2B298E9B00C58066 /* RxSwift.framework */,
-				5EB2F7D69E116C1CD1AA8BC0 /* libPods-ReceiptManager.a */,
-				B4AC4AFCA93E7FB04107AC06 /* libPods-ReceiptManagerTests.a */,
+				2AE16A352E7493CA7F7B41A8 /* Pods_ReceiptManager.framework */,
+				51C4E4C574199E1F0A5875CC /* Pods_ReceiptManagerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				3C2E18D029FBCC5F00E8E9C6 /* Resources */,
 				3CDCDC4629FBDF3D00C2BEF6 /* ShellScript */,
 				D9FB12A68B21EFEFED987421 /* [CP] Copy Pods Resources */,
+				3C8822AE2B3151CF003F407B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -871,12 +875,32 @@
 				3C2E18E529FBCC6100E8E9C6 /* LaunchScreen.storyboard in Resources */,
 				3C2E18E229FBCC6100E8E9C6 /* Assets.xcassets in Resources */,
 				3CF106B42A4DBD250056874B /* InfoPlist.strings in Resources */,
+				3CBD9FAF2B2FF16E009E66E8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3C8822AE2B3151CF003F407B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\n//프로젝트의 dSYM 파일 위치",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)\n//프로젝트의 빌드된 Info.plist 파일 위치",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		3CDCDC4629FBDF3D00C2BEF6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1194,7 +1218,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
