@@ -20,13 +20,13 @@ final class ListViewReactor: Reactor {
     enum Mutation {
         case updateExpenseList([ReceiptSectionModel])
         case changeMonth(Date)
-        case onError(StorageServiceError?)
+        case onError(Error?)
     }
     
     struct State {
         var expenseByMonth: [ReceiptSectionModel]
         var date: Date
-        var dataError: StorageServiceError?
+        var dataError: Error?
     }
     
     let initialState: State
@@ -70,7 +70,7 @@ final class ListViewReactor: Reactor {
                 }
                 .catch { error in
                     return Observable.concat([
-                        Observable.just(Mutation.onError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onError(error)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }
@@ -85,7 +85,7 @@ final class ListViewReactor: Reactor {
                 }
                 .catch { error in
                     return Observable.concat([
-                        Observable.just(Mutation.onError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onError(error)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }

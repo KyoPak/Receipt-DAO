@@ -18,12 +18,12 @@ final class BookMarkViewReactor: Reactor {
     
     enum Mutation {
         case loadData([ReceiptSectionModel])
-        case onError(StorageServiceError?)
+        case onError(Error?)
     }
     
     struct State {
         var expenseByBookMark: [ReceiptSectionModel]
-        var dataError: StorageServiceError?
+        var dataError: Error?
     }
     
     let initialState = State(expenseByBookMark: [])
@@ -59,7 +59,7 @@ final class BookMarkViewReactor: Reactor {
                 }
                 .catch { error in
                     return Observable.concat([
-                        Observable.just(Mutation.onError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onError(error)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }

@@ -21,7 +21,7 @@ final class CalendarListReactor: Reactor {
         case updateDateTitle(String)
         case updateExpenseList([Receipt])
         case updateAmount(String)
-        case onError(StorageServiceError?)
+        case onError(Error?)
     }
     
     struct State {
@@ -30,7 +30,7 @@ final class CalendarListReactor: Reactor {
         var weekIndex: Int
         var expenseByDay: [Receipt]
         var amountByDay: String
-        var dataError: StorageServiceError?
+        var dataError: Error?
     }
     
     let initialState: State
@@ -89,7 +89,7 @@ final class CalendarListReactor: Reactor {
                 }
                 .catch { error in
                     return Observable.concat([
-                        Observable.just(Mutation.onError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onError(error)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }
@@ -104,7 +104,7 @@ final class CalendarListReactor: Reactor {
                 }
                 .catch { error in
                     return Observable.concat([
-                        Observable.just(Mutation.onError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onError(error)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }

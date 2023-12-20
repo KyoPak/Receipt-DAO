@@ -29,8 +29,7 @@ final class ComposeViewReactor: Reactor {
         case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
-        case onDataError(StorageServiceError?)
-        case onOCRError(OCRExtractorError?)
+        case onError(Error?)
     }
     
     struct State {
@@ -42,8 +41,7 @@ final class ComposeViewReactor: Reactor {
         var imageAppendEnable: Bool?
         var successExpenseRegister: Void?
         var ocrResult: [String]?
-        var dataError: StorageServiceError?
-        var ocrError: OCRExtractorError?
+        var composeError: Error?
     }
     
     // Custom Type
@@ -125,8 +123,8 @@ final class ComposeViewReactor: Reactor {
                 }
                 .catch { error in
                     Observable.concat([
-                        Observable.just(Mutation.onOCRError(error as? OCRExtractorError)),
-                        Observable.just(Mutation.onOCRError(nil))
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
                     ])
                 }
             
@@ -141,8 +139,8 @@ final class ComposeViewReactor: Reactor {
                 }
                 .catch { error in
                     Observable.concat([
-                        Observable.just(Mutation.onDataError(error as? StorageServiceError)),
-                        Observable.just(Mutation.onDataError(nil))
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
                     ])
                 }
             
@@ -177,11 +175,8 @@ final class ComposeViewReactor: Reactor {
         case .imageDataOCR(let texts):
             newState.ocrResult = texts
             
-        case .onDataError(let error):
-            newState.dataError = error
-            
-        case .onOCRError(let error):
-            newState.ocrError = error
+        case .onError(let error):
+            newState.composeError = error
         }
         
         return newState
