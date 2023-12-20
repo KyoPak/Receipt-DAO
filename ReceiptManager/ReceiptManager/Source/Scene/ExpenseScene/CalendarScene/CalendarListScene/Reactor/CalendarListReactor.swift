@@ -21,6 +21,7 @@ final class CalendarListReactor: Reactor {
         case updateDateTitle(String)
         case updateExpenseList([Receipt])
         case updateAmount(String)
+        case onError(StorageServiceError?)
     }
     
     struct State {
@@ -29,6 +30,7 @@ final class CalendarListReactor: Reactor {
         var weekIndex: Int
         var expenseByDay: [Receipt]
         var amountByDay: String
+        var dataError: StorageServiceError?
     }
     
     let initialState: State
@@ -79,13 +81,35 @@ final class CalendarListReactor: Reactor {
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByDay[indexPath.row]
             expense.isFavorite.toggle()
-            storageService.upsert(receipt: expense)
-            return Observable.empty()
+            return storageService.upsert(receipt: expense)
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(models)}
+                }
+                .catchAndReturn(Mutation.onError(StorageServiceError.entityUpdateError))
+                .flatMap { mutation in
+                    return Observable.concat([
+                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByDay[indexPath.row]
-            storageService.delete(receipt: expense)
-            return Observable.empty()
+            return storageService.delete(receipt: expense)
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(models)}
+                }
+                .catchAndReturn(Mutation.onError(StorageServiceError.entityDeleteError))
+                .flatMap { mutation in
+                    return Observable.concat([
+                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
         }
     }
     
@@ -100,6 +124,9 @@ final class CalendarListReactor: Reactor {
             
         case .updateAmount(let amount):
             newState.amountByDay = amount
+            
+        case .onError(let error):
+            newState.dataError = error
         }
         
         return newState
@@ -108,17 +135,22 @@ final class CalendarListReactor: Reactor {
 
 extension CalendarListReactor {
     private func loadData() -> Observable<[Receipt]> {
+        return storageService.fetch()
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .map { (owner, item) in
+                owner.filterData(for: item)
+            }
+    }
+    
+    private func filterData(for data: [Receipt]) -> [Receipt] {
         let dayFormat = ConstantText.dateFormatFull.localize()
         let currentDate = updateDate()
         
-        return storageService.fetch()
-            .distinctUntilChanged()
-            .map { result in
-                return result.filter { expense in
-                    let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
-                    return expenseDate == currentDate
-                }
-            }
+        return data.filter { expense in
+            let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
+            return expenseDate == currentDate
+        }
     }
 }
 
