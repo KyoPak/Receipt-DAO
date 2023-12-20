@@ -9,6 +9,7 @@ import Foundation
 import Vision
 import VisionKit
 
+import FirebaseCrashlytics
 import RxSwift
 
 protocol OCRExtractorService {
@@ -56,6 +57,7 @@ final class DefaultOCRExtractorService: OCRExtractorService {
             do {
                 try handler.perform([request])
             } catch {
+                Crashlytics.crashlytics().record(error: error)
                 observer.onError(OCRExtractorError.extractError)
             }
             
