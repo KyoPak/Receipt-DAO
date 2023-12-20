@@ -64,4 +64,15 @@ extension DetailViewCoordinator {
         
         composeViewCoordinator.start()
     }
+    
+    func presentAlert(error: Error) {
+        let alertCoordinator = AlertViewCoordinator(
+            mainNavigationController: mainNavigationController,
+            error: error
+        )
+        
+        alertCoordinator.parentCoordinator = self
+        childCoordinators.append(alertCoordinator)
+        alertCoordinator.start()
+    }
 }

@@ -24,6 +24,7 @@ final class DetailViewReactor: Reactor {
         case editExpense(Receipt?)
         case deleteExpense(Void?)
         case updateExpense(Receipt)
+        case onError(Error?)
     }
     
     struct State {
@@ -33,6 +34,7 @@ final class DetailViewReactor: Reactor {
         var shareExpense: [Data]?
         var editExpense: Receipt?
         var deleteExpense: Void?
+        var dataError: Error?
     }
     
     let initialState: State
@@ -77,9 +79,16 @@ final class DetailViewReactor: Reactor {
             
         case .delete:
             let expense = currentState.expense
-            storageService.delete(receipt: expense)
-            
-            return Observable.just(Mutation.deleteExpense(Void()))
+            return storageService.delete(receipt: expense)
+                .flatMap { _ in
+                    return Observable.just(Mutation.deleteExpense(Void()))
+                }
+                .catch { error in
+                    return Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
         }
     }
     
@@ -101,6 +110,9 @@ final class DetailViewReactor: Reactor {
             
         case .updateExpense(let updatedExpense):
             newState = changeState(currentState: state, data: updatedExpense)
+            
+        case .onError(let error):
+            newState.dataError = error
         }
         
         return newState
