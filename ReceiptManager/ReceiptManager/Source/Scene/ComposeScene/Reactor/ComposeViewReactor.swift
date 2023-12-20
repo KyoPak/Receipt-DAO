@@ -29,6 +29,7 @@ final class ComposeViewReactor: Reactor {
         case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
+        case onDataError(StorageServiceError?)
     }
     
     struct State {
@@ -40,6 +41,7 @@ final class ComposeViewReactor: Reactor {
         var imageAppendEnable: Bool?
         var successExpenseRegister: Void?
         var ocrResult: [String]?
+        var dataError: StorageServiceError?
     }
     
     // Custom Type
@@ -115,14 +117,22 @@ final class ComposeViewReactor: Reactor {
             ocrExtractor.extractText(data: ocrTargetData)
                  
             return Observable.empty()
-
+            
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            storageService.upsert(receipt: newExpense)
-            return Observable.concat([
-                Observable.just(Mutation.saveExpense(Void())),
-                Observable.just(Mutation.saveExpense(nil))
-            ])
+            return storageService.upsert(receipt: newExpense)
+                .flatMap { _ in
+                    Observable.concat([
+                        Observable.just(Mutation.saveExpense(Void())),
+                        Observable.just(Mutation.saveExpense(nil))
+                    ])
+                }
+                .catch { error in
+                    Observable.concat([
+                        Observable.just(Mutation.onDataError(error as? StorageServiceError)),
+                        Observable.just(Mutation.onDataError(nil))
+                    ])
+                }
             
         case .imageAppendButtonTapped(let indexPath):
             let result = indexPath.row == .zero && currentState.registerdImageDatas.count < 6
@@ -154,6 +164,9 @@ final class ComposeViewReactor: Reactor {
             
         case .imageDataOCR(let texts):
             newState.ocrResult = texts
+            
+        case .onDataError(let error):
+            newState.dataError = error
         }
         
         return newState
