@@ -87,7 +87,7 @@ final class DefaultStorageService: StorageService {
             try mainContext.rx.update(receipt)
             return Observable.just(receipt)
         } catch {
-            return Observable.error(error)
+            return Observable.error(StorageServiceError.entityUpdateError)
         }
     }
     
@@ -97,7 +97,7 @@ final class DefaultStorageService: StorageService {
             try mainContext.rx.delete(receipt)
             return Observable.just(receipt)
         } catch {
-            return Observable.error(error)
+            return Observable.error(StorageServiceError.entityDeleteError)
         }
     }
 }
