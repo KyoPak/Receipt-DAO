@@ -171,18 +171,6 @@ final class ComposeViewReactor: Reactor {
         
         return newState
     }
-    
-    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let ocrEvent = ocrExtractor.ocrResult
-            .flatMap { texts in
-                return Observable.concat([
-                    Observable.just(Mutation.imageDataOCR(texts)),
-                    Observable.just(Mutation.imageDataOCR(nil))
-                ])
-            }
-            
-        return Observable.merge(mutation, ocrEvent)
-    }
 }
 
 extension ComposeViewReactor {

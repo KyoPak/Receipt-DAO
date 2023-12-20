@@ -12,46 +12,54 @@ import VisionKit
 import RxSwift
 
 protocol OCRExtractorService {
-    var ocrResult: PublishSubject<[String]> { get set }
-    func extractText(data: Data)
+    func extractText(data: Data) -> Observable<[String]>
 }
 
 final class DefaultOCRExtractorService: OCRExtractorService {
-    var ocrResult = PublishSubject<[String]>()
     private let currency: Currency
     
     init(currencyIndex: Int?) {
         currency = Currency(rawValue: currencyIndex ?? .zero) ?? .KRW
     }
     
-    func extractText(data: Data) {
-        guard let image = UIImage(data: data)?.cgImage else { return }
-        
-        let handler = VNImageRequestHandler(cgImage: image, options: [:])
-        
-        let request = VNRecognizeTextRequest { [weak self] request, error in
-            guard let self = self else { return }
-            
-            guard let observations = request.results as? [VNRecognizedTextObservation], error == nil else {
-                return
+    func extractText(data: Data) -> Observable<[String]> {
+        return Observable.create { [weak self] observer in
+            guard let self = self, let image = UIImage(data: data)?.cgImage else {
+                observer.onError(OCRExtractorError.extractError)
+                return Disposables.create()
             }
             
-            let ocrText = observations.compactMap { text in
-                text.topCandidates(1).first?.string.trimmingCharacters(in: .whitespacesAndNewlines)
+            let handler = VNImageRequestHandler(cgImage: image, options: [:])
+            
+            let request = VNRecognizeTextRequest { [weak self] request, error in
+                guard let self = self else { return }
+                
+                guard let observations = request.results as? [VNRecognizedTextObservation], error == nil
+                else {
+                    observer.onError(OCRExtractorError.extractError)
+                    return
+                }
+                
+                let ocrText = observations.compactMap { text in
+                    text.topCandidates(1).first?.string.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+                
+                observer.onNext(ocrText)
+                observer.onCompleted()
             }
             
-            ocrResult.onNext(ocrText)
-        }
-        
-        request.recognitionLanguages =  recognitionLanguages()
-        request.revision = revision()
-        request.recognitionLevel = .accurate
-        request.usesLanguageCorrection = true
-        
-        do {
-            try handler.perform([request])
-        } catch {
-            print(error)
+            request.recognitionLanguages = self.recognitionLanguages()
+            request.revision = self.revision()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            
+            do {
+                try handler.perform([request])
+            } catch {
+                observer.onError(OCRExtractorError.extractError)
+            }
+            
+            return Disposables.create()
         }
     }
     
