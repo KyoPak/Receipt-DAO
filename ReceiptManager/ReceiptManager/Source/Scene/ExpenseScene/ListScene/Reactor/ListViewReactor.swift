@@ -68,10 +68,9 @@ final class ListViewReactor: Reactor {
                         Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
                     }
                 }
-                .catchAndReturn(Mutation.onError(StorageServiceError.entityUpdateError))
-                .flatMap { mutation in
+                .catch { error in
                     return Observable.concat([
-                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(error as? StorageServiceError)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }
@@ -84,10 +83,9 @@ final class ListViewReactor: Reactor {
                         Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
                     }
                 }
-                .catchAndReturn(Mutation.onError(StorageServiceError.entityDeleteError))
-                .flatMap { mutation in
+                .catch { error in
                     return Observable.concat([
-                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(error as? StorageServiceError)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }

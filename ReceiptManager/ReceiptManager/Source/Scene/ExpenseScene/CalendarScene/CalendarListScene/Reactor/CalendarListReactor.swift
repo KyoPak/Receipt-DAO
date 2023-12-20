@@ -87,10 +87,9 @@ final class CalendarListReactor: Reactor {
                     owner.loadData().map { models in
                         Mutation.updateExpenseList(models)}
                 }
-                .catchAndReturn(Mutation.onError(StorageServiceError.entityUpdateError))
-                .flatMap { mutation in
+                .catch { error in
                     return Observable.concat([
-                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(error as? StorageServiceError)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }
@@ -103,10 +102,9 @@ final class CalendarListReactor: Reactor {
                     owner.loadData().map { models in
                         Mutation.updateExpenseList(models)}
                 }
-                .catchAndReturn(Mutation.onError(StorageServiceError.entityDeleteError))
-                .flatMap { mutation in
+                .catch { error in
                     return Observable.concat([
-                        Observable.just(mutation),
+                        Observable.just(Mutation.onError(error as? StorageServiceError)),
                         Observable.just(Mutation.onError(nil))
                     ])
                 }
@@ -118,7 +116,7 @@ final class CalendarListReactor: Reactor {
         switch mutation {
         case .updateDateTitle(let title):
             newState.dateTitle = title
-        
+            
         case .updateExpenseList(let models):
             newState.expenseByDay = models
             
