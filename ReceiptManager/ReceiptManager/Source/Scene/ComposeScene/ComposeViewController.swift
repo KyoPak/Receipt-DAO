@@ -234,6 +234,13 @@ extension ComposeViewController {
                 owner.setupOCRView()
             }
             .disposed(by: disposeBag)
+            
+        reactor.state.map { $0.composeError }
+            .compactMap { $0 }
+            .bind { [weak self] error in
+                self?.coordinator?.presentAlert(error: error)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func convertSaveExpense() -> Reactor.SaveExpense {

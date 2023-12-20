@@ -45,6 +45,10 @@
 		3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4C2B03759B009D1795 /* CustomTabBar.swift */; };
 		3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
+		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
+		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
+		3C6AD2392B31947B000D93A0 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2382B31947B000D93A0 /* AlertView.swift */; };
+		3C6AD23C2B31978D000D93A0 /* AlertViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */; };
 		3C74A3802B04CE1000377A73 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A37F2B04CE1000377A73 /* Coordinator.swift */; };
 		3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */; };
 		3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */; };
@@ -65,6 +69,7 @@
 		3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C852F042B185B0E00F48CD3 /* DateManageService.swift */; };
 		3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */; };
 		3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */; };
+		3C99A0992B329485006B274C /* OCRExtractorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C99A0982B329485006B274C /* OCRExtractorError.swift */; };
 		3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3452A0117D60014807B /* UIButton+Extension.swift */; };
 		3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3472A012C880014807B /* ExpenseNavigationBar.swift */; };
 		3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA34F2A012FC20014807B /* ListViewController.swift */; };
@@ -173,6 +178,10 @@
 		3C614B4C2B03759B009D1795 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
+		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
+		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
+		3C6AD2382B31947B000D93A0 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewCoordinator.swift; sourceTree = "<group>"; };
 		3C74A37F2B04CE1000377A73 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3C74A3812B04E40400377A73 /* MainTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarCoordinator.swift; sourceTree = "<group>"; };
 		3C74A3832B04F66F00377A73 /* ExpenseViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseViewCoordinator.swift; sourceTree = "<group>"; };
@@ -193,6 +202,7 @@
 		3C852F042B185B0E00F48CD3 /* DateManageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManageService.swift; sourceTree = "<group>"; };
 		3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewController.swift; sourceTree = "<group>"; };
 		3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
+		3C99A0982B329485006B274C /* OCRExtractorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractorError.swift; sourceTree = "<group>"; };
 		3C9AA3452A0117D60014807B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		3C9AA3472A012C880014807B /* ExpenseNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseNavigationBar.swift; sourceTree = "<group>"; };
 		3C9AA34F2A012FC20014807B /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -412,6 +422,15 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		3C6AD23A2B3195C9000D93A0 /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				3C6AD2342B318553000D93A0 /* CustomAlertController.swift */,
+				3C6AD2382B31947B000D93A0 /* AlertView.swift */,
+			);
+			path = CustomAlert;
+			sourceTree = "<group>";
+		};
 		3C74A37E2B04CDFE00377A73 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +447,7 @@
 				3C765AEA2B0F598600EB7A6C /* SettingViewCoordinator.swift */,
 				3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */,
 				3C78C8CD2B21BFF0007FF68A /* AnalysisViewCoordinator.swift */,
+				3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -481,6 +501,7 @@
 				3CFCB4742B1387AC0045075C /* ListCell */,
 				3C614B492B036D52009D1795 /* CustomTabBar */,
 				3C7FD5012B03C0EF0084E650 /* CustomNavigationBar */,
+				3C6AD23A2B3195C9000D93A0 /* CustomAlert */,
 				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 				3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */,
 				3CBABE402B21D2830001BA4F /* MonthControlView.swift */,
@@ -700,6 +721,8 @@
 				3CDCDC4F29FC02B300C2BEF6 /* PayType.swift */,
 				3C685F682A5009650064EE2A /* SettingSection.swift */,
 				3C7D424C2A51281E00304A8C /* Currency.swift */,
+				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
+				3C99A0982B329485006B274C /* OCRExtractorError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1026,6 +1049,7 @@
 				3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
 				3C088A4A2B1F782500FFFB74 /* BottomSheetViewController.swift in Sources */,
+				3C99A0992B329485006B274C /* OCRExtractorError.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* ExpenseViewController.swift in Sources */,
 				3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */,
 				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,
@@ -1040,6 +1064,7 @@
 				3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */,
 				3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */,
 				3C7DBD722A2211A400DA0EF8 /* UIViewController+Extension.swift in Sources */,
+				3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */,
 				3C852EFE2B184A9A00F48CD3 /* CalendarViewController.swift in Sources */,
 				3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */,
 				3C852F002B184F0400F48CD3 /* CalendarCell.swift in Sources */,
@@ -1058,6 +1083,7 @@
 				3CB4CF422A13D78000E9CBAB /* UIImage+Extension.swift in Sources */,
 				3CA95B082B1F108D0041394C /* CalendarListReactor.swift in Sources */,
 				3C74A3822B04E40400377A73 /* MainTabBarCoordinator.swift in Sources */,
+				3C6AD2392B31947B000D93A0 /* AlertView.swift in Sources */,
 				3C765AE92B0F58B300EB7A6C /* SettingViewReactor.swift in Sources */,
 				3CF8BA2D2A4D6F68002A18D0 /* String+Extension.swift in Sources */,
 				3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */,
@@ -1077,11 +1103,13 @@
 				3C3E95652A14BAB80020A0FE /* NumberFormatter+Extension.swift in Sources */,
 				3C485BBF2A28912D007F7229 /* ComposeInformationView.swift in Sources */,
 				3C0894C82A4E87F600C6E7CD /* SettingCell.swift in Sources */,
+				3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */,
 				3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */,
 				3C685F692A5009650064EE2A /* SettingSection.swift in Sources */,
 				3C05E0992B0C76BA0062C3F7 /* ComposeViewReactor.swift in Sources */,
 				3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */,
 				3CD8B9322B065E4400968A7E /* DetailViewReactor.swift in Sources */,
+				3C6AD23C2B31978D000D93A0 /* AlertViewCoordinator.swift in Sources */,
 				3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */,
 				3C78C8C92B21BBAD007FF68A /* AnalysisViewController.swift in Sources */,
 				3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */,

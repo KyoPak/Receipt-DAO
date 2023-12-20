@@ -95,3 +95,7 @@
 "ratingDown %@" = "%@ 減少";
 "ratingEqual" = "今月の支出は先月と同じです。";
 "ratingFullText %@" = "今月の支出は先月比\n%@しました";
+
+"entityUpdateError" = "アップデートに失敗しました。\n容量を確認してください。";
+"entityDeleteError" = "削除に失敗しました。";
+"extractError" = "テキストの抽出に失敗しました。";

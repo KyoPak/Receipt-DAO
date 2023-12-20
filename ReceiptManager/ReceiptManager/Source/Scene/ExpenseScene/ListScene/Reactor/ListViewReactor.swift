@@ -20,11 +20,13 @@ final class ListViewReactor: Reactor {
     enum Mutation {
         case updateExpenseList([ReceiptSectionModel])
         case changeMonth(Date)
+        case onError(Error?)
     }
     
     struct State {
         var expenseByMonth: [ReceiptSectionModel]
         var date: Date
+        var dataError: Error?
     }
     
     let initialState: State
@@ -60,17 +62,33 @@ final class ListViewReactor: Reactor {
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            storageService.upsert(receipt: expense)
-            return loadData().map { models in
-                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
-            }
-            
+            return storageService.upsert(receipt: expense)
+                .flatMap { _ in
+                    self.loadData().map { models in
+                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                    }
+                }
+                .catch { error in
+                    return Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
+
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
-            storageService.delete(receipt: expense)
-            return loadData().map { models in
-                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
-            }
+            return storageService.delete(receipt: expense)
+                .flatMap { _ in
+                    self.loadData().map { models in
+                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                    }
+                }
+                .catch { error in
+                    return Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
         }
     }
     
@@ -83,6 +101,9 @@ final class ListViewReactor: Reactor {
             
         case .changeMonth(let date):
             newState.date = date
+            
+        case .onError(let error):
+            newState.dataError = error
         }
         
         return newState

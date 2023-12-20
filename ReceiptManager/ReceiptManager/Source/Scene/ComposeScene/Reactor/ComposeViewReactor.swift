@@ -29,6 +29,7 @@ final class ComposeViewReactor: Reactor {
         case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
+        case onError(Error?)
     }
     
     struct State {
@@ -40,6 +41,7 @@ final class ComposeViewReactor: Reactor {
         var imageAppendEnable: Bool?
         var successExpenseRegister: Void?
         var ocrResult: [String]?
+        var composeError: Error?
     }
     
     // Custom Type
@@ -112,17 +114,35 @@ final class ComposeViewReactor: Reactor {
         case .cellOCRButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
-            ocrExtractor.extractText(data: ocrTargetData)
-                 
-            return Observable.empty()
-
+            return ocrExtractor.extractText(data: ocrTargetData)
+                .flatMap { texts in
+                    return Observable.concat([
+                        Observable.just(Mutation.imageDataOCR(texts)),
+                        Observable.just(Mutation.imageDataOCR(nil))
+                    ])
+                }
+                .catch { error in
+                    Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
+            
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            storageService.upsert(receipt: newExpense)
-            return Observable.concat([
-                Observable.just(Mutation.saveExpense(Void())),
-                Observable.just(Mutation.saveExpense(nil))
-            ])
+            return storageService.upsert(receipt: newExpense)
+                .flatMap { _ in
+                    Observable.concat([
+                        Observable.just(Mutation.saveExpense(Void())),
+                        Observable.just(Mutation.saveExpense(nil))
+                    ])
+                }
+                .catch { error in
+                    Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
             
         case .imageAppendButtonTapped(let indexPath):
             let result = indexPath.row == .zero && currentState.registerdImageDatas.count < 6
@@ -154,21 +174,12 @@ final class ComposeViewReactor: Reactor {
             
         case .imageDataOCR(let texts):
             newState.ocrResult = texts
+            
+        case .onError(let error):
+            newState.composeError = error
         }
         
         return newState
-    }
-    
-    func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let ocrEvent = ocrExtractor.ocrResult
-            .flatMap { texts in
-                return Observable.concat([
-                    Observable.just(Mutation.imageDataOCR(texts)),
-                    Observable.just(Mutation.imageDataOCR(nil))
-                ])
-            }
-            
-        return Observable.merge(mutation, ocrEvent)
     }
 }
 

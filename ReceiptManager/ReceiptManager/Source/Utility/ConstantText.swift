@@ -114,4 +114,11 @@ enum ConstantText {
     static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
     
     static let amountByDay = "amountByDay %@"
+    
+    // About Storage Error
+    static let entityUpdateError = "entityUpdateError"
+    static let entityDeleteError = "entityDeleteError"
+    
+    // About OCRExtractor Error
+    static let extractError = "extractError"
 }

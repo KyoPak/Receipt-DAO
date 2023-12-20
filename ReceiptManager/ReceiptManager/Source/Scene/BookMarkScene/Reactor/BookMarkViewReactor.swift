@@ -18,10 +18,12 @@ final class BookMarkViewReactor: Reactor {
     
     enum Mutation {
         case loadData([ReceiptSectionModel])
+        case onError(Error?)
     }
     
     struct State {
         var expenseByBookMark: [ReceiptSectionModel]
+        var dataError: Error?
     }
     
     let initialState = State(expenseByBookMark: [])
@@ -50,11 +52,17 @@ final class BookMarkViewReactor: Reactor {
         case .cellUnBookMark(let indexPath):
             var expense = currentState.expenseByBookMark[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            storageService.upsert(receipt: expense)
-            
-            return loadData().map { sectionModels in
-                return Mutation.loadData(sectionModels)
-            }
+            return storageService.upsert(receipt: expense)
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { Mutation.loadData($0) }
+                }
+                .catch { error in
+                    return Observable.concat([
+                        Observable.just(Mutation.onError(error)),
+                        Observable.just(Mutation.onError(nil))
+                    ])
+                }
         }
     }
 
@@ -64,6 +72,9 @@ final class BookMarkViewReactor: Reactor {
         switch mutation {
         case .loadData(let models):
             newState.expenseByBookMark = filterData(for: models)
+            
+        case .onError(let error):
+            newState.dataError = error
         }
         
         return newState

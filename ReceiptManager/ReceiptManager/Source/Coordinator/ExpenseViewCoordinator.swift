@@ -100,4 +100,15 @@ extension ExpenseViewCoordinator {
         
         searchViewCoordinator.start()
     }
+    
+    func moveAlertView(error: Error) {
+        let alertCoordinator = AlertViewCoordinator(
+            mainNavigationController: subNavigationController,
+            error: error
+        )
+        
+        alertCoordinator.parentCoordinator = self
+        childCoordinators.append(alertCoordinator)
+        alertCoordinator.start()
+    }
 }
