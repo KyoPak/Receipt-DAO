@@ -15,7 +15,7 @@ extension OCRExtractorError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .extractError:
-            return "텍스트 추출에 실패하였습니다."
+            return ConstantText.extractError.localize()
         }
     }
 }

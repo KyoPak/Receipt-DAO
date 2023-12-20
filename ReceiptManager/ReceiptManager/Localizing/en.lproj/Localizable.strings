@@ -96,3 +96,7 @@
 "ratingDown %@" = "down %@ ";
 "ratingEqual" = "This month's spending is\nthe same as last month.";
 "ratingFullText %@" = "This month's spending is\n%@ compared to last month.";
+
+"entityUpdateError" = "Update failed.\nPlease check capacity.";
+"entityDeleteError" = "Deletion failed.";
+"extractError" = "Text extraction failed.";

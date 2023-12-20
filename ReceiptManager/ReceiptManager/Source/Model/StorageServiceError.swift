@@ -8,8 +8,6 @@
 import Foundation
 
 enum StorageServiceError: Error {
-    case defaultError
-    case entityInsertError
     case entityUpdateError
     case entityDeleteError
 }
@@ -17,18 +15,11 @@ enum StorageServiceError: Error {
 extension StorageServiceError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .defaultError:
-            return nil
-        
-        // TODO: - Localizing
-        case .entityInsertError:
-            return "등록에 실패하였습니다.\n용량을 확인해주세요."
-        
         case .entityUpdateError:
-            return "업데이트에 실패하였습니다.\n용량을 확인해주세요."
+            return ConstantText.entityUpdateError.localize()
 
         case .entityDeleteError:
-            return "삭제가 실패하였습니다."
+            return ConstantText.entityDeleteError.localize()
         }
     }
 }

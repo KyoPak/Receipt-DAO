@@ -95,3 +95,8 @@
 "ratingDown %@" = "%@ 감소";
 "ratingEqual" = "지출이 지난 달과 동일합니다.";
 "ratingFullText %@" = "지출이 지난 달 대비\n%@하였습니다.";
+
+
+"entityUpdateError" = "업데이트에 실패하였습니다.\n용량을 확인해주세요.";
+"entityDeleteError" = "삭제에 실패하였습니다.";
+"extractError" = "텍스트 추출에 실패하였습니다.";
