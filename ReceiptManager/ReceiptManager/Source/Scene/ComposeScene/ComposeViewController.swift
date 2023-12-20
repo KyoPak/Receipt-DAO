@@ -241,6 +241,13 @@ extension ComposeViewController {
                 self?.coordinator?.presentAlert(error: error)
             }
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.ocrError }
+            .compactMap { $0 }
+            .bind { [weak self] error in
+                self?.coordinator?.presentAlert(error: error)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func convertSaveExpense() -> Reactor.SaveExpense {

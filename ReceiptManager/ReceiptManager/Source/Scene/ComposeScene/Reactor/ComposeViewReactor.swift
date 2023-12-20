@@ -30,6 +30,7 @@ final class ComposeViewReactor: Reactor {
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
         case onDataError(StorageServiceError?)
+        case onOCRError(OCRExtractorError?)
     }
     
     struct State {
@@ -42,6 +43,7 @@ final class ComposeViewReactor: Reactor {
         var successExpenseRegister: Void?
         var ocrResult: [String]?
         var dataError: StorageServiceError?
+        var ocrError: OCRExtractorError?
     }
     
     // Custom Type
@@ -114,9 +116,19 @@ final class ComposeViewReactor: Reactor {
         case .cellOCRButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
-            ocrExtractor.extractText(data: ocrTargetData)
-                 
-            return Observable.empty()
+            return ocrExtractor.extractText(data: ocrTargetData)
+                .flatMap { texts in
+                    return Observable.concat([
+                        Observable.just(Mutation.imageDataOCR(texts)),
+                        Observable.just(Mutation.imageDataOCR(nil))
+                    ])
+                }
+                .catch { error in
+                    Observable.concat([
+                        Observable.just(Mutation.onOCRError(error as? OCRExtractorError)),
+                        Observable.just(Mutation.onOCRError(nil))
+                    ])
+                }
             
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
@@ -167,6 +179,9 @@ final class ComposeViewReactor: Reactor {
             
         case .onDataError(let error):
             newState.dataError = error
+            
+        case .onOCRError(let error):
+            newState.ocrError = error
         }
         
         return newState
