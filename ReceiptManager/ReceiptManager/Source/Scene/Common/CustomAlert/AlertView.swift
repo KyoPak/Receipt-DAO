@@ -31,8 +31,8 @@ final class AlertView: UIView {
     
     private let cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("확인", for: .normal)
-        button.backgroundColor = ConstantColor.cellColor
+        button.setTitle(ConstantText.cancle.localize(), for: .normal)
+        button.backgroundColor = .systemGray3
         button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15)
         return button

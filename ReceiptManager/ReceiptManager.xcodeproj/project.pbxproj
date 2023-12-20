@@ -69,6 +69,7 @@
 		3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C852F042B185B0E00F48CD3 /* DateManageService.swift */; };
 		3C86FB882A1B407A000CC99B /* LimitAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */; };
 		3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */; };
+		3C99A0992B329485006B274C /* OCRExtractorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C99A0982B329485006B274C /* OCRExtractorError.swift */; };
 		3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3452A0117D60014807B /* UIButton+Extension.swift */; };
 		3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3472A012C880014807B /* ExpenseNavigationBar.swift */; };
 		3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA34F2A012FC20014807B /* ListViewController.swift */; };
@@ -201,6 +202,7 @@
 		3C852F042B185B0E00F48CD3 /* DateManageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManageService.swift; sourceTree = "<group>"; };
 		3C86FB872A1B407A000CC99B /* LimitAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewController.swift; sourceTree = "<group>"; };
 		3C86FB8B2A1B90ED000CC99B /* ImagePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCell.swift; sourceTree = "<group>"; };
+		3C99A0982B329485006B274C /* OCRExtractorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractorError.swift; sourceTree = "<group>"; };
 		3C9AA3452A0117D60014807B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		3C9AA3472A012C880014807B /* ExpenseNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseNavigationBar.swift; sourceTree = "<group>"; };
 		3C9AA34F2A012FC20014807B /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -720,6 +722,7 @@
 				3C685F682A5009650064EE2A /* SettingSection.swift */,
 				3C7D424C2A51281E00304A8C /* Currency.swift */,
 				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
+				3C99A0982B329485006B274C /* OCRExtractorError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1046,6 +1049,7 @@
 				3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
 				3C088A4A2B1F782500FFFB74 /* BottomSheetViewController.swift in Sources */,
+				3C99A0992B329485006B274C /* OCRExtractorError.swift in Sources */,
 				3C2E18DA29FBCC5F00E8E9C6 /* ExpenseViewController.swift in Sources */,
 				3C74A3842B04F66F00377A73 /* ExpenseViewCoordinator.swift in Sources */,
 				3C1C1B372A16072900A3D0A0 /* ConstantText.swift in Sources */,
