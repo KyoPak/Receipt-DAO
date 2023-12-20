@@ -55,4 +55,15 @@ extension BookMarkViewCoordinator {
         
         detailViewCoordinator.start()
     }
+    
+    func presentAlert(error: Error) {
+        let alertCoordinator = AlertViewCoordinator(
+            mainNavigationController: subNavigationController,
+            error: error
+        )
+        
+        alertCoordinator.parentCoordinator = self
+        childCoordinators.append(alertCoordinator)
+        alertCoordinator.start()
+    }
 }

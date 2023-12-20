@@ -116,6 +116,13 @@ extension BookMarkViewController {
         reactor.state.map { $0.expenseByBookMark }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.dataError }
+            .compactMap { $0 }
+            .bind { [weak self] error in
+                self?.coordinator?.presentAlert(error: error)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
