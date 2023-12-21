@@ -4,6 +4,12 @@
 <dict>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>NSCameraUsageDescription</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>NSPhotoLibraryUsageDescription</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>NSUserTrackingUsageDescription</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
