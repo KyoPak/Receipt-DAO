@@ -6,26 +6,27 @@
 //
 
 import CoreData
+
 import RxDataSources
 import RxSwift
 import RxCoreData
 
 struct Receipt: Hashable, IdentifiableType {
-    var identity: String    // 구분자
+    var identity: String            // 구분자
     
-    var store: String           // 상호명
-    var price: Int              // 가격
+    var store: String               // 상호명
+    var price: Int                  // 가격
     var priceText: String
-    var product: String         // 구매 상품
-    var receiptDate: Date       // 영수증 구매 날짜
-    var paymentType: Int        // 구매 방법
-    var receiptData: [Data]      // 영수증 이미지 데이터
-    var memo: String            // 메모
+    var product: String             // 구매 상품
+    var receiptDate: Date           // 영수증 구매 날짜
+    var paymentType: Int            // 구매 방법
+    var receiptData: [Data]         // 영수증 이미지 데이터
+    var memo: String                // 메모
     var isFavorite: Bool
     
     init(
         store: String = "",
-        price: Int = -1,        // 미사용될 가격
+        price: Int = -1,            // 미사용될 가격
         priceText: String = "",
         product: String = "",
         receiptDate: Date = Date(),
@@ -34,7 +35,7 @@ struct Receipt: Hashable, IdentifiableType {
         memo: String = "",
         isFavorite: Bool = false
     ) {
-        self.identity = UUID().description   // 구분자
+        self.identity = UUID().description
         self.store = store
         self.price = price
         self.priceText = priceText

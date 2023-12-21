@@ -6,15 +6,17 @@
   
 */
 
-"appName" = "Give Me A Receipt";
+"appName" = "MoneyMemory";
 
-"list" = "私の領収書";
+"list" = "私の経費";
 "bookMark" = "重要";
-"clearBookMark" = "重要ではない";
-"register" = "登録";
-"input" = "入力";
+"registerTitle" = "登録する";
+"editTitle" = "編集";
+"analysisTitle" = "月別支出";
 
-"shortRegister" = "登録";
+"input" = "入力";
+"detail" = "詳細";
+
 "selectImage" = "選択した画像";
 "selectButton" = "他の写真を選択";
 "save" = "保存";
@@ -26,7 +28,6 @@
 "edit" = "編集";
 "date" = "日付";
 
-"home" = "ホーム";
 "store" = "相互名";
 "product" = "履歴";
 "price" = "価格";
@@ -34,8 +35,10 @@
 
 "cash" = "現金";
 "card" = "カード";
-"memo" = "簡単なメモを書きます。";
-"noPicture" = "登録された写真はありません。";
+"memoText" = "簡単なメモを書きます。";
+"ocrTextCopy" = "以下のテキストをタッチしてコピーしてください。";
+"copySuccess" = "コピー!";
+"imageCount %@" = "%@ 枚の写真が登録されています。";
 
 "album" = "写真";
 "camera" = "カメラ";
@@ -51,8 +54,10 @@
 
 "need %@ AccessAuthText" = "写真を使用するには%@にアクセスしてください。";
 "receiptImage" = "領収書画像";
-"dateFormatMonth" = "MM.yyyy";
-"dateFormatDay" = "MM dd, yyyy";
+"dateFormatMonth" = "MM月 yyyy年";
+"dateFormatFull" = "MM月 dd日, yyyy年";
+"dateFormatOnlyMonth" = "MM月";
+
 "mainReceiptCount %d" = "%d 件の登録領収書";
 
 "setting" = "設定";
@@ -62,5 +67,35 @@
 "rating" = "アプリの評価";
 "opinion" = "コメントを送信する";
 
-"mailSubject" = "[Give Me A Receipt] ユーザーの意見";
+"mailSubject" = "[MoneyMemory] ユーザーの意見";
 "mailBody" = "こんにちは. \nアプリをご利用いただきありがとうございます。 \n私たちは常にユーザーの意見を重視します。 \n以下のリストから該当する項目を選択していただくか、ご自由にご意見をお書きいただければ幸いです。 \n1. コメント:\n[コメントをお書きください。]\n2. エラー:\n[エラーを書いてください]\n3. 等:\n[欲しいものを書いてください]\n\n\nありがとう。";
+"case" = "件";
+
+"sunDayModel" = "日";
+"monDayModel" = "月";
+"tuesDayModel" = "火";
+"wednesDayModel" = "水";
+"thursDayModel" = "木";
+"friDayModel" = "金";
+"saturDayModel" = "土";
+
+"sunDay" = "日曜日";
+"monDay" = "月曜日";
+"tuesDay" = "火曜日";
+"wednesDay" = "水曜日";
+"thursDay" = "木曜日";
+"friDay" = "金曜日";
+"saturDay" = "土曜日";
+
+"amountByDay %@" = "1日の支出 - %@";
+"monthExpenseText %@" = "%@の支出額";
+"totalCountText %@" = "%@件の支出があります。";
+
+"ratingUp %@" = "%@ 増加";
+"ratingDown %@" = "%@ 減少";
+"ratingEqual" = "今月の支出は先月と同じです。";
+"ratingFullText %@" = "今月の支出は先月比\n%@しました";
+
+"entityUpdateError" = "アップデートに失敗しました。\n容量を確認してください。";
+"entityDeleteError" = "削除に失敗しました。";
+"extractError" = "テキストの抽出に失敗しました。";

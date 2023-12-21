@@ -18,28 +18,26 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        window.makeKeyAndVisible()
         
         // Launch Screen
         window.rootViewController = UIStoryboard(name: ConstantText.launchScreen, bundle: nil)
             .instantiateInitialViewController()
         
-        window.makeKeyAndVisible()
-        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+            let storageService = DefaultStorageService(modelName: ConstantText.receiptManager)
+            let userDefaultService = DefaultUserDefaultService()
+            let dateManageService = DefaultDateManageService()
+            storageService.sync()
             
-            // Root View 이동
-            let storage = CoreDataStorage(modelName: ConstantText.receiptManager)
-            let coordinator = DefaultSceneCoordinator(window: window)
-            let mainViewModel = MainViewModel(
-                title: ConstantText.appName.localize(),
-                sceneCoordinator: coordinator,
-                storage: storage
+            let mainTabBarCoordinator = MainTabBarCoordinator(
+                window: window,
+                mainNavigationController: UINavigationController(),
+                storageService: storageService,
+                userDefaultService: userDefaultService,
+                dateManageService: dateManageService
             )
-            
-            let mainScene = Scene.main(mainViewModel)
-            storage.sync()
-                
-            coordinator.transition(to: mainScene, using: .root, animated: false)
+            mainTabBarCoordinator.start()
         }
     }
 

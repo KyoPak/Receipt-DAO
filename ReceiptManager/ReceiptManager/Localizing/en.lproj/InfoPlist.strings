@@ -6,7 +6,8 @@
   
 */
 
-"CFBundleDisplayName" = "Give Me A Recipt";
-"CFBundleName" = "Give Me A Recipt";
+"CFBundleDisplayName" = "MoneyMemory";
+"CFBundleName" = "MoneyMemory";
 "NSCameraUsageDescription" = "After taking a picture of the receipt, consent to access the camera is required to use the camera function for attachment. You can change this in settings. Please allow access to the camera.";
 "NSPhotoLibraryUsageDescription" = "In order to use the receipt photo attachment function and import photos, consent to access the photo library is required. You can change this in settings. Please allow access to the library.";
+"NSUserTrackingUsageDescription" = "If the app is forced to shut down in the MoneyMemory app or other errors, it tries to collect information related to the error. It never collects your personal data, only the information related to the error.";

@@ -8,6 +8,7 @@
 import Foundation
 import RxDataSources
 
+// MARK: - SettingSection
 struct SettingSection {
     var title: String
     var items: [SettingOption]
@@ -22,8 +23,16 @@ extension SettingSection: SectionModelType {
     }
 }
 
+// MARK: - SettingOption
+enum SettingType {
+    case currency
+    case mail
+    case appStore
+}
+
 struct SettingOption {
     let title: String
+    let type: SettingType
 }
 
 extension SettingSection {
@@ -32,14 +41,14 @@ extension SettingSection {
             SettingSection(
                 title: ConstantText.currencySettingSection.localize(),
                 items: [
-                    SettingOption(title: ConstantText.currencySettingText.localize())
+                    SettingOption(title: ConstantText.currencySettingText.localize(), type: .currency)
                 ]
             ),
             SettingSection(
                 title: ConstantText.customerServiceSection.localize(),
                 items: [
-                    SettingOption(title: ConstantText.opinion.localize()),
-                    SettingOption(title: ConstantText.rating.localize())
+                    SettingOption(title: ConstantText.opinion.localize(), type: .mail),
+                    SettingOption(title: ConstantText.rating.localize(), type: .appStore)
                 ]
             )
         ]

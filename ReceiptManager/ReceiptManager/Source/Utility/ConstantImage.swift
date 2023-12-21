@@ -9,9 +9,16 @@ import Foundation
 
 enum ConstantImage {
     static let list = "list.bullet"
+    static let calendar = "calendar"
+    static let listCircle = "list.bullet.circle"
+    static let listCircleFill = "list.bullet.circle.fill"
     static let share = "square.and.arrow.up"
+    
     static let compose = "ellipsis.circle"
     static let plus = "plus"
+    static let plusCircle = "plus.circle.fill"
+    static let gear = "gearshape.circle"
+    static let gearFill = "gearshape.circle.fill"
     static let xmark = "xmark"
     
     static let searchXCircle = "x.circle.fill"
@@ -21,8 +28,14 @@ enum ConstantImage {
     static let chevronLeft = "chevron.left"
     static let chevronRight = "chevron.right"
     
-    static let bookMark = "bookmark"
-    static let bookMarkFill = "bookmark.fill"
+    static let chartUp = "chart.line.uptrend.xyaxis.circle"
+    static let chartUpFill = "chart.line.uptrend.xyaxis.circle.fill"
+    
+    static let bookMark = "bookmark.circle"
+    static let bookMarkFill = "bookmark.circle.fill"
+    
+    static let bookMarkSwipe = "bookmark.fill"
+    static let bookMarkSwipeSlash = "bookmark.slash.fill"
     
     static let bookMarkRemove = "bookmark.slash.fill"
     static let trash = "trash.fill"
@@ -32,7 +45,7 @@ enum ConstantImage {
     static let dollarSign = "dollarsign.square.fill"
     static let yenSign = "yensign.square.fill"
     
-    static let camera = "camera.circle"
+    static let camera = "camera.fill"
     static let keyboardDown = "keyboard.chevron.compact.down"
     static let setting = "gear"
 }

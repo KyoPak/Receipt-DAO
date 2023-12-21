@@ -15,15 +15,16 @@ enum ConstantText {
     static let usd = "USD ＄"
     static let jpy = "JPY ¥"
     
-    static let won = " ￦"
-    static let dollar = " ＄"
-    static let yen = " ¥"
+    static let won = "￦"
+    static let dollar = "＄"
+    static let yen = "¥"
     
     static let myEmail = "hyosing92@gmail.com"
     static let mailSubject = "mailSubject"
     static let mailBody = "mailBody"
-    
     static let appID = "6449433216"
+    
+    static let detail = "detail"
     
     // MARK: - UserDefault Key
     static let currencyKey = "CurrencyType"
@@ -33,11 +34,11 @@ enum ConstantText {
     
     static let list = "list"
     static let bookMark = "bookMark"
-    static let clearBookMark = "clearBookMark"
-    static let register = "register"
-    static let input = "input"
+    static let registerTitle = "registerTitle"
+    static let editTitle = "editTitle"
+    static let analysisTitle = "analysisTitle"
     
-    static let shortRegister = "shortRegister"
+    static let input = "input"
     static let selectImage = "selectImage"
     static let selectButton = "selectButton"
     static let save = "save"
@@ -49,7 +50,6 @@ enum ConstantText {
     static let edit = "edit"
     static let date = "date"
     
-    static let home = "home"
     static let store = "store"
     static let product = "product"
     static let price = "price"
@@ -57,15 +57,23 @@ enum ConstantText {
     
     static let cash = "cash"
     static let card = "card"
-    static let memo = "memo"
-    static let noPicture = "noPicture"
-    
     static let album = "album"
     static let camera = "camera"
+    
+    // About Detail Scene
+    static let imageCountText = "imageCount %@"
+    
+    // About Compose Scene
+    static let memoText = "memoText"
+    static let copyText = "ocrTextCopy"
+    static let copySuccess = "copySuccess"
+    
+    // About Search Scene
     static let searchBar = "searchBar"
     static let searchText = "searchText"
     static let searchFail = "searchFail"
     
+    // About Camera, Album Scene
     static let selectReceipt = "selectReceipt"
     static let selectReceiptText = "selectReceiptText"
     static let shooting = "shooting"
@@ -75,14 +83,42 @@ enum ConstantText {
     static let needAccessAuthText = "need %@ AccessAuthText"
     static let receiptImage = "receiptImage"
     
-    static let dateFormatMonth = "dateFormatMonth"
-    static let dateFormatDay = "dateFormatDay"
-    static let mainReceiptCount = "mainReceiptCount %d"
-    static let setting = "setting"
-    
+    // About Setting Scene
     static let currencySettingSection = "currencySettingSection"
     static let currencySettingText = "currencySettingText"
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
+    static let caseText = "case"
+    
+    // About Analysis Scene
+    static let monthExpenseText = "monthExpenseText %@"
+    static let totalCountText = "totalCountText %@"
+    static let ratingUp = "ratingUp %@"
+    static let ratingDown = "ratingDown %@"
+    static let ratingEqual = "ratingEqual"
+    static let ratingFullText = "ratingFullText %@"
+    
+    // About DateFormat
+    static let dateFormatMonth = "dateFormatMonth"
+    static let dateFormatFull = "dateFormatFull"
+    static let dateFormatOnlyMonth = "dateFormatOnlyMonth"
+    
+    static let mainReceiptCount = "mainReceiptCount %d"
+    
+    static let setting = "setting"
+    
+    // About Day Of Week
+    static let weekDayModel = ["sunDayModel", "monDayModel", "tuesDayModel",
+                               "wednesDayModel", "thursDayModel", "friDayModel", "saturDayModel"]
+    static let weekDay = ["sunDay", "monDay", "tuesDay", "wednesDay", "thursDay", "friDay", "saturDay"]
+    
+    static let amountByDay = "amountByDay %@"
+    
+    // About Storage Error
+    static let entityUpdateError = "entityUpdateError"
+    static let entityDeleteError = "entityDeleteError"
+    
+    // About OCRExtractor Error
+    static let extractError = "extractError"
 }

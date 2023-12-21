@@ -1,9 +1,13 @@
 excluded:
 - Pods
+- ReceiptManagerTests
 
 disabled_rules:
 - trailing_whitespace
 - xctfail_message
 - unused_closure_parameter
+- empty_enum_arguments
+- function_body_length
+- file_length
 
 line_length: 110

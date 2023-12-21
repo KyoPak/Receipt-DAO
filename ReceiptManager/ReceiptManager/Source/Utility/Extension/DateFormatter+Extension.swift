@@ -17,4 +17,12 @@ extension DateFormatter {
         standard.dateFormat = format
         return standard.string(from: date)
     }
+    
+    static func month(from date: Date) -> Int? {
+        return Int(DateFormatter.string(from: date, "MM"))
+    }
+    
+    static func year(from date: Date) -> Int? {
+        return Int(DateFormatter.string(from: date, "yyyy"))
+    }
 }
