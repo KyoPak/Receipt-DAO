@@ -5,9 +5,11 @@
 //  Created by parkhyo on 2023/04/28.
 //
 
+import AppTrackingTransparency
 import UIKit
 import CoreData
 
+import FirebaseAnalytics
 import FirebaseCore
 
 @main
@@ -18,6 +20,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         
         FirebaseApp.configure()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.requestTrakingAuthorization()
+        }
+        
         return true
     }
 
@@ -37,5 +44,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {
         
+    }
+}
+
+// MARK: - Tracking Authroization
+extension AppDelegate {
+    private func requestTrakingAuthorization() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .notDetermined, .restricted, .denied:
+                    Analytics.setAnalyticsCollectionEnabled(false)
+                    
+                case .authorized:
+                    Analytics.setAnalyticsCollectionEnabled(true)
+                    
+                @unknown default:
+                    Analytics.setAnalyticsCollectionEnabled(false)
+                }
+            }
+        }
     }
 }
