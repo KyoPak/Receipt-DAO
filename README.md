@@ -1,30 +1,30 @@
-# 영수증 다오 ReadME
+# 다오 ReadME
 
 ## 목차
 1. [APP 소개](#app-소개)
 2. [버전 업데이트](#버전-업데이트)
 3. [실행 화면](#실행-화면)
-4. [타임라인](#타임라인)
-5. [기술적 도전](#기술적-도전)
-6. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
-7. [출시를 해보며 느낀 점](#출시를-해보며-느낀-점)
+4. [기술적 도전](#기술적-도전)
+5. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
+6. [출시를 해보며 느낀 점](#출시를-해보며-느낀-점)
 
 <br></br>
 ## APP 소개
 
-자신이 사용한 영수증을 등록, 수정, 삭제, 즐겨찾기 할 수 있으며 월에 따른 목록을 볼 수 있습니다.
+- 지출 내역을 등록 및 수정할 수 있으며, 리스트와 캘린더 형식을 통해 지출을 파악할 수 있습니다.
+- 월별 분석을 통해 지출 내역을 전 월과 비교할 수 있으며, OCR 기능을 통해 영수증의 내용을 빠르게 작성할 수 있습니다.
 
 ### App Idea 구상 계기
 1. 백화점 POS 시스템 개발 운영업무를 하면서 영수증 분실 시 반품을 못하는 이유가 영수증 자체의 의미가 있기 때문이 아니라 영수증에 기재되는 거래 번호, 포스 번호, 날짜 등 종합적으로 매출 데이터베이스에서 찾아야 하는 필수적인 내용들을 모르기 때문에 반품이 불가능하다는 것을 알았습니다.
 2. 대학병원 환자의 경우 보관 및 처리해야하는 영수증이 매우 많아 관리가 용이한 APP이 필요하다고 생각하였습니다.
-3. 앱스토어에 기존에 존재하는 영수증 관리 앱들은 가계부와 결합되어있거나 회사에서 사용하는 용도였기 때문에 단순하며 심플한 영수증 관리 앱이 없다고 생각하였습니다.
+3. 영수증 관리 앱으로 출시 후, 지출 관리앱으로 확장한다면 보다 넓은 범위의 기능 제공이 가능하고, 기능 확장의 용이성이 높다고 생각하여 지출 관리 앱으로 통합 및 확장하게 되었습니다.
 
 
 ### App Store Link
-[영수증 다오 App Store](https://apps.apple.com/kr/app/%EC%98%81%EC%88%98%EC%A6%9D-%EB%8B%A4%EC%98%A4/id6449433216)
+[다오 App Store](https://apps.apple.com/kr/app/%EC%98%81%EC%88%98%EC%A6%9D-%EB%8B%A4%EC%98%A4/id6449433216)
 
 ### App 지원 URL
-[영수증 다오 지원 URL](https://pakhyo.notion.site/76d4525ba02a4b0fb10f18cfbf1db9a1)
+[다오 지원 URL](https://pakhyo.notion.site/76d4525ba02a4b0fb10f18cfbf1db9a1)
 
 <br></br>
 ## 버전 업데이트
@@ -86,10 +86,27 @@
   - 가격 소수점 기입 가능 요청 메일
       - <img width="1388" alt="스크린샷 2023-11-07 오후 4 32 14" src="https://github.com/KyoPak/Receipt-DAO/assets/59204352/07a70c1d-1f74-4d7b-ad94-780cdaaf7beb">
 
-
-
 **기능 개선**
 - UI 개선 : 기존 UI개선 및 라이트 모드, 다크 모드 분리
+
+### 2.0.0 (2023.12.23)
+**기능 개선**
+- 전체적인 UI 개편
+    - 홈화면 개편(기존의 버튼 나열 식 홈화면 ➡️ 탭바)
+    - 등록 화면, 상세화면 UI 개편
+
+**기능 추가**
+- Calendar 기능 추가
+- 월 별 분석 기능 추가
+- OCR 기능 개선
+
+**코드 개선**
+- 양방향 바인딩을 ReactorKit을 활용한 단방향 바인딩으로 구현
+- Memory Leak 추적을 통해 사용자 디바이스 리소스 활용도 증대
+- Reactor Test 작성
+- 오류에 관련된 내용을 사용자에게 제공하기 위해 Alert 구현
+- 앱의 갑작스러운 중단에 대한 추적을 위한 FireBase Crashlytics 추가
+- 기존의 열거형 Coordinator 패턴 내부의 의존성 감소를 위해 Protocol 및 각 Class로 분리
 
 <br></br>
 ## 실행 화면
@@ -99,55 +116,63 @@
 펼쳐보기
 </summary>
 
-|목록|등록|상세|
+### 주요 기능 화면 
+
+|목록|캘린더|캘린더리스트|
 |:---:|:--:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/738f8b2c-cda8-4636-bf91-05ec38554be8">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/ca1ae433-4efc-45e1-be33-092c2b0c179d">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b6dc9462-0492-43b5-9ddb-0df856b8c2f4" >|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/8199fad5-5a87-44d0-8fd3-0652603a30f3">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/9af978b3-c8e6-4a53-b85f-b98825416296">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/0fcb0f7e-970f-4c5e-ad74-29551963bdaf" >|
 
 
-|즐겨찾기|사진선택|OCR|
+|월별분석|등록|OCR|
 |:---:|:--:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/2063c5e9-6487-42a5-bceb-4549a593ea55">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/1741a9e1-bb50-4182-8435-915d6dc9f9ee">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/bd672349-3fb0-4a67-a97a-c14a97adc457">|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b869cab2-a09c-40f0-97ef-49338edfefc1">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/f5cd028d-4c2c-41da-8e96-ddfc8aae790b">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/d724e2c9-57ff-4afa-8a63-dc42ea2e81b8">|
 
-|검색|화폐변경|설정|
+|상세|즐겨찾기|설정|
 |:---:|:--:|:--:|
-|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/510461dc-cd8b-4e34-bd5b-f4e3c754206a">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/b0f71604-7081-4f3e-9861-f6d2c5470ed8">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/208397cc-bb73-48f8-ac57-021ad459864e">
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/72ca7df6-ed64-4aed-a340-2f33a694b9a6">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/8b856865-7433-4c9e-ac4d-6bd699e6e940">|<img width = "300px" img src = "https://github.com/KyoPak/Receipt-DAO/assets/59204352/4162fd30-7a60-4c74-b024-28f7af8b3ca9">
+
+### 다크 모드 화면
+    
+|목록|캘린더|
+|:---:|:--:|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/83fa32f6-d4e4-4977-aca4-db9825ded301">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/ab922c51-8605-4c06-8261-7790d99c5bfe">|
+
+|캘린더리스트|상세|
+|:--:|:--:|
+|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/cbc24300-2075-401c-9c9e-32ba6b2f9067">|<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/4ff6e941-f8d5-44d5-9dff-1b9868a3ffe1">|
+    
 
 </details>
 
 <br></br>
-## 타임라인
+## 기술적 도전
 
+### ⚙️ Reactor Kit
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+기존에는 View와 ViewModel간의 상태들과 바인딩을 할 경우, 양방향 바인딩을 사용하였습니다. 
+양방향 바인딩을 하며, 각 요소의 하나하나의 변경에 대해 상태값들이 변경되고 즉각적인 동기화가 된다는 점이 편리하였습니다. 하지만, ComposeView의 가격 Text를 수정해야했을 때, 디버깅을 하는 과정에서 불편함을 경험하였으며,
+ViewModel의 상태값이 많아질수록 관리하기가 어렵고 여러 메서드에서 로직을 구현해줘야했습니다.
+    
+때문에 타 프로젝트 "팬팔"에서 경험했던 단방향 바인딩을 적용하기로 결정하였으며, 단방향 바인딩을 프레임워크화한 ReactorKit을 사용해보기로 하였습니다.
+Reactor Kit을 사용하면서 체계화되어있기 때문에 향후, 팀프로젝트에서 사용한다면 여러 팀원간의 코드 통일성을 맞추기가 용이하다고 생각하였습니다.
+또한 Mutate에서 여러 Action에 대한 로직들을 세분화하고, Reduce에서 State값들을 처리하기 때문에 유지보수하기도 편리하다고 생각이 들었습니다.
+
+</details>
+
+### ⚙️ Memory Leak
 <details>
 <summary> 
 펼쳐보기
 </summary>
 
-### 1️⃣ feature 1
-1. 기본 Model 구현
-2. CoreData 관련 코드 구현
-### 2️⃣ feature 2
-1. Main View 구현 (홈화면)
-2. SceneCoordinator 구현
-### 3️⃣ feature 3
-1. List View 구현
-    - Cell 구현
-2. Register View 구현
-    - Cell 구현
-### 4️⃣ feature 4
-1. Favorite 구현 (즐겨찾기)
-2. Detail View 구현
-3. Cameara, PHPicker 수정 구현
-### ▶️ 이후
-1. App Icon
-2. 앨범 선택적 접근 권한일 경우 선택한 이미지 보여주는 View 별도 구현
-3. Vision Kit을 사용한 OCR 기능 추가
-4. SearchBar를 사용한 검색 기능 추가
-
+ComposeView, SearchView, CalndarListView가 표시될때 클로저의 캡처로 인해 강한 참조가 발생하였기 때문에 Instrument의 Leaks와 Debug Memory Graph에서 해당 View들과 해당 Reactor들이 메모리에서 할당해제 되지 않음을 확인하였습니다.
+원인은 RxSwift를 사용한 바인딩에서 Self 캡처로 인한 강한참조가 발생하기 때문이었습니다. 때문에 withUnRetain과 weak self를 사용해서 해당 메모리 문제를 해결하였습니다.
+    
 </details>
-
-
-<br></br>
-## 기술적 도전
 
 ### ⚙️ RxSwift
 <details>
@@ -193,7 +218,11 @@ RxSwift를 사용하여 가독성 높은 비동기 처리 메서드를 구현할
     하지만 가격, 현금/카드 표기는 영수증마다 통일된 특징을 가지고 있어 추출 정확도를 보다 올릴 수 있었습니다.
 - 또한 iOS 16 부터 Vision Kit에서 한글을 지원하기 때문에 iOS 16 부터 해당기능을 사용할 수 있도록 구현하였습니다.
 (iOS 16 아래 버전을 고려하여 인식을 직접 해보았으나 인식률이 너무 좋지 않았습니다.)
+
     
+- 이후 영어,일본어로 구성되어있는 영수증도 OCR 기능을 제공하고 싶었기 때문에 로직으로 각 TextField에 대입하는 방식 이 아닌 ComposeView 내부 ImageCollectionCell 내부의 버튼으로 이미지 내부의 글자를 추출하여 보여주었습니다.
+
+<img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/d724e2c9-57ff-4afa-8a63-dc42ea2e81b8">
 </details>
 
 
@@ -201,6 +230,31 @@ RxSwift를 사용하여 가독성 높은 비동기 처리 메서드를 구현할
 
 <br></br>
 ## 트러블 슈팅 및 고민
+
+### 🔥 Coordinator 패턴을 수정한 이유
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+기존의 Coordinator 패턴은 열겨형 방식으로 구현되어있었습니다. 그렇기 때문에 화면을 이동하는 메서드, close메서드들을 공통으로 사용하기 때문에 여러 중복적인 코드를 구현하지 않아도 된다는 이점이 있었습니다.
+
+하지만, 화면이 다양해지고 늘어남에 따라서 의존성 문제가 있을 것이라고 판단하였으며, 기존의 ViewModel에서 Coordinator 메서드를 호출하는 방식이 아닌 View에서 Coordinator을 가지게함으로서 각 Coordinator가 가지고 있던 의존성들을 다음 화면에 주입해주기 편해질 것이라고 생각하여 Protocol과 각 Scene에 해당하는 Coordinator을 별도로 구현하였습니다.
+
+</details>
+
+### 🔥 Cell Reactor을 추가한 이유
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+List와 Calendar 내부의 Cell들에서 Setting Tap에서의 Currency(화폐) 변경에 즉각적으로 동기화되어야 했습니다.
+때문에 ListCell과 CalendarCell Reactor의 Transform 메서드 내부에서 UserDefault Service의 변경에 즉각적으로 대응할 수 있도록 구현하였습니다.
+    
+</details>
 
 ### 🔥 Animation 효과를 줄 수 있는 RxDataSource
 
