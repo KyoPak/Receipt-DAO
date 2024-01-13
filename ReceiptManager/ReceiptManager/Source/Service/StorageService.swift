@@ -13,17 +13,12 @@ import RxCoreData
 
 protocol StorageService {
     var updateEvent: PublishSubject<Receipt> { get }
-    
     func sync()
+    func fetch() -> Observable<[Receipt]>
+    func delete(receipt: Receipt) -> Observable<Receipt>
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt>
-    
-    @discardableResult
-    func fetch() -> Observable<[Receipt]>
-    
-    @discardableResult
-    func delete(receipt: Receipt) -> Observable<Receipt>
 }
 
 final class DefaultStorageService: StorageService {
@@ -94,7 +89,6 @@ final class DefaultStorageService: StorageService {
         }
     }
     
-    @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
         do {
             try context.rx.delete(receipt)
