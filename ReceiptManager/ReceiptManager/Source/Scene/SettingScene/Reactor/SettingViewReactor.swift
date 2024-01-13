@@ -33,12 +33,12 @@ final class SettingViewReactor: Reactor {
     
     // Properties
     
-    private let userDefaultService: UserDefaultService
+    private let currencyRepository: CurrencyRepository
     
     // Initializer
     
-    init(userDefaultService: UserDefaultService) {
-        self.userDefaultService = userDefaultService
+    init(currencyRepository: CurrencyRepository) {
+        self.currencyRepository = currencyRepository
         
         initialState = State(settingMenu: [], url: nil, currencyIndex: .zero)
     }
@@ -51,7 +51,7 @@ final class SettingViewReactor: Reactor {
             let settingMenu = SettingSection.configureSettings()
             return Observable.merge([
                 Observable.just(Mutation.loadData(settingMenu)),
-                userDefaultService.event.asObservable().map { Mutation.currencyChange($0) }
+                currencyRepository.saveEvent.asObservable().map { Mutation.currencyChange($0) }
             ])
         
         case .cellSelect(let indexPath):
@@ -59,7 +59,7 @@ final class SettingViewReactor: Reactor {
             return classifySettingType(settingType)
             
         case .segmentValueChanged(let index):
-            return userDefaultService.updateCurrency(index: index)
+            return currencyRepository.save(index: index)
                 .flatMap { Observable.just(Mutation.currencyChange($0)) }
         }
     }
