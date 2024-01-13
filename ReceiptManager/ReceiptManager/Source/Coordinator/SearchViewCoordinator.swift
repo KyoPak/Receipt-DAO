@@ -29,9 +29,11 @@ final class SearchViewCoordinator: Coordinator {
     }
     
     func start() {
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
         let searchViewReactor = SearchViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository
         )
         let searchViewController = SearchViewController(reactor: searchViewReactor)
         subNavigationController?.setViewControllers([searchViewController], animated: true)
