@@ -28,6 +28,7 @@ final class DefaultCurrencyRepository: CurrencyRepository {
     }
     
     func save(index: Int) -> Observable<Int> {
+        saveEvent.onNext(index)
         return service.updateCurrency(index: index)
     }
 }
