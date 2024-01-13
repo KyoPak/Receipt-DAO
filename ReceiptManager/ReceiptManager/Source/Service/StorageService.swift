@@ -41,9 +41,10 @@ final class DefaultStorageService: StorageService {
         return container
     }()
     
-    private var mainContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    private lazy var context: NSManagedObjectContext = {
+        let context = self.persistentContainer.newBackgroundContext()
+        return context
+    }()
     
     // Properties
     
@@ -57,7 +58,7 @@ final class DefaultStorageService: StorageService {
     }
     
     func sync() {
-        return mainContext.rx.entities(
+        return context.rx.entities(
             Receipt.self, sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .take(1)
@@ -75,7 +76,7 @@ final class DefaultStorageService: StorageService {
     }
     
     func fetch() -> Observable<[Receipt]> {
-        return mainContext.rx.entities(
+        return context.rx.entities(
             Receipt.self,
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
@@ -85,7 +86,7 @@ final class DefaultStorageService: StorageService {
     func upsert(receipt: Receipt) -> Observable<Receipt> {
         updateEvent.onNext(receipt)
         do {
-            try mainContext.rx.update(receipt)
+            try context.rx.update(receipt)
             return Observable.just(receipt)
         } catch {
             Crashlytics.crashlytics().record(error: error)
@@ -96,7 +97,7 @@ final class DefaultStorageService: StorageService {
     @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
         do {
-            try mainContext.rx.delete(receipt)
+            try context.rx.delete(receipt)
             return Observable.just(receipt)
         } catch {
             Crashlytics.crashlytics().record(error: error)
