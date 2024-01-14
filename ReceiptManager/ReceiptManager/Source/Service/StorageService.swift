@@ -80,22 +80,35 @@ final class DefaultStorageService: StorageService {
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
         updateEvent.onNext(receipt)
-        do {
-            try context.rx.update(receipt)
-            return Observable.just(receipt)
-        } catch {
-            Crashlytics.crashlytics().record(error: error)
-            return Observable.error(StorageServiceError.entityUpdateError)
+        
+        return Observable.create { [weak self] observer in
+            self?.context.perform {
+                do {
+                    try self?.context.rx.update(receipt)
+                    observer.onNext(receipt)
+                    observer.onCompleted()
+                } catch {
+                    Crashlytics.crashlytics().record(error: error)
+                    observer.onError(StorageServiceError.entityUpdateError)
+                }
+            }
+            return Disposables.create()
         }
     }
     
     func delete(receipt: Receipt) -> Observable<Receipt> {
-        do {
-            try context.rx.delete(receipt)
-            return Observable.just(receipt)
-        } catch {
-            Crashlytics.crashlytics().record(error: error)
-            return Observable.error(StorageServiceError.entityDeleteError)
+        return Observable.create { [weak self] observer in
+            self?.context.perform {
+                do {
+                    try self?.context.rx.delete(receipt)
+                    observer.onNext(receipt)
+                    observer.onCompleted()
+                } catch {
+                    Crashlytics.crashlytics().record(error: error)
+                    observer.onError(StorageServiceError.entityUpdateError)
+                }
+            }
+            return Disposables.create()
         }
     }
 }
