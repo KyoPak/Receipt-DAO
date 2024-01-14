@@ -12,9 +12,9 @@ protocol ExpenseRepository {
     
     func fetch() -> Observable<[Receipt]>
     @discardableResult
-    func save(exepnse: Receipt) -> Observable<Receipt>
+    func save(expense: Receipt) -> Observable<Receipt>
     @discardableResult
-    func delete(exepnse: Receipt) -> Observable<Receipt>
+    func delete(expense: Receipt) -> Observable<Receipt>
 }
 
 final class DefaultExpenseRepository: ExpenseRepository {
@@ -31,13 +31,13 @@ final class DefaultExpenseRepository: ExpenseRepository {
     }
     
     @discardableResult
-    func save(exepnse: Receipt) -> Observable<Receipt> {
-        saveEvent.onNext(exepnse)
-        return service.upsert(receipt: exepnse)
+    func save(expense: Receipt) -> Observable<Receipt> {
+        saveEvent.onNext(expense)
+        return service.upsert(receipt: expense)
     }
     
     @discardableResult
-    func delete(exepnse: Receipt) -> Observable<Receipt> {
-        return service.delete(receipt: exepnse)
+    func delete(expense: Receipt) -> Observable<Receipt> {
+        return service.delete(receipt: expense)
     }
 }
