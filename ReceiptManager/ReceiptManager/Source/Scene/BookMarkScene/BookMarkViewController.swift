@@ -29,7 +29,7 @@ final class BookMarkViewController: UIViewController, View {
             
             cell.reactor = ListTableViewCellReactor(
                 expense: receipt,
-                userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+                userDefaultEvent: self?.reactor?.currencyEvent ?? BehaviorSubject<Int>(value: .zero)
             )
             return cell
         }
@@ -118,6 +118,7 @@ extension BookMarkViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dataError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
                 self?.coordinator?.presentAlert(error: error)

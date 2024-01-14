@@ -30,9 +30,11 @@ final class BookMarkViewCoordinator: Coordinator {
     }
     
     func start() {
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
         let bookMarkViewReactor = BookMarkViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService
+            expenseRepository: expenseRepository, 
+            currencyRepository: currencyRepository
         )
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
         bookMarkViewController.coordinator = self

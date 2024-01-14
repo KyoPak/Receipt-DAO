@@ -30,14 +30,14 @@ final class BookMarkViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    let userDefaultEvent: BehaviorSubject<Int>
+    private let expenseRepository: ExpenseRepository
+    let currencyEvent: BehaviorSubject<Int>
     
     // Initializer
     
-    init(storageService: StorageService, userDefaultService: UserDefaultService) {
-        self.storageService = storageService
-        userDefaultEvent = userDefaultService.event
+    init(expenseRepository: ExpenseRepository, currencyRepository: CurrencyRepository) {
+        self.expenseRepository = expenseRepository
+        currencyEvent = currencyRepository.saveEvent
     }
 
     // Reactor Method
@@ -52,7 +52,7 @@ final class BookMarkViewReactor: Reactor {
         case .cellUnBookMark(let indexPath):
             var expense = currentState.expenseByBookMark[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            return storageService.upsert(receipt: expense)
+            return expenseRepository.save(expense: expense)
                 .withUnretained(self)
                 .flatMap { (owner, _) in
                     owner.loadData().map { Mutation.loadData($0) }
@@ -85,7 +85,7 @@ extension BookMarkViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatMonth.localize()
         
-        return storageService.fetch()
+        return expenseRepository.fetch()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,
