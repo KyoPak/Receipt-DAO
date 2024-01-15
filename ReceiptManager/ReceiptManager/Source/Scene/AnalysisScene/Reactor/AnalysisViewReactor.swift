@@ -37,9 +37,9 @@ final class AnalysisViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
-    private let dateService: DateManageService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     struct AnalysisResult {
         var totalAmount: String
@@ -52,17 +52,17 @@ final class AnalysisViewReactor: Reactor {
     // Initializer
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
-        self.dateService = dateService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         initialState = State(
-            dateToShow: (try? dateService.currentDateEvent.value()) ?? Date(),
+            dateToShow: Date(),
             rate: .noData,
-            currency: (try? userDefaultService.event.value()) ?? .zero
+            currency: (try? currencyRepository.saveEvent.value()) ?? .zero
         )
     }
     
@@ -71,15 +71,15 @@ final class AnalysisViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .nextMonthButtonTapped:
-            return dateService.updateDate(byAddingMonths: 1)
+            return dateRepository.changeDate(byAddingMonths: 1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             
         case .previoutMonthButtonTapped:
-            return dateService.updateDate(byAddingMonths: -1)
+            return dateRepository.changeDate(byAddingMonths: -1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             
         case .todayButtonTapped:
-            return dateService.updateToday()
+            return dateRepository.resetToToday()
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
         }
     }
@@ -106,19 +106,19 @@ final class AnalysisViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let userDefaultEvent = userDefaultService.event
+        let currencyEvent = currencyRepository.saveEvent
             .flatMap {
                 return Observable.just(Mutation.updateCurrency($0))
             }
         
-        let dateEvent = dateService.currentDateEvent
+        let dateEvent = dateRepository.fetchActiveDate()
             .flatMap { date in
                 return self.loadData(by: date).flatMap { models in
                     return Observable.just(Mutation.updateAnalysis(self.analysisExpenses(datas: models)))
                 }
             }
         
-        return Observable.merge(mutation, userDefaultEvent, dateEvent)
+        return Observable.merge(mutation, currencyEvent, dateEvent)
     }
 }
 
@@ -126,7 +126,7 @@ extension AnalysisViewReactor {
     private func loadData(by date: Date) -> Observable<(current: [Receipt], previous: [Receipt])> {
         let previousDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: date)
         
-        return storageService.fetch()
+        return expenseRepository.fetch()
             .map { models in
                 let groupedModels = Dictionary(grouping: models) { model in
                     DateFormatter.string(from: model.receiptDate)

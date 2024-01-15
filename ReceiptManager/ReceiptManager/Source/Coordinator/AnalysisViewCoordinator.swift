@@ -30,10 +30,14 @@ final class AnalysisViewCoordinator: Coordinator {
     }
     
     func start() {
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
+        let dateRepository = DefaultDateRepository(service: DefaultDateManageService())
         let analysisViewReactor = AnalysisViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateService: DefaultDateManageService())
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository
+        )
         let analysisViewController = AnalysisViewController(reactor: analysisViewReactor)
         
         analysisViewController.coordinator = self
