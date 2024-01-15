@@ -42,13 +42,15 @@ final class ComposeViewCoordinator: Coordinator {
     
     func start() {
         let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let ocrRepository = DefaultOCRRepository(service: ocrExtractor)
         
         let composeViewReactor = ComposeViewReactor(
-            storageService: storageService,
-            ocrExtractor: ocrExtractor,
+            expenseRepository: expenseRepository,
+            ocrRepository: ocrRepository,
             expense: expense,
-            transisionType: transitionType
-        )
+            transisionType: transitionType)
+        
         let composeViewController = ComposeViewController(reactor: composeViewReactor)
         composeViewController.coordinator = self
         

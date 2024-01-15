@@ -63,19 +63,19 @@ final class ComposeViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    private let ocrExtractor: OCRExtractorService
+    private let expenseRepository: ExpenseRepository
+    private let ocrRepository: OCRRepository
     
     // Initializer
     
     init(
-        storageService: StorageService,
-        ocrExtractor: OCRExtractorService,
+        expenseRepository: ExpenseRepository,
+        ocrRepository: OCRRepository,
         expense: Receipt? = nil,
         transisionType: TransitionType
     ) {
-        self.storageService = storageService
-        self.ocrExtractor = ocrExtractor
+        self.expenseRepository = expenseRepository
+        self.ocrRepository = ocrRepository
         
         let titleText = transisionType == .modal ?
             ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
@@ -114,7 +114,7 @@ final class ComposeViewReactor: Reactor {
         case .cellOCRButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
-            return ocrExtractor.extractText(data: ocrTargetData)
+            return ocrRepository.extractText(by: ocrTargetData)
                 .flatMap { texts in
                     return Observable.concat([
                         Observable.just(Mutation.imageDataOCR(texts)),
@@ -130,7 +130,7 @@ final class ComposeViewReactor: Reactor {
             
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            return storageService.upsert(receipt: newExpense)
+            return expenseRepository.save(expense: newExpense)
                 .flatMap { _ in
                     Observable.concat([
                         Observable.just(Mutation.saveExpense(Void())),
