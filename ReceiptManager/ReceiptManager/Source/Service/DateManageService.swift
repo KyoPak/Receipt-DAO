@@ -9,7 +9,7 @@ import RxSwift
 
 protocol DateManageService {
     var currentDateEvent: BehaviorSubject<Date> { get }
-    
+    func fetchDate() -> Observable<Date>
     func updateDate(byAddingMonths months: Int) -> Observable<Date>
     func updateToday() -> Observable<Date>
 }
@@ -19,6 +19,10 @@ final class DefaultDateManageService: DateManageService {
     
     init() {
         currentDateEvent = BehaviorSubject(value: Date())
+    }
+    
+    func fetchDate() -> Observable<Date> {
+        return currentDateEvent.asObservable()
     }
     
     func updateDate(byAddingMonths months: Int) -> Observable<Date> {
