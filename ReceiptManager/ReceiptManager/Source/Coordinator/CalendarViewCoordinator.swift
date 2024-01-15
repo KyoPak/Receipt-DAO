@@ -33,11 +33,16 @@ final class CalendarViewCoordinator: Coordinator {
     }
     
     func start() {
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
+        let dateRepository = DefaultDateRepository(service: dateManageService)
+        
         let calendarViewReactor = CalendarViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateManageService: dateManageService
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository
         )
+        
         let calendarViewContoller = CalendarViewController(reactor: calendarViewReactor)
         calendarViewContoller.coordinator = self
         viewController = calendarViewContoller
