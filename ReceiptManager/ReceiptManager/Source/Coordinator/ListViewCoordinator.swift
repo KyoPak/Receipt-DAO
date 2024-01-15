@@ -31,11 +31,15 @@ final class ListViewCoordinator: Coordinator {
     }
     
     func start() {
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
+        let dateRepository = DefaultDateRepository(service: dateManageService)
+        
         let listViewReactor = ListViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateManageService: dateManageService
-        )
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository)
+        
         let listViewController = ListViewController(reactor: listViewReactor)
         listViewController.coordinator = self
         viewController = listViewController
