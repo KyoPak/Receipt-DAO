@@ -55,7 +55,8 @@ final class ExpenseViewCoordinator: Coordinator {
             calendarCoordinator.viewController ?? UIViewController()
         ]
         
-        let expenseViewReactor = ExpenseViewReactor(dateService: dateManageService)
+        let dateRepository = DefaultDateRepository(service: dateManageService)
+        let expenseViewReactor = ExpenseViewReactor(dateRepository: dateRepository)
         let expenseViewController = ExpenseViewController(
             reactor: expenseViewReactor,
             childViewControllers: child
