@@ -100,7 +100,7 @@ final class DefaultStorageService: StorageService {
                     observer.onCompleted()
                 } catch {
                     Crashlytics.crashlytics().record(error: error)
-                    observer.onError(StorageServiceError.entityUpdateError)
+                    observer.onError(StorageServiceError.entityDeleteError)
                 }
             }
             return Disposables.create()
