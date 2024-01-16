@@ -12,7 +12,6 @@ import RxSwift
 import RxCoreData
 
 protocol StorageService {
-    var updateEvent: PublishSubject<Receipt> { get }
     func sync()
     func fetch() -> Observable<[Receipt]>
     func delete(receipt: Receipt) -> Observable<Receipt>
@@ -45,11 +44,9 @@ final class DefaultStorageService: StorageService {
     
     private let modelName: String
     private let disposeBag = DisposeBag()
-    let updateEvent: PublishSubject<Receipt>
     
     init(modelName: String) {
         self.modelName = modelName
-        updateEvent = PublishSubject()
     }
     
     func sync() {
@@ -79,8 +76,6 @@ final class DefaultStorageService: StorageService {
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
-        updateEvent.onNext(receipt)
-        
         return Observable.create { [weak self] observer in
             self?.context.perform {
                 do {
