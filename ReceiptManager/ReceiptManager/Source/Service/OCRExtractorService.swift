@@ -32,9 +32,7 @@ final class DefaultOCRExtractorService: OCRExtractorService {
             
             let handler = VNImageRequestHandler(cgImage: image, options: [:])
             
-            let request = VNRecognizeTextRequest { [weak self] request, error in
-                guard let self = self else { return }
-                
+            let request = VNRecognizeTextRequest { request, error in
                 guard let observations = request.results as? [VNRecognizedTextObservation], error == nil
                 else {
                     observer.onError(OCRExtractorError.extractError)
