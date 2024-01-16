@@ -129,6 +129,7 @@ extension CalendarListViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dataError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
                 self?.coordinator?.presentAlert(error: error)
