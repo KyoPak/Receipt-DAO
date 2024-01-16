@@ -49,7 +49,7 @@ final class AlertView: UIView {
     
     private let retryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("재시도", for: .normal)
+        button.setTitle(ConstantText.retry.localize(), for: .normal)
         button.backgroundColor = .systemGray3
         button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15)

@@ -23,6 +23,7 @@
 "delete" = "삭제";
 
 "cancle" = "취소";
+"retry" = "재시도";
 "close" = "닫기";
 "complete" = "완료";
 "edit" = "편집";
