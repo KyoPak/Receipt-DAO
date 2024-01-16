@@ -19,8 +19,8 @@ final class ComposeViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     private let expense: Receipt?
     private let transitionType: TransitionType
@@ -28,21 +28,20 @@ final class ComposeViewCoordinator: Coordinator {
     init(
         transitionType: TransitionType,
         mainNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.mainNavigationController = mainNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
         self.expense = expense
         self.subNavigationController = UINavigationController()
     }
     
     func start() {
-        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
-        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: currencyRepository.fetch())
         let ocrRepository = DefaultOCRRepository(service: ocrExtractor)
         
         let composeViewReactor = ComposeViewReactor(

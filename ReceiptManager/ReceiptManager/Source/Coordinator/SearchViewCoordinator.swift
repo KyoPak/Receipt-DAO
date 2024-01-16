@@ -14,23 +14,21 @@ final class SearchViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     init(
         mainNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository
     ) {
         self.mainNavigationController = mainNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
         self.subNavigationController = UINavigationController()
     }
     
     func start() {
-        let expenseRepository = DefaultExpenseRepository(service: storageService)
-        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
         let searchViewReactor = SearchViewReactor(
             expenseRepository: expenseRepository,
             currencyRepository: currencyRepository
@@ -48,8 +46,8 @@ extension SearchViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: subNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             expense: expense
         )
         

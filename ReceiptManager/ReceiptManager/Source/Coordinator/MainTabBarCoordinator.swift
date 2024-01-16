@@ -15,21 +15,21 @@ final class MainTabBarCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
-    private let dateManageService: DateManageService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     init(
         window: UIWindow?,
         mainNavigationController: UINavigationController,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
         self.window = window
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
-        self.dateManageService = dateManageService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         self.mainNavigationController = mainNavigationController
     }
     
@@ -43,9 +43,9 @@ final class MainTabBarCoordinator: Coordinator {
             $0.initialCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: UINavigationController(),
-                storageService: storageService,
-                userDefaultService: userDefaultService,
-                dateManageService: dateManageService
+                expenseRepository: expenseRepository,
+                currencyRepository: currencyRepository,
+                dateRepository: dateRepository
             )
         }
         
@@ -68,8 +68,8 @@ extension MainTabBarCoordinator {
         let coordinator = ComposeViewCoordinator(
             transitionType: .modal,
             mainNavigationController: mainNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             expense: nil
         )
         

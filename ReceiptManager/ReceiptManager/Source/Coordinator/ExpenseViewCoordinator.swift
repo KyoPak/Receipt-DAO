@@ -14,38 +14,38 @@ final class ExpenseViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
-    private let dateManageService: DateManageService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
-        self.dateManageService = dateManageService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
     }
     
     func start() {
         let listViewCoordinator = ListViewCoordinator(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateManageService: dateManageService
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository
         )
         
         listViewCoordinator.start()
         
         let calendarCoordinator = CalendarViewCoordinator(
             navigationController: mainNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateManageService: dateManageService
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository
         )
         
         calendarCoordinator.start()
@@ -55,7 +55,6 @@ final class ExpenseViewCoordinator: Coordinator {
             calendarCoordinator.viewController ?? UIViewController()
         ]
         
-        let dateRepository = DefaultDateRepository(service: dateManageService)
         let expenseViewReactor = ExpenseViewReactor(dateRepository: dateRepository)
         let expenseViewController = ExpenseViewController(
             reactor: expenseViewReactor,
@@ -78,8 +77,8 @@ extension ExpenseViewCoordinator {
     func moveDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: mainNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             expense: expense
         )
         
@@ -92,8 +91,8 @@ extension ExpenseViewCoordinator {
     func moveSearchView() {
         let searchViewCoordinator = SearchViewCoordinator(
             mainNavigationController: subNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository
         )
         
         searchViewCoordinator.parentCoordinator = self

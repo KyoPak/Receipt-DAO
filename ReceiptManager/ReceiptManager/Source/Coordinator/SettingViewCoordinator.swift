@@ -14,20 +14,19 @@ final class SettingViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let userDefaultService: UserDefaultService
+    private let currencyRepository: CurrencyRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController,
-        userDefaultService: UserDefaultService
+        currencyRepository: CurrencyRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
-        self.userDefaultService = userDefaultService
+        self.currencyRepository = currencyRepository
     }
     
     func start() {
-        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
         let settingViewReactor = SettingViewReactor(currencyRepository: currencyRepository)
         let settingViewController = SettingViewController(reactor: settingViewReactor)
         

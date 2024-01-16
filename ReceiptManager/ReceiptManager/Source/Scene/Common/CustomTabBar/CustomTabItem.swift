@@ -68,41 +68,41 @@ extension CustomTabItem {
     func initialCoordinator(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) -> Coordinator {
         switch self {
         case .main:
             return ExpenseViewCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
-                storageService: storageService,
-                userDefaultService: userDefaultService,
-                dateManageService: dateManageService
+                expenseRepository: expenseRepository,
+                currencyRepository: currencyRepository,
+                dateRepository: dateRepository
             )
             
         case .analysis:
             return AnalysisViewCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
-                storageService: storageService,
-                userDefaultService: userDefaultService
+                expenseRepository: expenseRepository,
+                currencyRepository: currencyRepository
             )
         
         case .bookmark:
             return BookMarkViewCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
-                storageService: storageService,
-                userDefaultService: userDefaultService
+                expenseRepository: expenseRepository,
+                currencyRepository: currencyRepository
             )
             
         case .setting:
             return SettingViewCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
-                userDefaultService: userDefaultService
+                currencyRepository: currencyRepository
             )
         }
     }

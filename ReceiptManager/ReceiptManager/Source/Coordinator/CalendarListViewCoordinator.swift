@@ -14,25 +14,25 @@ final class CalendarListViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
-    private let dateManageService: DateManageService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     private let day: String
     private let weekIndex: Int
     
     init(
         mainNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService,
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository,
         day: String,
         index: Int
     ) {
         self.mainNavigationController = mainNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
-        self.dateManageService = dateManageService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         
         self.day = day
         weekIndex = index
@@ -40,10 +40,6 @@ final class CalendarListViewCoordinator: Coordinator {
     }
     
     func start() {
-        let expenseRepository = DefaultExpenseRepository(service: storageService)
-        let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
-        let dateRepository = DefaultDateRepository(service: dateManageService)
-        
         let calendarListViewReactor = CalendarListReactor(
             expenseRepository: expenseRepository,
             dateRepository: dateRepository,
@@ -72,8 +68,8 @@ extension CalendarListViewCoordinator {
     func presentDetailView(expense: Receipt) {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: subNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             expense: expense
         )
         
