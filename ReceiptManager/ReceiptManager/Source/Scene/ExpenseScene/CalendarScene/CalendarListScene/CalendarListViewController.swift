@@ -123,7 +123,7 @@ extension CalendarListViewController {
             ) { [weak self] indexPath, data, cell in
                 cell.reactor = ListTableViewCellReactor(
                     expense: data,
-                    userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject(value: .zero)
+                    userDefaultEvent: self?.reactor?.currentEvent ?? BehaviorSubject(value: .zero)
                 )
             }
             .disposed(by: disposeBag)
