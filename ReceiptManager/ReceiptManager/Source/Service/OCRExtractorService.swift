@@ -13,7 +13,7 @@ import FirebaseCrashlytics
 import RxSwift
 
 protocol OCRExtractorService {
-    func extractText(data: Data) -> Observable<[String]>
+    func extract(data: Data) -> Observable<[String]>
 }
 
 final class DefaultOCRExtractorService: OCRExtractorService {
@@ -23,7 +23,7 @@ final class DefaultOCRExtractorService: OCRExtractorService {
         currency = Currency(rawValue: currencyIndex ?? .zero) ?? .KRW
     }
     
-    func extractText(data: Data) -> Observable<[String]> {
+    func extract(data: Data) -> Observable<[String]> {
         return Observable.create { [weak self] observer in
             guard let self = self, let image = UIImage(data: data)?.cgImage else {
                 observer.onError(OCRExtractorError.extractError)

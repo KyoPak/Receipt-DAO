@@ -19,6 +19,6 @@ final class DefaultOCRRepository: OCRRepository {
     }
     
     func extractText(by data: Data) -> Observable<[String]> {
-        return service.extractText(data: data)
+        return service.extract(data: data)
     }
 }
