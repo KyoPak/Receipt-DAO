@@ -8,21 +8,20 @@
 import RxSwift
 
 protocol DateManageService {
-    var currentDateEvent: BehaviorSubject<Date> { get }
     func fetchDate() -> Observable<Date>
     func updateDate(byAddingMonths months: Int) -> Observable<Date>
     func updateToday() -> Observable<Date>
 }
 
 final class DefaultDateManageService: DateManageService {
-    var currentDateEvent: BehaviorSubject<Date>
+    private let currentDateEvent: BehaviorSubject<Date>
     
     init() {
         currentDateEvent = BehaviorSubject(value: Date())
     }
     
     func fetchDate() -> Observable<Date> {
-        return currentDateEvent.asObservable()
+        return currentDateEvent
     }
     
     func updateDate(byAddingMonths months: Int) -> Observable<Date> {
