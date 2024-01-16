@@ -75,7 +75,7 @@ extension SearchViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatMonth.localize()
         
-        return expenseRepository.fetch()
+        return expenseRepository.fetchExpenses()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

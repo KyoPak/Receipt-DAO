@@ -128,7 +128,7 @@ extension ListViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return expenseRepository.fetch()
+        return expenseRepository.fetchExpenses()
             .distinctUntilChanged()
             .map { result in
                 let dictionary = Dictionary(

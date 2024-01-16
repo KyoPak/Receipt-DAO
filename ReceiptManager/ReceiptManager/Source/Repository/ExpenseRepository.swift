@@ -10,7 +10,7 @@ import RxSwift
 protocol ExpenseRepository {
     var saveEvent: PublishSubject<Receipt> { get }
     
-    func fetch() -> Observable<[Receipt]>
+    func fetchExpenses() -> Observable<[Receipt]>
     @discardableResult
     func save(expense: Receipt) -> Observable<Receipt>
     @discardableResult
@@ -26,7 +26,7 @@ final class DefaultExpenseRepository: ExpenseRepository {
         saveEvent = PublishSubject()
     }
     
-    func fetch() -> Observable<[Receipt]> {
+    func fetchExpenses() -> Observable<[Receipt]> {
         return service.fetch()
     }
     

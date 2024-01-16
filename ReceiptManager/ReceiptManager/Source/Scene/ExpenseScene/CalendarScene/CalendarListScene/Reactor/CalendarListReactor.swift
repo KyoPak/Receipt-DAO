@@ -138,7 +138,7 @@ extension CalendarListReactor {
     private func loadData(date: String) -> Observable<[Receipt]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return expenseRepository.fetch()
+        return expenseRepository.fetchExpenses()
             .map { datas in
                 return datas.filter { expense in
                     let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)

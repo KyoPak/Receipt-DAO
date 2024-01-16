@@ -128,7 +128,7 @@ final class DetailViewReactor: Reactor {
 
 extension DetailViewReactor {
     private func changeState(currentState: State, data: Receipt) -> State {
-        let currencyIndex = currencyRepository.fetch()
+        let currencyIndex = currencyRepository.fetchCurrencyIndex()
         let currency = Currency(rawValue: currencyIndex) ?? .KRW
         
         var newState = currentState

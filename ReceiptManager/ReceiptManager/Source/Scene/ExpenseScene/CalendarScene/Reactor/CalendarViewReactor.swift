@@ -106,7 +106,7 @@ extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return expenseRepository.fetch()
+        return expenseRepository.fetchExpenses()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

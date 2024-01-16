@@ -59,7 +59,7 @@ final class SettingViewReactor: Reactor {
             return classifySettingType(settingType)
             
         case .segmentValueChanged(let index):
-            return currencyRepository.save(index: index)
+            return currencyRepository.updateCurrency(index: index)
                 .flatMap { Observable.just(Mutation.currencyChange($0)) }
         }
     }

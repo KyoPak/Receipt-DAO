@@ -41,7 +41,7 @@ final class ComposeViewCoordinator: Coordinator {
     }
     
     func start() {
-        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: currencyRepository.fetch())
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: currencyRepository.fetchCurrencyIndex())
         let ocrRepository = DefaultOCRRepository(service: ocrExtractor)
         
         let composeViewReactor = ComposeViewReactor(

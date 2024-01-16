@@ -21,14 +21,14 @@ final class DefaultDateRepository: DateRepository {
     }
 
     func fetchActiveDate() -> Observable<Date> {
-        return service.fetchDate()
+        return service.fetch()
     }
 
     func changeDate(byAddingMonths months: Int) -> Observable<Date> {
-        return service.updateDate(byAddingMonths: months)
+        return service.update(byAddingMonths: months)
     }
 
     func resetToToday() -> Observable<Date> {
-        return service.updateToday()
+        return service.reset()
     }
 }

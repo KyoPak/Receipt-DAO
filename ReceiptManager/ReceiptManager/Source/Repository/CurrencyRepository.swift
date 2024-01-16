@@ -10,8 +10,8 @@ import RxSwift
 protocol CurrencyRepository {
     var saveEvent: BehaviorSubject<Int> { get }
     
-    func fetch() -> Int
-    func save(index: Int) -> Observable<Int>
+    func fetchCurrencyIndex() -> Int
+    func updateCurrency(index: Int) -> Observable<Int>
 }
 
 final class DefaultCurrencyRepository: CurrencyRepository {
@@ -20,15 +20,15 @@ final class DefaultCurrencyRepository: CurrencyRepository {
     
     init(service: UserDefaultService) {
         self.service = service
-        saveEvent = BehaviorSubject(value: service.fetchCurrencyIndex())
+        saveEvent = BehaviorSubject(value: service.fetch())
     }
     
-    func fetch() -> Int {
-        return service.fetchCurrencyIndex()
+    func fetchCurrencyIndex() -> Int {
+        return service.fetch()
     }
     
-    func save(index: Int) -> Observable<Int> {
+    func updateCurrency(index: Int) -> Observable<Int> {
         saveEvent.onNext(index)
-        return service.updateCurrency(index: index)
+        return service.update(index: index)
     }
 }

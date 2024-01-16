@@ -126,7 +126,7 @@ extension AnalysisViewReactor {
     private func loadData(by date: Date) -> Observable<(current: [Receipt], previous: [Receipt])> {
         let previousDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: date)
         
-        return expenseRepository.fetch()
+        return expenseRepository.fetchExpenses()
             .map { models in
                 let groupedModels = Dictionary(grouping: models) { model in
                     DateFormatter.string(from: model.receiptDate)

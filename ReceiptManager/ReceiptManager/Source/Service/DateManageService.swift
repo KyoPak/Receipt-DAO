@@ -8,9 +8,9 @@
 import RxSwift
 
 protocol DateManageService {
-    func fetchDate() -> Observable<Date>
-    func updateDate(byAddingMonths months: Int) -> Observable<Date>
-    func updateToday() -> Observable<Date>
+    func fetch() -> Observable<Date>
+    func update(byAddingMonths months: Int) -> Observable<Date>
+    func reset() -> Observable<Date>
 }
 
 final class DefaultDateManageService: DateManageService {
@@ -20,11 +20,11 @@ final class DefaultDateManageService: DateManageService {
         currentDateEvent = BehaviorSubject(value: Date())
     }
     
-    func fetchDate() -> Observable<Date> {
+    func fetch() -> Observable<Date> {
         return currentDateEvent
     }
     
-    func updateDate(byAddingMonths months: Int) -> Observable<Date> {
+    func update(byAddingMonths months: Int) -> Observable<Date> {
         let calendar = Calendar.current
         let currentDate = (try? currentDateEvent.value()) ?? Date()
         let updatedDate = calendar.date(byAdding: DateComponents(month: months), to: currentDate) ?? Date()
@@ -33,7 +33,7 @@ final class DefaultDateManageService: DateManageService {
         return currentDateEvent.asObservable()
     }
     
-    func updateToday() -> Observable<Date> {
+    func reset() -> Observable<Date> {
         currentDateEvent.onNext(Date())
         return currentDateEvent.asObservable()
     }

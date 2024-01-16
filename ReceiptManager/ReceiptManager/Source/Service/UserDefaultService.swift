@@ -8,20 +8,20 @@
 import RxSwift
 
 protocol UserDefaultService {
-    func fetchCurrencyIndex() -> Int
-    func updateCurrency(index: Int) -> Observable<Int>
+    func fetch() -> Int
+    func update(index: Int) -> Observable<Int>
 }
 
 final class DefaultUserDefaultService: UserDefaultService {
     
     private let storage = UserDefaults.standard
     
-    func fetchCurrencyIndex() -> Int {
+    func fetch() -> Int {
         return storage.integer(forKey: ConstantText.currencyKey)
     }
     
-    func updateCurrency(index: Int) -> Observable<Int> {
+    func update(index: Int) -> Observable<Int> {
         storage.set(index, forKey: ConstantText.currencyKey)
-        return Observable.just(fetchCurrencyIndex())
+        return Observable.just(fetch())
     }
 }
