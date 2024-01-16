@@ -17,6 +17,7 @@ final class ComposeViewReactor: Reactor {
         case imageAppend(Data)
         case cellDeleteButtonTapped(IndexPath?)
         case cellOCRButtonTapped(IndexPath?)
+        case ocrRetry
         case registerButtonTapped(SaveExpense)
         case imageAppendButtonTapped(IndexPath)
     }
@@ -29,7 +30,8 @@ final class ComposeViewReactor: Reactor {
         case imageDataOCR([String]?)
         case saveExpense(Void?)
         case imageButtonEnable(Bool?)
-        case onError(Error?)
+        case onRegisterError(Error?)
+        case onOCRError(Error?, IndexPath?)
     }
     
     struct State {
@@ -41,7 +43,9 @@ final class ComposeViewReactor: Reactor {
         var imageAppendEnable: Bool?
         var successExpenseRegister: Void?
         var ocrResult: [String]?
-        var composeError: Error?
+        var ocrRetryIndex: IndexPath?
+        var ocrError: Error?
+        var registerError: Error?
     }
     
     // Custom Type
@@ -108,41 +112,19 @@ final class ComposeViewReactor: Reactor {
         case .cellDeleteButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
             let currentDatas = controlImageData(controlType: .delete(indexPath.row))
-            
             return Observable.just(Mutation.imageDataDelete(currentDatas))
         
         case .cellOCRButtonTapped(let indexPath):
             guard let indexPath = indexPath else { return Observable.empty() }
-            let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
-            return ocrRepository.extractText(by: ocrTargetData)
-                .flatMap { texts in
-                    return Observable.concat([
-                        Observable.just(Mutation.imageDataOCR(texts)),
-                        Observable.just(Mutation.imageDataOCR(nil))
-                    ])
-                }
-                .catch { error in
-                    Observable.concat([
-                        Observable.just(Mutation.onError(error)),
-                        Observable.just(Mutation.onError(nil))
-                    ])
-                }
+            return performOCR(indexPath: indexPath)
+            
+        case .ocrRetry:
+            guard let indexPath = currentState.ocrRetryIndex else { return Observable.empty() }
+            return performOCR(indexPath: indexPath)
             
         case .registerButtonTapped(let saveExpense):
             let newExpense = convertExpense(expense: currentState.expense, saveExpense)
-            return expenseRepository.save(expense: newExpense)
-                .flatMap { _ in
-                    Observable.concat([
-                        Observable.just(Mutation.saveExpense(Void())),
-                        Observable.just(Mutation.saveExpense(nil))
-                    ])
-                }
-                .catch { error in
-                    Observable.concat([
-                        Observable.just(Mutation.onError(error)),
-                        Observable.just(Mutation.onError(nil))
-                    ])
-                }
+            return performRegister(expense: newExpense)
             
         case .imageAppendButtonTapped(let indexPath):
             let result = indexPath.row == .zero && currentState.registerdImageDatas.count < 6
@@ -175,11 +157,51 @@ final class ComposeViewReactor: Reactor {
         case .imageDataOCR(let texts):
             newState.ocrResult = texts
             
-        case .onError(let error):
-            newState.composeError = error
+        case .onRegisterError(let error):
+            newState.registerError = error
+            
+        case .onOCRError(let error, let indexPath):
+            newState.ocrError = error
+            newState.ocrRetryIndex = indexPath
         }
         
         return newState
+    }
+}
+
+// Perform OCR, Register
+extension ComposeViewReactor {
+    func performOCR(indexPath: IndexPath) -> Observable<Mutation> {
+        let ocrTargetData = currentState.registerdImageDatas[indexPath.row]
+        return ocrRepository.extractText(by: ocrTargetData)
+            .flatMap { texts in
+                return Observable.concat([
+                    Observable.just(Mutation.imageDataOCR(texts)),
+                    Observable.just(Mutation.imageDataOCR(nil))
+                ])
+            }
+            .catch { error in
+                Observable.concat([
+                    Observable.just(Mutation.onOCRError(error, indexPath)),
+                    Observable.just(Mutation.onOCRError(nil, indexPath))
+                ])
+            }
+    }
+    
+    func performRegister(expense: Receipt) -> Observable<Mutation> {
+        return expenseRepository.save(expense: expense)
+            .flatMap { _ in
+                Observable.concat([
+                    Observable.just(Mutation.saveExpense(Void())),
+                    Observable.just(Mutation.saveExpense(nil))
+                ])
+            }
+            .catch { error in
+                Observable.concat([
+                    Observable.just(Mutation.onRegisterError(error)),
+                    Observable.just(Mutation.onRegisterError(nil))
+                ])
+            }
     }
 }
 
