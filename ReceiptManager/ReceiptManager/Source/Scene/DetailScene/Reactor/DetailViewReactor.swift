@@ -41,19 +41,19 @@ final class DetailViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     // Initializer
     
     init(
         title: String,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
         item: Receipt
     ) {
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
        
         initialState = State(title: title, expense: item, priceText: "")
     }
@@ -79,7 +79,7 @@ final class DetailViewReactor: Reactor {
             
         case .delete:
             let expense = currentState.expense
-            return storageService.delete(receipt: expense)
+            return expenseRepository.delete(expense: expense)
                 .flatMap { _ in
                     return Observable.just(Mutation.deleteExpense(Void()))
                 }
@@ -119,7 +119,7 @@ final class DetailViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let updateEvent = storageService.updateEvent
+        let updateEvent = expenseRepository.saveEvent
             .flatMap { Observable.just(Mutation.updateExpense($0)) }
         
         return Observable.merge(mutation, updateEvent)
@@ -128,7 +128,7 @@ final class DetailViewReactor: Reactor {
 
 extension DetailViewReactor {
     private func changeState(currentState: State, data: Receipt) -> State {
-        let currencyIndex = userDefaultService.fetchCurrencyIndex()
+        let currencyIndex = currencyRepository.fetch()
         let currency = Currency(rawValue: currencyIndex) ?? .KRW
         
         var newState = currentState
