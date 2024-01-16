@@ -12,18 +12,12 @@ import RxSwift
 import RxCoreData
 
 protocol StorageService {
-    var updateEvent: PublishSubject<Receipt> { get }
-    
     func sync()
+    func fetch() -> Observable<[Receipt]>
+    func delete(receipt: Receipt) -> Observable<Receipt>
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt>
-    
-    @discardableResult
-    func fetch() -> Observable<[Receipt]>
-    
-    @discardableResult
-    func delete(receipt: Receipt) -> Observable<Receipt>
 }
 
 final class DefaultStorageService: StorageService {
@@ -41,23 +35,22 @@ final class DefaultStorageService: StorageService {
         return container
     }()
     
-    private var mainContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    private lazy var context: NSManagedObjectContext = {
+        let context = self.persistentContainer.newBackgroundContext()
+        return context
+    }()
     
     // Properties
     
     private let modelName: String
     private let disposeBag = DisposeBag()
-    let updateEvent: PublishSubject<Receipt>
     
     init(modelName: String) {
         self.modelName = modelName
-        updateEvent = PublishSubject()
     }
     
     func sync() {
-        return mainContext.rx.entities(
+        return context.rx.entities(
             Receipt.self, sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .take(1)
@@ -75,7 +68,7 @@ final class DefaultStorageService: StorageService {
     }
     
     func fetch() -> Observable<[Receipt]> {
-        return mainContext.rx.entities(
+        return context.rx.entities(
             Receipt.self,
             sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
@@ -83,24 +76,34 @@ final class DefaultStorageService: StorageService {
     
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
-        updateEvent.onNext(receipt)
-        do {
-            try mainContext.rx.update(receipt)
-            return Observable.just(receipt)
-        } catch {
-            Crashlytics.crashlytics().record(error: error)
-            return Observable.error(StorageServiceError.entityUpdateError)
+        return Observable.create { [weak self] observer in
+            self?.context.perform {
+                do {
+                    try self?.context.rx.update(receipt)
+                    observer.onNext(receipt)
+                    observer.onCompleted()
+                } catch {
+                    Crashlytics.crashlytics().record(error: error)
+                    observer.onError(StorageServiceError.entityUpdateError)
+                }
+            }
+            return Disposables.create()
         }
     }
     
-    @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
-        do {
-            try mainContext.rx.delete(receipt)
-            return Observable.just(receipt)
-        } catch {
-            Crashlytics.crashlytics().record(error: error)
-            return Observable.error(StorageServiceError.entityDeleteError)
+        return Observable.create { [weak self] observer in
+            self?.context.perform {
+                do {
+                    try self?.context.rx.delete(receipt)
+                    observer.onNext(receipt)
+                    observer.onCompleted()
+                } catch {
+                    Crashlytics.crashlytics().record(error: error)
+                    observer.onError(StorageServiceError.entityUpdateError)
+                }
+            }
+            return Disposables.create()
         }
     }
 }

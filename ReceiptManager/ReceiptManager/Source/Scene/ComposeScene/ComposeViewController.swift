@@ -168,6 +168,7 @@ extension ComposeViewController {
             
     private func bindState(_ reactor: ComposeViewReactor) {
         reactor.state.map { $0.transitionType }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { (owner, type) in
                 switch type {

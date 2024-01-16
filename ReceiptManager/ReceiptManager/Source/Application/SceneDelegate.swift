@@ -28,14 +28,19 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let storageService = DefaultStorageService(modelName: ConstantText.receiptManager)
             let userDefaultService = DefaultUserDefaultService()
             let dateManageService = DefaultDateManageService()
+            
+            let expenseRepository = DefaultExpenseRepository(service: storageService)
+            let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
+            let dateRepository = DefaultDateRepository(service: dateManageService)
+            
             storageService.sync()
             
             let mainTabBarCoordinator = MainTabBarCoordinator(
                 window: window,
                 mainNavigationController: UINavigationController(),
-                storageService: storageService,
-                userDefaultService: userDefaultService,
-                dateManageService: dateManageService
+                expenseRepository: expenseRepository,
+                currencyRepository: currencyRepository,
+                dateRepository: dateRepository
             )
             mainTabBarCoordinator.start()
         }

@@ -29,14 +29,14 @@ final class SearchViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    let userDefaultEvent: BehaviorSubject<Int>
+    private let expenseRepository: ExpenseRepository
+    let currencyEvent: BehaviorSubject<Int>
     
     // Initializer
     
-    init(storageService: StorageService, userDefaultService: UserDefaultService) {
-        self.storageService = storageService
-        userDefaultEvent = userDefaultService.event
+    init(expenseRepository: ExpenseRepository, currencyRepository: CurrencyRepository) {
+        self.expenseRepository = expenseRepository
+        currencyEvent = currencyRepository.saveEvent
         initialState = State(title: ConstantText.searchBar.localize(), searchText: "", searchResult: [])
     }
     
@@ -75,7 +75,7 @@ extension SearchViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatMonth.localize()
         
-        return storageService.fetch()
+        return expenseRepository.fetchExpenses()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

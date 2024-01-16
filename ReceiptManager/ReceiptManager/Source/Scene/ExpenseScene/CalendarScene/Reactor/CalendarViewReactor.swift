@@ -38,20 +38,20 @@ final class CalendarViewReactor: Reactor {
     }
     
     private let calendar: Calendar
-    private let storageService: StorageService
-    let userDefaultEvent: BehaviorSubject<Int>
-    let dateManageEvent: BehaviorSubject<Date>
+    private let expenseRepository: ExpenseRepository
+    let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     // Initializer
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
-        self.storageService = storageService
-        userDefaultEvent = userDefaultService.event
-        dateManageEvent = dateManageService.currentDateEvent
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         
         calendar = Calendar.current
         initialState = State(expenseByMonth: [], date: Date(), dayInfos: [])
@@ -84,7 +84,7 @@ final class CalendarViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let dateEvent = dateManageEvent
+        let dateEvent = dateRepository.fetchActiveDate()
             .flatMap { date in
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
@@ -106,7 +106,7 @@ extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return storageService.fetch()
+        return expenseRepository.fetchExpenses()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,
