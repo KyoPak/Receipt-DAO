@@ -10,6 +10,10 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+protocol Retriable: AnyObject {
+    func retry()
+}
+
 final class AlertView: UIView {
     
     // Properties
@@ -17,6 +21,11 @@ final class AlertView: UIView {
     var didTapCancelButton: ControlEvent<Void> {
         return cancelButton.rx.controlEvent(.touchUpInside)
     }
+    
+    var didTapRetryButton: ControlEvent<Void> {
+        return retryButton.rx.controlEvent(.touchUpInside)
+    }
+    
     private let disposeBag = DisposeBag()
     
     // UI Properties
@@ -38,13 +47,22 @@ final class AlertView: UIView {
         return button
     }()
     
+    private let retryButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("재시도", for: .normal)
+        button.backgroundColor = .systemGray3
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15)
+        return button
+    }()
+    
     // Initializer
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupHierarchy()
+    init(alertType: AlertType = .cancel) {        
+        super.init(frame: .zero)
+        setupHierarchy(alertType: alertType)
         setupProperties()
-        setupContraints()
+        setupContraints(alertType: alertType)
     }
     
     required init?(coder: NSCoder) {
@@ -54,26 +72,47 @@ final class AlertView: UIView {
 
 // MARK: - UI Constraints
 private extension AlertView {
-    func setupHierarchy() {
-        [mainLabel, cancelButton].forEach(addSubview(_:))
+    func setupHierarchy(alertType: AlertType) {
+        switch alertType {
+        case .retry:
+            [mainLabel, retryButton, cancelButton].forEach(addSubview(_:))
+        case .cancel:
+            [mainLabel, cancelButton].forEach(addSubview(_:))
+        }
     }
     
     func setupProperties() {
-        [mainLabel, cancelButton].forEach {
+        [mainLabel, retryButton, cancelButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
-    func setupContraints() {
+    func setupContraints(alertType: AlertType) {
         NSLayoutConstraint.activate([
-            
             mainLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mainLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
-            
-            cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            cancelButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cancelButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
+            mainLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20)
         ])
+        
+        switch alertType {
+        case .retry:
+            NSLayoutConstraint.activate([
+                retryButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+                retryButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -1),
+                retryButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+                retryButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
+                
+                cancelButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 1),
+                cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+                cancelButton.bottomAnchor.constraint(equalTo: retryButton.bottomAnchor),
+                cancelButton.heightAnchor.constraint(equalTo: retryButton.heightAnchor)
+            ])
+        case .cancel:
+            NSLayoutConstraint.activate([
+                cancelButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+                cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+                cancelButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+                cancelButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3)
+            ])
+        }
     }
 }
