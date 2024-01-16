@@ -23,6 +23,7 @@
 "delete" = "削除";
 
 "cancle" = "キャンセル";
+"retry" = "もう一度";
 "close" = "終了";
 "complete" = "完了";
 "edit" = "編集";

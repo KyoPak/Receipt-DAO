@@ -105,20 +105,22 @@ extension ComposeViewCoordinator {
         limitAlbumViewCoordinator.start()
     }
     
-    func presentAlert(error: Error) {
+    func presentAlert(error: Error, delegate: Retriable? = nil) {
         
         let alertCoordinator: AlertViewCoordinator
         switch transitionType {
         case .modal:
             alertCoordinator = AlertViewCoordinator(
                 mainNavigationController: subNavigationController,
-                error: error
+                error: error,
+                retryDelegate: delegate
             )
             
         case .push:
             alertCoordinator = AlertViewCoordinator(
                 mainNavigationController: mainNavigationController,
-                error: error
+                error: error,
+                retryDelegate: delegate
             )
         }
 

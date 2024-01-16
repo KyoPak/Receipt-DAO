@@ -23,6 +23,7 @@
 "delete" = "Delete";
 
 "cancle" = "Cancel";
+"retry" = "Retry";
 "close" = "Close";
 "complete" = "Completed";
 "edit" = "Edit";

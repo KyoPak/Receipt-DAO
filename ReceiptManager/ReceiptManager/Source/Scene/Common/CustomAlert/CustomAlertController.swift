@@ -10,11 +10,17 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+enum AlertType {
+    case retry
+    case cancel
+}
+
 final class CustomAlertViewController: UIViewController {
     
     // Property
     
     weak var coordinator: AlertViewCoordinator?
+    weak var delegate: Retriable?
     private let disposeBag = DisposeBag()
     private let dismissTap = UITapGestureRecognizer()
     private let alertTitle: BehaviorSubject<String>
@@ -27,8 +33,8 @@ final class CustomAlertViewController: UIViewController {
         return view
     }()
     
-    private let alertView: AlertView = {
-        let view = AlertView()
+    private lazy var alertView: AlertView = {
+        let view = AlertView(alertType: delegate == nil ? .cancel : .retry)
         view.backgroundColor = ConstantColor.backGroundColor
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
@@ -37,8 +43,9 @@ final class CustomAlertViewController: UIViewController {
     
     // Initializer
     
-    init(error: Error) {
+    init(error: Error, delegate: Retriable? = nil) {
         alertTitle = BehaviorSubject(value: error.localizedDescription)
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -74,6 +81,14 @@ private extension CustomAlertViewController {
             self.coordinator?.close(self)
         }
         .disposed(by: disposeBag)
+        
+        alertView.didTapRetryButton
+            .bind { [weak self] in
+                guard let self = self else { return }
+                self.coordinator?.close(self)
+                self.delegate?.retry()
+            }
+            .disposed(by: disposeBag)
         
         alertTitle
             .bind(to: alertView.mainLabel.rx.text)

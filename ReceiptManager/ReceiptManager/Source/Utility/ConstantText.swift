@@ -45,6 +45,7 @@ enum ConstantText {
     static let delete = "delete"
     
     static let cancle = "cancle"
+    static let retry = "retry"
     static let close = "close"
     static let complete = "complete"
     static let edit = "edit"
