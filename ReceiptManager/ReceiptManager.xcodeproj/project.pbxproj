@@ -120,6 +120,7 @@
 		3CE14F9C2B57B3B800471931 /* MockExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */; };
 		3CE14F9E2B57B5ED00471931 /* MockCurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */; };
 		3CE14FA02B57B6E000471931 /* MockDateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */; };
+		3CE14FA22B57BDC400471931 /* MockOCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */; };
 		3CE78EE72B15E529008743A1 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */; };
 		3CF106B42A4DBD250056874B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CF106B62A4DBD250056874B /* InfoPlist.strings */; };
 		3CF5EB4C2B2575C100A524C5 /* PayTypeRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5EB4B2B2575C100A524C5 /* PayTypeRatingView.swift */; };
@@ -266,6 +267,7 @@
 		3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExpenseRepository.swift; sourceTree = "<group>"; };
 		3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCurrencyRepository.swift; sourceTree = "<group>"; };
 		3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDateRepository.swift; sourceTree = "<group>"; };
+		3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOCRRepository.swift; sourceTree = "<group>"; };
 		3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
 		3CF106B52A4DBD250056874B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3CF106B72A4DBD2B0056874B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -818,6 +820,7 @@
 				3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */,
 				3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */,
 				3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */,
+				3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */,
 			);
 			path = MockRepository;
 			sourceTree = "<group>";
@@ -1090,6 +1093,7 @@
 				3C4B648F2B2AE5EB00895494 /* AnalysisViewReactorTests.swift in Sources */,
 				3CDD520B2B29A0D400C0306A /* ListViewReactorTests.swift in Sources */,
 				3CDD52192B29BC8200C0306A /* CalendarViewReactorTests.swift in Sources */,
+				3CE14FA22B57BDC400471931 /* MockOCRRepository.swift in Sources */,
 				3CE14F992B57AD2600471931 /* DateManageServiceTests.swift in Sources */,
 				3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */,
 				3C4B648D2B2AE2F800895494 /* MockOCRExtractorService.swift in Sources */,
