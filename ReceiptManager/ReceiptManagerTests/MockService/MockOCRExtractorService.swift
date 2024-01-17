@@ -11,7 +11,8 @@ import RxSwift
 final class MockOCRExtractorService: OCRExtractorService {
     var ocrResult = PublishSubject<[String]>()
     
-    func extractText(data: Data) {
+    func extract(data: Data) -> Observable<[String]> {
         ocrResult.onNext(["Test Text"])
+        return ocrResult
     }
 }

@@ -9,17 +9,14 @@ import RxSwift
 @testable import ReceiptManager
 
 final class MockUserDefaultService: UserDefaultService {
-    var event = BehaviorSubject<Int>(value: .zero)
+    private var currentData: Int = .zero
     
-    private var currentIndex: Int = .zero
-    
-    func fetchCurrencyIndex() -> Int {
-        return currentIndex
+    func fetch() -> Int {
+        return currentData
     }
     
-    func updateCurrency(index: Int) -> Observable<Int> {
-        currentIndex = index
-        event.onNext(index)
-        return event.asObservable()
+    func update(index: Int) -> Observable<Int> {
+        currentData = index
+        return Observable.just(currentData)
     }
 }
