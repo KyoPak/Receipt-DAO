@@ -9,14 +9,21 @@ import RxSwift
 @testable import ReceiptManager
 
 final class MockStoragService: StorageService {
-    var updateEvent = PublishSubject<Receipt>()
-    
     private var receipts: [Receipt] = [Receipt(), Receipt(), Receipt()]
     
     func sync() { }
     
+    func fetch() -> Observable<[Receipt]> {
+        return Observable.just(receipts)
+    }
+    
     @discardableResult
     func upsert(receipt: Receipt) -> Observable<Receipt> {
+        if receipt.priceText == "-1" { // TriggerError
+            return Observable.error(MockStorageError.receiptNotFound)
+        }
+
+        
         for index in 0..<receipts.count {
             if receipts[index].identity == receipt.identity {
                 receipts.remove(at: index)
@@ -24,17 +31,10 @@ final class MockStoragService: StorageService {
             }
         }
         
-        updateEvent.onNext(receipt)
         receipts.append(receipt)
         return Observable.just(receipt)
     }
     
-    @discardableResult
-    func fetch() -> Observable<[Receipt]> {
-        return Observable.just(receipts)
-    }
-    
-    @discardableResult
     func delete(receipt: Receipt) -> Observable<Receipt> {
         if let index = receipts.firstIndex(where: { $0 == receipt }) {
             receipts.remove(at: index)
