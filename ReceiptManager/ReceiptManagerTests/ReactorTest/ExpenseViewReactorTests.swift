@@ -13,7 +13,7 @@ final class ExpenseViewReactorTests: XCTestCase {
     private var dateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        dateRepository = DefaultDateRepository(service: DefaultDateManageService())
+        dateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
