@@ -9,32 +9,31 @@ import RxSwift
 @testable import ReceiptManager
 
 final class MockStoragService: StorageService {
-    var updateEvent = PublishSubject<Receipt>()
-    
     private var receipts: [Receipt] = [Receipt(), Receipt(), Receipt()]
     
     func sync() { }
     
-    @discardableResult
-    func upsert(receipt: Receipt) -> Observable<Receipt> {
-        for index in 0..<receipts.count {
-            if receipts[index].identity == receipt.identity {
-                receipts.remove(at: index)
-                break
-            }
-        }
-        
-        updateEvent.onNext(receipt)
-        receipts.append(receipt)
-        return Observable.just(receipt)
-    }
-    
-    @discardableResult
     func fetch() -> Observable<[Receipt]> {
         return Observable.just(receipts)
     }
     
     @discardableResult
+    func upsert(receipt: Receipt) -> Observable<Receipt> {
+        var flag = false
+        for index in 0..<receipts.count {
+            if receipts[index].identity == receipt.identity {
+                receipts.remove(at: index)
+                flag = true
+                break
+            }
+        }
+        
+        if !flag { return Observable.error(MockStorageError.receiptNotFound) }
+        
+        receipts.append(receipt)
+        return Observable.just(receipt)
+    }
+    
     func delete(receipt: Receipt) -> Observable<Receipt> {
         if let index = receipts.firstIndex(where: { $0 == receipt }) {
             receipts.remove(at: index)
