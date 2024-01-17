@@ -112,9 +112,10 @@ final class AnalysisViewReactor: Reactor {
             }
         
         let dateEvent = dateRepository.fetchActiveDate()
-            .flatMap { date in
-                return self.loadData(by: date).flatMap { models in
-                    return Observable.just(Mutation.updateAnalysis(self.analysisExpenses(datas: models)))
+            .withUnretained(self)
+            .flatMap { (owner, date) in
+                return owner.loadData(by: date).flatMap { models in
+                    return Observable.just(Mutation.updateAnalysis(owner.analysisExpenses(datas: models)))
                 }
             }
         
