@@ -307,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				3CE14F972B57ACEC00471931 /* ServiceTests */,
-				3CDD520C2B29A14F00C0306A /* MockService */,
 				3CE14F902B579ECD00471931 /* RepositoryTest */,
 				3C47538B2B2AF9D300FE9C37 /* ReactorTest */,
 				3CFD89552B2AFB4900EC5B7D /* ExtensionTest */,
@@ -790,6 +789,7 @@
 		3CE14F902B579ECD00471931 /* RepositoryTest */ = {
 			isa = PBXGroup;
 			children = (
+				3CDD520C2B29A14F00C0306A /* MockService */,
 				3CE14F912B579F5A00471931 /* ExpenseRepositoryTests.swift */,
 				3CE14F932B57A77E00471931 /* OCRRepositoryTests.swift */,
 				3CE14F952B57AA1800471931 /* CurrencyRepositoryTests.swift */,
