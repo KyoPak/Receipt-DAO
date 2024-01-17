@@ -10,32 +10,32 @@ import RxSwift
 @testable import ReceiptManager
 
 final class BookMarkViewReactorTests: XCTestCase {
-    private var mockStorageService: StorageService!
-    private var mockUserDefaultService: UserDefaultService!
-    private var mockDateService: DateManageService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockUserDefaultService = MockUserDefaultService()
-        mockDateService = DefaultDateManageService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockCurrencyRepository = MockCurrencyRepository()
+        mockDateRepository = MockDateRepository()
     }
-    
+
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockUserDefaultService = nil
-        mockDateService = nil
+        mockExpenseRepository = nil
+        mockCurrencyRepository = nil
+        mockDateRepository = nil
     }
     
     func test_viewWillAppearAction() {
         // Given
         let mockExpense1 = Receipt.mockExpense()
         let mockExpense2 = Receipt.mockExpense()
-        mockStorageService.upsert(receipt: mockExpense1)
-        mockStorageService.upsert(receipt: mockExpense2)
+        mockExpenseRepository.save(expense: mockExpense1)
+        mockExpenseRepository.save(expense: mockExpense2)
         
         let reactor = BookMarkViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository
         )
             
         // When
@@ -49,12 +49,12 @@ final class BookMarkViewReactorTests: XCTestCase {
         // Given
         let mockExpense1 = Receipt.mockExpense()
         let mockExpense2 = Receipt.mockExpense()
-        mockStorageService.upsert(receipt: mockExpense1)
-        mockStorageService.upsert(receipt: mockExpense2)
+        mockExpenseRepository.save(expense: mockExpense1)
+        mockExpenseRepository.save(expense: mockExpense2)
         
         let reactor = BookMarkViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository
         )
         
         // When
