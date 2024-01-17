@@ -12,20 +12,20 @@ import RxTest
 
 final class DetailViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
-    private var mockStorageService: StorageService!
-    private var mockUserDefaultService: UserDefaultService!
-    private var mockDateService: DateManageService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockUserDefaultService = MockUserDefaultService()
-        mockDateService = DefaultDateManageService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockCurrencyRepository = MockCurrencyRepository()
+        mockDateRepository = MockDateRepository()
     }
-    
+
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockUserDefaultService = nil
-        mockDateService = nil
+        mockExpenseRepository = nil
+        mockCurrencyRepository = nil
+        mockDateRepository = nil
     }
     
     func test_viewWillAppearAction() {
@@ -33,8 +33,8 @@ final class DetailViewReactorTests: XCTestCase {
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
             item: mockExpense
         )
         
@@ -52,8 +52,8 @@ final class DetailViewReactorTests: XCTestCase {
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
             item: mockExpense
         )
         
@@ -79,8 +79,8 @@ final class DetailViewReactorTests: XCTestCase {
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
             item: mockExpense
         )
         
@@ -106,13 +106,15 @@ final class DetailViewReactorTests: XCTestCase {
         let mockExpense = Receipt.mockExpense()
         let reactor = DetailViewReactor(
             title: "",
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
             item: mockExpense
         )
         
         // When
         /// Virtual Time 100에 이벤트 방출
+        mockExpenseRepository.save(expense: mockExpense)
+        
         scheduler
             .createHotObservable([
                 .next(100, .delete)
