@@ -16,26 +16,26 @@ final class ListViewCoordinator: Coordinator {
     
     var viewController: UIViewController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
-    private let dateManageService: DateManageService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
-        self.dateManageService = dateManageService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
     }
     
     func start() {
         let listViewReactor = ListViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateManageService: dateManageService
-        )
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository)
+        
         let listViewController = ListViewController(reactor: listViewReactor)
         listViewController.coordinator = self
         viewController = listViewController

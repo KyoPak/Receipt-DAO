@@ -38,20 +38,20 @@ final class CalendarViewReactor: Reactor {
     }
     
     private let calendar: Calendar
-    private let storageService: StorageService
-    let userDefaultEvent: BehaviorSubject<Int>
-    let dateManageEvent: BehaviorSubject<Date>
+    private let expenseRepository: ExpenseRepository
+    let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     // Initializer
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
-        self.storageService = storageService
-        userDefaultEvent = userDefaultService.event
-        dateManageEvent = dateManageService.currentDateEvent
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         
         calendar = Calendar.current
         initialState = State(expenseByMonth: [], date: Date(), dayInfos: [])
@@ -62,9 +62,11 @@ final class CalendarViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadData:
-            return loadData(by: currentState.date).map { models in
-                return Mutation.updateExpenseDayInfos(models, self.updateDays(model: models))
-            }
+            return loadData(by: currentState.date)
+                .withUnretained(self)
+                .map { (owner, models) in
+                    return Mutation.updateExpenseDayInfos(models, owner.updateDays(model: models))
+                }
         }
     }
     
@@ -84,14 +86,13 @@ final class CalendarViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let dateEvent = dateManageEvent
-            .flatMap { date in
+        let dateEvent = dateRepository.fetchActiveDate()
+            .withUnretained(self)
+            .flatMap { (owner, date) in
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
-                    self.loadData(by: date).flatMap { models in
-                        Observable.just(Mutation.updateExpenseDayInfos(
-                            models,
-                            self.updateDays(model: models))
+                    owner.loadData(by: date).flatMap {
+                        Observable.just(Mutation.updateExpenseDayInfos($0, owner.updateDays(model: $0))
                         )
                     }
                 )
@@ -106,7 +107,7 @@ extension CalendarViewReactor {
     private func loadData(by date: Date?) -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return storageService.fetch()
+        return expenseRepository.fetchExpenses()
             .map { result in
                 let dictionary = Dictionary(
                     grouping: result,

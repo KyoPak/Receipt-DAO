@@ -10,32 +10,32 @@ import RxSwift
 @testable import ReceiptManager
 
 final class SearchViewReactorTests: XCTestCase {
-    private var mockStorageService: StorageService!
-    private var mockUserDefaultService: UserDefaultService!
-    private var mockDateService: DateManageService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockUserDefaultService = MockUserDefaultService()
-        mockDateService = DefaultDateManageService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockCurrencyRepository = MockCurrencyRepository()
+        mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockUserDefaultService = nil
-        mockDateService = nil
+        mockExpenseRepository = nil
+        mockCurrencyRepository = nil
+        mockDateRepository = nil
     }
     
     func test_loadDataAction() {
         // Given
         let reactor = SearchViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository
         )
         let targetText = "Test"
-        mockStorageService.upsert(receipt: Receipt(store: targetText))
-        mockStorageService.upsert(receipt: Receipt(product: targetText))
-        mockStorageService.upsert(receipt: Receipt(memo: targetText))
+        mockExpenseRepository.save(expense: Receipt(store: targetText))
+        mockExpenseRepository.save(expense: Receipt(product: targetText))
+        mockExpenseRepository.save(expense: Receipt(memo: targetText))
         
         // When
         reactor.action.onNext(.searchExpense(targetText))

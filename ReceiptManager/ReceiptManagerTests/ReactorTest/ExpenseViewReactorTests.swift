@@ -10,19 +10,19 @@ import RxSwift
 @testable import ReceiptManager
 
 final class ExpenseViewReactorTests: XCTestCase {
-    private var mockDateService: DateManageService!
+    private var dateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockDateService = DefaultDateManageService()
+        dateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
-        mockDateService = nil
+        dateRepository = nil
     }
 
     func test_nextMonthAction() {
         // Given
-        let reactor = ExpenseViewReactor(dateService: mockDateService)
+        let reactor = ExpenseViewReactor(dateRepository: dateRepository)
         let nextDate = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
         
         // When
@@ -35,7 +35,7 @@ final class ExpenseViewReactorTests: XCTestCase {
     
     func test_previousMonthAction() {
         // Given
-        let reactor = ExpenseViewReactor(dateService: mockDateService)
+        let reactor = ExpenseViewReactor(dateRepository: dateRepository)
         let nextDate = Calendar.current.date(byAdding: DateComponents(month: -1), to: Date()) ?? Date()
         
         // When
@@ -48,7 +48,7 @@ final class ExpenseViewReactorTests: XCTestCase {
     
     func test_todayAction() {
         // Given
-        let reactor = ExpenseViewReactor(dateService: mockDateService)
+        let reactor = ExpenseViewReactor(dateRepository: dateRepository)
         let today = Date()
         
         // When
@@ -62,7 +62,7 @@ final class ExpenseViewReactorTests: XCTestCase {
     /// showModeButtonTapped Action Test
     func test_changeShowModeAction() {
         // Given
-        let reactor = ExpenseViewReactor(dateService: mockDateService)
+        let reactor = ExpenseViewReactor(dateRepository: dateRepository)
         
         // When
         reactor.action.onNext(.showModeButtonTapped)

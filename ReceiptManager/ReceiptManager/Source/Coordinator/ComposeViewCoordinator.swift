@@ -19,8 +19,8 @@ final class ComposeViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     private let expense: Receipt?
     private let transitionType: TransitionType
@@ -28,27 +28,28 @@ final class ComposeViewCoordinator: Coordinator {
     init(
         transitionType: TransitionType,
         mainNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.mainNavigationController = mainNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
         self.expense = expense
         self.subNavigationController = UINavigationController()
     }
     
     func start() {
-        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: try? userDefaultService.event.value())
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: currencyRepository.fetchCurrencyIndex())
+        let ocrRepository = DefaultOCRRepository(service: ocrExtractor)
         
         let composeViewReactor = ComposeViewReactor(
-            storageService: storageService,
-            ocrExtractor: ocrExtractor,
+            expenseRepository: expenseRepository,
+            ocrRepository: ocrRepository,
             expense: expense,
-            transisionType: transitionType
-        )
+            transisionType: transitionType)
+        
         let composeViewController = ComposeViewController(reactor: composeViewReactor)
         composeViewController.coordinator = self
         
@@ -104,20 +105,22 @@ extension ComposeViewCoordinator {
         limitAlbumViewCoordinator.start()
     }
     
-    func presentAlert(error: Error) {
+    func presentAlert(error: Error, delegate: Retriable? = nil) {
         
         let alertCoordinator: AlertViewCoordinator
         switch transitionType {
         case .modal:
             alertCoordinator = AlertViewCoordinator(
                 mainNavigationController: subNavigationController,
-                error: error
+                error: error,
+                retryDelegate: delegate
             )
             
         case .push:
             alertCoordinator = AlertViewCoordinator(
                 mainNavigationController: mainNavigationController,
-                error: error
+                error: error,
+                retryDelegate: delegate
             )
         }
 

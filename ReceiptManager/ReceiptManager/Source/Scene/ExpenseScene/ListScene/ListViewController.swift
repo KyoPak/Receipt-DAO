@@ -30,7 +30,8 @@ final class ListViewController: UIViewController, View {
             
             cell.reactor = ListTableViewCellReactor(
                 expense: receipt,
-                userDefaultEvent: self.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+                userDefaultEvent: self.reactor?
+                    .currencyRepository.saveEvent ?? BehaviorSubject<Int>(value: .zero)
             )
             
             return cell
@@ -123,6 +124,7 @@ extension ListViewController {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dataError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
                 self?.coordinator?.presentAlert(error: error)

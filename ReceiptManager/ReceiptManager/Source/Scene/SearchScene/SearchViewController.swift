@@ -29,7 +29,7 @@ final class SearchViewController: UIViewController, View {
             
             cell.reactor = ListTableViewCellReactor(
                 expense: receipt,
-                userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject<Int>(value: .zero)
+                userDefaultEvent: self?.reactor?.currencyEvent ?? BehaviorSubject<Int>(value: .zero)
             )
             return cell
         }
@@ -154,6 +154,7 @@ extension SearchViewController {
     
     private func bindState(_ reactor: SearchViewReactor) {
         reactor.state.map { $0.searchResult }
+            .observe(on: MainScheduler.instance)
             .do(onNext: { [weak self] datas in
                 datas.isEmpty ? self?.showEmptyResultMessage() : self?.hideEmptyResultMessage()
             })

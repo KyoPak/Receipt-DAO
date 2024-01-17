@@ -33,20 +33,20 @@ final class ListViewReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    let userDefaultEvent: BehaviorSubject<Int>
-    let dateManageEvent: BehaviorSubject<Date>
+    private let expenseRepository: ExpenseRepository
+    let currencyRepository: CurrencyRepository
+    private let dateRepository: DateRepository
     
     // Initializer
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
+        dateRepository: DateRepository
     ) {
-        self.storageService = storageService
-        userDefaultEvent = userDefaultService.event
-        dateManageEvent = dateManageService.currentDateEvent
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
+        self.dateRepository = dateRepository
         initialState = State(expenseByMonth: [], date: Date())
     }
     
@@ -55,17 +55,20 @@ final class ListViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadData:
-            return loadData().map { models in
-                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
-            }
+            return loadData()
+                .withUnretained(self)
+                .map { (owner, models) in
+                    Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
+                }
             
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
-            return storageService.upsert(receipt: expense)
-                .flatMap { _ in
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+            return expenseRepository.save(expense: expense)
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 }
                 .catch { error in
@@ -77,10 +80,11 @@ final class ListViewReactor: Reactor {
 
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
-            return storageService.delete(receipt: expense)
-                .flatMap { _ in
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+            return expenseRepository.delete(expense: expense)
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 }
                 .catch { error in
@@ -110,12 +114,13 @@ final class ListViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let dateEvent = dateManageEvent
-            .flatMap { date in
+        let dateEvent = dateRepository.fetchActiveDate()
+            .withUnretained(self)
+            .flatMap { (owner, date) in
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 )
             }
@@ -128,7 +133,7 @@ extension ListViewReactor {
     private func loadData() -> Observable<[ReceiptSectionModel]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
         
-        return storageService.fetch()
+        return expenseRepository.fetchExpenses()
             .distinctUntilChanged()
             .map { result in
                 let dictionary = Dictionary(

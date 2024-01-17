@@ -38,16 +38,16 @@ final class ExpenseViewReactor: Reactor {
     
     // Properties
     
-    private let dateService: DateManageService
+    private let dateRepository: DateRepository
     
     // Initializer
     
-    init(dateService: DateManageService) {
-        self.dateService = dateService
+    init(dateRepository: DateRepository) {
+        self.dateRepository = dateRepository
         initialState = State(
             title: ConstantText.list.localize(),
             showMode: .list,
-            dateToShow: (try? dateService.currentDateEvent.value()) ?? Date()
+            dateToShow: Date()
         )
     }
 
@@ -60,15 +60,15 @@ final class ExpenseViewReactor: Reactor {
             return .just(.changeShowMode(newMode))
         
         case .nextMonthButtonTapped:
-            return dateService.updateDate(byAddingMonths: 1)
+            return dateRepository.changeDate(byAddingMonths: 1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             
         case .previousMonthButtonTapped:
-            return dateService.updateDate(byAddingMonths: -1)
+            return dateRepository.changeDate(byAddingMonths: -1)
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
             
         case .todayButtonTapped:
-            return dateService.updateToday()
+            return dateRepository.resetToToday()
                 .flatMap { Observable.just(Mutation.updateDate($0)) }
         }
     }

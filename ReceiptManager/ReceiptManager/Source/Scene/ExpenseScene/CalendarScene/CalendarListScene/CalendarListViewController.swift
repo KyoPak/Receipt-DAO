@@ -123,12 +123,13 @@ extension CalendarListViewController {
             ) { [weak self] indexPath, data, cell in
                 cell.reactor = ListTableViewCellReactor(
                     expense: data,
-                    userDefaultEvent: self?.reactor?.userDefaultEvent ?? BehaviorSubject(value: .zero)
+                    userDefaultEvent: self?.reactor?.currentEvent ?? BehaviorSubject(value: .zero)
                 )
             }
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dataError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
                 self?.coordinator?.presentAlert(error: error)

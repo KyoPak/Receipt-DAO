@@ -37,22 +37,22 @@ final class CalendarListReactor: Reactor {
     
     // Properties
     
-    private let storageService: StorageService
-    private let dateManageService: DateManageService
-    let userDefaultEvent: BehaviorSubject<Int>
+    private let expenseRepository: ExpenseRepository
+    private let dateRepository: DateRepository
+    let currentEvent: BehaviorSubject<Int>
     
     // Initializer
     
     init(
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
-        dateManageService: DateManageService,
+        expenseRepository: ExpenseRepository,
+        dateRepository: DateRepository,
+        currencyRepository: CurrencyRepository,
         day: String,
         weekIndex: Int
     ) {
-        self.storageService = storageService
-        self.userDefaultEvent = userDefaultService.event
-        self.dateManageService = dateManageService
+        self.expenseRepository = expenseRepository
+        self.dateRepository = dateRepository
+        self.currentEvent = currencyRepository.saveEvent
         
         initialState = State(
             dateTitle: "",
@@ -68,23 +68,26 @@ final class CalendarListReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> { 
         switch action {
         case .loadData:
-            return Observable.concat([
-                Observable.just(Mutation.updateDateTitle(updateDate())),
-                loadData().flatMap({ [weak self] models in
-                    return Observable.concat([
-                        Observable.just(Mutation.updateExpenseList(models)),
-                        Observable.just(Mutation.updateAmount(self?.updateAmount(models) ?? "" ))
-                    ])
-                })
-            ])
+            return updateDate()
+                .withUnretained(self)
+                .flatMap { (owner, date) in
+                    owner.loadData(date: date)
+                        .flatMap { expenses in
+                            Observable.merge([
+                                Observable.just(Mutation.updateDateTitle(date)),
+                                Observable.just(Mutation.updateExpenseList(expenses))
+                            ])
+                        }
+                }
             
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByDay[indexPath.row]
             expense.isFavorite.toggle()
-            return storageService.upsert(receipt: expense)
+            
+            return expenseRepository.save(expense: expense)
                 .withUnretained(self)
                 .flatMap { (owner, _) in
-                    owner.loadData().map { models in
+                    owner.loadData(date: owner.currentState.dateTitle).map { models in
                         Mutation.updateExpenseList(models)}
                 }
                 .catch { error in
@@ -96,10 +99,10 @@ final class CalendarListReactor: Reactor {
             
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByDay[indexPath.row]
-            return storageService.delete(receipt: expense)
+            return expenseRepository.delete(expense: expense)
                 .withUnretained(self)
                 .flatMap { (owner, _) in
-                    owner.loadData().map { models in
+                    owner.loadData(date: owner.currentState.dateTitle).map { models in
                         Mutation.updateExpenseList(models)}
                 }
                 .catch { error in
@@ -132,36 +135,32 @@ final class CalendarListReactor: Reactor {
 }
 
 extension CalendarListReactor {
-    private func loadData() -> Observable<[Receipt]> {
-        return storageService.fetch()
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .map { (owner, item) in
-                owner.filterData(for: item)
-            }
-    }
-    
-    private func filterData(for data: [Receipt]) -> [Receipt] {
+    private func loadData(date: String) -> Observable<[Receipt]> {
         let dayFormat = ConstantText.dateFormatFull.localize()
-        let currentDate = updateDate()
         
-        return data.filter { expense in
-            let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
-            return expenseDate == currentDate
-        }
+        return expenseRepository.fetchExpenses()
+            .map { datas in
+                return datas.filter { expense in
+                    let expenseDate = DateFormatter.string(from: expense.receiptDate, dayFormat)
+                    return expenseDate == date
+                }
+            }
     }
 }
 
 extension CalendarListReactor {
-    private func updateDate() -> String {
-        let date = (try? dateManageService.currentDateEvent.value()) ?? Date()
-        
-        let day = currentState.day
-        let month = DateFormatter.month(from: date)
-        let year = DateFormatter.year(from: date)
-        
-        let newDate = createDateFromComponents(year: year, month: month, day: Int(day))
-        return DateFormatter.string(from: newDate ?? Date(), ConstantText.dateFormatFull.localize())
+    private func updateDate() -> Observable<String> {
+        return dateRepository.fetchActiveDate()
+            .map { [weak self] date in
+                guard let self = self else { return "" }
+                
+                let day = self.currentState.day
+                let month = DateFormatter.month(from: date)
+                let year = DateFormatter.year(from: date)
+                let newDate = self.createDateFromComponents(year: year, month: month, day: Int(day))
+                
+                return DateFormatter.string(from: newDate ?? Date(), ConstantText.dateFormatFull.localize())
+            }
     }
     
     private func createDateFromComponents(year: Int?, month: Int?, day: Int?) -> Date? {

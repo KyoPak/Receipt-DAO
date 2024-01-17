@@ -12,25 +12,29 @@ import RxTest
 
 final class AnalysisViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
-    private var mockStorageService: StorageService!
-    private var mockUserDefaultService: UserDefaultService!
-    private var mockDateService: DateManageService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockUserDefaultService = MockUserDefaultService()
-        mockDateService = DefaultDateManageService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockCurrencyRepository = MockCurrencyRepository()
+        mockDateRepository = MockDateRepository()
     }
-    
+
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockUserDefaultService = nil
-        mockDateService = nil
+        mockExpenseRepository = nil
+        mockCurrencyRepository = nil
+        mockDateRepository = nil
     }
     
     func test_nextMonthButtonTappedAction() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         let nextMonth = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
         
         // When
@@ -42,7 +46,11 @@ final class AnalysisViewReactorTests: XCTestCase {
     
     func test_previoutMonthButtonTapped() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         let previousMonth = Calendar.current.date(byAdding: DateComponents(month: -1), to: Date()) ?? Date()
         
         // When
@@ -54,7 +62,11 @@ final class AnalysisViewReactorTests: XCTestCase {
     
     func test_todayButtonTapped() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         let today = Date()
         
         // When
@@ -66,7 +78,11 @@ final class AnalysisViewReactorTests: XCTestCase {
     
     func test_userDefaultEvent() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         let scheduler = TestScheduler(initialClock: 0)
         let observer = scheduler.createObserver(Int.self)
         
@@ -76,7 +92,7 @@ final class AnalysisViewReactorTests: XCTestCase {
             .disposed(by: disposeBag)
         
         scheduler.scheduleAt(1) {
-            self.mockUserDefaultService.updateCurrency(index: 1)
+            self.mockCurrencyRepository.updateCurrency(index: 1)
         }
         
         scheduler.start()
@@ -87,15 +103,19 @@ final class AnalysisViewReactorTests: XCTestCase {
     
     func test_Analysis_CountLogic() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         /// Origin Storage have 3 cash Data.
         let mockData1 = Receipt(priceText: "10000", paymentType: 1)
         let mockData2 = Receipt(priceText: "10000", paymentType: 1)
         let mockData3 = Receipt(priceText: "10000", paymentType: 1)
         
-        mockStorageService.upsert(receipt: mockData1)
-        mockStorageService.upsert(receipt: mockData2)
-        mockStorageService.upsert(receipt: mockData3)
+        mockExpenseRepository.save(expense: mockData1)
+        mockExpenseRepository.save(expense: mockData2)
+        mockExpenseRepository.save(expense: mockData3)
         
         // When
         reactor.action.onNext(.todayButtonTapped)
@@ -108,7 +128,11 @@ final class AnalysisViewReactorTests: XCTestCase {
     
     func test_Analysis_RatingLogic() {
         // Given
-        let reactor = AnalysisViewReactor(storageService: mockStorageService, userDefaultService: mockUserDefaultService, dateService: mockDateService)
+        let reactor = AnalysisViewReactor(
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
+        )
         let nextMonth = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
         
         let mockData1 = Receipt(priceText: "10000")
@@ -116,10 +140,10 @@ final class AnalysisViewReactorTests: XCTestCase {
         let mockData3 = Receipt(priceText: "20000", receiptDate: nextMonth)
         let mockData4 = Receipt(priceText: "20000", receiptDate: nextMonth)
         
-        mockStorageService.upsert(receipt: mockData1)
-        mockStorageService.upsert(receipt: mockData2)
-        mockStorageService.upsert(receipt: mockData3)
-        mockStorageService.upsert(receipt: mockData4)
+        mockExpenseRepository.save(expense: mockData1)
+        mockExpenseRepository.save(expense: mockData2)
+        mockExpenseRepository.save(expense: mockData3)
+        mockExpenseRepository.save(expense: mockData4)
         
         // When
         reactor.action.onNext(.nextMonthButtonTapped)

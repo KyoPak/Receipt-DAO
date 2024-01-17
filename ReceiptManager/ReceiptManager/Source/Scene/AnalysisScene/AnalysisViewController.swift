@@ -100,12 +100,14 @@ extension AnalysisViewController {
         .disposed(by: disposeBag)
         
         reactor.state.map { $0.totalCount }
+            .observe(on: MainScheduler.instance)
             .map { String($0) }
             .map { ConstantText.totalCountText.localized(with: $0) }
             .bind(to: monthInfoCountLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.rate }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { (owner, rate) in
                 switch rate {
@@ -128,6 +130,7 @@ extension AnalysisViewController {
             reactor.state.map { $0.cashCount },
             reactor.state.map { $0.cardCount }
         )
+        .observe(on: MainScheduler.instance)
         .withUnretained(self)
         .bind { (owner, counts) in
             owner.payTypeRatingView.isHidden = counts.0 + counts.1 == .zero

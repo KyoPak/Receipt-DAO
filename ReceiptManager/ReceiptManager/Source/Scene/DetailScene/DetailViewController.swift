@@ -185,6 +185,7 @@ extension DetailViewController: UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.expense }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { (owner, item) in
                 owner.updateUI(item: item)
@@ -222,6 +223,7 @@ extension DetailViewController: UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.deleteExpense }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .withUnretained(self)
             .bind { (owner, _) in
@@ -230,6 +232,7 @@ extension DetailViewController: UICollectionViewDelegate {
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.dataError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
                 self?.coordinator?.presentAlert(error: error)

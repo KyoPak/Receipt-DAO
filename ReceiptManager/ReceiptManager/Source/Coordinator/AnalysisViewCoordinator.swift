@@ -14,26 +14,28 @@ final class AnalysisViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
     }
     
     func start() {
+        let dateRepository = DefaultDateRepository(service: DefaultDateManageService())
         let analysisViewReactor = AnalysisViewReactor(
-            storageService: storageService,
-            userDefaultService: userDefaultService,
-            dateService: DefaultDateManageService())
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
+            dateRepository: dateRepository
+        )
         let analysisViewController = AnalysisViewController(reactor: analysisViewReactor)
         
         analysisViewController.coordinator = self

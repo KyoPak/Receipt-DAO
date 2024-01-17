@@ -13,7 +13,7 @@ import FirebaseCrashlytics
 import RxSwift
 
 protocol OCRExtractorService {
-    func extractText(data: Data) -> Observable<[String]>
+    func extract(data: Data) -> Observable<[String]>
 }
 
 final class DefaultOCRExtractorService: OCRExtractorService {
@@ -23,7 +23,7 @@ final class DefaultOCRExtractorService: OCRExtractorService {
         currency = Currency(rawValue: currencyIndex ?? .zero) ?? .KRW
     }
     
-    func extractText(data: Data) -> Observable<[String]> {
+    func extract(data: Data) -> Observable<[String]> {
         return Observable.create { [weak self] observer in
             guard let self = self, let image = UIImage(data: data)?.cgImage else {
                 observer.onError(OCRExtractorError.extractError)
@@ -32,9 +32,7 @@ final class DefaultOCRExtractorService: OCRExtractorService {
             
             let handler = VNImageRequestHandler(cgImage: image, options: [:])
             
-            let request = VNRecognizeTextRequest { [weak self] request, error in
-                guard let self = self else { return }
-                
+            let request = VNRecognizeTextRequest { request, error in
                 guard let observations = request.results as? [VNRecognizedTextObservation], error == nil
                 else {
                     observer.onError(OCRExtractorError.extractError)

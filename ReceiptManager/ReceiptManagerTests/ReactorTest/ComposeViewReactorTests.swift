@@ -12,22 +12,26 @@ import RxTest
 
 final class ComposeViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
-    private var mockStorageService: StorageService!
-    private var mockOCRService: OCRExtractorService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockOCRRepository: OCRRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockOCRService = MockOCRExtractorService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockOCRRepository = MockOCRRepository()
     }
     
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockOCRService = nil
+        mockExpenseRepository = nil
+        mockOCRRepository = nil
     }
     
     func test_priceTextChanged() {
         // Given
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let targetText = "123456789"
         
         // When
@@ -39,7 +43,11 @@ final class ComposeViewReactorTests: XCTestCase {
     
     func test_imageAppendAction() {
         // Given
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let mockData = Data()
         
         // When
@@ -52,7 +60,11 @@ final class ComposeViewReactorTests: XCTestCase {
     
     func test_cellDeleteButtonTappedAction() {
         // Given
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let mockData = Data()
         reactor.action.onNext(.imageAppend(mockData))
         reactor.action.onNext(.imageAppend(mockData))
@@ -67,7 +79,11 @@ final class ComposeViewReactorTests: XCTestCase {
     func test_registerButtonTappedAction() {
         // Given
         let scheduler = TestScheduler(initialClock: .zero)
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let mockSaveData = ComposeViewReactor.SaveExpense(date: Date(), paymentType: .zero)
         
         // When
@@ -89,7 +105,11 @@ final class ComposeViewReactorTests: XCTestCase {
     func test_imageAppendButtonTappedAction_when_imageCountIs5() {
         // Given
         let scheduler = TestScheduler(initialClock: .zero)
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let mockData = Data()
         
         for _ in 0..<5 {
@@ -115,7 +135,11 @@ final class ComposeViewReactorTests: XCTestCase {
     func test_imageAppendButtonTappedAction_when_imageCountIsZero() {
         // Given
         let scheduler = TestScheduler(initialClock: .zero)
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         
         // When
         scheduler
@@ -136,7 +160,11 @@ final class ComposeViewReactorTests: XCTestCase {
     func test_cellOCRButtonAction_OCRExtractorEvent() {
         // Given
         let scheduler = TestScheduler(initialClock: .zero)
-        let reactor = ComposeViewReactor(storageService: mockStorageService, ocrExtractor: mockOCRService, transisionType: .modal)
+        let reactor = ComposeViewReactor(
+            expenseRepository: mockExpenseRepository,
+            ocrRepository: mockOCRRepository,
+            transisionType: .modal
+        )
         let mockData = Data()
         reactor.action.onNext(.imageAppend(mockData))
         

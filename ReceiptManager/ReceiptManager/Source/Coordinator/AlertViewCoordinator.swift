@@ -14,16 +14,18 @@ final class AlertViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
+    weak var retryDelegate: Retriable?
     var error: Error
     
-    init(mainNavigationController: UINavigationController?, error: Error) {
+    init(mainNavigationController: UINavigationController?, error: Error, retryDelegate: Retriable? = nil) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = UINavigationController()
         self.error = error
+        self.retryDelegate = retryDelegate
     }
     
     func start() {
-        let alertViewController = CustomAlertViewController(error: error)
+        let alertViewController = CustomAlertViewController(error: error, delegate: retryDelegate)
         alertViewController.coordinator = self
         
         subNavigationController?.modalPresentationStyle = .overFullScreen

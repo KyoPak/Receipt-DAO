@@ -21,6 +21,7 @@ final class ComposeViewController: UIViewController, View {
     weak var coordinator: ComposeViewCoordinator?
     private let deleteEventSubject = PublishSubject<IndexPath?>()
     private let ocrEventSubject = PublishSubject<IndexPath?>()
+    private let retryEventSubject = PublishSubject<Void>()
     private var keyboardHandler: KeyboardHandler?
     private var ocrResultViewHeightConstraint: NSLayoutConstraint?
     
@@ -152,6 +153,10 @@ extension ComposeViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        retryEventSubject.map { Reactor.Action.ocrRetry }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         registerButton.rx.tap
             .withUnretained(self)
             .map { (owner, _) in
@@ -168,6 +173,7 @@ extension ComposeViewController {
             
     private func bindState(_ reactor: ComposeViewReactor) {
         reactor.state.map { $0.transitionType }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { (owner, type) in
                 switch type {
@@ -235,10 +241,21 @@ extension ComposeViewController {
             }
             .disposed(by: disposeBag)
             
-        reactor.state.map { $0.composeError }
+        reactor.state.map { $0.registerError }
+            .observe(on: MainScheduler.instance)
             .compactMap { $0 }
             .bind { [weak self] error in
-                self?.coordinator?.presentAlert(error: error)
+                guard let self = self else { return }
+                self.coordinator?.presentAlert(error: error)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.ocrError }
+            .observe(on: MainScheduler.instance)
+            .compactMap { $0 }
+            .bind { [weak self] error in
+                guard let self = self else { return }
+                self.coordinator?.presentAlert(error: error, delegate: self)
             }
             .disposed(by: disposeBag)
     }
@@ -251,6 +268,13 @@ extension ComposeViewController {
             paymentType: infoView.payTypeSegmented.selectedSegmentIndex,
             memo: memoTextView.text
         )
+    }
+}
+
+// MARK: - Retry OCR Error Handling
+extension ComposeViewController: Retriable {
+    func retry() {
+        retryEventSubject.onNext(Void())
     }
 }
 

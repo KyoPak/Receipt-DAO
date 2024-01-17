@@ -14,28 +14,28 @@ final class DetailViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let storageService: StorageService
-    private let userDefaultService: UserDefaultService
+    private let expenseRepository: ExpenseRepository
+    private let currencyRepository: CurrencyRepository
     
     private let expense: Receipt
     
     init(
         mainNavigationController: UINavigationController?,
-        storageService: StorageService,
-        userDefaultService: UserDefaultService,
+        expenseRepository: ExpenseRepository,
+        currencyRepository: CurrencyRepository,
         expense: Receipt
     ) {
         self.mainNavigationController = mainNavigationController
-        self.storageService = storageService
-        self.userDefaultService = userDefaultService
+        self.expenseRepository = expenseRepository
+        self.currencyRepository = currencyRepository
         self.expense = expense
     }
     
     func start() {
         let detailViewReactor = DetailViewReactor(
             title: ConstantText.detail.localize(),
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             item: expense
         )
         let detailViewController = DetailViewController(reactor: detailViewReactor)
@@ -55,8 +55,8 @@ extension DetailViewCoordinator {
         let composeViewCoordinator = ComposeViewCoordinator(
             transitionType: .push,
             mainNavigationController: mainNavigationController,
-            storageService: storageService,
-            userDefaultService: userDefaultService,
+            expenseRepository: expenseRepository,
+            currencyRepository: currencyRepository,
             expense: expense
         )
         childCoordinators.append(composeViewCoordinator)
