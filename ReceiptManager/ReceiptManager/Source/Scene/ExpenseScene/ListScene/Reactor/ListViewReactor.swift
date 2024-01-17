@@ -55,17 +55,20 @@ final class ListViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadData:
-            return loadData().map { models in
-                Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
-            }
+            return loadData()
+                .withUnretained(self)
+                .map { (owner, models) in
+                    Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
+                }
             
         case .cellBookMark(let indexPath):
             var expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             expense.isFavorite.toggle()
             return expenseRepository.save(expense: expense)
-                .flatMap { _ in
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 }
                 .catch { error in
@@ -78,9 +81,10 @@ final class ListViewReactor: Reactor {
         case .cellDelete(let indexPath):
             let expense = currentState.expenseByMonth[indexPath.section].items[indexPath.row]
             return expenseRepository.delete(expense: expense)
-                .flatMap { _ in
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                .withUnretained(self)
+                .flatMap { (owner, _) in
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 }
                 .catch { error in
@@ -111,11 +115,12 @@ final class ListViewReactor: Reactor {
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let dateEvent = dateRepository.fetchActiveDate()
-            .flatMap { date in
+            .withUnretained(self)
+            .flatMap { (owner, date) in
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
-                    self.loadData().map { models in
-                        Mutation.updateExpenseList(self.filterData(by: self.currentState.date, for: models))
+                    owner.loadData().map { models in
+                        Mutation.updateExpenseList(owner.filterData(by: owner.currentState.date, for: models))
                     }
                 )
             }

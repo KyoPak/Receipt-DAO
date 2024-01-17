@@ -62,9 +62,11 @@ final class CalendarViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadData:
-            return loadData(by: currentState.date).map { models in
-                return Mutation.updateExpenseDayInfos(models, self.updateDays(model: models))
-            }
+            return loadData(by: currentState.date)
+                .withUnretained(self)
+                .map { (owner, models) in
+                    return Mutation.updateExpenseDayInfos(models, owner.updateDays(model: models))
+                }
         }
     }
     
@@ -85,13 +87,12 @@ final class CalendarViewReactor: Reactor {
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let dateEvent = dateRepository.fetchActiveDate()
-            .flatMap { date in
+            .withUnretained(self)
+            .flatMap { (owner, date) in
                 return Observable.concat(
                     Observable.just(Mutation.changeMonth(date)),
-                    self.loadData(by: date).flatMap { models in
-                        Observable.just(Mutation.updateExpenseDayInfos(
-                            models,
-                            self.updateDays(model: models))
+                    owner.loadData(by: date).flatMap {
+                        Observable.just(Mutation.updateExpenseDayInfos($0, owner.updateDays(model: $0))
                         )
                     }
                 )
