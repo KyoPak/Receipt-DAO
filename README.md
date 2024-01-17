@@ -4,8 +4,8 @@
 1. [APP 소개](#app-소개)
 2. [버전 업데이트](#버전-업데이트)
 3. [실행 화면](#실행-화면)
-4. [기술적 도전](#기술적-도전)
-5. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
+4. [기술적 도전 및 트러블 슈팅](#기술적-도전-및-트러블-슈팅)
+5. [구현 사항](#구현-사항)
 6. [출시를 해보며 느낀 점](#출시를-해보며-느낀-점)
 
 <br></br>
@@ -36,7 +36,7 @@
 
 **기능 변경**
 - 영수증 사진을 등록하지 않았을 경우, 이미지 공유 버튼이 비활성화 되게끔 구현
-
+--------
 ### 1.1.0 (2023.06.05)
 **기능 추가**
 - 영수증 이미지를 등록한다면 첫번째 이미지에 대해서 OCR기능을 제공(iOS 16이상)
@@ -49,8 +49,7 @@
 - ComposeViewModel과 ComposeView 바인딩되는 요소 변경
     - Receipt Data가 아닌 각 내부 요소들을 Relay로 가지고 있고 그것들을 View와 바인딩
     - 개선함으로서 하나의 TextFiedl가 변경될 때, 다른 TextField는 변경이 되지 않는다.
-
-
+--------
 ### 1.2.0 (2023.06.12)
 **기능 추가**
 - 영수증에 관한 내용(상호명, 내역, 메모)을 기반으로 검색 기능 추가
@@ -61,7 +60,7 @@
 **코드 개선**
 - ComposeView에서 Camera, Album에 Access하는 코드를 프로토콜로 분리하여 재사용성 향상
 - RxSwift에서 제공하는 `withUnretained()`를 사용하여 약한 참조처리
-
+--------
 ### 1.3.0 (2023.07.02)
 **기능 추가**
 - 영어, 일본어 지역화 구현
@@ -73,7 +72,7 @@
 **코드 개선**
 - 메인화면에서 사용하는 Search에 대한 기능을 별도의 SearchScene과 SearchViewModel로 분리
   - 메인화면의 450줄 정도의 코드를 225 줄로 코드량을 감소시키고 기능에 대한 분리를 실천
- 
+ --------
 ### 1.4.0 (2023.11.01)
 **기능 추가**
 
@@ -88,7 +87,7 @@
 
 **기능 개선**
 - UI 개선 : 기존 UI개선 및 라이트 모드, 다크 모드 분리
-
+--------
 ### 2.0.0 (2023.12.23)
 **기능 개선**
 - 전체적인 UI 개편
@@ -107,6 +106,16 @@
 - 오류에 관련된 내용을 사용자에게 제공하기 위해 Alert 구현
 - 앱의 갑작스러운 중단에 대한 추적을 위한 FireBase Crashlytics 추가
 - 기존의 열거형 Coordinator 패턴 내부의 의존성 감소를 위해 Protocol 및 각 Class로 분리
+--------
+### 2.0.1 (2024.01.17)
+**기능 개선**
+- OCR Error 발생 시, 재시도 가능하도록 Error Handling 개선
+- CoreData 비동기적으로 동작할 수 있도록 backGround Context 사용  
+
+**코드 개선**
+- Repository Pattern 도입
+- Repository Test Code 작성
+--------
 
 <br></br>
 ## 실행 화면
@@ -145,7 +154,7 @@
 </details>
 
 <br></br>
-## 기술적 도전
+## 기술적 도전 및 트러블 슈팅
 
 ### ⚙️ Reactor Kit
 <details>
@@ -158,20 +167,9 @@
 ViewModel의 상태값이 많아질수록 관리하기가 어렵고 여러 메서드에서 로직을 구현해줘야했습니다.
     
 때문에 타 프로젝트 "팬팔"에서 경험했던 단방향 바인딩을 적용하기로 결정하였으며, 단방향 바인딩을 프레임워크화한 ReactorKit을 사용해보기로 하였습니다.
-Reactor Kit을 사용하면서 체계화되어있기 때문에 향후, 팀프로젝트에서 사용한다면 여러 팀원간의 코드 통일성을 맞추기가 용이하다고 생각하였습니다.
-또한 Mutate에서 여러 Action에 대한 로직들을 세분화하고, Reduce에서 State값들을 처리하기 때문에 유지보수하기도 편리하다고 생각이 들었습니다.
+또한, 오랜 기간에 걸쳐 꾸준히 앱을 유지보수하는 과정에 있어서 빠르게 코드를 다시 파악하기 좋기 때문에 도입을 결정하였습니다.
+또한 Mutate에서 여러 Action에 대한 로직들을 세분화하고, Reduce에서 State값들을 처리하기 때문에 로직을 유지보수하기도 편리하다고 생각이 들었습니다.
 
-</details>
-
-### ⚙️ Memory Leak
-<details>
-<summary> 
-펼쳐보기
-</summary>
-
-ComposeView, SearchView, CalndarListView가 표시될때 클로저의 캡처로 인해 강한 참조가 발생하였기 때문에 Instrument의 Leaks와 Debug Memory Graph에서 해당 View들과 해당 Reactor들이 메모리에서 할당해제 되지 않음을 확인하였습니다.
-원인은 RxSwift를 사용한 바인딩에서 Self 캡처로 인한 강한참조가 발생하기 때문이었습니다. 때문에 withUnRetain과 weak self를 사용해서 해당 메모리 문제를 해결하였습니다.
-    
 </details>
 
 ### ⚙️ RxSwift
@@ -225,13 +223,62 @@ RxSwift를 사용하여 가독성 높은 비동기 처리 메서드를 구현할
 <img width = "300px" img src= "https://github.com/KyoPak/Receipt-DAO/assets/59204352/d724e2c9-57ff-4afa-8a63-dc42ea2e81b8">
 </details>
 
+### 🔥 Memory Leak
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제**
+Instruments의 Leaks와 Debug Memory Graph를 통해 메모리 누수를 탐지하였습니다.
+ComposeView, SearchView, CalndarListView 등 Modal로 화면이 표시되고 내려가는 경우, 메모리에서 할당해제가 되지 않는 문제가 있었습니다.
+    
+**해결**
+원인은 ViewController와 Reactor간의 바인딩과 Reactor 내부에서 Self 캡쳐로 인한 강한 참조가 발생하였기 때문이었습니다.
+때문에 withUnRetained()와 클로저 내부 weak self 캡처리스트를 통해 불필요한 RC를 상승시키지 않음으로서 문제를 해결할 수 있었습니다.
+    
+</details>
 
 
+### 🔥 CoreData의 비동기 동작
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제1**
+기존의 CoreData의 CRUD 연산은 ViewContext(메인 큐)에서 실행되었으며, 연산 시간이 길어질 경우 UI가 멈추는 현상이 발생하였습니다.
+
+**문제2**
+CoreData의 Context를 NewBackgroundContext(글로벌 큐)로 변경하여 실행하였지만, 다른 스레드에서 동기적으로 동작하기 때문에 메인 큐의 블로킹 문제가 지속되었습니다.
+
+**해결**
+CoreData의 NewBackgroundContext의 로직은 비동기적 메서드인 perform을 사용하거나, CoreDataService 메서드를 호출할 경우 비동기적으로 호출해야한다는 것을 알았습니다.
+perform 블록 내부에서 context의 CRUD연산 코드를 작성하여 비동기적으로 수행하도록 수정하였으며, 메인 큐가 블로킹되는 문제를 해결할 수 있었습니다.
+</details>
+
+### 🔥 CoreData Migration
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+**문제1**
+기존의 CoreDataModel의 Price는 Int 타입이었습니다. 하지만, 영어 지역화를 실행하였기 때문에 소수점이 기입되도록 수정해야했습니다. 
+    
+**문제2**
+새로운 String 타입의 Price를 CoreData Model에 Migration하여 추가했지만, 기존의 Int형 타입의 Price를 삭제한다면 데이터 충돌이 발생하여 앱이 제대로 동작하지 않는 오류가 발생하였습니다.
+    
+**해결**
+앱을 시작할 경우 기존의 Int형 Price에 데이터가 존재한다면 새롭게 추가한 String 타입의 Price로 동기화하는 로직을 추가하여 업데이트 시 발생하는 문제를 최소화하여 해결할 수 있었습니다.    
+</details>
 
 <br></br>
-## 트러블 슈팅 및 고민
 
-### 🔥 Coordinator 패턴을 수정한 이유
+## 구현 사항
+
+### Coordinator 패턴을 수정한 이유
 
 <details>
 <summary> 
@@ -244,7 +291,7 @@ RxSwift를 사용하여 가독성 높은 비동기 처리 메서드를 구현할
 
 </details>
 
-### 🔥 Cell Reactor을 추가한 이유
+### Cell Reactor을 추가한 이유
 
 <details>
 <summary> 
@@ -256,7 +303,7 @@ List와 Calendar 내부의 Cell들에서 Setting Tap에서의 Currency(화폐) �
     
 </details>
 
-### 🔥 Animation 효과를 줄 수 있는 RxDataSource
+### Animation 효과를 줄 수 있는 RxDataSource
 
 <details>
 <summary> 
@@ -272,10 +319,10 @@ typealias TableViewDataSource = RxTableViewSectionedAnimatedDataSource<ReceiptSe
 따라서 영수증 목록과 즐겨찾기 목록에서 Cell의 추가, 편집, 삭제에 대해서 Animation을 부여할 수 있었습니다.
 그리고 Animation이 불필요한 부분은 데이터와 `CollectionView.rx.item()`를 바인딩하여 쉽게 보여줄 수 있었습니다.
 
-
 </details>
     
-### 🔥 일 별로 Section을 생성하여 표현
+    
+### 일 별로 Section을 생성하여 표현
     
 <details>
 <summary> 
@@ -300,7 +347,7 @@ let section = dictionary.sorted { return $0.key > $1.key }
 
 
 
-### 🔥 목록화면에서 Receipt Data를 선택한 Month에 따라 가져와야 하는 문제
+### 목록화면에서 Receipt Data를 선택한 Month에 따라 가져와야 하는 문제
     
 <details>
 <summary> 
@@ -313,7 +360,7 @@ let section = dictionary.sorted { return $0.key > $1.key }
 </details>
 
 
-### 🧐 영수증 관련 정보를 등록할 때 ViewModel과 양방향 바인딩의 필요성에 대한 고민
+### 영수증 관련 정보를 등록할 때 ViewModel과 양방향 바인딩의 필요성에 대한 고민
 <details>
 <summary> 
 펼쳐보기
@@ -324,36 +371,12 @@ let section = dictionary.sorted { return $0.key > $1.key }
 결론적으로 양방향 바인딩을 사용하였습니다. 
 `View`와 `ViewModel`을 양방향 바인딩을 한다면, 입력과 동시에 ViewModel에 동기화가 이루어져 저장하는 로직이 간결해진다고 생각했습니다.
 하지만, 데이터의 흐름과 코드의 복잡도가 높아진다는 생각이 들었습니다.
+    
+가격 기입 포맷을 변경하는 과정에서 데이터 추적 과정이 쉽지않았고, 복잡하다고 생각이 들어 단방향 바인딩을 사용하는 ReactorKit을 도입하였습니다.
 
 </details>
 
-
-### 🔥 Cell 제일 앞에 Cell을 누르면 사진을 추가해야 하는 로직
-    
-<details>
-<summary> 
-펼쳐보기
-</summary>
-
-등록한 Image들을 `CollectionView`에서 표현하고자 하였고, 첫번째 Cell을 터치할 경우 ImagePicker로 이동하게 끔 구현하였습니다. 
-첫번째 이미지를 지속적으로 표시해줘야 했기 때문에 `FirstCell()` 메서드를 호출하고 저장했을 경우 첫번째 인덱스의 Image를 Remove 한 후, 저장하였습니다.
-    
-</details>
-
-### 🔥 Cell 삭제 동작 전달 방법
-<details>
-<summary> 
-펼쳐보기
-</summary>
-    
-등록한 Image를 수정할 때, 혹은 등록할 때 있어서 추가 뿐만 아니라 삭제 기능도 있어야 한다고 생각했습니다.
-삭제 버튼을 이미지의 오른쪽 상단에 위치 시킨 후, Delegate Pattern을 이용하여 삭제 Action을 구현하였습니다.
-이미지 삭제 시, `ViewModel`에게 선택한 `indexPath`를 전달하여 삭제하였습니다.
-    
-</details>
-
-
-### 🔥 앨범 사진 선택적 사용에 대한 처리 방법
+### 앨범 사진 선택적 사용에 대한 처리 방법
 <details>
 <summary> 
 펼쳐보기
@@ -370,7 +393,6 @@ let section = dictionary.sorted { return $0.key > $1.key }
     
 </details>
     
-
     
 <br></br>
 ## 출시를 해보며 느낀 점
