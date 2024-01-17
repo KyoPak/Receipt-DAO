@@ -10,28 +10,28 @@ import RxSwift
 @testable import ReceiptManager
 
 final class ListViewReactorTests: XCTestCase {
-    private var mockStorageService: StorageService!
-    private var mockUserDefaultService: UserDefaultService!
-    private var mockDateService: DateManageService!
+    private var mockExpenseRepository: ExpenseRepository!
+    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
-        mockStorageService = MockStoragService()
-        mockUserDefaultService = MockUserDefaultService()
-        mockDateService = DefaultDateManageService()
+        mockExpenseRepository = MockExpenseRepository()
+        mockCurrencyRepository = MockCurrencyRepository()
+        mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
-        mockStorageService = nil
-        mockUserDefaultService = nil
-        mockDateService = nil
+        mockExpenseRepository = nil
+        mockCurrencyRepository = nil
+        mockDateRepository = nil
     }
     
     func test_loadDataAction() {
         // Given
         let reactor = ListViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
-            dateManageService: mockDateService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
         )
         
         // When
@@ -45,9 +45,9 @@ final class ListViewReactorTests: XCTestCase {
     func test_cellBookMarkAction() {
         // Given
         let reactor = ListViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
-            dateManageService: mockDateService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
         )
         
         // When
@@ -61,9 +61,9 @@ final class ListViewReactorTests: XCTestCase {
     func test_cellDeleteAction() {
         // Given
         let reactor = ListViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
-            dateManageService: mockDateService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
         )
         
         // When
@@ -77,15 +77,16 @@ final class ListViewReactorTests: XCTestCase {
     func test_dateEventChange() {
         // Given
         let reactor = ListViewReactor(
-            storageService: mockStorageService,
-            userDefaultService: mockUserDefaultService,
-            dateManageService: mockDateService
+            expenseRepository: mockExpenseRepository,
+            currencyRepository: mockCurrencyRepository,
+            dateRepository: mockDateRepository
         )
+        
         reactor.action.onNext(.loadData)
         let nextDate = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
         
         // When
-        mockDateService.updateDate(byAddingMonths: 1)
+        mockDateRepository.changeDate(byAddingMonths: 1)
         reactor.action.onNext(.loadData)
         
         // Then
