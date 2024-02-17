@@ -28,6 +28,7 @@ enum ConstantText {
     
     // MARK: - UserDefault Key
     static let currencyKey = "CurrencyType"
+    static let paymentKey = "PaymentType"
 
     // MARK: - Localize Key
     static let appName = "appName"

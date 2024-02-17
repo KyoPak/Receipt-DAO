@@ -76,6 +76,7 @@
 		3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3522A012FE60014807B /* BookMarkViewController.swift */; };
 		3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3562A01301F0014807B /* DetailViewController.swift */; };
 		3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3582A0130310014807B /* ComposeViewController.swift */; };
+		3C9F40862B7F4830004C1899 /* OptionKeyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9F40852B7F4830004C1899 /* OptionKeyType.swift */; };
 		3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */; };
 		3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */; };
 		3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */; };
@@ -221,6 +222,7 @@
 		3C9AA3522A012FE60014807B /* BookMarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewController.swift; sourceTree = "<group>"; };
 		3C9AA3562A01301F0014807B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3C9AA3582A0130310014807B /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		3C9F40852B7F4830004C1899 /* OptionKeyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionKeyType.swift; sourceTree = "<group>"; };
 		3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCellView.swift; sourceTree = "<group>"; };
 		3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewReactor.swift; sourceTree = "<group>"; };
@@ -761,6 +763,7 @@
 				3C7D424C2A51281E00304A8C /* Currency.swift */,
 				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
 				3C99A0982B329485006B274C /* OCRExtractorError.swift */,
+				3C9F40852B7F4830004C1899 /* OptionKeyType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1196,6 +1199,7 @@
 				3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */,
 				3CC8DAD72B52C84100FE89B4 /* DateRepository.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
+				3C9F40862B7F4830004C1899 /* OptionKeyType.swift in Sources */,
 				3C78C8CE2B21BFF0007FF68A /* AnalysisViewCoordinator.swift in Sources */,
 				3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */,
 				3C3F7ADC2B1EDB22003DCA85 /* CalendarViewCoordinator.swift in Sources */,
