@@ -62,7 +62,7 @@ final class AnalysisViewReactor: Reactor {
         initialState = State(
             dateToShow: Date(),
             rate: .noData,
-            currency: (try? currencyRepository.saveEvent.value()) ?? .zero
+            currency: (try? currencyRepository.currencyChangeEvent.value()) ?? .zero
         )
     }
     
@@ -106,7 +106,7 @@ final class AnalysisViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let currencyEvent = currencyRepository.saveEvent
+        let currencyEvent = currencyRepository.currencyChangeEvent
             .flatMap {
                 return Observable.just(Mutation.updateCurrency($0))
             }

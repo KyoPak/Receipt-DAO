@@ -52,7 +52,7 @@ final class CalendarListReactor: Reactor {
     ) {
         self.expenseRepository = expenseRepository
         self.dateRepository = dateRepository
-        self.currentEvent = currencyRepository.saveEvent
+        self.currentEvent = currencyRepository.currencyChangeEvent
         
         initialState = State(
             dateTitle: "",

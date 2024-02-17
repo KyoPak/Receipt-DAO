@@ -51,7 +51,7 @@ final class SettingViewReactor: Reactor {
             let settingMenu = SettingSection.configureSettings()
             return Observable.merge([
                 Observable.just(Mutation.loadData(settingMenu)),
-                currencyRepository.saveEvent.asObservable().map { Mutation.currencyChange($0) }
+                currencyRepository.currencyChangeEvent.asObservable().map { Mutation.currencyChange($0) }
             ])
         
         case .cellSelect(let indexPath):
@@ -59,8 +59,8 @@ final class SettingViewReactor: Reactor {
             return classifySettingType(settingType)
             
         case .segmentValueChanged(let index):
-            return currencyRepository.updateCurrency(index: index)
-                .flatMap { Observable.just(Mutation.currencyChange($0)) }
+            return Observable.just(currencyRepository.updateCurrency(index: index))
+                .map { Mutation.currencyChange($0) }
         }
     }
     
