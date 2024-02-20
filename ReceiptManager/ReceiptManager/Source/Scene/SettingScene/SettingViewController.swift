@@ -26,12 +26,7 @@ final class SettingViewController: UIViewController, View {
             ) as? SettingCell else {
                 return UITableViewCell()
             }
-            
-            if indexPath.section == .zero {
-                cell.setupSegment(index: self?.reactor?.currentState.currencyIndex ?? .zero)
-                cell.delegate = self
-            }
-            
+
             cell.setupData(text: item.title)
             return cell
         }
@@ -90,12 +85,6 @@ extension SettingViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        rx.methodInvoked(#selector(segmentDelegate))
-            .compactMap { $0.first as? Int }
-            .map { Reactor.Action.segmentValueChanged($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         tableView.rx.itemSelected
             .withUnretained(self)
             .do(onNext: { (owner, indexPath) in
@@ -117,10 +106,6 @@ extension SettingViewController {
             .drive { UIApplication.shared.open($0) }
             .disposed(by: disposeBag)
     }
-}
-
-extension SettingViewController: SegmentDelegate {
-    @objc dynamic func segmentDelegate(index: Int) { }
 }
 
 // MARK: - UITableViewDelegate
