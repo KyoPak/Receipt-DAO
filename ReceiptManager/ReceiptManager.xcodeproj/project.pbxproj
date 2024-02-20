@@ -130,6 +130,7 @@
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
 		3CFD89572B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */; };
 		3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */; };
+		3CFF220F2B808AAB0050266E /* PaymentTypeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */; };
 		7963589C5E5A90D4159DB45D /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE16A352E7493CA7F7B41A8 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -279,6 +280,7 @@
 		3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCellReactor.swift; sourceTree = "<group>"; };
 		3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtensionTests.swift; sourceTree = "<group>"; };
 		3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
+		3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTypeRepository.swift; sourceTree = "<group>"; };
 		5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51C4E4C574199E1F0A5875CC /* Pods_ReceiptManagerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManagerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 				3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */,
 				3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */,
 				3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */,
+				3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1172,6 +1175,7 @@
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3CA95B052B1F10730041394C /* CalendarListViewController.swift in Sources */,
 				3C26F1182B261BE500A28AA0 /* UIColor+Extension.swift in Sources */,
+				3CFF220F2B808AAB0050266E /* PaymentTypeRepository.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,
