@@ -64,6 +64,7 @@
 "setting" = "設定";
 "customerPrivateSection" = "個人設定です";
 "currencySettingText" = "単位変更";
+"payTypeSettingText" = "基本支出方式の変更";
 "customerServiceSection" = "カスタマーサービスセンター";
 "rating" = "アプリの評価";
 "opinion" = "コメントを送信する";

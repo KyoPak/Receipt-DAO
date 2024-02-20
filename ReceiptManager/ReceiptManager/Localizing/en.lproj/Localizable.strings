@@ -63,7 +63,8 @@
 
 "setting" = "Settings";
 "customerPrivateSection" = "Private Setting";
-"currencySettingText" = "Unit change";
+"currencySettingText" = "Change the monetary unit";
+"payTypeSettingText" = "Change default payment type";
 "customerServiceSection" = "Customer Service Center";
 "rating" = "App rating";
 "opinion" = "Send comments";

@@ -88,6 +88,7 @@ enum ConstantText {
     // About Setting Scene
     static let customerPrivateSection = "customerPrivateSection"
     static let currencySettingText = "currencySettingText"
+    static let payTypeSettingText = "payTypeSettingText"
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"

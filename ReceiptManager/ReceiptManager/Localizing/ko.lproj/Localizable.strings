@@ -64,6 +64,7 @@
 "setting" = "설정";
 "customerPrivateSection" = "개인 설정";
 "currencySettingText" = "화폐 단위 변경";
+"payTypeSettingText" = "기본 지출 방식 변경";
 "customerServiceSection" = "고객 센터";
 "rating" = "평점 매기기";
 "opinion" = "의견 보내기";

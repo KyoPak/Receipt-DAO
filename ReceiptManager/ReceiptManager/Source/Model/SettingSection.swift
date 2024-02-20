@@ -26,6 +26,7 @@ extension SettingSection: SectionModelType {
 // MARK: - SettingOption
 enum SettingType {
     case currency
+    case payment
     case mail
     case appStore
 }
@@ -41,7 +42,8 @@ extension SettingSection {
             SettingSection(
                 title: ConstantText.customerPrivateSection.localize(),
                 items: [
-                    SettingOption(title: ConstantText.currencySettingText.localize(), type: .currency)
+                    SettingOption(title: ConstantText.currencySettingText.localize(), type: .currency),
+                    SettingOption(title: ConstantText.payTypeSettingText.localize(), type: .payment)
                 ]
             ),
             SettingSection(
