@@ -62,7 +62,7 @@
 "mainReceiptCount %d" = "영수증은 %d건 입니다.";
 
 "setting" = "설정";
-"currencySettingSection" = "화폐 단위 설정";
+"customerPrivateSection" = "개인 설정";
 "currencySettingText" = "화폐 단위 변경";
 "customerServiceSection" = "고객 센터";
 "rating" = "평점 매기기";

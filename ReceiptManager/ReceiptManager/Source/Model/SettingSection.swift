@@ -39,7 +39,7 @@ extension SettingSection {
     static func configureSettings() -> [SettingSection] {
         return [
             SettingSection(
-                title: ConstantText.currencySettingSection.localize(),
+                title: ConstantText.customerPrivateSection.localize(),
                 items: [
                     SettingOption(title: ConstantText.currencySettingText.localize(), type: .currency)
                 ]

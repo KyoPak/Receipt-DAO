@@ -62,7 +62,7 @@
 "mainReceiptCount %d" = "Registered %d Receipt";
 
 "setting" = "Settings";
-"currencySettingSection" = "Currency unit Setting";
+"customerPrivateSection" = "Private Setting";
 "currencySettingText" = "Unit change";
 "customerServiceSection" = "Customer Service Center";
 "rating" = "App rating";

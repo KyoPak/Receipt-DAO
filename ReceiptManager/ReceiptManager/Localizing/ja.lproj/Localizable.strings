@@ -62,7 +62,7 @@
 "mainReceiptCount %d" = "%d 件の登録領収書";
 
 "setting" = "設定";
-"currencySettingSection" = "通貨単位の設定";
+"customerPrivateSection" = "個人設定です";
 "currencySettingText" = "単位変更";
 "customerServiceSection" = "カスタマーサービスセンター";
 "rating" = "アプリの評価";
