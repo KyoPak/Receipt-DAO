@@ -47,6 +47,7 @@ final class ComposeViewCoordinator: Coordinator {
         let composeViewReactor = ComposeViewReactor(
             expenseRepository: expenseRepository,
             ocrRepository: ocrRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense,
             transisionType: transitionType)
         
