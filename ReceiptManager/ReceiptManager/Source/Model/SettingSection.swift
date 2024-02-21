@@ -44,11 +44,17 @@ extension SettingSection {
                 items: [
                     SettingOption(
                         title: ConstantText.currencySettingText.localize(),
-                        type: .currency(description: "임시", options: Currency.allCases.map { $0.description })
+                        type: .currency(
+                            description: ConstantText.currencySettingDescription.localize(),
+                            options: Currency.allCases.map { $0.description }
+                        )
                     ),
                     SettingOption(
                         title: ConstantText.payTypeSettingText.localize(),
-                        type: .currency(description: "임시2", options: PayType.allCases.map { $0.description })
+                        type: .payment(
+                            description: ConstantText.paymentTypeSettingDescription.localize(),
+                            options: PayType.allCases.map { $0.description }
+                        )
                     )
                 ]
             ),

@@ -93,6 +93,9 @@ enum ConstantText {
     static let rating = "rating"
     static let opinion = "opinion"
     static let caseText = "case"
+    static let currencySettingDescription = "currencySettingDescription"
+    static let paymentTypeSettingDescription = "paymentTypeSettingDescription"
+    
     
     // About Analysis Scene
     static let monthExpenseText = "monthExpenseText %@"
