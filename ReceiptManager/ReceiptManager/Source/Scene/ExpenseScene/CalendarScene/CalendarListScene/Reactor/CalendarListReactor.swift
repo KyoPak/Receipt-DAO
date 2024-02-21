@@ -46,13 +46,13 @@ final class CalendarListReactor: Reactor {
     init(
         expenseRepository: ExpenseRepository,
         dateRepository: DateRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         day: String,
         weekIndex: Int
     ) {
         self.expenseRepository = expenseRepository
         self.dateRepository = dateRepository
-        self.currentEvent = currencyRepository.currencyChangeEvent
+        self.currentEvent = userSettingRepository.currencyChangeEvent
         
         initialState = State(
             dateTitle: "",

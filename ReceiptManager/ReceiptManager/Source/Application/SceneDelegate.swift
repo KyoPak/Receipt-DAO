@@ -30,7 +30,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let dateManageService = DefaultDateManageService()
             
             let expenseRepository = DefaultExpenseRepository(service: storageService)
-            let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
+            let userSettingRepository = DefaultUserSettingRepository(service: userDefaultService)
             let dateRepository = DefaultDateRepository(service: dateManageService)
             
             storageService.sync()
@@ -39,7 +39,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window: window,
                 mainNavigationController: UINavigationController(),
                 expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository,
+                userSettingRepository: userSettingRepository,
                 dateRepository: dateRepository
             )
             mainTabBarCoordinator.start()

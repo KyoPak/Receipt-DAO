@@ -38,7 +38,7 @@ final class AnalysisViewReactor: Reactor {
     // Properties
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     struct AnalysisResult {
@@ -53,16 +53,16 @@ final class AnalysisViewReactor: Reactor {
     
     init(
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
         initialState = State(
             dateToShow: Date(),
             rate: .noData,
-            currency: (try? currencyRepository.currencyChangeEvent.value()) ?? .zero
+            currency: (try? userSettingRepository.currencyChangeEvent.value()) ?? .zero
         )
     }
     
@@ -106,7 +106,7 @@ final class AnalysisViewReactor: Reactor {
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        let currencyEvent = currencyRepository.currencyChangeEvent
+        let currencyEvent = userSettingRepository.currencyChangeEvent
             .flatMap {
                 return Observable.just(Mutation.updateCurrency($0))
             }

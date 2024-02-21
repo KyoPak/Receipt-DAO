@@ -14,8 +14,7 @@ final class DetailSettingCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let currencyRepository: CurrencyRepository
-    private let paymentTypeRepository: PaymentTypeRepository
+    private let userSettingRepository: UserSettingRepository
     
     private let optionsType: OptionKeyType
     private let settingType: SettingType
@@ -24,14 +23,12 @@ final class DetailSettingCoordinator: Coordinator {
         optionType: OptionKeyType,
         settingType: SettingType,
         mainNavigationController: UINavigationController?,
-        currencyRepository: CurrencyRepository,
-        paymentTypeRepository: PaymentTypeRepository
+        userSettingRepository: UserSettingRepository
     ) {
         self.optionsType = optionType
         self.settingType = settingType
         self.mainNavigationController = mainNavigationController
-        self.currencyRepository = currencyRepository
-        self.paymentTypeRepository = paymentTypeRepository
+        self.userSettingRepository = userSettingRepository
         self.subNavigationController = UINavigationController()
     }
     

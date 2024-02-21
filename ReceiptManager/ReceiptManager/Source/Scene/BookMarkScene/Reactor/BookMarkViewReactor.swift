@@ -35,9 +35,9 @@ final class BookMarkViewReactor: Reactor {
     
     // Initializer
     
-    init(expenseRepository: ExpenseRepository, currencyRepository: CurrencyRepository) {
+    init(expenseRepository: ExpenseRepository, userSettingRepository: UserSettingRepository) {
         self.expenseRepository = expenseRepository
-        currencyEvent = currencyRepository.currencyChangeEvent
+        currencyEvent = userSettingRepository.currencyChangeEvent
     }
 
     // Reactor Method

@@ -39,18 +39,18 @@ final class CalendarViewReactor: Reactor {
     
     private let calendar: Calendar
     private let expenseRepository: ExpenseRepository
-    let currencyRepository: CurrencyRepository
+    let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     // Initializer
     
     init(
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
         
         calendar = Calendar.current

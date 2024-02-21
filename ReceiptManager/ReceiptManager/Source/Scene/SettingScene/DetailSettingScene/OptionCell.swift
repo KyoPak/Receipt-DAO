@@ -45,7 +45,6 @@ final class OptionCell: UITableViewCell {
         selectImageView.image = nil
     }
     
-    
     func setupData(optionText: String) {
         optionLabel.text = optionText
     }

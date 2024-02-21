@@ -101,7 +101,7 @@
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
 		3CC8DAD12B52BF6C00FE89B4 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */; };
 		3CC8DAD32B52C4A400FE89B4 /* OCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */; };
-		3CC8DAD52B52C61800FE89B4 /* CurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */; };
+		3CC8DAD52B52C61800FE89B4 /* UserSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */; };
 		3CC8DAD72B52C84100FE89B4 /* DateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */; };
 		3CD62AF52B12F71000D10E54 /* UserDefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */; };
 		3CD8B9322B065E4400968A7E /* DetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */; };
@@ -134,7 +134,6 @@
 		3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */; };
 		3CFD89572B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */; };
 		3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */; };
-		3CFF220F2B808AAB0050266E /* PaymentTypeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */; };
 		7963589C5E5A90D4159DB45D /* Pods_ReceiptManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE16A352E7493CA7F7B41A8 /* Pods_ReceiptManager.framework */; };
 /* End PBXBuildFile section */
 
@@ -253,7 +252,7 @@
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
 		3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepository.swift; sourceTree = "<group>"; };
-		3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRepository.swift; sourceTree = "<group>"; };
+		3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingRepository.swift; sourceTree = "<group>"; };
 		3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRepository.swift; sourceTree = "<group>"; };
 		3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultService.swift; sourceTree = "<group>"; };
 		3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewReactor.swift; sourceTree = "<group>"; };
@@ -288,7 +287,6 @@
 		3CFCB4752B1387D40045075C /* ListTableViewCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCellReactor.swift; sourceTree = "<group>"; };
 		3CFD89562B2AFB6300EC5B7D /* NumberFormatterExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtensionTests.swift; sourceTree = "<group>"; };
 		3CFD89582B2B006B00EC5B7D /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
-		3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTypeRepository.swift; sourceTree = "<group>"; };
 		5180676348BBDBE7B7A3C566 /* Pods-ReceiptManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiptManagerTests.debug.xcconfig"; path = "Target Support Files/Pods-ReceiptManagerTests/Pods-ReceiptManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51C4E4C574199E1F0A5875CC /* Pods_ReceiptManagerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiptManagerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61890D96F6DBFC73C33E9C28 /* Pods-ReactorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactorTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactorTests/Pods-ReactorTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -708,9 +706,8 @@
 			children = (
 				3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */,
 				3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */,
-				3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */,
+				3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */,
 				3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */,
-				3CFF220E2B808AAB0050266E /* PaymentTypeRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1170,7 +1167,7 @@
 				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
 				3C3F55482B1CCE3C00A6EAB5 /* CalendarCellReactor.swift in Sources */,
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
-				3CC8DAD52B52C61800FE89B4 /* CurrencyRepository.swift in Sources */,
+				3CC8DAD52B52C61800FE89B4 /* UserSettingRepository.swift in Sources */,
 				3CA5366C2B0E0B2600EA77AA /* LimitAlbumViewCoordinator.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
 				3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */,
@@ -1206,7 +1203,6 @@
 				3C26F1182B261BE500A28AA0 /* UIColor+Extension.swift in Sources */,
 				3C52FBD32B85BD4400245142 /* DetailSettingReactor.swift in Sources */,
 				3C52FBD72B85C60400245142 /* DetailSettingCoordinator.swift in Sources */,
-				3CFF220F2B808AAB0050266E /* PaymentTypeRepository.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,

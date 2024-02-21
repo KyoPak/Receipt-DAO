@@ -15,19 +15,19 @@ final class DetailViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     private let expense: Receipt
     
     init(
         mainNavigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         expense: Receipt
     ) {
         self.mainNavigationController = mainNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.expense = expense
     }
     
@@ -35,7 +35,7 @@ final class DetailViewCoordinator: Coordinator {
         let detailViewReactor = DetailViewReactor(
             title: ConstantText.detail.localize(),
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             item: expense
         )
         let detailViewController = DetailViewController(reactor: detailViewReactor)
@@ -56,7 +56,7 @@ extension DetailViewCoordinator {
             transitionType: .push,
             mainNavigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense
         )
         childCoordinators.append(composeViewCoordinator)

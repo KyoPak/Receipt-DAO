@@ -16,19 +16,19 @@ final class MainTabBarCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     init(
         window: UIWindow?,
         mainNavigationController: UINavigationController,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.window = window
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
         self.mainNavigationController = mainNavigationController
     }
@@ -44,7 +44,7 @@ final class MainTabBarCoordinator: Coordinator {
                 mainNavigationController: mainNavigationController,
                 subNavigationController: UINavigationController(),
                 expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository,
+                userSettingRepository: userSettingRepository,
                 dateRepository: dateRepository
             )
         }
@@ -69,7 +69,7 @@ extension MainTabBarCoordinator {
             transitionType: .modal,
             mainNavigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: nil
         )
         

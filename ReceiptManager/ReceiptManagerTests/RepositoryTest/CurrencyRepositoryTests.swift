@@ -25,7 +25,7 @@ final class CurrencyRepositoryTests: XCTestCase {
     
     func test_fetchCurrencyIndex() {
         // Given
-        let repository = DefaultCurrencyRepository(service: service)
+        let repository = DefaultUserSettingRepository(service: service)
         
         // When
         let result = repository.fetchCurrencyIndex()
@@ -36,7 +36,7 @@ final class CurrencyRepositoryTests: XCTestCase {
     
     func test_updateCurrencyIndex() {
         // Given
-        let repository = DefaultCurrencyRepository(service: service)
+        let repository = DefaultUserSettingRepository(service: service)
         
         // When
         let result = repository.updateCurrency(index: 1)

@@ -15,23 +15,23 @@ final class SearchViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     init(
         mainNavigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository
+        userSettingRepository: UserSettingRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.subNavigationController = UINavigationController()
     }
     
     func start() {
         let searchViewReactor = SearchViewReactor(
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository
+            userSettingRepository: userSettingRepository
         )
         let searchViewController = SearchViewController(reactor: searchViewReactor)
         subNavigationController?.setViewControllers([searchViewController], animated: true)
@@ -47,7 +47,7 @@ extension SearchViewCoordinator {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: subNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense
         )
         
