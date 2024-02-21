@@ -100,6 +100,14 @@ extension SettingViewController {
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        reactor.state.map { $0.selectOptions }
+            .compactMap { $0 }
+            .withUnretained(self)
+            .bind { (owner, options) in
+                owner.coordinator?.presentDetailOption(optionType: options.0, datas: options.1)
+            }
+            .disposed(by: disposeBag)
+        
         reactor.state.map { $0.url }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
