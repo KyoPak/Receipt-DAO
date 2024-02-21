@@ -138,6 +138,6 @@ extension DetailViewReactor {
     }
     
     private func convertPriceFormat(_ price: String, currency: Currency) -> String {
-        return NumberFormatter.numberDecimal(from: price) + currency.description
+        return NumberFormatter.numberDecimal(from: price) + currency.sign
     }
 }
