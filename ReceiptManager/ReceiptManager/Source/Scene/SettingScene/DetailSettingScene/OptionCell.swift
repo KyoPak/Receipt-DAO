@@ -23,6 +23,7 @@ final class OptionCell: UITableViewCell {
     private let selectImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = ConstantColor.mainColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
@@ -47,6 +48,12 @@ final class OptionCell: UITableViewCell {
     
     func setupData(optionText: String) {
         optionLabel.text = optionText
+    }
+    
+    func setupSelect(_ isSelected: Bool) {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let checkmarkImage = UIImage(systemName: ConstantImage.checkMark, withConfiguration: configuration)
+        selectImageView.image = isSelected ? checkmarkImage : nil
     }
 }
 
