@@ -12,12 +12,11 @@ final class DetailSettingReactor: Reactor {
     // Reactor Properties
     
     enum Action {
-//        case viewWillAppear
-//        case cellSelect(IndexPath)
+        case cellSelect(IndexPath)
     }
     
     enum Mutation {
-        
+        case settingChange(Int)
     }
     
     struct State {
@@ -32,9 +31,13 @@ final class DetailSettingReactor: Reactor {
     
     // Properties
     
+    private let userSettingRepository: UserSettingRepository
+    
     // Initializer
     
-    init(optionType: OptionKeyType, settingType: SettingType) {
+    init(userSettingRepository: UserSettingRepository, optionType: OptionKeyType, settingType: SettingType) {
+        self.userSettingRepository = userSettingRepository
+        
         switch settingType {
         case .currency(let description, let options), .payment(let description, let options):
             initialState = State(
@@ -42,7 +45,7 @@ final class DetailSettingReactor: Reactor {
                 optionType: optionType,
                 detailOptions: options,
                 detailOptionDescription: description,
-                selectOption: .zero
+                selectOption: userSettingRepository.fetchIndex(type: optionType)
             )
             
         default:
@@ -53,10 +56,24 @@ final class DetailSettingReactor: Reactor {
     // Reactor Method
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        case .cellSelect(let indexPath):
+            let updateIndex = userSettingRepository.updateIndex(
+                type: initialState.optionType,
+                index: indexPath.row
+            )
+            return Observable.just(Mutation.settingChange(updateIndex))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
         
+        switch mutation {
+        case .settingChange(let index):
+            newState.selectOption = index
+        }
+        
+        return newState
     }
 }
