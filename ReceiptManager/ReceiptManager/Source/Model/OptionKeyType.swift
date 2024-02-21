@@ -7,16 +7,26 @@
 
 import Foundation
 
-enum OptionKeyType: CustomStringConvertible {
+// Private Setting Options Key and Title
+enum OptionKeyType {
     case currency
     case payment
     
-    var description: String {
+    var key: String {
         switch self {
         case .currency:
             return ConstantText.currencyKey
         case .payment:
             return ConstantText.paymentKey
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .currency:
+            return ConstantText.currencySettingText.localize()
+        case .payment:
+            return ConstantText.payTypeSettingText.localize()
         }
     }
 }

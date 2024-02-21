@@ -20,10 +20,10 @@ final class DefaultPaymentTypeRepository: PaymentTypeRepository {
     }
     
     func fetchPaymentTypeIndex() -> Int {
-        return service.fetch(key: .payment)
+        return service.fetch(type: .payment)
     }
     
     func updatePaymentType(index: Int) -> Int {
-        return service.update(key: .payment, index: index)
+        return service.update(type: .payment, index: index)
     }
 }

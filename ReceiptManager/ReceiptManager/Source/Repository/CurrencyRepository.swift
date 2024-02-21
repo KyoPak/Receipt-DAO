@@ -20,15 +20,15 @@ final class DefaultCurrencyRepository: CurrencyRepository {
     
     init(service: UserDefaultService) {
         self.service = service
-        currencyChangeEvent = BehaviorSubject(value: service.fetch(key: .currency))
+        currencyChangeEvent = BehaviorSubject(value: service.fetch(type: .currency))
     }
     
     func fetchCurrencyIndex() -> Int {
-        return service.fetch(key: .currency)
+        return service.fetch(type: .currency)
     }
     
     func updateCurrency(index: Int) -> Int {
         currencyChangeEvent.onNext(index)
-        return service.update(key: .currency, index: index)
+        return service.update(type: .currency, index: index)
     }
 }
