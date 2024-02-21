@@ -93,7 +93,7 @@ extension AnalysisViewController {
         
         Observable.combineLatest(
             reactor.state.map { $0.totalAmount },
-            reactor.state.map { (Currency(rawValue: $0.currency) ?? .KRW).description }
+            reactor.state.map { (Currency(rawValue: $0.currency) ?? .KRW).sign }
         )
         .map { $0 + $1 }
         .bind(to: monthInfoAmountLabel.rx.text)

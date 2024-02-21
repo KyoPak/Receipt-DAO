@@ -33,7 +33,11 @@ final class DetailSettingCoordinator: Coordinator {
     }
     
     func start() {
-        let detailSettingReactor = DetailSettingReactor(optionType: optionsType, settingType: settingType)
+        let detailSettingReactor = DetailSettingReactor(
+            userSettingRepository: userSettingRepository,
+            optionType: optionsType,
+            settingType: settingType
+        )
         let detailSettingController = DetailSettingViewController(reactor: detailSettingReactor)
         
         detailSettingController.coordinator = self
