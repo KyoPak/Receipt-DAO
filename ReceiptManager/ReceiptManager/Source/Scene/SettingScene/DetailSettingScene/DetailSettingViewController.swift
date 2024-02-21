@@ -61,7 +61,10 @@ extension DetailSettingViewController {
     }
     
     private func bindAction(_ reactor: DetailSettingReactor) {
-        
+        tableView.rx.itemSelected
+                .map { Reactor.Action.cellSelect($0) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: DetailSettingReactor) {
@@ -69,11 +72,19 @@ extension DetailSettingViewController {
             .bind(to: rx.title)
             .disposed(by: disposeBag)
         
+        reactor.state.map { $0.selectOption }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] _ in
+                self?.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state.map { $0.detailOptions }
             .bind(to: tableView.rx.items(
                 cellIdentifier: OptionCell.identifier,
                 cellType: OptionCell.self)
             ) { indexPath, data, cell in
+                cell.setupSelect(self.reactor?.currentState.selectOption == indexPath)
                 cell.setupData(optionText: data)
             }
             .disposed(by: disposeBag)
