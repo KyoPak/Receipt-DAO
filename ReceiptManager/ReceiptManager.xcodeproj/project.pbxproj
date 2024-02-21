@@ -39,6 +39,8 @@
 		3C4B648F2B2AE5EB00895494 /* AnalysisViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */; };
 		3C52FBD02B85BD0C00245142 /* DetailSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */; };
 		3C52FBD32B85BD4400245142 /* DetailSettingReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD22B85BD4400245142 /* DetailSettingReactor.swift */; };
+		3C52FBD52B85BF3200245142 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD42B85BF3200245142 /* OptionCell.swift */; };
+		3C52FBD72B85C60400245142 /* DetailSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
@@ -188,6 +190,8 @@
 		3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewReactorTests.swift; sourceTree = "<group>"; };
 		3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingViewController.swift; sourceTree = "<group>"; };
 		3C52FBD22B85BD4400245142 /* DetailSettingReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingReactor.swift; sourceTree = "<group>"; };
+		3C52FBD42B85BF3200245142 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
+		3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingCoordinator.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -443,6 +447,7 @@
 			children = (
 				3C52FBD12B85BD3500245142 /* Reactor */,
 				3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */,
+				3C52FBD42B85BF3200245142 /* OptionCell.swift */,
 			);
 			path = DetailSettingScene;
 			sourceTree = "<group>";
@@ -500,6 +505,7 @@
 				3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */,
 				3C78C8CD2B21BFF0007FF68A /* AnalysisViewCoordinator.swift */,
 				3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */,
+				3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1150,6 +1156,7 @@
 				3CFBF7FD2B282ED50010DC83 /* OCRResultView.swift in Sources */,
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
+				3C52FBD52B85BF3200245142 /* OptionCell.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
@@ -1198,6 +1205,7 @@
 				3CA95B052B1F10730041394C /* CalendarListViewController.swift in Sources */,
 				3C26F1182B261BE500A28AA0 /* UIColor+Extension.swift in Sources */,
 				3C52FBD32B85BD4400245142 /* DetailSettingReactor.swift in Sources */,
+				3C52FBD72B85C60400245142 /* DetailSettingCoordinator.swift in Sources */,
 				3CFF220F2B808AAB0050266E /* PaymentTypeRepository.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
