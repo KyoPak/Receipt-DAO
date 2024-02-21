@@ -80,7 +80,28 @@ extension DetailSettingViewController {
     }
 }
 
-extension DetailSettingViewController: UITableViewDelegate { }
+extension DetailSettingViewController: UITableViewDelegate { 
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerText = reactor?.initialState.detailOptionDescription
+        
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 12)
+        label.textColor = .systemGray
+        label.text = footerText
+        label.numberOfLines = .zero
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let footerView = UITableViewHeaderFooterView(reuseIdentifier: "FooterView")
+        footerView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: footerView.contentView.leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: footerView.contentView.trailingAnchor, constant: -10),
+            label.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 5)
+        ])
+        
+        return footerView
+    }
+}
 
 // MARK: - UI Constraints
 extension DetailSettingViewController {
