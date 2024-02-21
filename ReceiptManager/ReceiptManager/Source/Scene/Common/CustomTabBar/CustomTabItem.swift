@@ -69,7 +69,7 @@ extension CustomTabItem {
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) -> Coordinator {
         switch self {
@@ -78,7 +78,7 @@ extension CustomTabItem {
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
                 expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository,
+                userSettingRepository: userSettingRepository,
                 dateRepository: dateRepository
             )
             
@@ -87,7 +87,7 @@ extension CustomTabItem {
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
                 expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository
+                userSettingRepository: userSettingRepository
             )
         
         case .bookmark:
@@ -95,14 +95,14 @@ extension CustomTabItem {
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
                 expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository
+                userSettingRepository: userSettingRepository
             )
             
         case .setting:
             return SettingViewCoordinator(
                 mainNavigationController: mainNavigationController,
                 subNavigationController: subNavigationController,
-                currencyRepository: currencyRepository
+                userSettingRepository: userSettingRepository
             )
         }
     }

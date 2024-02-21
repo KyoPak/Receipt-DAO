@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum Currency: Int {
+enum Currency: Int, CaseIterable {
     case KRW
     case USD
     case JPY
     
-    var description: String {
+    var sign: String {
         switch self {
         case .KRW:
             return ConstantText.won
@@ -31,6 +31,19 @@ enum Currency: Int {
             return ConstantImage.dollarSign
         case .JPY:
             return ConstantImage.yenSign
+        }
+    }
+}
+
+extension Currency: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .KRW:
+            return "KRW"
+        case .USD:
+            return "USD"
+        case .JPY:
+            return "JPY"
         }
     }
 }

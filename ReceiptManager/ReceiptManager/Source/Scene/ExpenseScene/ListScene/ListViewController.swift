@@ -31,7 +31,7 @@ final class ListViewController: UIViewController, View {
             cell.reactor = ListTableViewCellReactor(
                 expense: receipt,
                 userDefaultEvent: self.reactor?
-                    .currencyRepository.saveEvent ?? BehaviorSubject<Int>(value: .zero)
+                    .userSettingRepository.currencyChangeEvent ?? BehaviorSubject<Int>(value: .zero)
             )
             
             return cell

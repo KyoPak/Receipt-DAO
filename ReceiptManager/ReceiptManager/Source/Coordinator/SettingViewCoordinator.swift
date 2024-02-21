@@ -14,24 +14,37 @@ final class SettingViewCoordinator: Coordinator {
     var mainNavigationController: UINavigationController?
     var subNavigationController: UINavigationController?
     
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController,
-        currencyRepository: CurrencyRepository
+        userSettingRepository: UserSettingRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
     }
     
     func start() {
-        let settingViewReactor = SettingViewReactor(currencyRepository: currencyRepository)
+        let settingViewReactor = SettingViewReactor(currencyRepository: userSettingRepository)
         let settingViewController = SettingViewController(reactor: settingViewReactor)
         
         settingViewController.coordinator = self
         
         subNavigationController?.pushViewController(settingViewController, animated: false)
+    }
+    
+    func presentDetailOption(optionType: OptionKeyType, settingType: SettingType) {
+        let detailSettingCoordinator = DetailSettingCoordinator(
+            optionType: optionType,
+            settingType: settingType,
+            mainNavigationController: mainNavigationController,
+            userSettingRepository: userSettingRepository
+        )
+        
+        detailSettingCoordinator.parentCoordinator = self
+        childCoordinators.append(detailSettingCoordinator)
+        detailSettingCoordinator.start()
     }
 }

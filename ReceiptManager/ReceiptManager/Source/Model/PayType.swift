@@ -7,7 +7,18 @@
 
 import Foundation
 
-enum PayType: Int {
+enum PayType: Int, CaseIterable {
     case cash
     case card
+}
+
+extension PayType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .cash:
+            return ConstantText.cash.localize()
+        case .card:
+            return ConstantText.card.localize()
+        }
+    }
 }

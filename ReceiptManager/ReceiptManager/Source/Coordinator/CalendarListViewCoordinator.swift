@@ -15,7 +15,7 @@ final class CalendarListViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     private let day: String
@@ -24,14 +24,14 @@ final class CalendarListViewCoordinator: Coordinator {
     init(
         mainNavigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository,
         day: String,
         index: Int
     ) {
         self.mainNavigationController = mainNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
         
         self.day = day
@@ -43,7 +43,7 @@ final class CalendarListViewCoordinator: Coordinator {
         let calendarListViewReactor = CalendarListReactor(
             expenseRepository: expenseRepository,
             dateRepository: dateRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             day: day,
             weekIndex: weekIndex
         )
@@ -69,7 +69,7 @@ extension CalendarListViewCoordinator {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: subNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense
         )
         

@@ -103,7 +103,7 @@ extension CalendarViewController: UICollectionViewDelegate {
                     amount: data.amountOfExpense,
                     isToday: data.isToday,
                     userDefaultEvent: self.reactor?
-                        .currencyRepository.saveEvent ?? BehaviorSubject<Int>(value: .zero)
+                        .userSettingRepository.currencyChangeEvent ?? BehaviorSubject<Int>(value: .zero)
                 )
             }
             .disposed(by: disposeBag)

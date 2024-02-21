@@ -8,7 +8,7 @@
 import RxSwift
 @testable import ReceiptManager
 
-final class MockCurrencyRepository: CurrencyRepository {
+final class MockCurrencyRepository: UserSettingRepository {
     var saveEvent: BehaviorSubject<Int>
     
     init() {

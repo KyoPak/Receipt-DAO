@@ -13,7 +13,7 @@ import RxTest
 final class AnalysisViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockCurrencyRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {

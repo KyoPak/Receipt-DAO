@@ -73,7 +73,7 @@ extension CalendarCell {
         if amount == "" {
             amountLabel.text = ""
         } else {
-            amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).description
+            amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).sign
         }
         
         setupTodayColor(isToday)

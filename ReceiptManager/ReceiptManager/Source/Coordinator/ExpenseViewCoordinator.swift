@@ -15,27 +15,27 @@ final class ExpenseViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
     }
     
     func start() {
         let listViewCoordinator = ListViewCoordinator(
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             dateRepository: dateRepository
         )
         
@@ -44,7 +44,7 @@ final class ExpenseViewCoordinator: Coordinator {
         let calendarCoordinator = CalendarViewCoordinator(
             navigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             dateRepository: dateRepository
         )
         
@@ -78,7 +78,7 @@ extension ExpenseViewCoordinator {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense
         )
         
@@ -92,7 +92,7 @@ extension ExpenseViewCoordinator {
         let searchViewCoordinator = SearchViewCoordinator(
             mainNavigationController: subNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository
+            userSettingRepository: userSettingRepository
         )
         
         searchViewCoordinator.parentCoordinator = self

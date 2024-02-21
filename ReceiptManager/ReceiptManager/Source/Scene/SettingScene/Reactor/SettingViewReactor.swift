@@ -14,33 +14,32 @@ final class SettingViewReactor: Reactor {
     enum Action {
         case viewWillAppear
         case cellSelect(IndexPath)
-        case segmentValueChanged(Int)
     }
     
     enum Mutation {
         case loadData([SettingSection])
+        case movePrivateSetting((OptionKeyType, SettingType)?)
         case moveURL(URL?)
-        case currencyChange(Int)
     }
     
     struct State {
         var settingMenu: [SettingSection]
+        var selectOptions: (OptionKeyType, SettingType)?
         var url: URL?
-        var currencyIndex: Int
     }
     
     let initialState: State
     
     // Properties
     
-    private let currencyRepository: CurrencyRepository
+    private let currencyRepository: UserSettingRepository
     
     // Initializer
     
-    init(currencyRepository: CurrencyRepository) {
+    init(currencyRepository: UserSettingRepository) {
         self.currencyRepository = currencyRepository
         
-        initialState = State(settingMenu: [], url: nil, currencyIndex: .zero)
+        initialState = State(settingMenu: [])
     }
     
     // Reactor Method
@@ -49,18 +48,11 @@ final class SettingViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             let settingMenu = SettingSection.configureSettings()
-            return Observable.merge([
-                Observable.just(Mutation.loadData(settingMenu)),
-                currencyRepository.saveEvent.asObservable().map { Mutation.currencyChange($0) }
-            ])
+            return Observable.just(Mutation.loadData(settingMenu))
         
         case .cellSelect(let indexPath):
             let settingType = currentState.settingMenu[indexPath.section].items[indexPath.row].type
             return classifySettingType(settingType)
-            
-        case .segmentValueChanged(let index):
-            return currencyRepository.updateCurrency(index: index)
-                .flatMap { Observable.just(Mutation.currencyChange($0)) }
         }
     }
     
@@ -71,11 +63,11 @@ final class SettingViewReactor: Reactor {
         case .loadData(let menu):
             newState.settingMenu = menu
             
+        case .movePrivateSetting(let options):
+            newState.selectOptions = options
+            
         case .moveURL(let url):
             newState.url = url
-            
-        case .currencyChange(let index):
-            newState.currencyIndex = index
         }
         
         return newState
@@ -86,7 +78,17 @@ extension SettingViewReactor {
     private func classifySettingType(_ type: SettingType) -> Observable<Mutation> {
         switch type {
         case .currency:
-            return Observable.empty()
+            return Observable.concat([
+                Observable.just(Mutation.movePrivateSetting((.currency, type))),
+                Observable.just(Mutation.movePrivateSetting(nil))
+            ])
+            
+        case .payment:
+            return Observable.concat([
+                Observable.just(Mutation.movePrivateSetting((.payment, type))),
+                Observable.just(Mutation.movePrivateSetting(nil))
+            ])
+            
         case .mail:
             return Observable.concat([
                 Observable.just(Mutation.moveURL(createEmailUrl())),

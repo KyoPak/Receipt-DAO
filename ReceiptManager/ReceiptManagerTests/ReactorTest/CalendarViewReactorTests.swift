@@ -11,7 +11,7 @@ import RxSwift
 
 final class CalendarViewReactorTests: XCTestCase {
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockCurrencyRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {

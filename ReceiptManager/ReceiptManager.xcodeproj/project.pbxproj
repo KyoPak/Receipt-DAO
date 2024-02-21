@@ -37,6 +37,10 @@
 		3C4B648B2B2AD1BF00895494 /* ComposeViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */; };
 		3C4B648D2B2AE2F800895494 /* MockOCRExtractorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648C2B2AE2F800895494 /* MockOCRExtractorService.swift */; };
 		3C4B648F2B2AE5EB00895494 /* AnalysisViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */; };
+		3C52FBD02B85BD0C00245142 /* DetailSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */; };
+		3C52FBD32B85BD4400245142 /* DetailSettingReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD22B85BD4400245142 /* DetailSettingReactor.swift */; };
+		3C52FBD52B85BF3200245142 /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD42B85BF3200245142 /* OptionCell.swift */; };
+		3C52FBD72B85C60400245142 /* DetailSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */; };
 		3C56C65A2A08EAFE0058869C /* ConstantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C6592A08EAFE0058869C /* ConstantColor.swift */; };
 		3C56C65C2A08ECED0058869C /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */; };
 		3C56C65F2A0963A50058869C /* CellReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */; };
@@ -76,6 +80,7 @@
 		3C9AA3532A012FE60014807B /* BookMarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3522A012FE60014807B /* BookMarkViewController.swift */; };
 		3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3562A01301F0014807B /* DetailViewController.swift */; };
 		3C9AA3592A0130310014807B /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9AA3582A0130310014807B /* ComposeViewController.swift */; };
+		3C9F40862B7F4830004C1899 /* OptionKeyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9F40852B7F4830004C1899 /* OptionKeyType.swift */; };
 		3CA536632B0CE55700EA77AA /* ImageRegisterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */; };
 		3CA536652B0DFC1A00EA77AA /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */; };
 		3CA5366A2B0E085B00EA77AA /* LimitAlbumViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */; };
@@ -96,7 +101,7 @@
 		3CC893BB2A0CCCDB00055872 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC893BA2A0CCCDB00055872 /* ImageCell.swift */; };
 		3CC8DAD12B52BF6C00FE89B4 /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */; };
 		3CC8DAD32B52C4A400FE89B4 /* OCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */; };
-		3CC8DAD52B52C61800FE89B4 /* CurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */; };
+		3CC8DAD52B52C61800FE89B4 /* UserSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */; };
 		3CC8DAD72B52C84100FE89B4 /* DateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */; };
 		3CD62AF52B12F71000D10E54 /* UserDefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */; };
 		3CD8B9322B065E4400968A7E /* DetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */; };
@@ -182,6 +187,10 @@
 		3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewReactorTests.swift; sourceTree = "<group>"; };
 		3C4B648C2B2AE2F800895494 /* MockOCRExtractorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOCRExtractorService.swift; sourceTree = "<group>"; };
 		3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewReactorTests.swift; sourceTree = "<group>"; };
+		3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingViewController.swift; sourceTree = "<group>"; };
+		3C52FBD22B85BD4400245142 /* DetailSettingReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingReactor.swift; sourceTree = "<group>"; };
+		3C52FBD42B85BF3200245142 /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
+		3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingCoordinator.swift; sourceTree = "<group>"; };
 		3C56C6592A08EAFE0058869C /* ConstantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantColor.swift; sourceTree = "<group>"; };
 		3C56C65B2A08ECED0058869C /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3C56C65E2A0963A50058869C /* CellReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -221,6 +230,7 @@
 		3C9AA3522A012FE60014807B /* BookMarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkViewController.swift; sourceTree = "<group>"; };
 		3C9AA3562A01301F0014807B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3C9AA3582A0130310014807B /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		3C9F40852B7F4830004C1899 /* OptionKeyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionKeyType.swift; sourceTree = "<group>"; };
 		3CA536622B0CE55700EA77AA /* ImageRegisterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRegisterCellView.swift; sourceTree = "<group>"; };
 		3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		3CA536692B0E085B00EA77AA /* LimitAlbumViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitAlbumViewReactor.swift; sourceTree = "<group>"; };
@@ -242,7 +252,7 @@
 		3CC893BA2A0CCCDB00055872 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
 		3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepository.swift; sourceTree = "<group>"; };
-		3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRepository.swift; sourceTree = "<group>"; };
+		3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingRepository.swift; sourceTree = "<group>"; };
 		3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRepository.swift; sourceTree = "<group>"; };
 		3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultService.swift; sourceTree = "<group>"; };
 		3CD8B9312B065E4400968A7E /* DetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewReactor.swift; sourceTree = "<group>"; };
@@ -325,6 +335,7 @@
 		3C0894C12A4E6ABB00C6E7CD /* SettingScene */ = {
 			isa = PBXGroup;
 			children = (
+				3C52FBCE2B85BCF600245142 /* DetailSettingScene */,
 				3C0894C22A4E6AF900C6E7CD /* SettingViewController.swift */,
 				3C0894C72A4E87F600C6E7CD /* SettingCell.swift */,
 				3C765AE72B0F589F00EB7A6C /* Reactor */,
@@ -429,6 +440,24 @@
 			path = SearchScene;
 			sourceTree = "<group>";
 		};
+		3C52FBCE2B85BCF600245142 /* DetailSettingScene */ = {
+			isa = PBXGroup;
+			children = (
+				3C52FBD12B85BD3500245142 /* Reactor */,
+				3C52FBCF2B85BD0C00245142 /* DetailSettingViewController.swift */,
+				3C52FBD42B85BF3200245142 /* OptionCell.swift */,
+			);
+			path = DetailSettingScene;
+			sourceTree = "<group>";
+		};
+		3C52FBD12B85BD3500245142 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				3C52FBD22B85BD4400245142 /* DetailSettingReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		3C56C65D2A0963960058869C /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +503,7 @@
 				3C3F7ADD2B1EFA8F003DCA85 /* SearchViewCoordinator.swift */,
 				3C78C8CD2B21BFF0007FF68A /* AnalysisViewCoordinator.swift */,
 				3C6AD23B2B31978D000D93A0 /* AlertViewCoordinator.swift */,
+				3C52FBD62B85C60400245142 /* DetailSettingCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -676,7 +706,7 @@
 			children = (
 				3CC8DAD02B52BF6C00FE89B4 /* ExpenseRepository.swift */,
 				3CC8DAD22B52C4A400FE89B4 /* OCRRepository.swift */,
-				3CC8DAD42B52C61800FE89B4 /* CurrencyRepository.swift */,
+				3CC8DAD42B52C61800FE89B4 /* UserSettingRepository.swift */,
 				3CC8DAD62B52C84100FE89B4 /* DateRepository.swift */,
 			);
 			path = Repository;
@@ -761,6 +791,7 @@
 				3C7D424C2A51281E00304A8C /* Currency.swift */,
 				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
 				3C99A0982B329485006B274C /* OCRExtractorError.swift */,
+				3C9F40852B7F4830004C1899 /* OptionKeyType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1122,6 +1153,7 @@
 				3CFBF7FD2B282ED50010DC83 /* OCRResultView.swift in Sources */,
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
+				3C52FBD52B85BF3200245142 /* OptionCell.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
@@ -1135,7 +1167,7 @@
 				3C9AA3502A012FC20014807B /* ListViewController.swift in Sources */,
 				3C3F55482B1CCE3C00A6EAB5 /* CalendarCellReactor.swift in Sources */,
 				3C9AA3572A01301F0014807B /* DetailViewController.swift in Sources */,
-				3CC8DAD52B52C61800FE89B4 /* CurrencyRepository.swift in Sources */,
+				3CC8DAD52B52C61800FE89B4 /* UserSettingRepository.swift in Sources */,
 				3CA5366C2B0E0B2600EA77AA /* LimitAlbumViewCoordinator.swift in Sources */,
 				3C2E18D629FBCC5F00E8E9C6 /* AppDelegate.swift in Sources */,
 				3CA7223A2B051749005347AB /* ListViewReactor.swift in Sources */,
@@ -1169,6 +1201,8 @@
 				3CDCDC5029FC02B300C2BEF6 /* PayType.swift in Sources */,
 				3CA95B052B1F10730041394C /* CalendarListViewController.swift in Sources */,
 				3C26F1182B261BE500A28AA0 /* UIColor+Extension.swift in Sources */,
+				3C52FBD32B85BD4400245142 /* DetailSettingReactor.swift in Sources */,
+				3C52FBD72B85C60400245142 /* DetailSettingCoordinator.swift in Sources */,
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,
@@ -1190,12 +1224,14 @@
 				3C6AD23C2B31978D000D93A0 /* AlertViewCoordinator.swift in Sources */,
 				3C33883F2B051CFD00A9613B /* ListViewCoordinator.swift in Sources */,
 				3C78C8C92B21BBAD007FF68A /* AnalysisViewController.swift in Sources */,
+				3C52FBD02B85BD0C00245142 /* DetailSettingViewController.swift in Sources */,
 				3C9AA3482A012C880014807B /* ExpenseNavigationBar.swift in Sources */,
 				3CC8DAD32B52C4A400FE89B4 /* OCRRepository.swift in Sources */,
 				3CF5EB4C2B2575C100A524C5 /* PayTypeRatingView.swift in Sources */,
 				3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */,
 				3CC8DAD72B52C84100FE89B4 /* DateRepository.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
+				3C9F40862B7F4830004C1899 /* OptionKeyType.swift in Sources */,
 				3C78C8CE2B21BFF0007FF68A /* AnalysisViewCoordinator.swift in Sources */,
 				3C852F052B185B0E00F48CD3 /* DateManageService.swift in Sources */,
 				3C3F7ADC2B1EDB22003DCA85 /* CalendarViewCoordinator.swift in Sources */,

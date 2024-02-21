@@ -20,7 +20,7 @@ final class ComposeViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     private let expense: Receipt?
     private let transitionType: TransitionType
@@ -29,24 +29,25 @@ final class ComposeViewCoordinator: Coordinator {
         transitionType: TransitionType,
         mainNavigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         expense: Receipt?
     ) {
         self.transitionType = transitionType
         self.mainNavigationController = mainNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.expense = expense
         self.subNavigationController = UINavigationController()
     }
     
     func start() {
-        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: currencyRepository.fetchCurrencyIndex())
+        let ocrExtractor = DefaultOCRExtractorService(currencyIndex: userSettingRepository.fetchIndex(type: .currency))
         let ocrRepository = DefaultOCRRepository(service: ocrExtractor)
         
         let composeViewReactor = ComposeViewReactor(
             expenseRepository: expenseRepository,
             ocrRepository: ocrRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense,
             transisionType: transitionType)
         
