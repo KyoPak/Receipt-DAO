@@ -18,17 +18,17 @@ final class DetailSettingCoordinator: Coordinator {
     private let paymentTypeRepository: PaymentTypeRepository
     
     private let optionsType: OptionKeyType
-    private let options: [String]
+    private let settingType: SettingType
     
     init(
         optionType: OptionKeyType,
-        options: [String],
+        settingType: SettingType,
         mainNavigationController: UINavigationController?,
         currencyRepository: CurrencyRepository,
         paymentTypeRepository: PaymentTypeRepository
     ) {
         self.optionsType = optionType
-        self.options = options
+        self.settingType = settingType
         self.mainNavigationController = mainNavigationController
         self.currencyRepository = currencyRepository
         self.paymentTypeRepository = paymentTypeRepository
@@ -36,7 +36,7 @@ final class DetailSettingCoordinator: Coordinator {
     }
     
     func start() {
-        let detailSettingReactor = DetailSettingReactor(optionType: optionsType, options: options)
+        let detailSettingReactor = DetailSettingReactor(optionType: optionsType, settingType: settingType)
         let detailSettingController = DetailSettingViewController(reactor: detailSettingReactor)
         
         detailSettingController.coordinator = self

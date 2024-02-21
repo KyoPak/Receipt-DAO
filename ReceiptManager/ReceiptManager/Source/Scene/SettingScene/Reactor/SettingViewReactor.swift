@@ -18,13 +18,13 @@ final class SettingViewReactor: Reactor {
     
     enum Mutation {
         case loadData([SettingSection])
-        case movePrivateSetting((OptionKeyType, [String])?)
+        case movePrivateSetting((OptionKeyType, SettingType)?)
         case moveURL(URL?)
     }
     
     struct State {
         var settingMenu: [SettingSection]
-        var selectOptions: (OptionKeyType, [String])?
+        var selectOptions: (OptionKeyType, SettingType)?
         var url: URL?
     }
     
@@ -79,13 +79,13 @@ extension SettingViewReactor {
         switch type {
         case .currency:
             return Observable.concat([
-                Observable.just(Mutation.movePrivateSetting((.currency, Currency.allCases.map { $0.description }))),
+                Observable.just(Mutation.movePrivateSetting((.currency, type))),
                 Observable.just(Mutation.movePrivateSetting(nil))
             ])
             
         case .payment:
             return Observable.concat([
-                Observable.just(Mutation.movePrivateSetting((.payment, PayType.allCases.map { $0.description }))),
+                Observable.just(Mutation.movePrivateSetting((.payment, type))),
                 Observable.just(Mutation.movePrivateSetting(nil))
             ])
             

@@ -35,13 +35,13 @@ final class SettingViewCoordinator: Coordinator {
         subNavigationController?.pushViewController(settingViewController, animated: false)
     }
     
-    func presentDetailOption(optionType: OptionKeyType, datas: [String]) {
+    func presentDetailOption(optionType: OptionKeyType, settingType: SettingType) {
         // TODO: - Fix
         let paymentTypeRepository = DefaultPaymentTypeRepository(service: DefaultUserDefaultService())
         let detailSettingCoordinator = DetailSettingCoordinator(
             optionType: optionType,
-            options: datas,
-            mainNavigationController: mainNavigationController, 
+            settingType: settingType,
+            mainNavigationController: mainNavigationController,
             currencyRepository: currencyRepository,
             paymentTypeRepository: paymentTypeRepository
         )

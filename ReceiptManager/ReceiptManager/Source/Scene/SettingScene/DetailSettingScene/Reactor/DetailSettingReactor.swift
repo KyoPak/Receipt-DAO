@@ -12,8 +12,8 @@ final class DetailSettingReactor: Reactor {
     // Reactor Properties
     
     enum Action {
-        case viewWillAppear
-        case cellSelect(IndexPath)
+//        case viewWillAppear
+//        case cellSelect(IndexPath)
     }
     
     enum Mutation {
@@ -21,18 +21,33 @@ final class DetailSettingReactor: Reactor {
     }
     
     struct State {
-
+        var title: String
+        var optionType: OptionKeyType
+        var detailOptions: [String]
+        var detailOptionDescription: String
+        var selectOption: Int
     }
     
     let initialState: State
     
     // Properties
     
-    
     // Initializer
     
-    init() {
-        initialState = State()
+    init(optionType: OptionKeyType, settingType: SettingType) {
+        switch settingType {
+        case .currency(let description, let options), .payment(let description, let options):
+            initialState = State(
+                title: optionType.title,
+                optionType: optionType,
+                detailOptions: options,
+                detailOptionDescription: description,
+                selectOption: .zero
+            )
+            
+        default:
+            fatalError()
+        }
     }
     
     // Reactor Method

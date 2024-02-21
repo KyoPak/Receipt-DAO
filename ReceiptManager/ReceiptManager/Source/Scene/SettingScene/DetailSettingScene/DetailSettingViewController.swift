@@ -24,10 +24,14 @@ final class DetailSettingViewController: UIViewController, View {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         setupHierarchy()
         setupProperties()
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
     }
     
     // Initializer
@@ -65,7 +69,7 @@ extension DetailSettingViewController {
             .bind(to: rx.title)
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.options }
+        reactor.state.map { $0.detailOptions }
             .bind(to: tableView.rx.items(
                 cellIdentifier: OptionCell.identifier,
                 cellType: OptionCell.self)
@@ -110,7 +114,7 @@ extension DetailSettingViewController {
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30)
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
 }

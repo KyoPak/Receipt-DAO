@@ -104,7 +104,7 @@ extension SettingViewController {
             .compactMap { $0 }
             .withUnretained(self)
             .bind { (owner, options) in
-                owner.coordinator?.presentDetailOption(optionType: options.0, datas: options.1)
+                owner.coordinator?.presentDetailOption(optionType: options.0, settingType: options.1)
             }
             .disposed(by: disposeBag)
         
