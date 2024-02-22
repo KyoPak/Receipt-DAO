@@ -34,6 +34,11 @@ final class DetailSettingViewController: UIViewController, View {
         setupNavigationBar()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        coordinator?.close(self)
+    }
+    
     // Initializer
     
     init(reactor: DetailSettingReactor) {
@@ -62,9 +67,9 @@ extension DetailSettingViewController {
     
     private func bindAction(_ reactor: DetailSettingReactor) {
         tableView.rx.itemSelected
-                .map { Reactor.Action.cellSelect($0) }
-                .bind(to: reactor.action)
-                .disposed(by: disposeBag)
+            .map { Reactor.Action.cellSelect($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: DetailSettingReactor) {
@@ -83,8 +88,8 @@ extension DetailSettingViewController {
             .bind(to: tableView.rx.items(
                 cellIdentifier: OptionCell.identifier,
                 cellType: OptionCell.self)
-            ) { indexPath, data, cell in
-                cell.setupSelect(self.reactor?.currentState.selectOption == indexPath)
+            ) { [weak self] indexPath, data, cell in
+                cell.setupSelect(self?.reactor?.currentState.selectOption == indexPath)
                 cell.setupData(optionText: data)
             }
             .disposed(by: disposeBag)
