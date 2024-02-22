@@ -26,10 +26,6 @@ enum ConstantText {
     
     static let detail = "detail"
     
-    // MARK: - UserDefault Key
-    static let currencyKey = "CurrencyType"
-    static let paymentKey = "PaymentType"
-
     // MARK: - Localize Key
     static let appName = "appName"
     
@@ -89,13 +85,19 @@ enum ConstantText {
     static let customerPrivateSection = "customerPrivateSection"
     static let currencySettingText = "currencySettingText"
     static let payTypeSettingText = "payTypeSettingText"
+    static let displayModeSettingText = "displayModeSettingText"
+    
     static let customerServiceSection = "customerServiceSection"
     static let rating = "rating"
     static let opinion = "opinion"
     static let caseText = "case"
     static let currencySettingDescription = "currencySettingDescription"
     static let paymentTypeSettingDescription = "paymentTypeSettingDescription"
+    static let displayModeSettingDescription = "displayModeSettingDescription"
     
+    static let systemMode = "systemMode"
+    static let lightMode = "lightMode"
+    static let darkMode = "darkMode"
     
     // About Analysis Scene
     static let monthExpenseText = "monthExpenseText %@"

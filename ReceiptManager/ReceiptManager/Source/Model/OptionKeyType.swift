@@ -11,13 +11,16 @@ import Foundation
 enum OptionKeyType {
     case currency
     case payment
+    case displayMode
     
     var key: String {
         switch self {
         case .currency:
-            return ConstantText.currencyKey
+            return ConstantKey.currencyKey
         case .payment:
-            return ConstantText.paymentKey
+            return ConstantKey.paymentKey
+        case .displayMode:
+            return ConstantKey.displayModeKey
         }
     }
     
@@ -27,6 +30,8 @@ enum OptionKeyType {
             return ConstantText.currencySettingText.localize()
         case .payment:
             return ConstantText.payTypeSettingText.localize()
+        case .displayMode:
+            return ConstantText.displayModeSettingText.localize()
         }
     }
 }

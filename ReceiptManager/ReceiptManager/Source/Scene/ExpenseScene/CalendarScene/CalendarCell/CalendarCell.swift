@@ -11,7 +11,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-final class CalendarCell: UICollectionViewCell, View {
+final class CalendarCell: UIBaseCollectionViewCell, View {
     
     // Properties
     

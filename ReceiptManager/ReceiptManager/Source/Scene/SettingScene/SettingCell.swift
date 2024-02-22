@@ -7,13 +7,7 @@
 
 import UIKit
 
-import RxSwift
-
-final class SettingCell: UITableViewCell {
-    
-    // Properties
-    
-    private var disposeBag = DisposeBag()
+final class SettingCell: UIBaseTableViewCell {
     
     // UI Properties
     
@@ -32,15 +26,10 @@ final class SettingCell: UITableViewCell {
         setupHierarchy()
         setupProperties()
         setupConstraints()
-        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func bind() {
-
     }
 }
 

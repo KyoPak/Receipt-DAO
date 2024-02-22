@@ -21,7 +21,20 @@ final class DefaultUserDefaultService: UserDefaultService {
     }
     
     func update(type: OptionKeyType, index: Int) -> Int {
+        postNotification(type: type, index: index)
         storage.set(index, forKey: type.key)
         return fetch(type: type)
+    }
+}
+
+extension DefaultUserDefaultService {
+    private func postNotification(type: OptionKeyType, index: Int) {
+        guard type == .displayMode else { return }
+        
+        NotificationCenter.default.post(
+            name: .displayModeNotification,
+            object: nil,
+            userInfo: [ConstantKey.displayModeKey: index]
+        )
     }
 }

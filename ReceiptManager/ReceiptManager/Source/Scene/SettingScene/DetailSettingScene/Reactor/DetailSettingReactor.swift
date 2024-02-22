@@ -38,19 +38,27 @@ final class DetailSettingReactor: Reactor {
     init(userSettingRepository: UserSettingRepository, optionType: OptionKeyType, settingType: SettingType) {
         self.userSettingRepository = userSettingRepository
         
+        var optionDescription: String
+        var optionList: [String]
+        
         switch settingType {
-        case .currency(let description, let options), .payment(let description, let options):
-            initialState = State(
-                title: optionType.title,
-                optionType: optionType,
-                detailOptions: options,
-                detailOptionDescription: description,
-                selectOption: userSettingRepository.fetchIndex(type: optionType)
-            )
-            
+        case .currency(let description, let options), 
+             .payment(let description, let options),
+             .displayMode(let description, let options):
+            optionDescription = description
+            optionList = options
         default:
-            fatalError()
+            optionDescription = ""
+            optionList = []
         }
+        
+        initialState = State(
+            title: optionType.title,
+            optionType: optionType,
+            detailOptions: optionList,
+            detailOptionDescription: optionDescription,
+            selectOption: userSettingRepository.fetchIndex(type: optionType)
+        )
     }
     
     // Reactor Method

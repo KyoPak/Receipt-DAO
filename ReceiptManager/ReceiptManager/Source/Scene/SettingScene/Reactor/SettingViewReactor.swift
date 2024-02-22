@@ -89,6 +89,12 @@ extension SettingViewReactor {
                 Observable.just(Mutation.movePrivateSetting(nil))
             ])
             
+        case .displayMode:
+            return Observable.concat([
+                Observable.just(Mutation.movePrivateSetting((.displayMode, type))),
+                Observable.just(Mutation.movePrivateSetting(nil))
+            ])
+            
         case .mail:
             return Observable.concat([
                 Observable.just(Mutation.moveURL(createEmailUrl())),
