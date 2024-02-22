@@ -106,6 +106,7 @@
 
 "currencySettingDescription" = "원하는 화폐단위를 설정하세요.\n이미지(영수증 이미지 등)  글자 인식은 화폐 단위를 기반으로 인식됩니다.";
 "paymentTypeSettingDescription" = "현금/카드 기본 값을 변경하여 빠르게 지출을 기입할 수 있습니다.";
+"displayModeSettingDescription" = "원하는 디스플레이 모드로 변경하여 사용해보세요.";
 "systemMode" = "시스템 모드";
 "lightMode" = "라이트 모드";
 "darkMode" = "다크 모드";

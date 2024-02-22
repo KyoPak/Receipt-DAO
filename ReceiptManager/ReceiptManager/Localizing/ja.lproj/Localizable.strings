@@ -104,6 +104,7 @@
 "extractError" = "テキストの抽出に失敗しました。";
 "currencySettingDescription" = "ご希望の通貨単位を設定します。\n画像(領収書画像など)の文字認識は貨幣単位に基づいて認識されます。";
 "paymentTypeSettingDescription" = "現金/カードのデフォルト値を変更して、素早く支出を記入できます。";
+"displayModeSettingDescription" = "ご希望のディスプレイモードに変更してお試しいただけます。";
 "systemMode" = "システム モード";
 "lightMode" = "ライト モード";
 "darkMode" = "ダーク モード";

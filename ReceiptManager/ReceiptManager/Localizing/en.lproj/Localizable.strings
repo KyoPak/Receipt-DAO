@@ -105,6 +105,7 @@
 "extractError" = "Text extraction failed.";
 "currencySettingDescription" = "Set the desired monetary unit.\nImage (receipt image, etc.) character recognition is recognized based on monetary units.";
 "paymentTypeSettingDescription" = "You can quickly fill out your spending by changing the default values for your cash/card.";
+"displayModeSettingDescription" = "Change to the desired display mode and use it.";
 "systemMode" = "System Mode";
 "lightMode" = "Light Mode";
 "darkMode" = "Dark Mode";
