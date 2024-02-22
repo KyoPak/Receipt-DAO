@@ -116,6 +116,13 @@
 - Repository Pattern 도입
 - Repository Test Code 작성
 --------
+### 2.1.0 (2024.02.22)
+**기능 추가**
+- 지출 현금/카드 타입 기본값 설정 추가
+    - 기능 요청 메일
+        - <img width="755" alt="스크린샷 2023-11-07 오후 4 30 44" src="https://github.com/KyoPak/Receipt-DAO/assets/59204352/1e2eed7d-46ea-4445-a787-25d6b36cf598">
+- 화면모드 설정 추가
+- 지출 내역 등록, 수정 시 키보드 ToolBar에 Paste 버튼 추가
 
 <br></br>
 ## 실행 화면
