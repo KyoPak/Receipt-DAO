@@ -50,4 +50,5 @@ enum ConstantImage {
     static let setting = "gear"
     
     static let checkMark = "checkmark"
+    static let pasteText = "doc.on.clipboard.fill"
 }
