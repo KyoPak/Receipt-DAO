@@ -11,7 +11,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final class ListTableViewCell: UITableViewCell, View {
+final class ListTableViewCell: UIBaseTableViewCell, View {
     
     // Properties
     

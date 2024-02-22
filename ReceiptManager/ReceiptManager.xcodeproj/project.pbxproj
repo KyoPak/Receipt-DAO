@@ -51,6 +51,7 @@
 		3C6818272B86156800817B7F /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6818262B86156800817B7F /* DisplayMode.swift */; };
 		3C6818292B870B9000817B7F /* DisplayHandleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6818282B870B9000817B7F /* DisplayHandleService.swift */; };
 		3C68182B2B87115600817B7F /* ConstantKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182A2B87115600817B7F /* ConstantKey.swift */; };
+		3C68182D2B871BF700817B7F /* UIBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182C2B871BF700817B7F /* UIBaseCell.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
 		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
@@ -204,6 +205,7 @@
 		3C6818262B86156800817B7F /* DisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayMode.swift; sourceTree = "<group>"; };
 		3C6818282B870B9000817B7F /* DisplayHandleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHandleService.swift; sourceTree = "<group>"; };
 		3C68182A2B87115600817B7F /* ConstantKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantKey.swift; sourceTree = "<group>"; };
+		3C68182C2B871BF700817B7F /* UIBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBaseCell.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */,
 				3C088A492B1F782500FFFB74 /* BottomSheetViewController.swift */,
 				3CBABE402B21D2830001BA4F /* MonthControlView.swift */,
+				3C68182C2B871BF700817B7F /* UIBaseCell.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1241,6 +1244,7 @@
 				3CC8DAD32B52C4A400FE89B4 /* OCRRepository.swift in Sources */,
 				3CF5EB4C2B2575C100A524C5 /* PayTypeRatingView.swift in Sources */,
 				3C05E09D2B0C80F30062C3F7 /* ComposeViewCoordinator.swift in Sources */,
+				3C68182D2B871BF700817B7F /* UIBaseCell.swift in Sources */,
 				3CC8DAD72B52C84100FE89B4 /* DateRepository.swift in Sources */,
 				3CB4CF402A13768900E9CBAB /* UIStackView+Extension.swift in Sources */,
 				3C9F40862B7F4830004C1899 /* OptionKeyType.swift in Sources */,

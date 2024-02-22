@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class OptionCell: UITableViewCell {
+final class OptionCell: UIBaseTableViewCell {
     
     // Properties
     
