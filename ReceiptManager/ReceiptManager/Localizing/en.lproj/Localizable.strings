@@ -63,11 +63,12 @@
 
 "setting" = "Settings";
 "customerPrivateSection" = "Private Setting";
-"currencySettingText" = "Change the monetary unit";
-"payTypeSettingText" = "Change default payment type";
+"currencySettingText" = "Monetary Unit Setting";
+"payTypeSettingText" = "Default Expense Type  Setting";
+"displayModeSettingText" = "Display Mode Setting";
 "customerServiceSection" = "Customer Service Center";
-"rating" = "App rating";
-"opinion" = "Send comments";
+"rating" = "App Rating";
+"opinion" = "Send Comments";
 
 "mailSubject" = "[MoneyMemory] Opinion";
 "mailBody" = "Hello. \nThank you for using My App. \nWe always value users' opinions. \nWe would appreciate it if you could select the appropriate item from the list below or write your opinion freely. \n1. Opinion:\n[Please write your comments.]\n2. Error:\n[Please write the error]\n3. ETC:\n[Please write what you want]\n\n\nThank You.";
@@ -104,3 +105,6 @@
 "extractError" = "Text extraction failed.";
 "currencySettingDescription" = "Set the desired monetary unit.\nImage (receipt image, etc.) character recognition is recognized based on monetary units.";
 "paymentTypeSettingDescription" = "You can quickly fill out your spending by changing the default values for your cash/card.";
+"systemMode" = "System Mode";
+"lightMode" = "Light Mode";
+"darkMode" = "Dark Mode";
