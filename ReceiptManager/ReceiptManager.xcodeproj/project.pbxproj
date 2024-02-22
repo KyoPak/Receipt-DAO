@@ -127,7 +127,7 @@
 		3CE14F962B57AA1800471931 /* CurrencyRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F952B57AA1800471931 /* CurrencyRepositoryTests.swift */; };
 		3CE14F992B57AD2600471931 /* DateManageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F982B57AD2600471931 /* DateManageServiceTests.swift */; };
 		3CE14F9C2B57B3B800471931 /* MockExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */; };
-		3CE14F9E2B57B5ED00471931 /* MockCurrencyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */; };
+		3CE14F9E2B57B5ED00471931 /* MockUserSettingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9D2B57B5ED00471931 /* MockUserSettingRepository.swift */; };
 		3CE14FA02B57B6E000471931 /* MockDateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */; };
 		3CE14FA22B57BDC400471931 /* MockOCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */; };
 		3CE78EE72B15E529008743A1 /* BasePaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */; };
@@ -283,7 +283,7 @@
 		3CE14F952B57AA1800471931 /* CurrencyRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRepositoryTests.swift; sourceTree = "<group>"; };
 		3CE14F982B57AD2600471931 /* DateManageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManageServiceTests.swift; sourceTree = "<group>"; };
 		3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExpenseRepository.swift; sourceTree = "<group>"; };
-		3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCurrencyRepository.swift; sourceTree = "<group>"; };
+		3CE14F9D2B57B5ED00471931 /* MockUserSettingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserSettingRepository.swift; sourceTree = "<group>"; };
 		3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDateRepository.swift; sourceTree = "<group>"; };
 		3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOCRRepository.swift; sourceTree = "<group>"; };
 		3CE78EE62B15E529008743A1 /* BasePaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePaddingLabel.swift; sourceTree = "<group>"; };
@@ -861,7 +861,7 @@
 			isa = PBXGroup;
 			children = (
 				3CE14F9B2B57B3B800471931 /* MockExpenseRepository.swift */,
-				3CE14F9D2B57B5ED00471931 /* MockCurrencyRepository.swift */,
+				3CE14F9D2B57B5ED00471931 /* MockUserSettingRepository.swift */,
 				3CE14F9F2B57B6E000471931 /* MockDateRepository.swift */,
 				3CE14FA12B57BDC400471931 /* MockOCRRepository.swift */,
 			);
@@ -1140,7 +1140,7 @@
 				3CE14F992B57AD2600471931 /* DateManageServiceTests.swift in Sources */,
 				3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */,
 				3C4B648D2B2AE2F800895494 /* MockOCRExtractorService.swift in Sources */,
-				3CE14F9E2B57B5ED00471931 /* MockCurrencyRepository.swift in Sources */,
+				3CE14F9E2B57B5ED00471931 /* MockUserSettingRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
