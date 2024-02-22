@@ -11,18 +11,18 @@ import RxSwift
 
 final class BookMarkViewReactorTests: XCTestCase {
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -35,7 +35,7 @@ final class BookMarkViewReactorTests: XCTestCase {
         
         let reactor = BookMarkViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository
+            userSettingRepository: mockUserSettingRepository
         )
             
         // When
@@ -54,7 +54,7 @@ final class BookMarkViewReactorTests: XCTestCase {
         
         let reactor = BookMarkViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository
+            userSettingRepository: mockUserSettingRepository
         )
         
         // When

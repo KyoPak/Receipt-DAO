@@ -1,5 +1,5 @@
 //
-//  CurrencyRepositoryTests.swift
+//  UserSettingRepositoryTests.swift
 //  ReceiptManagerTests
 //
 //  Created by parkhyo on 1/17/24.
@@ -9,7 +9,7 @@ import XCTest
 import RxSwift
 @testable import ReceiptManager
 
-final class CurrencyRepositoryTests: XCTestCase {
+final class UserSettingRepositoryTests: XCTestCase {
     private var service: UserDefaultService!
     private var disposeBag: DisposeBag!
     
@@ -25,10 +25,10 @@ final class CurrencyRepositoryTests: XCTestCase {
     
     func test_fetchCurrencyIndex() {
         // Given
-        let repository = DefaultCurrencyRepository(service: service)
+        let repository = DefaultUserSettingRepository(service: service)
         
         // When
-        let result = repository.fetchCurrencyIndex()
+        let result = repository.fetchIndex(type: .currency)
         
         // Then
         XCTAssertEqual(.zero, result)
@@ -36,15 +36,17 @@ final class CurrencyRepositoryTests: XCTestCase {
     
     func test_updateCurrencyIndex() {
         // Given
-        let repository = DefaultCurrencyRepository(service: service)
+        let repository = DefaultUserSettingRepository(service: service)
         
         // When
-        let result = repository.updateCurrency(index: 1)
-        let target = repository.fetchCurrencyIndex()
+        let result = repository.updateIndex(type: .currency, index: 1)
+        let target = repository.fetchIndex(type: .currency)
+        
         // Then
-        result.subscribe { index in
-            XCTAssertEqual(target, index)
-        }
-        .disposed(by: disposeBag)
+        Observable.just(result)
+            .subscribe { index in
+                XCTAssertEqual(target, index)
+            }
+            .disposed(by: disposeBag)
     }
 }

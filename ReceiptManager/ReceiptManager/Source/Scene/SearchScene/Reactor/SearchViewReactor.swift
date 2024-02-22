@@ -34,9 +34,9 @@ final class SearchViewReactor: Reactor {
     
     // Initializer
     
-    init(expenseRepository: ExpenseRepository, currencyRepository: CurrencyRepository) {
+    init(expenseRepository: ExpenseRepository, userSettingRepository: UserSettingRepository) {
         self.expenseRepository = expenseRepository
-        currencyEvent = currencyRepository.saveEvent
+        currencyEvent = userSettingRepository.currencyChangeEvent
         initialState = State(title: ConstantText.searchBar.localize(), searchText: "", searchResult: [])
     }
     

@@ -15,24 +15,24 @@ final class BookMarkViewCoordinator: Coordinator {
     var subNavigationController: UINavigationController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     init(
         mainNavigationController: UINavigationController?,
         subNavigationController: UINavigationController,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository
+        userSettingRepository: UserSettingRepository
     ) {
         self.mainNavigationController = mainNavigationController
         self.subNavigationController = subNavigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
     }
     
     func start() {
         let bookMarkViewReactor = BookMarkViewReactor(
             expenseRepository: expenseRepository, 
-            currencyRepository: currencyRepository
+            userSettingRepository: userSettingRepository
         )
         let bookMarkViewController = BookMarkViewController(reactor: bookMarkViewReactor)
         bookMarkViewController.coordinator = self
@@ -46,7 +46,7 @@ extension BookMarkViewCoordinator {
         let detailViewCoordinator = DetailViewCoordinator(
             mainNavigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             expense: expense
         )
         

@@ -42,18 +42,18 @@ final class DetailViewReactor: Reactor {
     // Properties
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     
     // Initializer
     
     init(
         title: String,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         item: Receipt
     ) {
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
        
         initialState = State(title: title, expense: item, priceText: "")
     }
@@ -128,7 +128,7 @@ final class DetailViewReactor: Reactor {
 
 extension DetailViewReactor {
     private func changeState(currentState: State, data: Receipt) -> State {
-        let currencyIndex = currencyRepository.fetchCurrencyIndex()
+        let currencyIndex = userSettingRepository.fetchIndex(type: .currency)
         let currency = Currency(rawValue: currencyIndex) ?? .KRW
         
         var newState = currentState
@@ -138,6 +138,6 @@ extension DetailViewReactor {
     }
     
     private func convertPriceFormat(_ price: String, currency: Currency) -> String {
-        return NumberFormatter.numberDecimal(from: price) + currency.description
+        return NumberFormatter.numberDecimal(from: price) + currency.sign
     }
 }

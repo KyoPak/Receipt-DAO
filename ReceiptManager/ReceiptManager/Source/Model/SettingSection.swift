@@ -25,7 +25,9 @@ extension SettingSection: SectionModelType {
 
 // MARK: - SettingOption
 enum SettingType {
-    case currency
+    case currency(description: String, options: [String])
+    case payment(description: String, options: [String])
+    case displayMode(description: String, options: [String])
     case mail
     case appStore
 }
@@ -39,9 +41,29 @@ extension SettingSection {
     static func configureSettings() -> [SettingSection] {
         return [
             SettingSection(
-                title: ConstantText.currencySettingSection.localize(),
+                title: ConstantText.customerPrivateSection.localize(),
                 items: [
-                    SettingOption(title: ConstantText.currencySettingText.localize(), type: .currency)
+                    SettingOption(
+                        title: ConstantText.currencySettingText.localize(),
+                        type: .currency(
+                            description: ConstantText.currencySettingDescription.localize(),
+                            options: Currency.allCases.map { $0.description }
+                        )
+                    ),
+                    SettingOption(
+                        title: ConstantText.payTypeSettingText.localize(),
+                        type: .payment(
+                            description: ConstantText.paymentTypeSettingDescription.localize(),
+                            options: PayType.allCases.map { $0.description }
+                        )
+                    ),
+                    SettingOption(
+                        title: ConstantText.displayModeSettingText.localize(),
+                        type: .displayMode(
+                            description: ConstantText.displayModeSettingDescription.localize(),
+                            options: DisplayMode.allCases.map { $0.description }
+                        )
+                    )
                 ]
             ),
             SettingSection(

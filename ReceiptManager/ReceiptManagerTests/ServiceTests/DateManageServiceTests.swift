@@ -33,7 +33,7 @@ final class DateManageServiceTests: XCTestCase {
             
         // Then
         result.subscribe { date in
-            XCTAssertEqual(updatedDate, date)
+            XCTAssertEqual(updatedDate.description, date.element?.description ?? "")
         }
         .disposed(by: disposeBag)
     }

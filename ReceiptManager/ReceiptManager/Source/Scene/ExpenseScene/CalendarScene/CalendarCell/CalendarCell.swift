@@ -11,7 +11,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-final class CalendarCell: UICollectionViewCell, View {
+final class CalendarCell: UIBaseCollectionViewCell, View {
     
     // Properties
     
@@ -73,7 +73,7 @@ extension CalendarCell {
         if amount == "" {
             amountLabel.text = ""
         } else {
-            amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).description
+            amountLabel.text = amount + (Currency(rawValue: currencyIndex) ?? .KRW).sign
         }
         
         setupTodayColor(isToday)

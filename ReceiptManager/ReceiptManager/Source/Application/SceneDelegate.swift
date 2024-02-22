@@ -9,7 +9,8 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-
+    let displayHandler: DisplayHandleService = DefaultDisplayHandleService()
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -20,32 +21,51 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
         
-        // Launch Screen
-        window.rootViewController = UIStoryboard(name: ConstantText.launchScreen, bundle: nil)
-            .instantiateInitialViewController()
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
-            let storageService = DefaultStorageService(modelName: ConstantText.receiptManager)
-            let userDefaultService = DefaultUserDefaultService()
-            let dateManageService = DefaultDateManageService()
-            
-            let expenseRepository = DefaultExpenseRepository(service: storageService)
-            let currencyRepository = DefaultCurrencyRepository(service: userDefaultService)
-            let dateRepository = DefaultDateRepository(service: dateManageService)
-            
-            storageService.sync()
-            
-            let mainTabBarCoordinator = MainTabBarCoordinator(
-                window: window,
-                mainNavigationController: UINavigationController(),
-                expenseRepository: expenseRepository,
-                currencyRepository: currencyRepository,
-                dateRepository: dateRepository
-            )
-            mainTabBarCoordinator.start()
-        }
+        sceneApplyDisplayMode()
+        sceneBecomeInitialViewController()
     }
 
+    private func sceneApplyDisplayMode() {
+        let userDefaultService = DefaultUserDefaultService()
+        let displayModeIndex = userDefaultService.fetch(type: .displayMode)
+        displayHandler.applyDisplayMode(index: displayModeIndex)
+    }
+    
+    private func sceneBecomeInitialViewController() {
+        window?.rootViewController = UIStoryboard(
+            name: ConstantText.launchScreen,
+            bundle: nil
+        )
+        .instantiateInitialViewController()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+            self.configureAppDependencies()
+        }
+    }
+    
+    private func configureAppDependencies() {
+        // Dependency Setup
+        let storageService = DefaultStorageService(modelName: ConstantText.receiptManager)
+        let userDefaultService = DefaultUserDefaultService()
+        let dateManageService = DefaultDateManageService()
+        
+        let expenseRepository = DefaultExpenseRepository(service: storageService)
+        let userSettingRepository = DefaultUserSettingRepository(service: userDefaultService)
+        let dateRepository = DefaultDateRepository(service: dateManageService)
+        
+        storageService.sync()
+        
+        let mainTabBarCoordinator = MainTabBarCoordinator(
+            window: self.window!,
+            mainNavigationController: UINavigationController(),
+            expenseRepository: expenseRepository,
+            userSettingRepository: userSettingRepository,
+            dateRepository: dateRepository
+        )
+        
+        mainTabBarCoordinator.start()
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         
     }

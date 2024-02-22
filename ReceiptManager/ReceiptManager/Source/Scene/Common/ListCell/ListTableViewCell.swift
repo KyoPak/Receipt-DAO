@@ -11,7 +11,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final class ListTableViewCell: UITableViewCell, View {
+final class ListTableViewCell: UIBaseTableViewCell, View {
     
     // Properties
     
@@ -81,7 +81,7 @@ extension ListTableViewCell {
     
     private func setupData(data: Receipt, currencyIndex: Int) {
         guard let currency = Currency(rawValue: currencyIndex) else { return }
-        priceLabel.text = NumberFormatter.numberDecimal(from: data.priceText) + currency.description
+        priceLabel.text = NumberFormatter.numberDecimal(from: data.priceText) + currency.sign
         storeLabel.text = data.store
         
         let detailButtonImage = data.isFavorite ? ConstantImage.bookMarkFill : ConstantImage.chevronRight

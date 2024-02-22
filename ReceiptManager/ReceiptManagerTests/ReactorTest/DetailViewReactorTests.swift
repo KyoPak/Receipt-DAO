@@ -13,18 +13,18 @@ import RxTest
 final class DetailViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: CurrencyRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -34,7 +34,7 @@ final class DetailViewReactorTests: XCTestCase {
         let reactor = DetailViewReactor(
             title: "",
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             item: mockExpense
         )
         
@@ -53,7 +53,7 @@ final class DetailViewReactorTests: XCTestCase {
         let reactor = DetailViewReactor(
             title: "",
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             item: mockExpense
         )
         
@@ -80,7 +80,7 @@ final class DetailViewReactorTests: XCTestCase {
         let reactor = DetailViewReactor(
             title: "",
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             item: mockExpense
         )
         
@@ -107,7 +107,7 @@ final class DetailViewReactorTests: XCTestCase {
         let reactor = DetailViewReactor(
             title: "",
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             item: mockExpense
         )
         

@@ -69,17 +69,20 @@ final class ComposeViewReactor: Reactor {
     
     private let expenseRepository: ExpenseRepository
     private let ocrRepository: OCRRepository
+    private let userSettingRepository: UserSettingRepository
     
     // Initializer
     
     init(
         expenseRepository: ExpenseRepository,
         ocrRepository: OCRRepository,
+        userSettingRepository: UserSettingRepository,
         expense: Receipt? = nil,
         transisionType: TransitionType
     ) {
         self.expenseRepository = expenseRepository
         self.ocrRepository = ocrRepository
+        self.userSettingRepository = userSettingRepository
         
         let titleText = transisionType == .modal ?
             ConstantText.registerTitle.localize() : ConstantText.editTitle.localize()
@@ -89,7 +92,7 @@ final class ComposeViewReactor: Reactor {
         initialState = State(
             title: titleText,
             transitionType: transisionType,
-            expense: expense ?? Receipt(),
+            expense: expense ?? Receipt(paymentType: userSettingRepository.fetchIndex(type: .payment)),
             priceText: NumberFormatter.numberDecimal(from: expense?.priceText ?? ""),
             registerdImageDatas: imageDatas
         )

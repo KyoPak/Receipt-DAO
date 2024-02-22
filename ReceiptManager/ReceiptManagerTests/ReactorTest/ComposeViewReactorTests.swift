@@ -14,15 +14,18 @@ final class ComposeViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
     private var mockExpenseRepository: ExpenseRepository!
     private var mockOCRRepository: OCRRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
         mockOCRRepository = MockOCRRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
     }
     
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
         mockOCRRepository = nil
+        mockUserSettingRepository = nil
     }
     
     func test_priceTextChanged() {
@@ -30,6 +33,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let targetText = "123456789"
@@ -46,6 +50,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let mockData = Data()
@@ -63,6 +68,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let mockData = Data()
@@ -82,6 +88,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let mockSaveData = ComposeViewReactor.SaveExpense(date: Date(), paymentType: .zero)
@@ -108,6 +115,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let mockData = Data()
@@ -138,6 +146,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         
@@ -163,6 +172,7 @@ final class ComposeViewReactorTests: XCTestCase {
         let reactor = ComposeViewReactor(
             expenseRepository: mockExpenseRepository,
             ocrRepository: mockOCRRepository,
+            userSettingRepository: mockUserSettingRepository,
             transisionType: .modal
         )
         let mockData = Data()

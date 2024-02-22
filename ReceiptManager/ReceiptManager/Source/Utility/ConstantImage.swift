@@ -48,4 +48,7 @@ enum ConstantImage {
     static let camera = "camera.fill"
     static let keyboardDown = "keyboard.chevron.compact.down"
     static let setting = "gear"
+    
+    static let checkMark = "checkmark"
+    static let pasteText = "doc.on.clipboard.fill"
 }

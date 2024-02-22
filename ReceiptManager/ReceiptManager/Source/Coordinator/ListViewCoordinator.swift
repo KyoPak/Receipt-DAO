@@ -17,23 +17,23 @@ final class ListViewCoordinator: Coordinator {
     var viewController: UIViewController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     init(
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
     }
     
     func start() {
         let listViewReactor = ListViewReactor(
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             dateRepository: dateRepository)
         
         let listViewController = ListViewController(reactor: listViewReactor)

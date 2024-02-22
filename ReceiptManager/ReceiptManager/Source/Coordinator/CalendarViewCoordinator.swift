@@ -17,25 +17,25 @@ final class CalendarViewCoordinator: Coordinator {
     var viewController: UIViewController?
     
     private let expenseRepository: ExpenseRepository
-    private let currencyRepository: CurrencyRepository
+    private let userSettingRepository: UserSettingRepository
     private let dateRepository: DateRepository
     
     init(
         navigationController: UINavigationController?,
         expenseRepository: ExpenseRepository,
-        currencyRepository: CurrencyRepository,
+        userSettingRepository: UserSettingRepository,
         dateRepository: DateRepository
     ) {
         self.mainNavigationController = navigationController
         self.expenseRepository = expenseRepository
-        self.currencyRepository = currencyRepository
+        self.userSettingRepository = userSettingRepository
         self.dateRepository = dateRepository
     }
     
     func start() {
         let calendarViewReactor = CalendarViewReactor(
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             dateRepository: dateRepository
         )
         
@@ -56,7 +56,7 @@ extension CalendarViewCoordinator {
         let calendarListViewCoordinator = CalendarListViewCoordinator(
             mainNavigationController: mainNavigationController,
             expenseRepository: expenseRepository,
-            currencyRepository: currencyRepository,
+            userSettingRepository: userSettingRepository,
             dateRepository: dateRepository,
             day: day,
             index: index
