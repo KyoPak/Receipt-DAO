@@ -27,7 +27,7 @@ final class SettingViewCoordinator: Coordinator {
     }
     
     func start() {
-        let settingViewReactor = SettingViewReactor(currencyRepository: userSettingRepository)
+        let settingViewReactor = SettingViewReactor()
         let settingViewController = SettingViewController(reactor: settingViewReactor)
         
         settingViewController.coordinator = self

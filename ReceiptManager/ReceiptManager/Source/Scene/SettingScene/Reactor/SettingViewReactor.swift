@@ -30,15 +30,9 @@ final class SettingViewReactor: Reactor {
     
     let initialState: State
     
-    // Properties
-    
-    private let currencyRepository: UserSettingRepository
-    
     // Initializer
     
-    init(currencyRepository: UserSettingRepository) {
-        self.currencyRepository = currencyRepository
-        
+    init() {
         initialState = State(settingMenu: [])
     }
     

@@ -9,14 +9,14 @@ import RxSwift
 @testable import ReceiptManager
 
 final class MockUserDefaultService: UserDefaultService {
-    private var currentData: Int = .zero
+    private var dict: [OptionKeyType: Int] = [.currency: .zero, .payment: .zero, .displayMode: .zero]
     
-    func fetch() -> Int {
-        return currentData
+    func fetch(type: OptionKeyType) -> Int {
+        return dict[type]!
     }
     
-    func update(index: Int) -> Observable<Int> {
-        currentData = index
-        return Observable.just(currentData)
+    func update(type: OptionKeyType, index: Int) -> Int {
+        dict[type] = index
+        return dict[type]!
     }
 }
