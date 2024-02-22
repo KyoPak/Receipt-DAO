@@ -11,18 +11,18 @@ import RxSwift
 
 final class SearchViewReactorTests: XCTestCase {
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: UserSettingRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -30,7 +30,7 @@ final class SearchViewReactorTests: XCTestCase {
         // Given
         let reactor = SearchViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository
+            userSettingRepository: mockUserSettingRepository
         )
         let targetText = "Test"
         mockExpenseRepository.save(expense: Receipt(store: targetText))
