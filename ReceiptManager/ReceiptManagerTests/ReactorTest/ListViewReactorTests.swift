@@ -11,18 +11,18 @@ import RxSwift
 
 final class ListViewReactorTests: XCTestCase {
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: UserSettingRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -30,7 +30,7 @@ final class ListViewReactorTests: XCTestCase {
         // Given
         let reactor = ListViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         
@@ -46,7 +46,7 @@ final class ListViewReactorTests: XCTestCase {
         // Given
         let reactor = ListViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         
@@ -62,7 +62,7 @@ final class ListViewReactorTests: XCTestCase {
         // Given
         let reactor = ListViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         
@@ -78,7 +78,7 @@ final class ListViewReactorTests: XCTestCase {
         // Given
         let reactor = ListViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         
