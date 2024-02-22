@@ -16,11 +16,11 @@ enum OptionKeyType {
     var key: String {
         switch self {
         case .currency:
-            return ConstantText.currencyKey
+            return ConstantKey.currencyKey
         case .payment:
-            return ConstantText.paymentKey
+            return ConstantKey.paymentKey
         case .displayMode:
-            return ConstantText.displayModeKey
+            return ConstantKey.displayModeKey
         }
     }
     

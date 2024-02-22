@@ -34,7 +34,7 @@ extension DefaultUserDefaultService {
         NotificationCenter.default.post(
             name: .displayModeNotification,
             object: nil,
-            userInfo: [ConstantText.displayModeKey: index]
+            userInfo: [ConstantKey.displayModeKey: index]
         )
     }
 }

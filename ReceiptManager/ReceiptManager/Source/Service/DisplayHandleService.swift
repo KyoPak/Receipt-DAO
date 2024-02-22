@@ -33,7 +33,7 @@ final class DefaultDisplayHandleService: DisplayHandleService {
     }
     
     @objc private func displayModeDidChange(_ notification: Notification) {
-        guard let index = notification.userInfo?[ConstantText.displayModeKey] as? Int else { return }
+        guard let index = notification.userInfo?[ConstantKey.displayModeKey] as? Int else { return }
         
         applyDisplayMode(index: index)
     }

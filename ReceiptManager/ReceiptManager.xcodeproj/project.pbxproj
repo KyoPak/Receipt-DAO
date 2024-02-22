@@ -48,6 +48,9 @@
 		3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4A2B03730D009D1795 /* CustomTabItem.swift */; };
 		3C614B4D2B03759B009D1795 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4C2B03759B009D1795 /* CustomTabBar.swift */; };
 		3C614B4F2B037B82009D1795 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */; };
+		3C6818272B86156800817B7F /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6818262B86156800817B7F /* DisplayMode.swift */; };
+		3C6818292B870B9000817B7F /* DisplayHandleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6818282B870B9000817B7F /* DisplayHandleService.swift */; };
+		3C68182B2B87115600817B7F /* ConstantKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182A2B87115600817B7F /* ConstantKey.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
 		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
@@ -198,6 +201,9 @@
 		3C614B4A2B03730D009D1795 /* CustomTabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabItem.swift; sourceTree = "<group>"; };
 		3C614B4C2B03759B009D1795 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		3C614B4E2B037B82009D1795 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		3C6818262B86156800817B7F /* DisplayMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayMode.swift; sourceTree = "<group>"; };
+		3C6818282B870B9000817B7F /* DisplayHandleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHandleService.swift; sourceTree = "<group>"; };
+		3C68182A2B87115600817B7F /* ConstantKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantKey.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
@@ -592,6 +598,7 @@
 				3C9AA3442A0117C10014807B /* Extension */,
 				3C56C6592A08EAFE0058869C /* ConstantColor.swift */,
 				3C1C1B362A16072900A3D0A0 /* ConstantText.swift */,
+				3C68182A2B87115600817B7F /* ConstantKey.swift */,
 				3C1B368F2A3441D300749774 /* ConstantImage.swift */,
 				3CA536642B0DFC1A00EA77AA /* KeyboardHandler.swift */,
 			);
@@ -792,6 +799,7 @@
 				3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */,
 				3C99A0982B329485006B274C /* OCRExtractorError.swift */,
 				3C9F40852B7F4830004C1899 /* OptionKeyType.swift */,
+				3C6818262B86156800817B7F /* DisplayMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -803,6 +811,7 @@
 				3CD62AF42B12F71000D10E54 /* UserDefaultService.swift */,
 				3C852F042B185B0E00F48CD3 /* DateManageService.swift */,
 				3CB563F82A286D22008A6CD0 /* OCRExtractorService.swift */,
+				3C6818282B870B9000817B7F /* DisplayHandleService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1141,6 +1150,7 @@
 				3C8175F92B19B1F4000E5761 /* CalendarViewReactor.swift in Sources */,
 				3CB563F92A286D22008A6CD0 /* OCRExtractorService.swift in Sources */,
 				3C3F7ADE2B1EFA8F003DCA85 /* SearchViewCoordinator.swift in Sources */,
+				3C68182B2B87115600817B7F /* ConstantKey.swift in Sources */,
 				3C614B482B036AC1009D1795 /* CustomItemView.swift in Sources */,
 				3CC893B72A0CC06900055872 /* UILabel+Extension.swift in Sources */,
 				3C614B4B2B03730D009D1795 /* CustomTabItem.swift in Sources */,
@@ -1154,6 +1164,7 @@
 				3C1B36902A3441D300749774 /* ConstantImage.swift in Sources */,
 				3C32F8FE2AE903A800A805AD /* MappingModelV1toV2.xcmappingmodel in Sources */,
 				3C52FBD52B85BF3200245142 /* OptionCell.swift in Sources */,
+				3C6818292B870B9000817B7F /* DisplayHandleService.swift in Sources */,
 				3C9AA3462A0117D60014807B /* UIButton+Extension.swift in Sources */,
 				3CFCB4762B1387D50045075C /* ListTableViewCellReactor.swift in Sources */,
 				3C7FD5032B03C1000084E650 /* CustomNavigationBar.swift in Sources */,
@@ -1206,6 +1217,7 @@
 				3C2E18D829FBCC5F00E8E9C6 /* SceneDelegate.swift in Sources */,
 				3C7D424D2A51281E00304A8C /* Currency.swift in Sources */,
 				3C4405C42B049F920005BA4C /* SearchViewReactor.swift in Sources */,
+				3C6818272B86156800817B7F /* DisplayMode.swift in Sources */,
 				3C86FB8C2A1B90ED000CC99B /* ImagePickerCell.swift in Sources */,
 				3CC893B92A0CC07400055872 /* UITextField+Extension.swift in Sources */,
 				3C74A3882B050D8800377A73 /* BookMarkViewCoordinator.swift in Sources */,
