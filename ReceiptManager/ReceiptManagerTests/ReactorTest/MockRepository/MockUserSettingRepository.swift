@@ -22,6 +22,7 @@ final class MockUserSettingRepository: UserSettingRepository {
     }
     
     func updateIndex(type: OptionKeyType, index: Int) -> Int {
+        if type == .currency { currencyChangeEvent.onNext(index) }
         dict[type] = index
         return dict[type]!
     }
