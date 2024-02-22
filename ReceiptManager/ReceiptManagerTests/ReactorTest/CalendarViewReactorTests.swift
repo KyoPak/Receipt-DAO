@@ -11,18 +11,18 @@ import RxSwift
 
 final class CalendarViewReactorTests: XCTestCase {
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: UserSettingRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -30,7 +30,7 @@ final class CalendarViewReactorTests: XCTestCase {
         // Given
         let reactor = CalendarViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let date = Date()
@@ -52,7 +52,7 @@ final class CalendarViewReactorTests: XCTestCase {
         // Given
         let reactor = CalendarViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         reactor.action.onNext(.loadData)
