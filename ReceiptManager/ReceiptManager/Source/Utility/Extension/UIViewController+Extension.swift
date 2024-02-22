@@ -40,6 +40,7 @@ extension UIViewController {
         toolbar.sizeToFit()
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
         let doneButton = UIBarButtonItem(
             image: UIImage(systemName: ConstantImage.keyboardDown),
             style: .done,
@@ -47,8 +48,16 @@ extension UIViewController {
             action: #selector(keyboardDone)
         )
         
+        let pasteButton = UIBarButtonItem(
+            image: UIImage(systemName: ConstantImage.pasteText),
+            style: .done,
+            target: self,
+            action: #selector(pasteText)
+        )
+        
         doneButton.tintColor = .label
-        toolbar.setItems([flexSpace, doneButton], animated: false)
+        pasteButton.tintColor = .label
+        toolbar.setItems([flexSpace, pasteButton, doneButton], animated: false)
         
         if let textView = textView as? UITextView {
             textView.inputAccessoryView = toolbar
@@ -59,5 +68,33 @@ extension UIViewController {
     
     @objc func keyboardDone() {
         view.endEditing(true)
+    }
+    
+    @objc func pasteText() {
+        if let clipboardText = UIPasteboard.general.string {
+            
+            if let textView = view.currentFirstResponder() as? UITextView {
+                textView.insertText(clipboardText)
+            } else if let textField = view.currentFirstResponder() as? UITextField {
+                textField.insertText(clipboardText)
+            }
+        }
+        
+        view.endEditing(true)
+    }
+}
+
+// Find Current Focus View
+extension UIView {
+    func currentFirstResponder() -> UIResponder? {
+        if isFirstResponder { return self }
+        
+        for view in subviews {
+            if let responder = view.currentFirstResponder() {
+                return responder
+            }
+        }
+        
+        return nil
     }
 }
