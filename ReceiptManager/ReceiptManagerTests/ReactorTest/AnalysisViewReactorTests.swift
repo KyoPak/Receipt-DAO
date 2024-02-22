@@ -13,18 +13,18 @@ import RxTest
 final class AnalysisViewReactorTests: XCTestCase {
     private let disposeBag = DisposeBag()
     private var mockExpenseRepository: ExpenseRepository!
-    private var mockCurrencyRepository: UserSettingRepository!
+    private var mockUserSettingRepository: UserSettingRepository!
     private var mockDateRepository: DateRepository!
     
     override func setUpWithError() throws {
         mockExpenseRepository = MockExpenseRepository()
-        mockCurrencyRepository = MockCurrencyRepository()
+        mockUserSettingRepository = MockUserSettingRepository()
         mockDateRepository = MockDateRepository()
     }
 
     override func tearDownWithError() throws {
         mockExpenseRepository = nil
-        mockCurrencyRepository = nil
+        mockUserSettingRepository = nil
         mockDateRepository = nil
     }
     
@@ -32,7 +32,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let nextMonth = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
@@ -48,7 +48,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let previousMonth = Calendar.current.date(byAdding: DateComponents(month: -1), to: Date()) ?? Date()
@@ -64,7 +64,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let today = Date()
@@ -80,7 +80,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let scheduler = TestScheduler(initialClock: 0)
@@ -92,7 +92,7 @@ final class AnalysisViewReactorTests: XCTestCase {
             .disposed(by: disposeBag)
         
         scheduler.scheduleAt(1) {
-            self.mockCurrencyRepository.updateCurrency(index: 1)
+            self.mockUserSettingRepository.updateIndex(type: .currency, index: 1)
         }
         
         scheduler.start()
@@ -105,7 +105,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         /// Origin Storage have 3 cash Data.
@@ -130,7 +130,7 @@ final class AnalysisViewReactorTests: XCTestCase {
         // Given
         let reactor = AnalysisViewReactor(
             expenseRepository: mockExpenseRepository,
-            currencyRepository: mockCurrencyRepository,
+            userSettingRepository: mockUserSettingRepository,
             dateRepository: mockDateRepository
         )
         let nextMonth = Calendar.current.date(byAdding: DateComponents(month: 1), to: Date()) ?? Date()
