@@ -53,6 +53,7 @@
 		3C68182B2B87115600817B7F /* ConstantKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182A2B87115600817B7F /* ConstantKey.swift */; };
 		3C68182D2B871BF700817B7F /* UIBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182C2B871BF700817B7F /* UIBaseCell.swift */; };
 		3C68182F2B873CBD00817B7F /* SettingViewReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C68182E2B873CBD00817B7F /* SettingViewReactorTests.swift */; };
+		3C6818312B87476300817B7F /* DetailSettingReactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6818302B87476300817B7F /* DetailSettingReactorTests.swift */; };
 		3C685F692A5009650064EE2A /* SettingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C685F682A5009650064EE2A /* SettingSection.swift */; };
 		3C6AD2352B318553000D93A0 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2342B318553000D93A0 /* CustomAlertController.swift */; };
 		3C6AD2372B3193A8000D93A0 /* StorageServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */; };
@@ -208,6 +209,7 @@
 		3C68182A2B87115600817B7F /* ConstantKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantKey.swift; sourceTree = "<group>"; };
 		3C68182C2B871BF700817B7F /* UIBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBaseCell.swift; sourceTree = "<group>"; };
 		3C68182E2B873CBD00817B7F /* SettingViewReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewReactorTests.swift; sourceTree = "<group>"; };
+		3C6818302B87476300817B7F /* DetailSettingReactorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSettingReactorTests.swift; sourceTree = "<group>"; };
 		3C685F682A5009650064EE2A /* SettingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSection.swift; sourceTree = "<group>"; };
 		3C6AD2342B318553000D93A0 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		3C6AD2362B3193A8000D93A0 /* StorageServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServiceError.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				3C4B648A2B2AD1BF00895494 /* ComposeViewReactorTests.swift */,
 				3C4B648E2B2AE5EB00895494 /* AnalysisViewReactorTests.swift */,
 				3C68182E2B873CBD00817B7F /* SettingViewReactorTests.swift */,
+				3C6818302B87476300817B7F /* DetailSettingReactorTests.swift */,
 			);
 			path = ReactorTest;
 			sourceTree = "<group>";
@@ -1140,6 +1143,7 @@
 				3CDD520B2B29A0D400C0306A /* ListViewReactorTests.swift in Sources */,
 				3CDD52192B29BC8200C0306A /* CalendarViewReactorTests.swift in Sources */,
 				3C68182F2B873CBD00817B7F /* SettingViewReactorTests.swift in Sources */,
+				3C6818312B87476300817B7F /* DetailSettingReactorTests.swift in Sources */,
 				3CE14FA22B57BDC400471931 /* MockOCRRepository.swift in Sources */,
 				3CE14F992B57AD2600471931 /* DateManageServiceTests.swift in Sources */,
 				3CFD89592B2B006B00EC5B7D /* DoubleExtensionTests.swift in Sources */,
