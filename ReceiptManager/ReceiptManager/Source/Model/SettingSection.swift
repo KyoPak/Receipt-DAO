@@ -27,6 +27,7 @@ extension SettingSection: SectionModelType {
 enum SettingType {
     case currency(description: String, options: [String])
     case payment(description: String, options: [String])
+    case displayMode(description: String, options: [String])
     case mail
     case appStore
 }
@@ -54,6 +55,13 @@ extension SettingSection {
                         type: .payment(
                             description: ConstantText.paymentTypeSettingDescription.localize(),
                             options: PayType.allCases.map { $0.description }
+                        )
+                    ),
+                    SettingOption(
+                        title: ConstantText.displayModeSettingText.localize(),
+                        type: .displayMode(
+                            description: ConstantText.displayModeSettingDescription.localize(),
+                            options: DisplayMode.allCases.map { $0.description }
                         )
                     )
                 ]
