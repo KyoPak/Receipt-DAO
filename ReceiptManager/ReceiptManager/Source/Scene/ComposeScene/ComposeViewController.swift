@@ -62,10 +62,8 @@ final class ComposeViewController: UIViewController, View {
         let textView = UITextView()
         textView.layer.cornerRadius = 10
         textView.textColor = .label
-        textView.layer.borderWidth = 1
         textView.font = .preferredFont(forTextStyle: .body)
         textView.backgroundColor = ConstantColor.cellColor
-        textView.layer.borderColor = ConstantColor.layerColor.cgColor
         
         return textView
     }()
