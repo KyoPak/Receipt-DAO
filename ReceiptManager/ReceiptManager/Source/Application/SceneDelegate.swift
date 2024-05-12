@@ -7,9 +7,12 @@
 
 import UIKit
 
+import RxSwift
+
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     let displayHandler: DisplayHandleService = DefaultDisplayHandleService()
+    private let disposeBag = DisposeBag()
     
     func scene(
         _ scene: UIScene,
@@ -53,8 +56,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userSettingRepository = DefaultUserSettingRepository(service: userDefaultService)
         let dateRepository = DefaultDateRepository(service: dateManageService)
         
-        storageService.sync()
-        
         let mainTabBarCoordinator = MainTabBarCoordinator(
             window: self.window!,
             mainNavigationController: UINavigationController(),
@@ -63,26 +64,22 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             dateRepository: dateRepository
         )
         
-        mainTabBarCoordinator.start()
-    }
-    
-    func sceneDidDisconnect(_ scene: UIScene) {
+        let status = userDefaultService.fetch(type: .sync)
+        let syncStatus = SyncStatus(rawValue: status)
         
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-
+        switch syncStatus {
+        case .notStarted:
+            storageService.dataSync()
+                .observe(on: MainScheduler.instance)
+                .subscribe { _ in
+                    userDefaultService.update(type: .sync, index: SyncStatus.complete.rawValue)
+                    mainTabBarCoordinator.start()
+                }
+                .disposed(by: disposeBag)
+        case .complete:
+            mainTabBarCoordinator.start()
+        default:
+            return
+        }
     }
 }
