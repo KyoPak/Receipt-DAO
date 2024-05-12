@@ -12,4 +12,5 @@ enum ConstantKey {
     static let currencyKey = "CurrencyType"
     static let paymentKey = "PaymentType"
     static let displayModeKey = "DisplayModeType"
+    static let dataSyncKey = "DataSyncTypeKey"
 }
