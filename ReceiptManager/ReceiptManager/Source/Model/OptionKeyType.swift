@@ -12,6 +12,7 @@ enum OptionKeyType {
     case currency
     case payment
     case displayMode
+    case sync
     
     var key: String {
         switch self {
@@ -21,6 +22,8 @@ enum OptionKeyType {
             return ConstantKey.paymentKey
         case .displayMode:
             return ConstantKey.displayModeKey
+        case .sync:
+            return ConstantKey.dataSyncKey
         }
     }
     
@@ -32,6 +35,8 @@ enum OptionKeyType {
             return ConstantText.payTypeSettingText.localize()
         case .displayMode:
             return ConstantText.displayModeSettingText.localize()
+        case .sync:
+            return ""
         }
     }
 }

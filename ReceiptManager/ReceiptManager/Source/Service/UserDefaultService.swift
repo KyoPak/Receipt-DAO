@@ -9,6 +9,8 @@ import RxSwift
 
 protocol UserDefaultService {
     func fetch(type: OptionKeyType) -> Int
+    
+    @discardableResult
     func update(type: OptionKeyType, index: Int) -> Int
 }
 
@@ -20,6 +22,7 @@ final class DefaultUserDefaultService: UserDefaultService {
         return storage.integer(forKey: type.key)
     }
     
+    @discardableResult
     func update(type: OptionKeyType, index: Int) -> Int {
         postNotification(type: type, index: index)
         storage.set(index, forKey: type.key)

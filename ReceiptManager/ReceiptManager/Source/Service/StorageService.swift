@@ -11,8 +11,13 @@ import FirebaseCrashlytics
 import RxSwift
 import RxCoreData
 
+enum SyncStatus: Int {
+    case notStarted
+    case complete
+}
+
 protocol StorageService {
-    func sync()
+    func dataSync() -> Observable<Void>
     func fetch() -> Observable<[Receipt]>
     func delete(receipt: Receipt) -> Observable<Receipt>
     
@@ -43,28 +48,26 @@ final class DefaultStorageService: StorageService {
     // Properties
     
     private let modelName: String
-    private let disposeBag = DisposeBag()
     
     init(modelName: String) {
         self.modelName = modelName
     }
     
-    func sync() {
+    func dataSync() -> Observable<Void> {
         return context.rx.entities(
             Receipt.self, sortDescriptors: [NSSortDescriptor(key: "receiptDate", ascending: false)]
         )
         .take(1)
-        .subscribe(onNext: { result in
-            for data in result {
+        .map { [weak self] datas in
+            for data in datas {
                 if data.price == -1 { continue }
                 
                 var syncReceipt = data
                 syncReceipt.priceText = String(syncReceipt.price)
                 syncReceipt.price = -1
-                self.upsert(receipt: syncReceipt)
+                self?.upsert(receipt: syncReceipt)
             }
-        })
-        .disposed(by: disposeBag)
+        }
     }
     
     func fetch() -> Observable<[Receipt]> {
